@@ -922,6 +922,9 @@ MonoBehaviour:
   CharacterSettings:
     Prefab: {fileID: 2074152097557560704, guid: 7f7ce6e72108af9d58d4859748147497, type: 3}
     World: {fileID: 1347470388}
+  CursorSettings:
+    NormalTexture: {fileID: 2800000, guid: e17b8c2a5ce6b1da5b52d9c352517ce7, type: 3}
+    ShootTexture: {fileID: 2800000, guid: d766762338678bfbc91f32797fd9884e, type: 3}
 --- !u!1 &825965435
 GameObject:
   m_ObjectHideFlags: 0

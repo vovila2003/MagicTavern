@@ -1,6 +1,7 @@
 using Architecture.Controllers;
 using Character;
 using Components;
+using GameCursor;
 using InputServices;
 using UI;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace Architecture
     {
         [SerializeField] 
         private CharacterSettings CharacterSettings;
+
+        [SerializeField] 
+        private GameCursorSettings CursorSettings;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -20,6 +24,7 @@ namespace Architecture
             RegisterCharacter(builder);
             RegisterGame(builder);
             RegisterUi(builder);
+            RegisterGameCursor(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -56,6 +61,12 @@ namespace Architecture
         {
             builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
             builder.Register<ViewModelFactory>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private void RegisterGameCursor(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(CursorSettings);
+            builder.Register<GameCursor.GameCursor>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

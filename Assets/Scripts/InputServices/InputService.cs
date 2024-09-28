@@ -11,6 +11,7 @@ namespace InputServices
         IBlockInput,
         IActionInput,
         IDodgeInput,
+        IMouseInput,
         IStartGameListener,
         IFinishGameListener,
         IPauseGameListener,
@@ -24,6 +25,7 @@ namespace InputServices
         public event Action OnBlock;
         public event Action OnAction;
         public event Action<Vector2> OnDodge;
+        public event Action<Vector2> OnMouse;
 
         private Vector2 _direction;
         private Vector2 _prevDirection;
@@ -33,8 +35,10 @@ namespace InputServices
 
         void IUpdateListener.OnUpdate(float _)
         {
-            if (!_enabled) return;
+            CheckCursor();
             
+            if (!_enabled) return;
+
             CheckJump();
             CheckFire();
             CheckMove();
@@ -136,8 +140,8 @@ namespace InputServices
 
         private void CheckDodge()
         {
-            if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift) ) return;
-            
+            if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) return;
+
             if (Input.GetKey(KeyCode.A))
             {
                 _dodgeDirection = Vector2.left;
@@ -158,11 +162,16 @@ namespace InputServices
             {
                 _dodgeDirection = Vector2.zero;
             }
-            
+
             if (_dodgeDirection == _prevDodgeDirection) return;
 
             OnDodge?.Invoke(_dodgeDirection);
             _prevDodgeDirection = _dodgeDirection;
+        }
+
+        private void CheckCursor()
+        {
+            OnMouse?.Invoke(Input.mousePosition);
         }
     }
 }
