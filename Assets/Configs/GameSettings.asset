@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5425e8cfdbb74ad8b98f49cf5723f499, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  CharacterSettings: {fileID: 11400000, guid: 4dbffbf8f8d6c7d3fa3b5b9874e49ce0, type: 2}
-  CursorSettings: {fileID: 11400000, guid: 7a5277082bf5e2768a99cf565e06dd21, type: 2}
+  CharacterConfig: {fileID: 11400000, guid: 4dbffbf8f8d6c7d3fa3b5b9874e49ce0, type: 2}
+  CursorConfig: {fileID: 11400000, guid: 7a5277082bf5e2768a99cf565e06dd21, type: 2}
