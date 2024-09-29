@@ -18,7 +18,7 @@ namespace GameCursor
         [Inject]
         private void Construct(GameCursorSettings settings)
         {
-            _settings = settings;
+            _settings = settings; 
         }
         
         void IPauseGameListener.OnPause() => SetNormalCursor();
@@ -30,7 +30,7 @@ namespace GameCursor
         void IInitGameListener.OnInit()
         {
             _shootCursorOffset = 
-                new Vector2(_settings.ShootCursorTexture.width, _settings.ShootCursorTexture.height) / 2;
+                new Vector2(_settings.ShootCursor.width, _settings.ShootCursor.height) / 2;
             SetNormalCursor();
         }
 
@@ -38,12 +38,12 @@ namespace GameCursor
 
         private void SetShootCursor()
         {
-            SetCursor(_settings.ShootCursorTexture, _shootCursorOffset, CursorMode.Auto);
+            SetCursor(_settings.ShootCursor, _shootCursorOffset, CursorMode.Auto);
         }
 
         private void SetNormalCursor()
         {
-            SetCursor(_settings.NormalCursorTexture, Vector2.zero, CursorMode.Auto);
+            SetCursor(_settings.NormalCursor, Vector2.zero, CursorMode.Auto);
         }
     }
 }

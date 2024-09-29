@@ -1,8 +1,8 @@
 using Architecture.Controllers;
 using Character;
 using Components;
-using GameCursor;
 using InputServices;
+using Settings;
 using UI;
 using UnityEngine;
 using VContainer;
@@ -13,10 +13,10 @@ namespace Architecture
     public class SceneLifetimeScope : LifetimeScope
     {
         [SerializeField] 
-        private CharacterSettings CharacterSettings;
+        private GameSettings GameSettings;
 
         [SerializeField] 
-        private GameCursorSettings CursorSettings;
+        private Transform World;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -34,10 +34,11 @@ namespace Architecture
 
         private void RegisterCharacter(IContainerBuilder builder)
         {
-            builder.RegisterComponentInNewPrefab(CharacterSettings.CharacterPrefab, Lifetime.Singleton)
-                .UnderTransform(CharacterSettings.WorldTransform)
+            builder.RegisterComponentInNewPrefab(GameSettings.CharacterSettings.Prefab, Lifetime.Singleton)
+                .UnderTransform(World)
                 .AsImplementedInterfaces();
 
+            builder.RegisterInstance(GameSettings.CharacterSettings);
             builder.Register<CharacterAttackAgent>(Lifetime.Singleton);
             builder.Register<CharacterMoveController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<CharacterJumpController>(Lifetime.Singleton).AsImplementedInterfaces();
@@ -52,7 +53,7 @@ namespace Architecture
         {
             builder.Register<GameManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<FinishGameController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<PauseGameController>(Lifetime.Singleton);
+            builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<QuitGameController>(Lifetime.Singleton);
             builder.Register<StartGameController>(Lifetime.Singleton);
         }
@@ -65,7 +66,7 @@ namespace Architecture
 
         private void RegisterGameCursor(IContainerBuilder builder)
         {
-            builder.RegisterInstance(CursorSettings);
+            builder.RegisterInstance(GameSettings.CursorSettings);
             builder.Register<GameCursor.GameCursor>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }

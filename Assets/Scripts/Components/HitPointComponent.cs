@@ -8,15 +8,18 @@ namespace Components
     {
         public event Action<GameObject> OnDeath;
 
-        [SerializeField] 
-        private int HitPoints;
-
         [ShowInInspector, ReadOnly]
         private int _currentHp;
+        private int _initialHp;
 
+        public void Init(int hitPoints)
+        {
+            _initialHp = hitPoints;
+        }
+        
         public void Reset()
         {
-            _currentHp = HitPoints;
+            _currentHp = _initialHp;
         }
         
         public void TakeDamage(int damage)

@@ -6,9 +6,6 @@ namespace UI
 {
     public sealed class HudView : MonoBehaviour, IView
     {
-        [SerializeField] 
-        private Button PauseButton;
-
         private IHudViewModel _viewModel;
 
         public void Show(IViewModel viewModel)
@@ -19,16 +16,12 @@ namespace UI
             }
 
             _viewModel = hudViewModel;
-            PauseButton.onClick.AddListener(OnPauseButtonClicked);
             gameObject.SetActive(true);
         }
 
         public void Hide()
         {
-            PauseButton.onClick.RemoveListener(OnPauseButtonClicked);
             gameObject.SetActive(false);
         }
-
-        private void OnPauseButtonClicked() => _viewModel.Pause();
     }
 }

@@ -1,37 +1,45 @@
+using Architecture.Interfaces;
+using InputServices;
+
 namespace Architecture.Controllers
 {
-    public sealed class PauseGameController 
+    public sealed class PauseGameController :
+        IInitGameListener,
+        IExitGameListener
     {
         private readonly GameManager _gameManager;
+        private readonly IPauseInput _input;
         private bool _isPause;
 
-        public PauseGameController(GameManager gameManager)
+        public PauseGameController(GameManager gameManager, IPauseInput input)
         {
             _gameManager = gameManager;
+            _input = input;
+        }
+
+        void IInitGameListener.OnInit()
+        {
+            _input.OnPause += OnPauseResume;
+            _isPause = false;
+        }
+
+        void IExitGameListener.OnExit()
+        {
+            _input.OnPause -= OnPauseResume;
         }
 
         public void OnPauseResume()
         {
             if (_isPause)
             {
-                ResumeGame();
+                _gameManager.ResumeGame();
             }
             else
             {
-                PauseGame();
+                _gameManager.PauseGame();
             }
-        }
-
-        private void ResumeGame()
-        {
-            _gameManager.ResumeGame();
-            _isPause = false;
-        }
-
-        private void PauseGame()
-        {
-            _gameManager.PauseGame();
-            _isPause = true;
+            
+            _isPause = !_isPause;
         }
     }
 }

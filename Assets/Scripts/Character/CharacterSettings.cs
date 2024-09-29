@@ -1,18 +1,21 @@
-using System;
 using UnityEngine;
 
 namespace Character
 {
-    [Serializable]
-    public sealed class CharacterSettings
+    [CreateAssetMenu(fileName = "CharacterSettings", menuName = "Settings/Character Settings/Character Settings")]
+    public sealed class CharacterSettings : ScriptableObject
     {
-        [SerializeField] 
-        private Character Prefab;
+        [SerializeField]
+        private Character CharacterPrefab;
 
-        [SerializeField] 
-        private Transform World;
-
-        public Character CharacterPrefab => Prefab;
-        public Transform WorldTransform => World;
+        [SerializeField]
+        private float Speed;
+        
+        [SerializeField]
+        private int MaxHealth;
+        
+        public Character Prefab => CharacterPrefab;
+        public float InitSpeed => Speed;
+        public int Health => MaxHealth;
     }
 }

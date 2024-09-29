@@ -20,10 +20,8 @@ namespace UI
         public IMainMenuViewModel CreateMainMenuViewModel() => 
             new MainMenuViewModel(_startGameController, _quitGameController);
 
-        public IPauseViewModel CreatePauseViewModel() => 
-            new PauseViewModel(_pauseGameController);
+        public IPauseViewModel CreatePauseViewModel() => new PauseViewModel(_pauseGameController);
 
-        public IHudViewModel CreateHudViewModel() => 
-            new HudViewModel(_pauseGameController);
+        public IHudViewModel CreateHudViewModel() => new HudViewModel();
     }
 }
