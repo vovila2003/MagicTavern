@@ -34,10 +34,10 @@ namespace Architecture
 
         private void RegisterCharacter(IContainerBuilder builder)
         {
-            builder.RegisterComponentInNewPrefab(GameSettings.CharacterSettings.Prefab, Lifetime.Singleton)
-                .UnderTransform(World)
-                .AsImplementedInterfaces();
+            Character.Character character = Instantiate(GameSettings.CharacterSettings.Prefab, World);
 
+            builder.RegisterComponent(character).AsImplementedInterfaces();
+            builder.RegisterComponent(character.GetComponent<CharacterVisual>()).AsImplementedInterfaces();
             builder.RegisterInstance(GameSettings.CharacterSettings);
             builder.Register<CharacterAttackAgent>(Lifetime.Singleton);
             builder.Register<CharacterMoveController>(Lifetime.Singleton).AsImplementedInterfaces();

@@ -1,14 +1,15 @@
+using Character;
 using UnityEngine;
 
 namespace Components
 {
     public sealed class WeaponComponent : MonoBehaviour
     {
-        public Vector2 Position => FirePoint.position;
+        public Vector2 Position => FirePointProxy.FirePoint.position;
 
-        public Quaternion Rotation => FirePoint.rotation;
+        public Quaternion Rotation => FirePointProxy.FirePoint.rotation;
 
         [SerializeField]
-        private Transform FirePoint;
+        private FirePointProxy FirePointProxy;
     }
 }

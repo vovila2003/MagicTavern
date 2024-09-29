@@ -37,7 +37,6 @@ namespace InputServices
 
         void IUpdateListener.OnUpdate(float _)
         {
-            CheckCursor();
             CheckPause();
             CheckCharacterManagement();
         }
@@ -74,6 +73,7 @@ namespace InputServices
         {
             if (!_characterManagementInputEnabled) return;
             
+            CheckCursor();
             CheckJump();
             CheckFire();
             CheckMove();
