@@ -1,18 +1,17 @@
-using System;
 using UnityEngine;
 
 namespace GameCursor
 {
-    [Serializable]
-    public sealed class GameCursorSettings
+    [CreateAssetMenu(fileName = "CursorSettings", menuName = "Settings/Cursor Settings/Cursor Settings")]
+    public sealed class GameCursorSettings : ScriptableObject
     {
-        [SerializeField] 
-        private Texture2D NormalTexture;
+        [SerializeField]
+        private Texture2D NormalCursorTexture;
 
-        [SerializeField] 
-        private Texture2D ShootTexture;
+        [SerializeField]
+        private Texture2D ShootCursorTexture;
         
-        public Texture2D NormalCursorTexture => NormalTexture;
-        public Texture2D ShootCursorTexture => ShootTexture;
+        public Texture2D NormalCursor => NormalCursorTexture;
+        public Texture2D ShootCursor => ShootCursorTexture;
     }
 }

@@ -12,6 +12,7 @@ namespace InputServices
         IActionInput,
         IDodgeInput,
         IMouseInput,
+        IPauseInput,
         IStartGameListener,
         IFinishGameListener,
         IPauseGameListener,
@@ -26,19 +27,53 @@ namespace InputServices
         public event Action OnAction;
         public event Action<Vector2> OnDodge;
         public event Action<Vector2> OnMouse;
+        public event Action OnPause;
 
         private Vector2 _direction;
         private Vector2 _prevDirection;
         private Vector2 _dodgeDirection;
         private Vector2 _prevDodgeDirection;
-        private bool _enabled;
+        private bool _characterManagementInputEnabled;
 
         void IUpdateListener.OnUpdate(float _)
         {
             CheckCursor();
-            
-            if (!_enabled) return;
+            CheckPause();
+            CheckCharacterManagement();
+        }
 
+        void IStartGameListener.OnStart()
+        {
+            _characterManagementInputEnabled = true;
+        }
+
+        void IFinishGameListener.OnFinish()
+        {
+            _characterManagementInputEnabled = false;
+        }
+
+        void IPauseGameListener.OnPause()
+        {
+            _characterManagementInputEnabled = false;
+        }
+
+        void IResumeGameListener.OnResume()
+        {
+            _characterManagementInputEnabled = true;
+        }
+
+        private void CheckPause()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                OnPause?.Invoke();
+            }
+        }
+
+        private void CheckCharacterManagement()
+        {
+            if (!_characterManagementInputEnabled) return;
+            
             CheckJump();
             CheckFire();
             CheckMove();
@@ -47,24 +82,9 @@ namespace InputServices
             CheckDodge();
         }
 
-        void IStartGameListener.OnStart()
+        private void CheckCursor()
         {
-            _enabled = true;
-        }
-
-        void IFinishGameListener.OnFinish()
-        {
-            _enabled = false;
-        }
-
-        void IPauseGameListener.OnPause()
-        {
-            _enabled = false;
-        }
-
-        void IResumeGameListener.OnResume()
-        {
-            _enabled = true;
+            OnMouse?.Invoke(Input.mousePosition);
         }
 
         private void CheckJump()
@@ -94,6 +114,8 @@ namespace InputServices
         {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ) return;
             
+            _direction = Vector2.zero;
+            
             if (Input.GetKey(KeyCode.A))
             {
                 _direction = Vector2.left;
@@ -102,18 +124,17 @@ namespace InputServices
             {
                 _direction = Vector2.right;
             }
-            else if (Input.GetKey(KeyCode.W))
+            
+            if (Input.GetKey(KeyCode.W))
             {
-                _direction = Vector2.up;
+                _direction += Vector2.up;
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                _direction = Vector2.down;
+                _direction += Vector2.down;
             }
-            else
-            {
-                _direction = Vector2.zero;
-            }
+
+            _direction = _direction.normalized;
 
             if (_direction == _prevDirection) return;
             
@@ -167,11 +188,6 @@ namespace InputServices
 
             OnDodge?.Invoke(_dodgeDirection);
             _prevDodgeDirection = _dodgeDirection;
-        }
-
-        private void CheckCursor()
-        {
-            OnMouse?.Invoke(Input.mousePosition);
         }
     }
 }
