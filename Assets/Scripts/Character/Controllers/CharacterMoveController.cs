@@ -15,7 +15,7 @@ namespace Character
         private IMovable _movable;
         private readonly IMoveInput _moveInput;
         private readonly ISpeedable _speedable;
-        private Vector2 _direction;
+        private Vector3 _direction;
         private readonly ICharacter _character;
         private bool _enabled;
 
@@ -29,7 +29,7 @@ namespace Character
 
         void IUpdateListener.OnUpdate(float deltaTime)
         {
-            Vector2 newPosition = _direction * (deltaTime * _speedable.GetSpeed());
+            Vector3 newPosition = _direction * (deltaTime * _speedable.GetSpeed());
             if (!InBounds(newPosition))
             {
                 OnMove(Vector2.zero);
@@ -43,12 +43,12 @@ namespace Character
 
         private void OnMove(Vector2 direction)
         {
-            _direction = direction;
+            _direction = new Vector3(direction.x, 0, direction.y);
             
-            _movable.Move(direction);
+            _movable.Move(_direction);
         }
 
-        private bool InBounds(Vector2 newPosition)
+        private bool InBounds(Vector3 newPosition)
         {
             //Check move out of bounds
             return true;
