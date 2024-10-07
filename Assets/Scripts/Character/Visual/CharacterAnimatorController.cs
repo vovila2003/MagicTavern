@@ -1,4 +1,3 @@
-using System;
 using Architecture.Interfaces;
 using InputServices;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Character
         private const float Threshold = 0.05f;
         private static readonly int MoveUpDown = Animator.StringToHash("moveUpDown");
         private static readonly int MoveLeftRight = Animator.StringToHash("moveLeftRight");
-        private ICharacter _character;
+        private readonly ICharacter _character;
         private readonly IMoveInput _moveInput;
         private Animator _animator;
         

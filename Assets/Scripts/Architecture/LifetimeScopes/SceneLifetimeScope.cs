@@ -31,7 +31,7 @@ namespace Architecture
 
         private void RegisterCommon(IContainerBuilder builder)
         {
-            builder.Register<MovableByTransform>(Lifetime.Transient).AsImplementedInterfaces();
+            builder.Register<MovableByRigidbody>(Lifetime.Transient).AsImplementedInterfaces();
         }
 
         private void RegisterCharacter(IContainerBuilder builder)

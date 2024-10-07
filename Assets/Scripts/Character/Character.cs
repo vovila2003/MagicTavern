@@ -17,6 +17,9 @@ namespace Character
         [SerializeField] 
         private Transform View;
         
+        [SerializeField]
+        private Rigidbody Rigidbody;
+        
         private WeaponComponent _weapon;
         private CharacterAttackAgent _attackAgent;
         private HitPointsComponent _hpComponent;
@@ -44,7 +47,7 @@ namespace Character
 
         void IInitGameListener.OnInit()
         {
-            _movable.Init(transform, this);
+            _movable.Init(Rigidbody, this);
             _attackAgent.Init(_weapon);
             _speed = _settings.InitSpeed;
             _hpComponent.Init(_settings.Health);

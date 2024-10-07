@@ -10,7 +10,7 @@ namespace Character
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener,
-        IUpdateListener
+        IFixedUpdateListener
     {
         private IMovable _movable;
         private readonly IMoveInput _moveInput;
@@ -27,9 +27,9 @@ namespace Character
             _speedable = speedable;
         }
 
-        void IUpdateListener.OnUpdate(float deltaTime)
+        void IFixedUpdateListener.OnFixedUpdate(float fixedDeltaTime)
         {
-            Vector3 newPosition = _direction * (deltaTime * _speedable.GetSpeed());
+            Vector3 newPosition = _direction * (fixedDeltaTime * _speedable.GetSpeed());
             if (!InBounds(newPosition))
             {
                 OnMove(Vector2.zero);
@@ -37,7 +37,7 @@ namespace Character
 
             if (_enabled)
             {
-                _movable.OnUpdate(deltaTime);
+                _movable.OnFixedUpdate(fixedDeltaTime);
             }
         }
 
