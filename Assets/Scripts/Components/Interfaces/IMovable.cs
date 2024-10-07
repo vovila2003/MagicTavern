@@ -4,8 +4,8 @@ namespace Components
 {
     public interface IMovable
     {
-        void Init(Transform transform, ISpeedable speedable);
-        void Move(Vector2 direction);
-        void OnUpdate(float deltaTime);
+        void Init(Rigidbody rigidbody, ISpeedable speedable);
+        void Move(Vector3 direction);
+        void OnFixedUpdate(float fixedDeltaTime);
     }
 }

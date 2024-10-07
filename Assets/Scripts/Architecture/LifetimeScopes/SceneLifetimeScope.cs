@@ -1,4 +1,5 @@
 using Architecture.Controllers;
+using Cameras;
 using Character;
 using Components;
 using InputServices;
@@ -25,11 +26,12 @@ namespace Architecture
             RegisterGame(builder);
             RegisterUi(builder);
             RegisterGameCursor(builder);
+            RegisterCamera(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
         {
-            builder.Register<MovableByTransform>(Lifetime.Transient).AsImplementedInterfaces();
+            builder.Register<MovableByRigidbody>(Lifetime.Transient).AsImplementedInterfaces();
         }
 
         private void RegisterCharacter(IContainerBuilder builder)
@@ -37,7 +39,6 @@ namespace Architecture
             Character.Character character = Instantiate(GameSettings.CharacterSettings.Prefab, World);
 
             builder.RegisterComponent(character).AsImplementedInterfaces();
-            builder.RegisterComponent(character.GetComponent<CharacterVisual>()).AsImplementedInterfaces();
             builder.RegisterInstance(GameSettings.CharacterSettings);
             builder.Register<CharacterAttackAgent>(Lifetime.Singleton);
             builder.Register<CharacterMoveController>(Lifetime.Singleton).AsImplementedInterfaces();
@@ -46,6 +47,7 @@ namespace Architecture
             builder.Register<CharacterBlockController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<CharacterActionController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<CharacterDodgeController>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<CharacterAnimatorController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
@@ -68,6 +70,12 @@ namespace Architecture
         {
             builder.RegisterInstance(GameSettings.CursorSettings);
             builder.Register<GameCursor.GameCursor>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private void RegisterCamera(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(GameSettings.CameraSettings);
+            builder.RegisterComponentInHierarchy<CameraSetup>();
         }
     }
 }

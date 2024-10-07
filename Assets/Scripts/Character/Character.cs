@@ -14,18 +14,19 @@ namespace Character
         IInitGameListener,
         IPrepareGameListener
     {
-        public CharacterAttackAgent GetAttackAgent() => _attackAgent;
-        public HitPointsComponent GetHpComponent() => _hpComponent;
-        public IMovable GetMoveComponent() => _movable;
-        public Transform GetTransform() => transform;
-        public float GetSpeed() => _speed;
-
+        [SerializeField] 
+        private Transform View;
+        
+        [SerializeField]
+        private Rigidbody Rigidbody;
+        
         private WeaponComponent _weapon;
         private CharacterAttackAgent _attackAgent;
         private HitPointsComponent _hpComponent;
         private IMovable _movable;
         private CharacterSettings _settings;
-        
+        private Animator _animator;
+
         [ShowInInspector, ReadOnly]
         private float _speed;
 
@@ -37,9 +38,16 @@ namespace Character
             _movable = movable;
         }
 
+        public CharacterAttackAgent GetAttackAgent() => _attackAgent;
+        public HitPointsComponent GetHpComponent() => _hpComponent;
+        public IMovable GetMoveComponent() => _movable;
+        public Transform GetTransform() => transform;
+        public float GetSpeed() => _speed;
+        public Animator GetAnimator() => _animator;
+
         void IInitGameListener.OnInit()
         {
-            _movable.Init(transform, this);
+            _movable.Init(Rigidbody, this);
             _attackAgent.Init(_weapon);
             _speed = _settings.InitSpeed;
             _hpComponent.Init(_settings.Health);
@@ -49,6 +57,7 @@ namespace Character
         {
             _hpComponent = GetComponent<HitPointsComponent>();
             _weapon = GetComponent<WeaponComponent>();
+            _animator = View.GetComponent<Animator>();
         }
 
         void IPrepareGameListener.OnPrepare()

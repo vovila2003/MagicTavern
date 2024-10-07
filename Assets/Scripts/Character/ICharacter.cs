@@ -9,5 +9,6 @@ namespace Character
         HitPointsComponent GetHpComponent();
         IMovable GetMoveComponent();
         Transform GetTransform();
+        Animator GetAnimator();
     }
 }

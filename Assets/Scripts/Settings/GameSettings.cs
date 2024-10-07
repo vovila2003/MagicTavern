@@ -1,3 +1,4 @@
+using Cameras;
 using Character;
 using GameCursor;
 using UnityEngine;
@@ -13,8 +14,13 @@ namespace Settings
         [SerializeField]
         private GameCursorSettings CursorConfig;
 
+        [SerializeField] 
+        private CameraSettings CameraConfigs;
+
         public CharacterSettings CharacterSettings => CharacterConfig;
         
         public GameCursorSettings CursorSettings => CursorConfig;
+        
+        public CameraSettings CameraSettings => CameraConfigs;
     }
 }

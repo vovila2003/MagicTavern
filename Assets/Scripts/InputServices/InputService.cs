@@ -114,27 +114,10 @@ namespace InputServices
         {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ) return;
             
-            _direction = Vector2.zero;
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
             
-            if (Input.GetKey(KeyCode.A))
-            {
-                _direction = Vector2.left;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                _direction = Vector2.right;
-            }
-            
-            if (Input.GetKey(KeyCode.W))
-            {
-                _direction += Vector2.up;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                _direction += Vector2.down;
-            }
-
-            _direction = _direction.normalized;
+            _direction = new Vector2(horizontal, vertical).normalized;
 
             if (_direction == _prevDirection) return;
             
@@ -163,27 +146,11 @@ namespace InputServices
         {
             if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) return;
 
-            if (Input.GetKey(KeyCode.A))
-            {
-                _dodgeDirection = Vector2.left;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                _dodgeDirection = Vector2.right;
-            }
-            else if (Input.GetKey(KeyCode.W))
-            {
-                _dodgeDirection = Vector2.up;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                _dodgeDirection = Vector2.down;
-            }
-            else
-            {
-                _dodgeDirection = Vector2.zero;
-            }
-
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            
+            _dodgeDirection = new Vector2(horizontal, vertical).normalized;
+            
             if (_dodgeDirection == _prevDodgeDirection) return;
 
             OnDodge?.Invoke(_dodgeDirection);
