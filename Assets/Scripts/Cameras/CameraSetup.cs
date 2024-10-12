@@ -7,7 +7,6 @@ namespace Cameras
 {
     public class CameraSetup : MonoBehaviour
     {
-        private ICinemachineCamera _camera;
         private Transform _characterTransform;
         private CameraSettings _cameraSettings;
 
@@ -20,14 +19,21 @@ namespace Cameras
 
         private void Start()
         {
-            _camera = Camera.main?.GetComponent<CinemachineBrain>().ActiveVirtualCamera;
-            if (_camera == null)
+            ICinemachineCamera cinemachineCamera = Camera.main?.GetComponent<CinemachineBrain>().ActiveVirtualCamera;
+            if (cinemachineCamera == null)
             {
                 Debug.LogWarning("Camera not found");
                 return;
             }
             
-            _camera.Follow = _characterTransform;
+            cinemachineCamera.Follow = _characterTransform;
+
+            CinemachineTransposer transposer = cinemachineCamera
+                .VirtualCameraGameObject
+                .GetComponentInChildren<CinemachineTransposer>();
+            if (transposer == null) return;
+            
+            transposer.m_FollowOffset = _cameraSettings.Offset;
         }
     }
 }
