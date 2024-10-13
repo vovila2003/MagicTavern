@@ -1,0 +1,17 @@
+{
+    "name": "Gardering",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5e0803b9001c053cc9141b0923fbf038",
+        "GUID:e8ffd25d329f4fc097f164660afccd66"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

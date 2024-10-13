@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae1eee06a7a413db00c191aca2763ad, type: 3}
   m_Name: CameraSettings
   m_EditorClassIdentifier: 
-  CameraOffset: {x: 0, y: 5, z: -5}
+  CameraOffset: {x: 0, y: 6, z: -6}

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541246353f5f41398dc844b083fdd4f6, type: 3}
+  m_Name: WheatConfig
+  m_EditorClassIdentifier: 
+  Name: 
+  Growing:
+    IsEnabled: 0
+    TimerDuration: 0
+    CriticalTimerDuration: 0
+  Watering:
+    IsEnabled: 0
+    TimerDuration: 0
+    CriticalTimerDuration: 0
+  Fertilization:
+    IsEnabled: 0
+    TimerDuration: 0
+    CriticalTimerDuration: 0
+  Disinfection:
+    IsEnabled: 0
+    TimerDuration: 0
+    CriticalTimerDuration: 0
+  Healing:
+    IsEnabled: 0
+    TimerDuration: 0
+    CriticalTimerDuration: 0
+  Weeding:
+    IsEnabled: 0
+    TimerDuration: 0
+    CriticalTimerDuration: 0
