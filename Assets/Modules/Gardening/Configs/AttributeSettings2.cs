@@ -1,11 +1,11 @@
 using System;
 
-namespace Gardering.Implementations
+namespace Gardening
 {
     [Serializable]
-    public class AttributeSettings
+    public class AttributeSettings2
     {
-        public bool IsEnabled;
+        public AttributeType Type;
         public float TimerDurationInSeconds;
         public float CriticalTimerDurationInSeconds;
     }

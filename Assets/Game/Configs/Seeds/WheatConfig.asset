@@ -12,28 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541246353f5f41398dc844b083fdd4f6, type: 3}
   m_Name: WheatConfig
   m_EditorClassIdentifier: 
-  Name: 
-  Growing:
-    IsEnabled: 0
-    TimerDuration: 0
-    CriticalTimerDuration: 0
+  Type: 0
+  GrowingDurationInSeconds: 60
+  HarvestValue: 0
   Watering:
-    IsEnabled: 0
-    TimerDuration: 0
-    CriticalTimerDuration: 0
+    IsEnabled: 1
+    TimerDurationInSeconds: 10
+    CriticalTimerDurationInSeconds: 20
   Fertilization:
-    IsEnabled: 0
-    TimerDuration: 0
-    CriticalTimerDuration: 0
+    IsEnabled: 1
+    TimerDurationInSeconds: 15
+    CriticalTimerDurationInSeconds: 20
   Disinfection:
-    IsEnabled: 0
-    TimerDuration: 0
-    CriticalTimerDuration: 0
+    IsEnabled: 1
+    TimerDurationInSeconds: 25
+    CriticalTimerDurationInSeconds: 50
   Healing:
-    IsEnabled: 0
-    TimerDuration: 0
-    CriticalTimerDuration: 0
+    IsEnabled: 1
+    TimerDurationInSeconds: 40
+    CriticalTimerDurationInSeconds: 0
   Weeding:
-    IsEnabled: 0
-    TimerDuration: 0
-    CriticalTimerDuration: 0
+    IsEnabled: 1
+    TimerDurationInSeconds: 30
+    CriticalTimerDurationInSeconds: 50

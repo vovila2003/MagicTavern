@@ -1,7 +1,7 @@
 using Modules.Products;
 using UnityEngine;
 
-namespace Gardering.Implementations
+namespace Gardening
 {
     [CreateAssetMenu(fileName = "SeedConfig", menuName = "Settings/Seed Settings/Seed Settings", order = 0)]
     public class SeedConfig : ScriptableObject

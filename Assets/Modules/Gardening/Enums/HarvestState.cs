@@ -1,4 +1,4 @@
-namespace Gardering.Implementations
+namespace Gardening
 {
     public enum HarvestState
     {
