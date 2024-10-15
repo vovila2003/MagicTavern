@@ -1,4 +1,4 @@
-namespace Gardening
+namespace Modules.Gardening.Enums
 {
     public enum SeedbedState
     {

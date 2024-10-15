@@ -1,9 +1,9 @@
 using System;
+using Modules.Timers.Interfaces;
 using Sirenix.OdinInspector;
-using Timers.Interfaces;
 using UnityEngine;
 
-namespace Timers.Implementations
+namespace Modules.Timers.Implementations
 {
     [Serializable]
     public class Countdown : 

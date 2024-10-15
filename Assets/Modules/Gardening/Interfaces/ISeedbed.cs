@@ -1,6 +1,7 @@
 using System;
+using Modules.Gardening.Enums;
 
-namespace Gardening
+namespace Modules.Gardening.Interfaces
 {
     public interface ISeedbed
     {

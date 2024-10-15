@@ -1,6 +1,6 @@
-using Modules.Products;
+using Modules.Products.Plants;
 
-namespace Gardening
+namespace Modules.Gardening
 {
     public struct HarvestResult
     {

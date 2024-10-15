@@ -1,7 +1,8 @@
 using System;
-using Modules.Products;
+using Modules.Gardening.Enums;
+using Modules.Products.Plants;
 
-namespace Gardening
+namespace Modules.Gardening.Interfaces
 {
     public interface IHarvest
     {

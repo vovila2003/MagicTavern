@@ -1,7 +1,8 @@
 using System;
-using Sirenix.OdinInspector;
+using Modules.Gardening.Enums;
+using Modules.Gardening.Interfaces;
 
-namespace Gardening
+namespace Modules.Gardening
 {
     [Serializable]
     public class Seedbed : ISeedbed
@@ -12,15 +13,9 @@ namespace Gardening
         
         public bool IsSeeded => _state == SeedbedState.Seeded;
             
-#if ODIN_INSPECTOR
-        [ShowInInspector, ReadOnly, HideInEditorMode]
-#endif
         private SeedbedState _state = SeedbedState.NotReady;
         private IHarvest _harvest;
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Prepare()
         {
             if (_state is not SeedbedState.NotReady) return false;
@@ -30,9 +25,6 @@ namespace Gardening
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Seed(SeedConfig seed) 
         {
             if (_state != SeedbedState.Ready) return false;
@@ -44,9 +36,6 @@ namespace Gardening
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Gather(out HarvestResult harvestResult)
         {
             harvestResult = new HarvestResult{Type = _harvest.PlantType};
@@ -71,9 +60,6 @@ namespace Gardening
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void Care(AttributeType attributeType)
         {
             _harvest.Care(attributeType);

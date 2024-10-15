@@ -1,11 +1,12 @@
 using System;
+using Modules.Gardening.Enums;
 
-namespace Gardening
+namespace Modules.Gardening
 {
     [Serializable]
     public class AttributeSettings
     {
-        public bool IsEnabled;
+        public AttributeType Type;
         public float TimerDurationInSeconds;
         public float CriticalTimerDurationInSeconds;
     }

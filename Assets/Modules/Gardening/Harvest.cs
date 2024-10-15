@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Modules.Products;
-using Timers.Implementations;
+using Modules.Gardening.Enums;
+using Modules.Gardening.Interfaces;
+using Modules.Products.Plants;
+using Modules.Timers.Implementations;
 
-namespace Gardening
+namespace Modules.Gardening
 {
     [Serializable]
     public class Harvest : IHarvest
@@ -17,12 +19,12 @@ namespace Gardening
         
         private float _readyValue;
         private HarvestState _state;
-        private Timer _growingTimer;
+        private Timer _growthTimer;
         private Dictionary<AttributeType, HarvestAttribute> _attributes = new();
         
         public Harvest(SeedConfig seed)
         {
-            SetupGrowingTimer(seed);
+            SetupGrowthTimer(seed);
             SetupAttributes(seed);
             _readyValue = seed.HarvestValue;
             Value = 0;
@@ -32,7 +34,7 @@ namespace Gardening
 
         public void StartGrow()
         {
-            _growingTimer.Start();
+            _growthTimer.Start();
             foreach (HarvestAttribute attribute in _attributes.Values)
             {
                 attribute.Start();
@@ -41,7 +43,7 @@ namespace Gardening
 
         public void StopGrow()
         {
-            _growingTimer.Stop();
+            _growthTimer.Stop();
             foreach (HarvestAttribute attribute in _attributes.Values)
             {
                 attribute.Stop();
@@ -57,14 +59,14 @@ namespace Gardening
             attribute.Care();            
         }
 
-        private void SetupGrowingTimer(SeedConfig seed)
+        private void SetupGrowthTimer(SeedConfig seed)
         {
-            _growingTimer.Loop = false;
-            _growingTimer.Duration = seed.GrowingDurationInSeconds;
-            _growingTimer.OnEnded += OnGrowingEnded;
+            _growthTimer.Loop = false;
+            _growthTimer.Duration = seed.GrowthDurationInSeconds;
+            _growthTimer.OnEnded += GrowthEnded;
         }
 
-        private void OnGrowingEnded()
+        private void GrowthEnded()
         {
             Value = _readyValue;
             OnStateChanged?.Invoke(HarvestState.Ready);
@@ -72,32 +74,26 @@ namespace Gardening
 
         private void SetupAttributes(SeedConfig seed)
         {
-            CreateHarvestAttribute(AttributeType.Water, seed.Watering);
-            CreateHarvestAttribute(AttributeType.Fertilizer, seed.Fertilization);
-            CreateHarvestAttribute(AttributeType.Disinfection, seed.Disinfection);
-            CreateHarvestAttribute(AttributeType.Heal, seed.Healing);
-            CreateHarvestAttribute(AttributeType.Weed, seed.Weeding);
+            foreach (AttributeSettings attributeSettings in seed.Attributes)
+            {
+                CreateHarvestAttribute(attributeSettings);
+            }
         }
 
-        private void CreateHarvestAttribute(AttributeType type, AttributeSettings attributeSettings)
+        private void CreateHarvestAttribute(AttributeSettings attributeSettings)
         {
-            if (!attributeSettings.IsEnabled)
-            {
-                return;
-            }
-
             var harvestAttribute = new HarvestAttribute(
-                type,
+                attributeSettings.Type,
                 attributeSettings.TimerDurationInSeconds,
                 attributeSettings.CriticalTimerDurationInSeconds);
 
-            harvestAttribute.OnFail += OnFail;
+            harvestAttribute.OnLost += Lost;
             harvestAttribute.OnStateChanged += OnAttributeChanged;
             
-            _attributes.Add(type, harvestAttribute);
+            _attributes.Add(attributeSettings.Type, harvestAttribute);
         }
 
-        private void OnFail(AttributeType attributeType)
+        private void Lost(AttributeType attributeType)
         {
             OnStateChanged?.Invoke(HarvestState.Lost);
         }
@@ -107,10 +103,10 @@ namespace Gardening
             foreach (HarvestAttribute attribute in _attributes.Values)
             {
                 attribute.Dispose();
-                attribute.OnFail -= OnFail;
+                attribute.OnLost -= Lost;
                 attribute.OnStateChanged -= OnAttributeChanged;
             }
-            _growingTimer.OnEnded -= OnGrowingEnded;
+            _growthTimer.OnEnded -= GrowthEnded;
         }
     }
 }

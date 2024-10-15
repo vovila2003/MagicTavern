@@ -1,12 +1,13 @@
 using System;
-using Timers.Implementations;
+using Modules.Gardening.Enums;
+using Modules.Timers.Implementations;
 
-namespace Gardening
+namespace Modules.Gardening
 {
     public class HarvestAttribute
     {
         public event Action<AttributeType, AttributeState> OnStateChanged;
-        public event Action<AttributeType> OnFail;
+        public event Action<AttributeType> OnLost;
 
         private readonly Timer _timer = new();
         private readonly Timer _criticalTimer = new();
@@ -70,6 +71,6 @@ namespace Gardening
             OnStateChanged?.Invoke(_attributeType, _state);
         }
 
-        private void OnCriticalTimerFail() => OnFail?.Invoke(_attributeType);
+        private void OnCriticalTimerFail() => OnLost?.Invoke(_attributeType);
     }
 }

@@ -1,14 +1,12 @@
 using System;
-using Sirenix.OdinInspector;
-using Timers.Interfaces;
+using Modules.Timers.Interfaces;
 using UnityEngine;
 
-namespace Timers.Implementations
+namespace Modules.Timers.Implementations
 {
     [Serializable]
     public class Timer : ITimer
     {
-        
         public event Action OnStarted;
         public event Action OnStopped;
         public event Action OnPaused;
@@ -19,41 +17,26 @@ namespace Timers.Implementations
         public event Action<float> OnCurrentTimeChanged;
         public event Action<float> OnDurationChanged;
         
-#if ODIN_INSPECTOR
-        [ShowInInspector, ReadOnly, HideInEditorMode]
-#endif
         public State CurrentState => _currentState;
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public float Duration
         {
-            get { return _duration; }
-            set { SetDuration(value); }
+            get => _duration;
+            set => SetDuration(value);
         }
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public float CurrentTime
         {
-            get { return _currentTime; }
-            set { SetCurrentTime(value); }
+            get => _currentTime;
+            set => SetCurrentTime(value);
         }
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public float Progress
         {
-            get { return GetProgress(); }
-            set { SetProgress(value); }
+            get => GetProgress();
+            set => SetProgress(value);
         }
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public bool Loop { get; set; }
 
         private float _duration;
@@ -66,8 +49,8 @@ namespace Timers.Implementations
 
         public Timer(float duration, bool loop = false)
         {
-                _duration = duration;
-                Loop = loop;
+            _duration = duration;
+            Loop = loop;
         }
         
         public State GetCurrentState() => _currentState;
@@ -79,24 +62,17 @@ namespace Timers.Implementations
         public float GetDuration() => _duration;
         public float GetCurrentTime() => _currentTime;
         
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void ForceStart()
         {
             Stop(); 
             Start();
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void ForceStart(float currentTime)
         {
             Stop();
             Start(currentTime);
         }
-
 
         public bool Start()
         {
@@ -111,9 +87,6 @@ namespace Timers.Implementations
             return true;
         }
         
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Start(float currentTime)
         {
             if (_currentState is not (State.Idle or State.Ended))
@@ -128,9 +101,6 @@ namespace Timers.Implementations
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Play()
         {
             if (_currentState is not (State.Idle or State.Ended))
@@ -144,9 +114,6 @@ namespace Timers.Implementations
             return true; 
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Stop()
         {
             if (_currentState == State.Idle)
@@ -161,9 +128,6 @@ namespace Timers.Implementations
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Pause()
         {
             if (_currentState != State.Playing)
@@ -177,9 +141,6 @@ namespace Timers.Implementations
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Resume()
         {
             if (_currentState != State.Paused)
@@ -193,9 +154,6 @@ namespace Timers.Implementations
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void Tick(float deltaTime)
         {
             if (_currentState != State.Playing)
@@ -225,9 +183,6 @@ namespace Timers.Implementations
             };
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void SetProgress(float progress)
         {
             progress = Mathf.Clamp01(progress);
@@ -236,9 +191,6 @@ namespace Timers.Implementations
             OnProgressChanged?.Invoke(progress);
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         private void SetDuration(float duration)
         {
             if (duration < 0)
@@ -252,9 +204,6 @@ namespace Timers.Implementations
             OnDurationChanged?.Invoke(duration);
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         private void SetCurrentTime(float time)
         {
             if (time < 0)

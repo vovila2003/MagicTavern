@@ -1,18 +1,15 @@
-using Modules.Products;
+using Modules.Products.Plants;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Gardening
+namespace Modules.Gardening
 {
     [CreateAssetMenu(fileName = "SeedConfig", menuName = "Settings/Seed Settings/Seed Settings", order = 0)]
     public class SeedConfig : ScriptableObject
     {
         public PlantType Type;
-        public float GrowingDurationInSeconds;
+        public float GrowthDurationInSeconds;
         public float HarvestValue;
-        public AttributeSettings Watering;
-        public AttributeSettings Fertilization;
-        public AttributeSettings Disinfection;
-        public AttributeSettings Healing;
-        public AttributeSettings Weeding;
+        public AttributeSettings[] Attributes;
     }
 }
