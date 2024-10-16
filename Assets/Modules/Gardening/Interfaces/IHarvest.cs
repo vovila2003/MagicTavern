@@ -16,5 +16,8 @@ namespace Modules.Gardening.Interfaces
         void StartGrow();
         void StopGrow();
         void Care(AttributeType attributeType);
+        
+        //TODO delete -> DI
+        void Tick(float deltaTime);
     }
 }

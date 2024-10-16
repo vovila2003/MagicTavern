@@ -9,10 +9,12 @@ namespace Modules.Gardening.Interfaces
         event Action<HarvestState> OnHarvestStateChanged;
         event Action<AttributeType> OnCareNeeded;
         
-        bool IsSeeded { get; }
-        
         bool Prepare();
         bool Seed(SeedConfig seed);
         bool Gather(out HarvestResult harvestResult);
+        void Care(AttributeType attributeType);
+        
+        //TODO delete -> DI
+        void Tick(float deltaTime);
     }
 }

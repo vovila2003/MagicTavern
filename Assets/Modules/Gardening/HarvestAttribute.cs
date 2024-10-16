@@ -21,11 +21,13 @@ namespace Modules.Gardening
             _attributeType = attributeType;
             _isDisposed = false;
             _state = AttributeState.Norm;
-            
-            SetupTimer(_timer, timerDuration);
+
+            _timer.Duration = timerDuration;
+            _timer.Loop = true;
             _timer.OnEnded += OnTimerEnded;
-            
-            SetupTimer(_criticalTimer, criticalTimerDuration);
+
+            _criticalTimer.Duration = criticalTimerDuration;
+            _criticalTimer.Loop = false;
             _criticalTimer.OnEnded += OnCriticalTimerFail;
         }
 
@@ -49,6 +51,13 @@ namespace Modules.Gardening
             _timer.ForceStart();
             _criticalTimer.ForceStart();
         }
+        
+        //TODO delete -> DI
+        public void Tick(float deltaTime)
+        {
+            _timer.Tick(deltaTime);
+            _criticalTimer.Tick(deltaTime);
+        }
 
         public void Dispose()
         {
@@ -59,18 +68,15 @@ namespace Modules.Gardening
             _isDisposed = true;
         }
 
-        private static void SetupTimer(Timer timer, float timerDuration)
-        {
-            timer.Duration = timerDuration;
-            timer.Loop = true;
-        }
-
         private void OnTimerEnded()
         {
             _state = AttributeState.Need;
             OnStateChanged?.Invoke(_attributeType, _state);
         }
 
-        private void OnCriticalTimerFail() => OnLost?.Invoke(_attributeType);
+        private void OnCriticalTimerFail()
+        {
+            OnLost?.Invoke(_attributeType);
+        }
     }
 }

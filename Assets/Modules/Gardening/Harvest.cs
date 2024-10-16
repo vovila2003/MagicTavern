@@ -7,20 +7,19 @@ using Modules.Timers.Implementations;
 
 namespace Modules.Gardening
 {
-    [Serializable]
     public class Harvest : IHarvest
     {
         public event Action<HarvestState> OnStateChanged;
         public event Action<AttributeType, AttributeState> OnAttributeChanged;
         
         public float Value { get; private set; }
-        public PlantType PlantType { get; private set; }
+        public PlantType PlantType { get; }
         public bool IsReady => _state == HarvestState.Ready;
         
-        private float _readyValue;
+        private readonly float _readyValue;
         private HarvestState _state;
-        private Timer _growthTimer;
-        private Dictionary<AttributeType, HarvestAttribute> _attributes = new();
+        private readonly Timer _growthTimer = new();
+        private readonly Dictionary<AttributeType, HarvestAttribute> _attributes = new();
         
         public Harvest(SeedConfig seed)
         {
@@ -54,22 +53,40 @@ namespace Modules.Gardening
 
         public void Care(AttributeType attributeType)
         {
+            if (IsReady) return;
+            
             if (!_attributes.TryGetValue(attributeType, out HarvestAttribute attribute)) return;
             
             attribute.Care();            
+        }
+
+        
+        //TODO delete -> DI
+        public void Tick(float deltaTime)
+        {
+            _growthTimer.Tick(deltaTime);
+            foreach (HarvestAttribute attribute in _attributes.Values)
+            {
+                attribute.Tick(deltaTime);
+            }
         }
 
         private void SetupGrowthTimer(SeedConfig seed)
         {
             _growthTimer.Loop = false;
             _growthTimer.Duration = seed.GrowthDurationInSeconds;
-            _growthTimer.OnEnded += GrowthEnded;
+            _growthTimer.OnEnded += OnGrowthEnded;
         }
 
-        private void GrowthEnded()
+        private void OnGrowthEnded()
         {
             Value = _readyValue;
+            _state = HarvestState.Ready;
             OnStateChanged?.Invoke(HarvestState.Ready);
+            foreach (HarvestAttribute attribute in _attributes.Values)
+            {
+                attribute.Stop();
+            }
         }
 
         private void SetupAttributes(SeedConfig seed)
@@ -87,15 +104,23 @@ namespace Modules.Gardening
                 attributeSettings.TimerDurationInSeconds,
                 attributeSettings.CriticalTimerDurationInSeconds);
 
-            harvestAttribute.OnLost += Lost;
-            harvestAttribute.OnStateChanged += OnAttributeChanged;
+            harvestAttribute.OnLost += OnLost;
+            harvestAttribute.OnStateChanged += OnHarvestAttributeChanged;
             
             _attributes.Add(attributeSettings.Type, harvestAttribute);
         }
 
-        private void Lost(AttributeType attributeType)
+        private void OnHarvestAttributeChanged(AttributeType type, AttributeState state)
         {
+            OnAttributeChanged?.Invoke(type, state);
+        }
+
+        private void OnLost(AttributeType attributeType)
+        {
+            Value = 0;
+            _state = HarvestState.Lost;
             OnStateChanged?.Invoke(HarvestState.Lost);
+            StopGrow();
         }
 
         private void Dispose()
@@ -103,10 +128,10 @@ namespace Modules.Gardening
             foreach (HarvestAttribute attribute in _attributes.Values)
             {
                 attribute.Dispose();
-                attribute.OnLost -= Lost;
-                attribute.OnStateChanged -= OnAttributeChanged;
+                attribute.OnLost -= OnLost;
+                attribute.OnStateChanged -= OnHarvestAttributeChanged;
             }
-            _growthTimer.OnEnded -= GrowthEnded;
+            _growthTimer.OnEnded -= OnGrowthEnded;
         }
     }
 }

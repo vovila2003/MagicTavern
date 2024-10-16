@@ -11,8 +11,6 @@ namespace Modules.Gardening
         public event Action<HarvestState> OnHarvestStateChanged;
         public event Action<AttributeType> OnCareNeeded;
         
-        public bool IsSeeded => _state == SeedbedState.Seeded;
-            
         private SeedbedState _state = SeedbedState.NotReady;
         private IHarvest _harvest;
 
@@ -38,7 +36,13 @@ namespace Modules.Gardening
 
         public bool Gather(out HarvestResult harvestResult)
         {
-            harvestResult = new HarvestResult{Type = _harvest.PlantType};
+            harvestResult = new HarvestResult();
+            if (_harvest is null)
+            {
+                return false;
+            }
+
+            harvestResult.Type = _harvest.PlantType;
             
             if (_state != SeedbedState.Seeded ||
                 !_harvest.IsReady)
@@ -62,21 +66,40 @@ namespace Modules.Gardening
 
         public void Care(AttributeType attributeType)
         {
-            _harvest.Care(attributeType);
+            _harvest?.Care(attributeType);
+        }
+
+        public void Tick(float deltaTime)
+        {
+            _harvest?.Tick(deltaTime);
         }
 
         private void StartGrow()
         {
+            if (_harvest is null) return;
+            
             _harvest.StartGrow();
-            _harvest.OnStateChanged += OnHarvestStateChanged;
+            _harvest.OnStateChanged += OnHarvestStateChangedImpl;
             _harvest.OnAttributeChanged += OnHarvestAttributeChanged;
         }
 
         private void StopGrow()
         {
+            if (_harvest is null) return;
+            
             _harvest.StopGrow();
-            _harvest.OnStateChanged -= OnHarvestStateChanged;
+            _harvest.OnStateChanged -= OnHarvestStateChangedImpl;
             _harvest.OnAttributeChanged -= OnHarvestAttributeChanged;
+        }
+
+
+        private void OnHarvestStateChangedImpl(HarvestState state)
+        {
+            OnHarvestStateChanged?.Invoke(state);
+            if (state == HarvestState.Lost)
+            {
+                _state = SeedbedState.NotReady;
+            }
         }
 
         private void OnHarvestAttributeChanged(AttributeType type, AttributeState state)

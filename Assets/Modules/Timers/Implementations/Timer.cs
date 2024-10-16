@@ -81,6 +81,7 @@ namespace Modules.Timers.Implementations
                 return false;
             }
 
+            _currentTime = 0;
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnStarted?.Invoke();
