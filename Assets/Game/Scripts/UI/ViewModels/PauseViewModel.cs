@@ -1,6 +1,7 @@
-using Architecture.Controllers;
+using Tavern.Architecture.GameManager.Controllers;
+using Tavern.UI.ViewModels.Interfaces;
 
-namespace UI
+namespace Tavern.UI.ViewModels
 {
     public sealed class PauseViewModel : IPauseViewModel
     {

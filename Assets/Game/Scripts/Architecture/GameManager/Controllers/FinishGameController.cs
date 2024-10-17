@@ -1,6 +1,6 @@
-using Architecture.Interfaces;
+using Tavern.Architecture.GameManager.Interfaces;
 
-namespace Architecture.Controllers
+namespace Tavern.Architecture.GameManager.Controllers
 {
     public sealed class FinishGameController : 
         IStartGameListener,

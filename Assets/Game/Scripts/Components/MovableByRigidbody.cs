@@ -1,6 +1,7 @@
+using Tavern.Components.Interfaces;
 using UnityEngine;
 
-namespace Components
+namespace Tavern.Components
 {
     public sealed class MovableByRigidbody : IMovable
     {

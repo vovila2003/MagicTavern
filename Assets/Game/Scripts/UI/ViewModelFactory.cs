@@ -1,6 +1,8 @@
-using Architecture.Controllers;
+using Tavern.Architecture.GameManager.Controllers;
+using Tavern.UI.ViewModels;
+using Tavern.UI.ViewModels.Interfaces;
 
-namespace UI
+namespace Tavern.UI
 {
     public sealed class ViewModelFactory : IViewModelFactory
     {

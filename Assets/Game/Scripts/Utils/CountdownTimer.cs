@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Utils
+namespace Tavern.Utils
 {
     public sealed class CountdownTimer
     {

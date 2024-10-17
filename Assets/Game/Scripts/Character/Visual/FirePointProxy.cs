@@ -1,7 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Character
+namespace Tavern.Character.Visual
 {
     public sealed class FirePointProxy : MonoBehaviour
     {

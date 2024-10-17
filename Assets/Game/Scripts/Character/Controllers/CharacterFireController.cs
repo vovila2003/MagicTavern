@@ -1,7 +1,8 @@
-using Architecture.Interfaces;
-using InputServices;
+using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.Character.Agents;
+using Tavern.InputServices.Interfaces;
 
-namespace Character
+namespace Tavern.Character.Controllers
 {
     public sealed class CharacterFireController : 
         IStartGameListener,

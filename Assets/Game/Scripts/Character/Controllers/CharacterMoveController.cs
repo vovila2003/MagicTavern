@@ -1,9 +1,9 @@
-using Architecture.Interfaces;
-using Components;
-using InputServices;
+using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.Components.Interfaces;
+using Tavern.InputServices.Interfaces;
 using UnityEngine;
 
-namespace Character
+namespace Tavern.Character.Controllers
 {
     public sealed class CharacterMoveController : 
         IStartGameListener,

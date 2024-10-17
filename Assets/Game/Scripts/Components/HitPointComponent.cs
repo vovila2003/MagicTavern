@@ -2,7 +2,7 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Components
+namespace Tavern.Components
 {
     public sealed class HitPointsComponent : MonoBehaviour
     {

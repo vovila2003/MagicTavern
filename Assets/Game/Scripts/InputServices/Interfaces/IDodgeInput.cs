@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace InputServices
+namespace Tavern.InputServices.Interfaces
 {
     public interface IDodgeInput
     {

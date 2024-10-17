@@ -1,15 +1,17 @@
-using Architecture.Controllers;
-using Cameras;
-using Character;
-using Components;
-using InputServices;
-using Settings;
-using UI;
+using Tavern.Architecture.GameManager.Controllers;
+using Tavern.Cameras;
+using Tavern.Character.Agents;
+using Tavern.Character.Controllers;
+using Tavern.Character.Visual;
+using Tavern.Components;
+using Tavern.InputServices;
+using Tavern.Settings;
+using Tavern.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Architecture
+namespace Tavern.Architecture.LifetimeScopes
 {
     public class SceneLifetimeScope : LifetimeScope
     {
@@ -53,7 +55,7 @@ namespace Architecture
 
         private void RegisterGame(IContainerBuilder builder)
         {
-            builder.Register<GameManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<GameManager.GameManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<FinishGameController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<QuitGameController>(Lifetime.Singleton);

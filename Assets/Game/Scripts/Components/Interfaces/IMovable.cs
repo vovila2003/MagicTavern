@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Components
+namespace Tavern.Components.Interfaces
 {
     public interface IMovable
     {

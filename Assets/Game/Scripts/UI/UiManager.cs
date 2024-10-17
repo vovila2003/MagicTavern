@@ -1,8 +1,9 @@
-using Architecture.Interfaces;
+using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.UI.Views;
 using UnityEngine;
 using VContainer;
 
-namespace UI
+namespace Tavern.UI
 {
     public sealed class UiManager : MonoBehaviour, 
         IInitGameListener,

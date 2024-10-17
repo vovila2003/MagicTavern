@@ -1,8 +1,9 @@
 using System;
-using Architecture.Interfaces;
+using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.InputServices.Interfaces;
 using UnityEngine;
 
-namespace InputServices
+namespace Tavern.InputServices
 {
     public sealed class InputService : 
         IShootInput, 

@@ -4,16 +4,20 @@ using Modules.Gardening.Interfaces;
 
 namespace Modules.Gardening
 {
-    [Serializable]
     public class Seedbed : ISeedbed
     {
         public event Action<SeedbedState> OnStateChanged;
-        public event Action<HarvestState> OnHarvestStateChanged;
-        public event Action<AttributeType> OnCareNeeded;
-        
-        private SeedbedState _state = SeedbedState.NotReady;
-        private IHarvest _harvest;
 
+        public event Action<HarvestState> OnHarvestStateChanged;
+
+        public event Action<CaringType, CaringState> OnCaringChanged;
+
+        public CaringType? LostReason => _harvest?.LostReason;
+
+        private SeedbedState _state = SeedbedState.NotReady;
+
+        private IHarvest _harvest;
+        
         public bool Prepare()
         {
             if (_state is not SeedbedState.NotReady) return false;
@@ -26,8 +30,9 @@ namespace Modules.Gardening
         public bool Seed(SeedConfig seed) 
         {
             if (_state != SeedbedState.Ready) return false;
-            
-            _harvest = new Harvest(seed);
+
+            Harvest harvest = new Harvest(seed);
+            _harvest = harvest;
             StartGrow();
             _state = SeedbedState.Seeded;
             OnStateChanged?.Invoke(SeedbedState.Seeded);
@@ -47,7 +52,7 @@ namespace Modules.Gardening
             if (_state != SeedbedState.Seeded ||
                 !_harvest.IsReady)
             {
-                harvestResult.IsCorrect = false;
+                harvestResult.IsCollected = false;
                 harvestResult.Value = 0;
                 return false;
             }
@@ -55,18 +60,18 @@ namespace Modules.Gardening
             StopGrow();
             
             harvestResult.Value = _harvest.Value;
-            harvestResult.IsCorrect = true;
-            
-            _harvest = null; 
+            harvestResult.IsCollected = true;
+
+            _harvest = null;
             _state = SeedbedState.NotReady;
             OnStateChanged?.Invoke(SeedbedState.NotReady);
             
             return true;
         }
 
-        public void Care(AttributeType attributeType)
+        public void Care(CaringType caringType)
         {
-            _harvest?.Care(attributeType);
+            _harvest?.Care(caringType);
         }
 
         public void Tick(float deltaTime)
@@ -80,7 +85,7 @@ namespace Modules.Gardening
             
             _harvest.StartGrow();
             _harvest.OnStateChanged += OnHarvestStateChangedImpl;
-            _harvest.OnAttributeChanged += OnHarvestAttributeChanged;
+            _harvest.OnCaringStateChanged += HarvestCaringStateChanged;
         }
 
         private void StopGrow()
@@ -89,7 +94,7 @@ namespace Modules.Gardening
             
             _harvest.StopGrow();
             _harvest.OnStateChanged -= OnHarvestStateChangedImpl;
-            _harvest.OnAttributeChanged -= OnHarvestAttributeChanged;
+            _harvest.OnCaringStateChanged -= HarvestCaringStateChanged;
         }
 
 
@@ -102,12 +107,9 @@ namespace Modules.Gardening
             }
         }
 
-        private void OnHarvestAttributeChanged(AttributeType type, AttributeState state)
+        private void HarvestCaringStateChanged(CaringType type, CaringState state)
         {
-            if (state == AttributeState.Need)
-            {
-                OnCareNeeded?.Invoke(type);
-            }
+            OnCaringChanged?.Invoke(type, state);
         }
     }
 }

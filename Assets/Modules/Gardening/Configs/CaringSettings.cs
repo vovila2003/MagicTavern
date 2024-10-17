@@ -4,9 +4,9 @@ using Modules.Gardening.Enums;
 namespace Modules.Gardening
 {
     [Serializable]
-    public class AttributeSettings
+    public class CaringSettings
     {
-        public AttributeType Type;
+        public CaringType Type;
         public float TimerDurationInSeconds;
         public float CriticalTimerDurationInSeconds;
     }

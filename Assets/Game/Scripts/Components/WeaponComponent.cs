@@ -1,7 +1,7 @@
-using Character;
+using Tavern.Character.Visual;
 using UnityEngine;
 
-namespace Components
+namespace Tavern.Components
 {
     public sealed class WeaponComponent : MonoBehaviour
     {

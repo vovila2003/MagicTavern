@@ -1,4 +1,4 @@
-namespace Architecture
+namespace Tavern.Architecture.GameManager
 {
     public enum GameState
     {

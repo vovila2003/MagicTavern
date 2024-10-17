@@ -10,6 +10,6 @@ namespace Modules.Gardening
         public PlantType Type;
         public float GrowthDurationInSeconds;
         public float HarvestValue;
-        public AttributeSettings[] Attributes;
+        public CaringSettings[] Carings;
     }
 }

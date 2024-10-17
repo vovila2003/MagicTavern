@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Character
+namespace Tavern.Character
 {
     [CreateAssetMenu(fileName = "CharacterSettings", menuName = "Settings/Character Settings/Character Settings")]
     public sealed class CharacterSettings : ScriptableObject

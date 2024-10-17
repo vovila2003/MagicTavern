@@ -1,8 +1,9 @@
 using System.IO;
+using Tavern.UI.ViewModels.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace Tavern.UI.Views
 {
     public sealed class PauseView : MonoBehaviour, IView
     {

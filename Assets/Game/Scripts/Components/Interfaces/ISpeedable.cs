@@ -1,4 +1,4 @@
-namespace Components
+namespace Tavern.Components.Interfaces
 {
     public interface ISpeedable
     {

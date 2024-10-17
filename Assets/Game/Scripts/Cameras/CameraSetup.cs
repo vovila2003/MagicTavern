@@ -1,9 +1,9 @@
-using Character;
 using Cinemachine;
+using Tavern.Character;
 using UnityEngine;
 using VContainer;
 
-namespace Cameras
+namespace Tavern.Cameras
 {
     public class CameraSetup : MonoBehaviour
     {

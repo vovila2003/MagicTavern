@@ -1,9 +1,9 @@
-using Cameras;
-using Character;
-using GameCursor;
+using Tavern.Cameras;
+using Tavern.Character;
+using Tavern.GameCursor;
 using UnityEngine;
 
-namespace Settings
+namespace Tavern.Settings
 {
     [CreateAssetMenu(fileName = "GameSettings", menuName = "Settings/Game Settings/Game Settings", order = 0)]
     public class GameSettings : ScriptableObject

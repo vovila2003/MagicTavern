@@ -4,23 +4,23 @@ using Modules.Timers.Implementations;
 
 namespace Modules.Gardening
 {
-    public class HarvestAttribute
+    public class HarvestCaring
     {
-        public event Action<AttributeType, AttributeState> OnStateChanged;
-        public event Action<AttributeType> OnLost;
+        public event Action<CaringType, CaringState> OnStateChanged;
+        public event Action<CaringType> OnLost;
 
         private readonly Timer _timer = new();
         private readonly Timer _criticalTimer = new();
-        private readonly AttributeType _attributeType;
+        private readonly CaringType _caringType;
         private bool _isDisposed;
 
-        private AttributeState _state;
+        private CaringState _state;
 
-        public HarvestAttribute(AttributeType attributeType, float timerDuration, float criticalTimerDuration)
+        public HarvestCaring(CaringType caringType, float timerDuration, float criticalTimerDuration)
         {
-            _attributeType = attributeType;
+            _caringType = caringType;
             _isDisposed = false;
-            _state = AttributeState.Norm;
+            _state = CaringState.Norm;
 
             _timer.Duration = timerDuration;
             _timer.Loop = true;
@@ -45,8 +45,8 @@ namespace Modules.Gardening
 
         public void Care()
         {
-            _state = AttributeState.Norm;
-            OnStateChanged?.Invoke(_attributeType, _state);
+            _state = CaringState.Norm;
+            OnStateChanged?.Invoke(_caringType, _state);
             
             _timer.ForceStart();
             _criticalTimer.ForceStart();
@@ -70,13 +70,13 @@ namespace Modules.Gardening
 
         private void OnTimerEnded()
         {
-            _state = AttributeState.Need;
-            OnStateChanged?.Invoke(_attributeType, _state);
+            _state = CaringState.Need;
+            OnStateChanged?.Invoke(_caringType, _state);
         }
 
         private void OnCriticalTimerFail()
         {
-            OnLost?.Invoke(_attributeType);
+            OnLost?.Invoke(_caringType);
         }
     }
 }

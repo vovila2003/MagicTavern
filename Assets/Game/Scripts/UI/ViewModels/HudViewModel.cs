@@ -1,6 +1,6 @@
-using Architecture.Controllers;
+using Tavern.UI.ViewModels.Interfaces;
 
-namespace UI
+namespace Tavern.UI.ViewModels
 {
     public sealed class HudViewModel : IHudViewModel
     {

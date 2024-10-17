@@ -4,7 +4,7 @@ using Modules.Gardening.Interfaces;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Game.Scripts.Gardening
+namespace Tavern.Gardening
 {
     public class SeedbedTest : MonoBehaviour
     {
@@ -15,14 +15,14 @@ namespace Game.Scripts.Gardening
             _seedbed = new Seedbed();
             _seedbed.OnStateChanged += OnStateChanged;
             _seedbed.OnHarvestStateChanged += OnHarvestStateChanged;
-            _seedbed.OnCareNeeded += OnCareNeed;
+            _seedbed.OnCaringChanged += OnCaringChanged;
         }
-
+        
         private void OnDisable()
         {
             _seedbed.OnStateChanged -= OnStateChanged;
             _seedbed.OnHarvestStateChanged -= OnHarvestStateChanged;
-            _seedbed.OnCareNeeded -= OnCareNeed;
+            _seedbed.OnCaringChanged -= OnCaringChanged;
         }
 
         private void Update()
@@ -53,14 +53,14 @@ namespace Game.Scripts.Gardening
             Debug.Log($"Gather: {result}.");
             if (result)
             {
-                Debug.Log($"HarvestResult: {harvestResult.IsCorrect}, {harvestResult.Value}, {harvestResult.Type}");
+                Debug.Log($"HarvestResult: {harvestResult.IsCollected}, {harvestResult.Value}, {harvestResult.Type}");
             }
         }
 
         [Button]
-        public void Care(AttributeType attributeType)
+        public void Care(CaringType caringType)
         {
-            _seedbed.Care(attributeType);
+            _seedbed.Care(caringType);
         }
 
         private void OnStateChanged(SeedbedState state)
@@ -71,11 +71,15 @@ namespace Game.Scripts.Gardening
         private void OnHarvestStateChanged(HarvestState state)
         {
             Debug.Log($"Harvest state changed to {state}");
+            if (state == HarvestState.Lost)
+            {
+                Debug.Log($"Lost by reason {_seedbed.LostReason}");
+            }
         }
 
-        private void OnCareNeed(AttributeType type)
+        private void OnCaringChanged(CaringType type, CaringState caringState)
         {
-            Debug.Log($"Care {type} needed!");
+            Debug.Log($"Care {type} state changed to {caringState}!");
         }
     }
 }

@@ -1,4 +1,6 @@
-namespace UI
+using Tavern.UI.ViewModels.Interfaces;
+
+namespace Tavern.UI.Views
 {
     public interface IView
     {

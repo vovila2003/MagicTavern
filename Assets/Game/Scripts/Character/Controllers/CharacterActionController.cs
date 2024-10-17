@@ -1,8 +1,8 @@
-using Architecture.Interfaces;
-using InputServices;
+using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.InputServices.Interfaces;
 using UnityEngine;
 
-namespace Character
+namespace Tavern.Character.Controllers
 {
     public sealed class CharacterActionController : 
         IStartGameListener,

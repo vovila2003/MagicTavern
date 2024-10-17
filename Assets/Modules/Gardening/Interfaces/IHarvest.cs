@@ -7,17 +7,17 @@ namespace Modules.Gardening.Interfaces
     public interface IHarvest
     {
         event Action<HarvestState> OnStateChanged;
-        event Action<AttributeType, AttributeState> OnAttributeChanged;
+        event Action<CaringType, CaringState> OnCaringStateChanged;
 
         float Value { get; }
         PlantType PlantType { get; }
         bool IsReady { get; }
-        
+        CaringType? LostReason { get; }
+
         void StartGrow();
         void StopGrow();
-        void Care(AttributeType attributeType);
+        void Care(CaringType caringType);
         
-        //TODO delete -> DI
         void Tick(float deltaTime);
     }
 }

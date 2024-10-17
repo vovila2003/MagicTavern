@@ -1,6 +1,6 @@
 namespace Modules.Gardening.Enums
 {
-    public enum AttributeType
+    public enum CaringType
     {
         Water = 0,
         Fertilizer = 1,

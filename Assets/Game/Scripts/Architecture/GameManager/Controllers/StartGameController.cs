@@ -1,4 +1,4 @@
-namespace Architecture.Controllers
+namespace Tavern.Architecture.GameManager.Controllers
 {
     public sealed class StartGameController
     {

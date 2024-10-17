@@ -1,8 +1,8 @@
-using Architecture.Interfaces;
+using Tavern.Architecture.GameManager.Interfaces;
 using UnityEngine;
 using VContainer;
 
-namespace GameCursor
+namespace Tavern.GameCursor
 {
     public sealed class GameCursor : 
         Cursor,

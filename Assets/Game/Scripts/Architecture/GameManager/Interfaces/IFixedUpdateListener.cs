@@ -1,4 +1,4 @@
-namespace Architecture.Interfaces
+namespace Tavern.Architecture.GameManager.Interfaces
 {
     public interface IFixedUpdateListener : IGameListener
     {

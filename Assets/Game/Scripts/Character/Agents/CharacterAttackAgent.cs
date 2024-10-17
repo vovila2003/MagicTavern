@@ -1,7 +1,7 @@
-using Components;
+using Tavern.Components;
 using UnityEngine;
 
-namespace Character
+namespace Tavern.Character.Agents
 {
     public sealed class CharacterAttackAgent 
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Architecture.Interfaces;
+using Tavern.Architecture.GameManager.Interfaces;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Architecture
+namespace Tavern.Architecture.GameManager
 {
     public class GameManager :
         IInitializable, 

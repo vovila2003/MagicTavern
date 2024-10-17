@@ -1,6 +1,6 @@
 namespace Modules.Gardening.Enums
 {
-    public enum AttributeState
+    public enum CaringState
     {
         Norm = 0,
         Need = 1

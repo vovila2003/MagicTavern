@@ -7,14 +7,15 @@ namespace Modules.Gardening.Interfaces
     {
         event Action<SeedbedState> OnStateChanged;
         event Action<HarvestState> OnHarvestStateChanged;
-        event Action<AttributeType> OnCareNeeded;
+        event Action<CaringType, CaringState> OnCaringChanged;
+        
+        CaringType? LostReason { get; }
         
         bool Prepare();
         bool Seed(SeedConfig seed);
         bool Gather(out HarvestResult harvestResult);
-        void Care(AttributeType attributeType);
+        void Care(CaringType caringType);
         
-        //TODO delete -> DI
         void Tick(float deltaTime);
     }
 }

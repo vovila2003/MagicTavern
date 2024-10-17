@@ -1,10 +1,12 @@
-using Architecture.Interfaces;
-using Components;
 using Sirenix.OdinInspector;
+using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.Character.Agents;
+using Tavern.Components;
+using Tavern.Components.Interfaces;
 using UnityEngine;
 using VContainer;
 
-namespace Character
+namespace Tavern.Character
 {
     [RequireComponent(typeof(WeaponComponent), typeof(HitPointsComponent), typeof(WeaponComponent))]
     public sealed class Character : 

@@ -1,7 +1,7 @@
-using Architecture.Interfaces;
-using InputServices;
+using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.InputServices.Interfaces;
 
-namespace Architecture.Controllers
+namespace Tavern.Architecture.GameManager.Controllers
 {
     public sealed class PauseGameController :
         IInitGameListener,

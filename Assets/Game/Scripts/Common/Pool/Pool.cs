@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Common.Pool
+namespace Tavern.Common.Pool
 {
     public sealed class Pool<T> where T : Component
     {
