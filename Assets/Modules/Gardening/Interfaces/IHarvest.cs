@@ -4,7 +4,7 @@ using Modules.Products.Plants;
 
 namespace Modules.Gardening.Interfaces
 {
-    public interface IHarvest
+    internal interface IHarvest
     {
         event Action<HarvestState> OnStateChanged;
         event Action<CaringType, CaringState> OnCaringStateChanged;

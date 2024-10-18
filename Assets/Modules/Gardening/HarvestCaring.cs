@@ -4,7 +4,7 @@ using Modules.Timers.Implementations;
 
 namespace Modules.Gardening
 {
-    public class HarvestCaring
+    internal class HarvestCaring
     {
         public event Action<CaringType, CaringState> OnStateChanged;
         public event Action<CaringType> OnLost;
@@ -52,7 +52,6 @@ namespace Modules.Gardening
             _criticalTimer.ForceStart();
         }
         
-        //TODO delete -> DI
         public void Tick(float deltaTime)
         {
             _timer.Tick(deltaTime);

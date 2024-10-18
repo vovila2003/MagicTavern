@@ -17,7 +17,8 @@ namespace Modules.Gardening
         private SeedbedState _state = SeedbedState.NotReady;
 
         private IHarvest _harvest;
-        
+        private bool _isEnable;
+
         public bool Prepare()
         {
             if (_state is not SeedbedState.NotReady) return false;
@@ -76,11 +77,24 @@ namespace Modules.Gardening
 
         public void Tick(float deltaTime)
         {
+            if (!_isEnable) return;
+            
             _harvest?.Tick(deltaTime);
+        }
+
+        public void Pause()
+        {
+            _isEnable = false;
+        }
+
+        public void Resume()
+        {
+            _isEnable = true;
         }
 
         private void StartGrow()
         {
+            _isEnable = true;
             if (_harvest is null) return;
             
             _harvest.StartGrow();
@@ -90,6 +104,7 @@ namespace Modules.Gardening
 
         private void StopGrow()
         {
+            _isEnable = false;
             if (_harvest is null) return;
             
             _harvest.StopGrow();

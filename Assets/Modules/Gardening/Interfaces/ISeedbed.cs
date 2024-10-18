@@ -17,5 +17,7 @@ namespace Modules.Gardening.Interfaces
         void Care(CaringType caringType);
         
         void Tick(float deltaTime);
+        void Pause();
+        void Resume();
     }
 }

@@ -8,11 +8,13 @@ namespace Tavern.Gardening
 {
     public class SeedbedTest : MonoBehaviour
     {
-        private ISeedbed _seedbed;
-
-        private void Start()
+        [ShowInInspector, ReadOnly] 
+        private bool _isActive;
+        
+        private readonly ISeedbed _seedbed = new Seedbed();
+        
+        private void OnEnable()
         {
-            _seedbed = new Seedbed();
             _seedbed.OnStateChanged += OnStateChanged;
             _seedbed.OnHarvestStateChanged += OnHarvestStateChanged;
             _seedbed.OnCaringChanged += OnCaringChanged;
@@ -27,7 +29,7 @@ namespace Tavern.Gardening
 
         private void Update()
         {
-            _seedbed?.Tick(Time.deltaTime);
+            _seedbed.Tick(Time.deltaTime);
         }
 
         [Button]
@@ -44,6 +46,7 @@ namespace Tavern.Gardening
             
             bool result = _seedbed.Seed(seedConfig);
             Debug.Log($"Seeded: {result}");
+            _isActive = result;
         }
         
         [Button]
@@ -61,6 +64,20 @@ namespace Tavern.Gardening
         public void Care(CaringType caringType)
         {
             _seedbed.Care(caringType);
+        }
+
+        [Button]
+        public void Pause()
+        {
+            _isActive = false;
+            _seedbed.Pause();
+        }
+        
+        [Button]
+        public void Resume()
+        {
+            _isActive = true;
+            _seedbed.Resume();
         }
 
         private void OnStateChanged(SeedbedState state)

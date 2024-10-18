@@ -7,7 +7,7 @@ using Modules.Timers.Implementations;
 
 namespace Modules.Gardening
 {
-    public class Harvest : IHarvest
+    internal class Harvest : IHarvest
     {
         public event Action<HarvestState> OnStateChanged;
         public event Action<CaringType, CaringState> OnCaringStateChanged;

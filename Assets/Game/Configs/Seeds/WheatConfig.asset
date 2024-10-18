@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: WheatConfig
   m_EditorClassIdentifier: 
   Type: 0
-  GrowthDurationInSeconds: 10
+  GrowthDurationInSeconds: 60
   HarvestValue: 10
-  Attributes:
+  Carings:
   - Type: 0
-    TimerDurationInSeconds: 5
-    CriticalTimerDurationInSeconds: 8
+    TimerDurationInSeconds: 10
+    CriticalTimerDurationInSeconds: 20
+  - Type: 1
+    TimerDurationInSeconds: 25
+    CriticalTimerDurationInSeconds: 50
