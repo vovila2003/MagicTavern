@@ -1,4 +1,4 @@
-namespace Tavern.Common.Pool
+namespace Modules.Pools
 {
     public enum PoolLimit
     {
