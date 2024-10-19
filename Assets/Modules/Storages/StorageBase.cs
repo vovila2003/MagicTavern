@@ -7,12 +7,12 @@ namespace Modules.Storages
         public event Action<T> OnValueChange;
         public event Action<T> OnValueAdded;
         public event Action<T> OnValueSpent;
-        public event Action OnStorageIsFull;
-        public event Action OnStorageIsEmpty;
+        public event Action OnFull;
+        public event Action OnEmpty;
 
         public T Value { get; private set; }
-        public LimitType LimitType { get; }
-        public T LimitValue { get; }
+        public LimitType LimitType { get; private set; }
+        public T LimitValue { get; private set; }
 
         protected StorageBase( T value, LimitType limitType, T limitValue)
         {
@@ -21,24 +21,45 @@ namespace Modules.Storages
             Value = value;
         }
 
+        public void SetLimitType(LimitType limitType)
+        {
+            LimitType = limitType;
+        }
+
+        public void SetLimitValue(T value)
+        {
+            LimitValue = value;
+        }
+
         public void Reset()
         {
             Value = default;
-            OnStorageIsEmpty?.Invoke();
+            OnEmpty?.Invoke();
         }
         
         public bool Add(T value)
         {
             if (IsLessZero(value)) return false;
             
-            T oldValue = Value;
-            Value = AddValues(Value, value);
-
-            if (LimitType == LimitType.Limited && IsGreater(Value, LimitValue))
+            if (LimitType == LimitType.Unlimited)
             {
-                value = SubtractValues(LimitValue, oldValue);
-                Value = LimitValue;
-                OnStorageIsFull?.Invoke();
+                Value = AddValues(Value, value);
+            }
+            
+            if (LimitType == LimitType.Limited)
+            {
+                if (IsGreaterOrEqual(Value, LimitValue))
+                {
+                    return false;
+                }
+                
+                Value = AddValues(Value, value);
+                if (IsGreaterOrEqual(Value, LimitValue))
+                {
+                    value = SubtractValues(LimitValue, Value);
+                    Value = LimitValue;
+                    OnFull?.Invoke();
+                }
             }
             
             OnValueChange?.Invoke(Value);
@@ -50,7 +71,7 @@ namespace Modules.Storages
         {
             if (IsLessZero(value)) return false;
             
-            return IsGreater(Value, value);
+            return IsGreaterOrEqual(Value, value);
         }
 
         public bool Spend(T value)
@@ -71,7 +92,7 @@ namespace Modules.Storages
 
         protected abstract T AddValues(T value1, T value2);
         protected abstract T SubtractValues(T value1, T value2);
-        protected abstract bool IsGreater(T value1, T value2);
+        protected abstract bool IsGreaterOrEqual(T value1, T value2);
         protected abstract bool IsLessZero(T value);
         protected abstract bool IsLessThreshold(T value);
     }

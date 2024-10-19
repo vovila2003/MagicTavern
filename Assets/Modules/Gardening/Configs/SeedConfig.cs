@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
+using Modules.Gardening.Enums;
 using Modules.Products.Plants;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Modules.Gardening
 {
@@ -11,5 +13,19 @@ namespace Modules.Gardening
         public float GrowthDurationInSeconds;
         public float HarvestValue;
         public CaringSettings[] Carings;
+
+        private void OnValidate()
+        {
+            var collection = new Dictionary<CaringType, bool>();
+            foreach (CaringSettings settings in Carings)
+            {
+                if (collection.TryAdd(settings.Type, true))
+                {
+                    continue;
+                }
+
+                throw new Exception($"Duplicate caring settings of type {settings.Type}");
+            }            
+        }
     }
 }

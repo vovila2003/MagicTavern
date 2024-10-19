@@ -17,9 +17,9 @@ namespace Modules.Storages
             return value1 - value2;
         }
 
-        protected override bool IsGreater(int value1, int value2)
+        protected override bool IsGreaterOrEqual(int value1, int value2)
         {
-            return value1 > value2;
+            return value1 >= value2;
         }
 
         protected override bool IsLessZero(int value)
