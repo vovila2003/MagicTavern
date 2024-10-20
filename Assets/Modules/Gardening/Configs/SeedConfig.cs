@@ -9,22 +9,35 @@ namespace Modules.Gardening
     [CreateAssetMenu(fileName = "SeedConfig", menuName = "Settings/Seed Settings/Seed Settings", order = 0)]
     public class SeedConfig : ScriptableObject
     {
-        public PlantType Type;
-        public float GrowthDurationInSeconds;
-        public float HarvestValue;
-        public CaringSettings[] Carings;
+        [SerializeField]
+        private PlantType PlantType;
+
+        [SerializeField]
+        private float GrowthDurationInSeconds;
+
+        [SerializeField]
+        private float HarvestValue;
+
+        [SerializeField]
+        private CaringSettings[] Carings;
+        
+        public PlantType Type => PlantType;
+        public float GrowthDuration => GrowthDurationInSeconds;
+        public float Value => HarvestValue;
+        public IEnumerable<CaringSettings> PlantCaring => Carings;
 
         private void OnValidate()
         {
             var collection = new Dictionary<CaringType, bool>();
             foreach (CaringSettings settings in Carings)
             {
-                if (collection.TryAdd(settings.Type, true))
+                CaringType settingsCaringType = settings.CaringType;
+                if (collection.TryAdd(settingsCaringType, true))
                 {
                     continue;
                 }
 
-                throw new Exception($"Duplicate caring settings of type {settings.Type}");
+                throw new Exception($"Duplicate caring settings of type {settingsCaringType}");
             }            
         }
     }

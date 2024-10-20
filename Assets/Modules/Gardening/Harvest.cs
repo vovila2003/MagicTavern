@@ -26,7 +26,7 @@ namespace Modules.Gardening
         {
             SetupGrowthTimer(seed);
             SetupCarings(seed);
-            _readyValue = seed.HarvestValue;
+            _readyValue = seed.Value;
             Value = 0;
             _state = HarvestState.NorReady;
             PlantType = seed.Type;
@@ -74,7 +74,7 @@ namespace Modules.Gardening
         private void SetupGrowthTimer(SeedConfig seed)
         {
             _growthTimer.Loop = false;
-            _growthTimer.Duration = seed.GrowthDurationInSeconds;
+            _growthTimer.Duration = seed.GrowthDuration;
             _growthTimer.OnEnded += OnGrowthEnded;
         }
 
@@ -91,7 +91,7 @@ namespace Modules.Gardening
 
         private void SetupCarings(SeedConfig seed)
         {
-            foreach (CaringSettings attributeSettings in seed.Carings)
+            foreach (CaringSettings attributeSettings in seed.PlantCaring)
             {
                 CreateHarvestCaring(attributeSettings);
             }
@@ -100,14 +100,15 @@ namespace Modules.Gardening
         private void CreateHarvestCaring(CaringSettings caringSettings)
         {
             var harvestCaring = new HarvestCaring(
-                caringSettings.Type,
-                caringSettings.TimerDurationInSeconds,
-                caringSettings.CriticalTimerDurationInSeconds);
+                caringSettings.CaringType,
+                caringSettings.Duration,
+                caringSettings.IsCriticalEnabled,
+                caringSettings.CriticalDuration);
 
             harvestCaring.OnLost += OnLost;
             harvestCaring.OnStateChanged += OnHarvestCaringChanged;
             
-            _attributes.Add(caringSettings.Type, harvestCaring);
+            _attributes.Add(caringSettings.CaringType, harvestCaring);
         }
 
         private void OnHarvestCaringChanged(CaringType type, CaringState state)

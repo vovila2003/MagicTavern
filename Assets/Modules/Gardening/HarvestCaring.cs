@@ -9,38 +9,55 @@ namespace Modules.Gardening
         public event Action<CaringType, CaringState> OnStateChanged;
         public event Action<CaringType> OnLost;
 
-        private readonly Timer _timer = new();
-        private readonly Timer _criticalTimer = new();
+        private readonly Timer _timer;
+        private readonly Timer _criticalTimer;
         private readonly CaringType _caringType;
         private bool _isDisposed;
+        private bool _isCriticalEnabled;
 
         private CaringState _state;
 
-        public HarvestCaring(CaringType caringType, float timerDuration, float criticalTimerDuration)
+        public HarvestCaring(CaringType caringType, float timerDuration, 
+            bool isCriticalEnabled,  float criticalTimerDuration)
         {
             _caringType = caringType;
             _isDisposed = false;
             _state = CaringState.Norm;
 
-            _timer.Duration = timerDuration;
-            _timer.Loop = true;
+            _timer = new Timer
+            {
+                Duration = timerDuration,
+                Loop = true
+            };
             _timer.OnEnded += OnTimerEnded;
 
-            _criticalTimer.Duration = criticalTimerDuration;
-            _criticalTimer.Loop = false;
+            _isCriticalEnabled = isCriticalEnabled;
+            if (!_isCriticalEnabled) return;
+
+            _criticalTimer = new Timer
+            {
+                Duration = criticalTimerDuration,
+                Loop = false
+            };
             _criticalTimer.OnEnded += OnCriticalTimerFail;
         }
 
         public void Start()
         {
             _timer.Start();
-            _criticalTimer.Start();
+            if (_isCriticalEnabled)
+            {
+                _criticalTimer.Start();
+            }
         }
 
         public void Stop()
         {
             _timer.Stop();
-            _criticalTimer.Stop();
+            if (_isCriticalEnabled)
+            {
+                _criticalTimer.Stop();
+            }
         }
 
         public void Care()
@@ -49,13 +66,19 @@ namespace Modules.Gardening
             OnStateChanged?.Invoke(_caringType, _state);
             
             _timer.ForceStart();
-            _criticalTimer.ForceStart();
+            if (_isCriticalEnabled)
+            {
+                _criticalTimer.ForceStart();
+            }
         }
         
         public void Tick(float deltaTime)
         {
             _timer.Tick(deltaTime);
-            _criticalTimer.Tick(deltaTime);
+            if (_isCriticalEnabled)
+            {
+                _criticalTimer.Tick(deltaTime);
+            }
         }
 
         public void Dispose()
@@ -63,7 +86,11 @@ namespace Modules.Gardening
             if (_isDisposed) return;
             
             _timer.OnEnded -= OnTimerEnded;
-            _criticalTimer.OnEnded -= OnCriticalTimerFail;
+            if (_isCriticalEnabled)
+            {
+                _criticalTimer.OnEnded -= OnCriticalTimerFail;
+            }
+
             _isDisposed = true;
         }
 
