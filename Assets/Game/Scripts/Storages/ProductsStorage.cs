@@ -7,8 +7,8 @@ namespace Tavern.Storages
 {
     public class ProductsStorage : MonoBehaviour
     {
-        public event Action<PlantType, int> OnStorageAdded;
-        public event Action<PlantType, int> OnStorageChanged;
+        public event Action<PlantType, int> OnStorageValueAdded;
+        public event Action<PlantType, int> OnStorageValueChanged;
         public event Action<PlantType, int> OnStorageValueSpent;
         public event Action<PlantType> OnStorageIsFull;
         public event Action<PlantType> OnStorageIsEmpty;
@@ -59,20 +59,30 @@ namespace Tavern.Storages
 
         private void Subscribe(PlantStorage storage)
         {
-            storage.OnPlantStorageAdded += OnStorageAdded;
-            storage.OnPlantStorageChanged += OnStorageChanged;
-            storage.OnPlantStorageEmpty += OnStorageIsEmpty;
-            storage.OnPlantStorageFull += OnStorageIsFull;
-            storage.OnPlantStorageValueSpent += OnStorageValueSpent;
+            storage.OnPlantStorageAdded += OnValueAdded;
+            storage.OnPlantStorageChanged += OnValueChanged;
+            storage.OnPlantStorageValueSpent += OnValueSpent;
+            storage.OnPlantStorageEmpty += OnEmpty;
+            storage.OnPlantStorageFull += OnFull;
         }
 
         private void Unsubscribe(PlantStorage storage)
         {
-            storage.OnPlantStorageAdded -= OnStorageAdded;
-            storage.OnPlantStorageChanged -= OnStorageChanged;
-            storage.OnPlantStorageEmpty -= OnStorageIsEmpty;
-            storage.OnPlantStorageFull -= OnStorageIsFull;
-            storage.OnPlantStorageValueSpent -= OnStorageValueSpent;
+            storage.OnPlantStorageAdded -= OnValueAdded;
+            storage.OnPlantStorageChanged -= OnValueChanged;
+            storage.OnPlantStorageValueSpent -= OnValueSpent;
+            storage.OnPlantStorageEmpty -= OnEmpty;
+            storage.OnPlantStorageFull -= OnFull;
         }
+
+        private void OnValueAdded(PlantType type, int value) => OnStorageValueAdded?.Invoke(type, value);
+
+        private void OnValueChanged(PlantType type, int value) => OnStorageValueChanged?.Invoke(type, value);
+
+        private void OnValueSpent(PlantType type, int value) => OnStorageValueSpent?.Invoke(type, value);
+
+        private void OnEmpty(PlantType type) => OnStorageIsEmpty?.Invoke(type);
+
+        private void OnFull(PlantType type) => OnStorageIsFull?.Invoke(type);
     }
 }

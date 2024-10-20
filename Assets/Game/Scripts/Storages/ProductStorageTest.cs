@@ -9,6 +9,49 @@ namespace Tavern.Storages
         [SerializeField]
         private ProductsStorage Storages;
 
+        private void OnEnable()
+        {
+            Storages.OnStorageValueAdded += ValueAdded;
+            Storages.OnStorageValueChanged += ValueChanged;
+            Storages.OnStorageIsEmpty += OnEmpty;
+            Storages.OnStorageIsFull += OnFull;
+            Storages.OnStorageValueSpent += OnSpent;
+        }
+
+        private void OnDisable()
+        {
+            Storages.OnStorageValueAdded -= ValueAdded;
+            Storages.OnStorageValueChanged -= ValueChanged;
+            Storages.OnStorageIsEmpty -= OnEmpty;
+            Storages.OnStorageIsFull -= OnFull;
+            Storages.OnStorageValueSpent -= OnSpent;
+        }
+
+        private void ValueAdded(PlantType type, int value)
+        {
+            Debug.Log($"Storage {type} added by {value}");
+        }
+
+        private void ValueChanged(PlantType type, int value)
+        {
+            Debug.Log($"Storage {type} value changed to {value}");
+        }
+
+        private void OnSpent(PlantType type, int value)
+        {
+            Debug.Log($"Storage {type} spent by {value}");
+        }
+
+        private void OnFull(PlantType type)
+        {
+            Debug.Log($"Storage {type} is full");
+        }
+
+        private void OnEmpty(PlantType type)
+        {
+            Debug.Log($"Storage {type} is empty");
+        }
+
         [Button]
         public void Add(PlantType type, int value)
         {

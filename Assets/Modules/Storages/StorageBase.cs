@@ -52,11 +52,12 @@ namespace Modules.Storages
                 {
                     return false;
                 }
-                
+
+                T oldValue = Value;
                 Value = AddValues(Value, value);
                 if (IsGreaterOrEqual(Value, LimitValue))
                 {
-                    value = SubtractValues(LimitValue, Value);
+                    value = SubtractValues(LimitValue, oldValue);
                     Value = LimitValue;
                     OnFull?.Invoke();
                 }
