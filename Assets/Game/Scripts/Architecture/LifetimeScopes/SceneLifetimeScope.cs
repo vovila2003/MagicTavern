@@ -1,4 +1,3 @@
-using Tavern.Architecture.GameManager.Controllers;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
@@ -11,7 +10,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Tavern.Architecture.LifetimeScopes
+namespace Tavern.Architecture
 {
     public class SceneLifetimeScope : LifetimeScope
     {
@@ -55,7 +54,8 @@ namespace Tavern.Architecture.LifetimeScopes
 
         private void RegisterGame(IContainerBuilder builder)
         {
-            builder.Register<GameManager.GameManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<Modules.GameCycle.GameCycle>(Lifetime.Singleton).AsSelf();
+            builder.Register<GameCycleController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<FinishGameController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<QuitGameController>(Lifetime.Singleton);

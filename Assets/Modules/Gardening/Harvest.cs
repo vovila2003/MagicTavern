@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Modules.Gardening.Enums;
 using Modules.Gardening.Interfaces;
 using Modules.Products.Plants;
-using Modules.Timers.Implementations;
+using Modules.Timers;
 
 namespace Modules.Gardening
 {

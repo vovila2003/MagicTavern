@@ -1,4 +1,4 @@
-namespace Modules.Timers.Implementations
+namespace Modules.Timers
 {
     public enum State
     {

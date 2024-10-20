@@ -1,6 +1,6 @@
 using System;
 
-namespace Modules.Timers.Interfaces
+namespace Modules.Timers
 {
     public interface IProgressable
     {

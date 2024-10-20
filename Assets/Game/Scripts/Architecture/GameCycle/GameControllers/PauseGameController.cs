@@ -1,19 +1,19 @@
 using Tavern.Architecture.GameManager.Interfaces;
 using Tavern.InputServices.Interfaces;
 
-namespace Tavern.Architecture.GameManager.Controllers
+namespace Tavern.Architecture
 {
     public sealed class PauseGameController :
         IInitGameListener,
         IExitGameListener
     {
-        private readonly GameManager _gameManager;
+        private readonly GameCycleController _gameCycle;
         private readonly IPauseInput _input;
         private bool _isPause;
 
-        public PauseGameController(GameManager gameManager, IPauseInput input)
+        public PauseGameController(GameCycleController gameCycle, IPauseInput input)
         {
-            _gameManager = gameManager;
+            _gameCycle = gameCycle;
             _input = input;
         }
 
@@ -32,11 +32,11 @@ namespace Tavern.Architecture.GameManager.Controllers
         {
             if (_isPause)
             {
-                _gameManager.ResumeGame();
+                _gameCycle.ResumeGame();
             }
             else
             {
-                _gameManager.PauseGame();
+                _gameCycle.PauseGame();
             }
             
             _isPause = !_isPause;

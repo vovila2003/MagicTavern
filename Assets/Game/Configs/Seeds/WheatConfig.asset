@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709460db197f4efe9493aa78e7f24201, type: 3}
   m_Name: WheatConfig
   m_EditorClassIdentifier: 
-  Type: 0
+  PlantType: 0
   GrowthDurationInSeconds: 60
   HarvestValue: 10
   Carings:
   - Type: 0
-    TimerDurationInSeconds: 10
-    CriticalTimerDurationInSeconds: 20
+    DurationInSeconds: 10
+    EnableCriticalTimer: 1
+    CriticalDurationInSeconds: 20
   - Type: 1
-    TimerDurationInSeconds: 25
-    CriticalTimerDurationInSeconds: 50
+    DurationInSeconds: 20
+    EnableCriticalTimer: 1
+    CriticalDurationInSeconds: 30

@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Tavern.Utils
+namespace Modules.Timers
 {
     public sealed class CountdownTimer
     {
@@ -26,9 +26,6 @@ namespace Tavern.Utils
             OnFinished?.Invoke();
         }
 
-        public void Reset()
-        {
-            _source?.Cancel();
-        }
+        public void Reset() => _source?.Cancel();
     }
 }

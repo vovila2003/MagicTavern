@@ -1,28 +1,17 @@
 using System.Collections.Generic;
+using Tavern.Architecture.GameManager;
 using Tavern.Architecture.GameManager.Interfaces;
 using UnityEngine;
-using VContainer;
-using VContainer.Unity;
 
-namespace Tavern.Architecture.GameManager
+namespace Modules.GameCycle
 {
-    public class GameManager :
-        IInitializable, 
-        ITickable, 
-        IFixedTickable,
-        ILateTickable
+    public class GameCycle
     {
-        private readonly IObjectResolver _container;
         private readonly List<IGameListener> _listeners = new();
         private readonly List<IUpdateListener> _updateListeners = new();
         private readonly List<IFixedUpdateListener> _fixedUpdateListeners = new();
         private readonly List<ILateUpdateListener> _lateUpdateListeners = new();
         private GameState _state = GameState.None;
-        
-        public GameManager(IObjectResolver container)
-        {
-            _container = container;
-        }
         
         public void PrepareGame()
         {
@@ -156,40 +145,41 @@ namespace Tavern.Architecture.GameManager
             }
             _state = GameState.Initialized;
         }
-        
-        void IInitializable.Initialize()
+
+        public void Initialize(
+            IEnumerable<IGameListener> listeners, 
+            IEnumerable<IUpdateListener> updateListeners, 
+            IEnumerable<IFixedUpdateListener> fixedUpdateListeners, 
+            IEnumerable<ILateUpdateListener> lateUpdateListeners)
         {
-            AddListeners();
+            AddListeners(listeners, updateListeners, fixedUpdateListeners, lateUpdateListeners);
             InitGame();
         }
 
-        void ITickable.Tick()
+        public void Tick(float time)
         {
-            float time = Time.deltaTime;
             for (var i = 0; i < _updateListeners.Count; i++)
             {
                 _updateListeners[i].OnUpdate(time);
             }
         }
 
-        void IFixedTickable.FixedTick()
+        public void FixedTick(float time)
         {
-            float time = Time.fixedDeltaTime;
             for (var i = 0; i < _fixedUpdateListeners.Count; i++)
             {
                 _fixedUpdateListeners[i].OnFixedUpdate(time);
             }
         }
 
-        void ILateTickable.LateTick()
+        public void LateTick(float time)
         {
-            float time = Time.deltaTime;
             for (var i = 0; i < _lateUpdateListeners.Count; i++)
             {
                 _lateUpdateListeners[i].OnLateUpdate(time);
             }
         }
-        
+
         private static void QuitGame()
         {
 #if UNITY_EDITOR
@@ -197,19 +187,16 @@ namespace Tavern.Architecture.GameManager
 #endif
             Application.Quit();
         }
-        
-        private void AddListeners()
+
+        private void AddListeners(
+            IEnumerable<IGameListener> listeners, 
+            IEnumerable<IUpdateListener> updateListeners,
+            IEnumerable<IFixedUpdateListener> fixedUpdateListeners,
+            IEnumerable<ILateUpdateListener> lateUpdateListeners)
         {
-            var listeners = _container.Resolve<IEnumerable<IGameListener>>();
             _listeners.AddRange(listeners);
-
-            var updateListeners = _container.Resolve<IEnumerable<IUpdateListener>>();
             _updateListeners.AddRange(updateListeners);
-
-            var fixedUpdateListeners = _container.Resolve<IEnumerable<IFixedUpdateListener>>();
             _fixedUpdateListeners.AddRange(fixedUpdateListeners);
-            
-            var lateUpdateListeners = _container.Resolve<IEnumerable<ILateUpdateListener>>();
             _lateUpdateListeners.AddRange(lateUpdateListeners);
         }
     }

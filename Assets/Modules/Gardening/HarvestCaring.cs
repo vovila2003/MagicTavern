@@ -1,6 +1,6 @@
 using System;
 using Modules.Gardening.Enums;
-using Modules.Timers.Implementations;
+using Modules.Timers;
 
 namespace Modules.Gardening
 {

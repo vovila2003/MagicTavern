@@ -1,4 +1,4 @@
-using Tavern.Architecture.GameManager.Controllers;
+using Tavern.Architecture;
 using Tavern.UI.ViewModels;
 using Tavern.UI.ViewModels.Interfaces;
 

@@ -1,4 +1,4 @@
-namespace Modules.Timers.Interfaces
+namespace Modules.Timers
 {
     public interface IPlayable
     {
