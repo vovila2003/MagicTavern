@@ -3,8 +3,10 @@ using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
+using Tavern.Gardening;
 using Tavern.InputServices;
 using Tavern.Settings;
+using Tavern.Storages;
 using Tavern.UI;
 using UnityEngine;
 using VContainer;
@@ -28,6 +30,8 @@ namespace Tavern.Architecture
             RegisterUi(builder);
             RegisterGameCursor(builder);
             RegisterCamera(builder);
+            RegisterGardening(builder);
+            RegisterStorages(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -78,6 +82,20 @@ namespace Tavern.Architecture
         {
             builder.RegisterInstance(GameSettings.CameraSettings);
             builder.RegisterComponentInHierarchy<CameraSetup>();
+        }
+
+        private void RegisterGardening(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(GameSettings.SeedMakerSettings);
+            builder.RegisterComponentInHierarchy<SeedbedTest>().AsImplementedInterfaces().AsSelf(); //TEST
+            builder.RegisterComponentInHierarchy<SeedMaker>();
+            builder.Register<SeedbedController>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private void RegisterStorages(IContainerBuilder builder)
+        {
+            builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
         }
     }
 }

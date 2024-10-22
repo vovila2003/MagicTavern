@@ -1,5 +1,4 @@
 using System;
-using Modules.Gardening.Enums;
 using UnityEngine;
 
 namespace Modules.Gardening

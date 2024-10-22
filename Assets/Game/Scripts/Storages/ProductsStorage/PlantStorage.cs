@@ -1,5 +1,5 @@
 using System;
-using Modules.Products.Plants;
+using Modules.Gardening;
 using Modules.Storages;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -14,11 +14,12 @@ namespace Tavern.Storages
         public event Action<PlantType, int> OnPlantStorageValueSpent;
         public event Action<PlantType> OnPlantStorageFull;
         public event Action<PlantType> OnPlantStorageEmpty;
+
         public PlantType PlantType => Type;
         
         [ShowInInspector, ReadOnly]
         public int CurrentValue => Value;
-        
+
         [SerializeField] 
         private PlantType Type;
 

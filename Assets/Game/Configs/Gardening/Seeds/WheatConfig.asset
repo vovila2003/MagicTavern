@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WheatConfig
   m_EditorClassIdentifier: 
   PlantType: 0
-  GrowthDurationInSeconds: 60
+  GrowthDurationInSeconds: 25
   HarvestValue: 10
   Carings:
   - Type: 0

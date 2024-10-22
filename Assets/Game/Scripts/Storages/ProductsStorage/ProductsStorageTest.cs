@@ -1,10 +1,10 @@
-using Modules.Products.Plants;
+using Modules.Gardening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Tavern.Storages
 {
-    public class ProductStorageTest : MonoBehaviour
+    public class ProductsStorageTest : MonoBehaviour
     {
         [SerializeField]
         private ProductsStorage Storages;

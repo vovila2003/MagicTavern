@@ -1,6 +1,4 @@
 using System;
-using Modules.Gardening.Enums;
-using Modules.Gardening.Interfaces;
 
 namespace Modules.Gardening
 {
@@ -58,14 +56,10 @@ namespace Modules.Gardening
                 return false;
             }
 
-            StopGrow();
-            
             harvestResult.Value = _harvest.Value;
             harvestResult.IsCollected = true;
 
-            _harvest = null;
-            _state = SeedbedState.NotReady;
-            OnStateChanged?.Invoke(SeedbedState.NotReady);
+            StopGrow();
             
             return true;
         }
@@ -92,6 +86,11 @@ namespace Modules.Gardening
             _isEnable = true;
         }
 
+        public void Stop()
+        {
+            StopGrow();
+        }
+
         private void StartGrow()
         {
             _isEnable = true;
@@ -105,11 +104,15 @@ namespace Modules.Gardening
         private void StopGrow()
         {
             _isEnable = false;
-            if (_harvest is null) return;
+            _state = SeedbedState.NotReady;
+            OnStateChanged?.Invoke(SeedbedState.NotReady);
             
+            if (_harvest is null) return;
+
             _harvest.StopGrow();
             _harvest.OnStateChanged -= OnHarvestStateChangedImpl;
             _harvest.OnCaringStateChanged -= HarvestCaringStateChanged;
+            _harvest = null;
         }
 
 

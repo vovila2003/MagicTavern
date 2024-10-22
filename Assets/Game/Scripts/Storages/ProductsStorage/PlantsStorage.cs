@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Modules.Products.Plants;
+using Modules.Gardening;
 using UnityEngine;
 
 namespace Tavern.Storages
 {
-    public class ProductsStorage : MonoBehaviour
+    public class PlantsStorage : MonoBehaviour
     {
         public event Action<PlantType, int> OnStorageValueAdded;
         public event Action<PlantType, int> OnStorageValueChanged;

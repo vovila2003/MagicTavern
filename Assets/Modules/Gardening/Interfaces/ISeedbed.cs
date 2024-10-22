@@ -1,7 +1,6 @@
 using System;
-using Modules.Gardening.Enums;
 
-namespace Modules.Gardening.Interfaces
+namespace Modules.Gardening
 {
     public interface ISeedbed
     {
@@ -19,5 +18,6 @@ namespace Modules.Gardening.Interfaces
         void Tick(float deltaTime);
         void Pause();
         void Resume();
+        void Stop();
     }
 }

@@ -1,4 +1,4 @@
-namespace Modules.Gardening.Enums
+namespace Modules.Gardening
 {
     public enum CaringState
     {

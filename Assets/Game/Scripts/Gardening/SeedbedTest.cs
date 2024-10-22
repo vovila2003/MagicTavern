@@ -1,17 +1,22 @@
+using System;
 using Modules.Gardening;
-using Modules.Gardening.Enums;
-using Modules.Gardening.Interfaces;
 using Sirenix.OdinInspector;
+using Tavern.Architecture.GameManager.Interfaces;
 using UnityEngine;
 
 namespace Tavern.Gardening
 {
-    public class SeedbedTest : MonoBehaviour
+    public class SeedbedTest : 
+        MonoBehaviour,
+        IStartGameListener,
+        IPauseGameListener,
+        IResumeGameListener,
+        IFinishGameListener
     {
-        [ShowInInspector, ReadOnly] 
-        private bool _isActive;
+        public event Action<PlantType, int> OnHarvestReceived;
         
         private readonly ISeedbed _seedbed = new Seedbed();
+        private bool _isEnable;
         
         private void OnEnable()
         {
@@ -29,12 +34,16 @@ namespace Tavern.Gardening
 
         private void Update()
         {
+            if (!_isEnable) return;
+            
             _seedbed.Tick(Time.deltaTime);
         }
 
         [Button]
         public void Prepare()
         {
+            if (!_isEnable) return;
+            
             bool result = _seedbed.Prepare();
             Debug.Log($"Prepare seedbed: {result}");
         }
@@ -42,42 +51,60 @@ namespace Tavern.Gardening
         [Button]
         public void Seed(SeedConfig seedConfig)
         {
+            if (!_isEnable) return;
+            
             if (seedConfig is null) return;
             
             bool result = _seedbed.Seed(seedConfig);
             Debug.Log($"Seeded: {result}");
-            _isActive = result;
         }
         
         [Button]
         public void Gather()
         {
+            if (!_isEnable) return;
+            
             bool result = _seedbed.Gather(out HarvestResult harvestResult);
             Debug.Log($"Gather: {result}.");
             if (result)
             {
                 Debug.Log($"HarvestResult: {harvestResult.IsCollected}, {harvestResult.Value}, {harvestResult.Type}");
+                if (harvestResult.IsCollected)
+                {
+                    OnHarvestReceived?.Invoke(harvestResult.Type, harvestResult.Value);
+                }
             }
         }
 
         [Button]
         public void Care(CaringType caringType)
         {
+            if (!_isEnable) return;
+            
             _seedbed.Care(caringType);
         }
-
-        [Button]
-        public void Pause()
+        
+        void IPauseGameListener.OnPause()
         {
-            _isActive = false;
+            _isEnable = false;
             _seedbed.Pause();
         }
-        
-        [Button]
-        public void Resume()
+
+        void IResumeGameListener.OnResume()
         {
-            _isActive = true;
+            _isEnable = true;
             _seedbed.Resume();
+        }
+
+        void IStartGameListener.OnStart()
+        {
+            _isEnable = true;
+        }
+
+        void IFinishGameListener.OnFinish()
+        {
+            _isEnable = false;
+            _seedbed.Stop();
         }
 
         private void OnStateChanged(SeedbedState state)

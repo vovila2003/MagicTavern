@@ -1,4 +1,4 @@
-namespace Modules.Products.Plants
+namespace Modules.Gardening
 {
     public enum PlantType
     {
