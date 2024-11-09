@@ -42,6 +42,14 @@ namespace Tavern.Architecture
         private void RegisterCharacter(IContainerBuilder builder)
         {
             Character.Character character = Instantiate(GameSettings.CharacterSettings.Prefab, World);
+            if (!character.TryGetComponent(out SeederComponent seeder))
+            {
+                Debug.LogWarning($"Character {character.name} does not have a SeederComponent");
+            }
+            else
+            {
+                builder.RegisterComponent(seeder).AsImplementedInterfaces();
+            }
 
             builder.RegisterComponent(character).AsImplementedInterfaces();
             builder.RegisterInstance(GameSettings.CharacterSettings);
@@ -90,7 +98,6 @@ namespace Tavern.Architecture
             builder.RegisterInstance(GameSettings.SeedsCatalog);
             builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
-            builder.RegisterComponentInHierarchy<SeederComponent>().AsImplementedInterfaces();
             builder.Register<SeedbedFactory>(Lifetime.Singleton);
         }
 

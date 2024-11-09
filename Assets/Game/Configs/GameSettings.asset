@@ -18,3 +18,4 @@ MonoBehaviour:
   GardeningConfigs:
     SeedsCatalog: {fileID: 11400000, guid: cdc80c8cabae95648b5c5a21211fe122, type: 2}
     SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}
+    SeedbedConfig: {fileID: 11400000, guid: 3598aac9e36ffe6b89352592beba30a9, type: 2}
