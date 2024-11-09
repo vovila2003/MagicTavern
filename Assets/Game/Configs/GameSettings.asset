@@ -15,4 +15,6 @@ MonoBehaviour:
   CharacterConfig: {fileID: 11400000, guid: 4dbffbf8f8d6c7d3fa3b5b9874e49ce0, type: 2}
   CursorConfig: {fileID: 11400000, guid: 7a5277082bf5e2768a99cf565e06dd21, type: 2}
   CameraConfigs: {fileID: 11400000, guid: dd4b87db99c30dbb3aee08379e667f1b, type: 2}
-  SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}
+  GardeningConfigs:
+    SeedsCatalog: {fileID: 11400000, guid: cdc80c8cabae95648b5c5a21211fe122, type: 2}
+    SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}

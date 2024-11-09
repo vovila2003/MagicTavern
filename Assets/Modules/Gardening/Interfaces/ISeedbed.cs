@@ -9,7 +9,9 @@ namespace Modules.Gardening
         event Action<CaringType, CaringState> OnCaringChanged;
         
         CaringType? LostReason { get; }
-        
+        SeedbedState State { get; }
+        PlantType? PlantType { get; }
+
         bool Prepare();
         bool Seed(SeedConfig seed);
         bool Gather(out HarvestResult harvestResult);

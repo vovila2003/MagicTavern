@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tavern.GameCursor
+namespace Tavern.Settings
 {
     [CreateAssetMenu(fileName = "CursorSettings", menuName = "Settings/Cursor Settings/Cursor Settings")]
     public sealed class GameCursorSettings : ScriptableObject

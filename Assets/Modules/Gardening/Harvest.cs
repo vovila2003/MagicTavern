@@ -23,7 +23,7 @@ namespace Modules.Gardening
         {
             SetupGrowthTimer(seed);
             SetupCarings(seed);
-            _readyValue = seed.Value;
+            _readyValue = seed.ResultValue;
             Value = 0;
             _state = HarvestState.NorReady;
             PlantType = seed.Type;

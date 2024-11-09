@@ -1,6 +1,7 @@
 using Modules.Gardening;
 using Modules.Storages;
 using Sirenix.OdinInspector;
+using Tavern.Settings;
 using Tavern.Storages;
 using UnityEngine;
 using VContainer;

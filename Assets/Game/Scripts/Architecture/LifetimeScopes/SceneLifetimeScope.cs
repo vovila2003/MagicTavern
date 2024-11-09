@@ -87,9 +87,11 @@ namespace Tavern.Architecture
         private void RegisterGardening(IContainerBuilder builder)
         {
             builder.RegisterInstance(GameSettings.SeedMakerSettings);
-            builder.RegisterComponentInHierarchy<SeedbedTest>().AsImplementedInterfaces().AsSelf(); //TEST
+            builder.RegisterInstance(GameSettings.SeedsCatalog);
+            builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
-            builder.Register<SeedbedController>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<SeederComponent>().AsImplementedInterfaces();
+            builder.Register<SeedbedFactory>(Lifetime.Singleton);
         }
 
         private void RegisterStorages(IContainerBuilder builder)

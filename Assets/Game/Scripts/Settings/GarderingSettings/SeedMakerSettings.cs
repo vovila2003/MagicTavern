@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Modules.Gardening;
 using UnityEngine;
 
-namespace Tavern.Gardening
+namespace Tavern.Settings
 {
     [CreateAssetMenu(fileName = "SeedMakerConfig", menuName = "Settings/Gardening/SeedMaker Settings", order = 0)]
     public class SeedMakerSettings : ScriptableObject
     {
         [Serializable]
-        public class SeedParams
+        private class SeedParams
         {
             [SerializeField] 
             private PlantType PlantType;

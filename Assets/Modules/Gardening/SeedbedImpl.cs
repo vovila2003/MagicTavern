@@ -2,7 +2,7 @@ using System;
 
 namespace Modules.Gardening
 {
-    public class Seedbed : ISeedbed
+    public class SeedbedImpl : ISeedbed
     {
         public event Action<SeedbedState> OnStateChanged;
 
@@ -11,9 +11,11 @@ namespace Modules.Gardening
         public event Action<CaringType, CaringState> OnCaringChanged;
 
         public CaringType? LostReason => _harvest?.LostReason;
+        public SeedbedState State => _state;
+        public PlantType? PlantType => _harvest?.PlantType;
+
 
         private SeedbedState _state = SeedbedState.NotReady;
-
         private IHarvest _harvest;
         private bool _isEnable;
 

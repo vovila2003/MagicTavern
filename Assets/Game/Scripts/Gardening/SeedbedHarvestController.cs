@@ -5,25 +5,19 @@ using UnityEngine;
 
 namespace Tavern.Gardening
 {
-    public sealed class SeedbedController :
-        IStartGameListener,
-        IFinishGameListener
+    public sealed class SeedbedHarvestController
     {
-        private readonly SeedbedTest _seedbed;
+        private readonly Seedbed _seedbed;
         private readonly IProductsStorage _productsStorage;
 
-        public SeedbedController(SeedbedTest seedbed, IProductsStorage productsStorage)
+        public SeedbedHarvestController(Seedbed seedbed, IProductsStorage productsStorage)
         {
             _seedbed = seedbed;
             _productsStorage = productsStorage;
-        }
-
-        public void OnStart()
-        {
             _seedbed.OnHarvestReceived += OnHarvestReceived;
         }
 
-        public void OnFinish()
+        public void Dispose()
         {
             _seedbed.OnHarvestReceived -= OnHarvestReceived;
         }

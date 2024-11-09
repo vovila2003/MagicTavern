@@ -21,7 +21,7 @@ namespace Modules.Gardening
         
         public PlantType Type => PlantType;
         public float GrowthDuration => GrowthDurationInSeconds;
-        public int Value => HarvestValue;
+        public int ResultValue => HarvestValue;
         public IEnumerable<CaringSettings> PlantCaring => Carings;
 
         private void OnValidate()

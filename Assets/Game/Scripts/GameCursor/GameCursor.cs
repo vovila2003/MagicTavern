@@ -1,4 +1,5 @@
 using Tavern.Architecture.GameManager.Interfaces;
+using Tavern.Settings;
 using UnityEngine;
 using VContainer;
 

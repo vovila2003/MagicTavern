@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tavern.Cameras
+namespace Tavern.Settings
 {
     [CreateAssetMenu(fileName = "CameraSettings", menuName = "Settings/Camera Settings/Camera Settings")]
     public sealed class CameraSettings : ScriptableObject
