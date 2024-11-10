@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Modules.Gardening.Enums;
-using Modules.Gardening.Interfaces;
-using Modules.Products.Plants;
 using Modules.Timers;
 
 namespace Modules.Gardening
@@ -12,12 +9,12 @@ namespace Modules.Gardening
         public event Action<HarvestState> OnStateChanged;
         public event Action<CaringType, CaringState> OnCaringStateChanged;
         
-        public float Value { get; private set; }
+        public int Value { get; private set; }
         public PlantType PlantType { get; }
         public bool IsReady => _state == HarvestState.Ready;
         public CaringType? LostReason { get; private set; }
         
-        private readonly float _readyValue;
+        private readonly int _readyValue;
         private HarvestState _state;
         private readonly Timer _growthTimer = new();
         private readonly Dictionary<CaringType, HarvestCaring> _attributes = new();
@@ -26,9 +23,9 @@ namespace Modules.Gardening
         {
             SetupGrowthTimer(seed);
             SetupCarings(seed);
-            _readyValue = seed.Value;
+            _readyValue = seed.ResultValue;
             Value = 0;
-            _state = HarvestState.NorReady;
+            _state = HarvestState.NotReady;
             PlantType = seed.Type;
             LostReason = null;
         }

@@ -1,5 +1,4 @@
 using System;
-using Modules.Gardening.Enums;
 using Modules.Timers;
 
 namespace Modules.Gardening
@@ -12,8 +11,8 @@ namespace Modules.Gardening
         private readonly Timer _timer;
         private readonly Timer _criticalTimer;
         private readonly CaringType _caringType;
+        private readonly bool _isCriticalEnabled;
         private bool _isDisposed;
-        private bool _isCriticalEnabled;
 
         private CaringState _state;
 

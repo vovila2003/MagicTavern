@@ -3,6 +3,7 @@ using Tavern.Architecture.GameManager.Interfaces;
 using Tavern.Character.Agents;
 using Tavern.Components;
 using Tavern.Components.Interfaces;
+using Tavern.Settings;
 using UnityEngine;
 using VContainer;
 

@@ -12,6 +12,16 @@ namespace Modules.GameCycle
         private readonly List<IFixedUpdateListener> _fixedUpdateListeners = new();
         private readonly List<ILateUpdateListener> _lateUpdateListeners = new();
         private GameState _state = GameState.None;
+
+        public void AddListener(IGameListener listener)
+        {
+            _listeners.Add(listener);
+        }
+
+        public void RemoveListener(IGameListener listener)
+        {
+            _listeners.Remove(listener);
+        }
         
         public void PrepareGame()
         {

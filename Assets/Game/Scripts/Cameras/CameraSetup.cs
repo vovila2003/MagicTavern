@@ -1,5 +1,6 @@
 using Cinemachine;
 using Tavern.Character;
+using Tavern.Settings;
 using UnityEngine;
 using VContainer;
 

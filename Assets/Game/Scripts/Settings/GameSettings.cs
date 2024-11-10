@@ -1,6 +1,4 @@
-using Tavern.Cameras;
-using Tavern.Character;
-using Tavern.GameCursor;
+using Modules.Gardening;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -17,6 +15,15 @@ namespace Tavern.Settings
         [SerializeField] 
         private CameraSettings CameraConfigs;
 
+        [SerializeField]
+        private GardeningSettings GardeningConfigs;
+        
+        public SeedMakerSettings SeedMakerSettings => GardeningConfigs.SeedMakerSettings;
+        
+        public SeedsCatalog SeedsCatalog => GardeningConfigs.Catalog;
+        
+        public SeedbedSettings SeedbedSettings => GardeningConfigs.SeedbedSettings;
+        
         public CharacterSettings CharacterSettings => CharacterConfig;
         
         public GameCursorSettings CursorSettings => CursorConfig;

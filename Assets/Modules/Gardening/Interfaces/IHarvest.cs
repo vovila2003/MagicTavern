@@ -1,15 +1,13 @@
 using System;
-using Modules.Gardening.Enums;
-using Modules.Products.Plants;
 
-namespace Modules.Gardening.Interfaces
+namespace Modules.Gardening
 {
     internal interface IHarvest
     {
         event Action<HarvestState> OnStateChanged;
         event Action<CaringType, CaringState> OnCaringStateChanged;
 
-        float Value { get; }
+        int Value { get; }
         PlantType PlantType { get; }
         bool IsReady { get; }
         CaringType? LostReason { get; }

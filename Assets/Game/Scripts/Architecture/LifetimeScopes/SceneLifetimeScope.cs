@@ -3,8 +3,10 @@ using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
+using Tavern.Gardening;
 using Tavern.InputServices;
 using Tavern.Settings;
+using Tavern.Storages;
 using Tavern.UI;
 using UnityEngine;
 using VContainer;
@@ -28,6 +30,8 @@ namespace Tavern.Architecture
             RegisterUi(builder);
             RegisterGameCursor(builder);
             RegisterCamera(builder);
+            RegisterGardening(builder);
+            RegisterStorages(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -38,6 +42,14 @@ namespace Tavern.Architecture
         private void RegisterCharacter(IContainerBuilder builder)
         {
             Character.Character character = Instantiate(GameSettings.CharacterSettings.Prefab, World);
+            if (!character.TryGetComponent(out SeederComponent seeder))
+            {
+                Debug.LogWarning($"Character {character.name} does not have a SeederComponent");
+            }
+            else
+            {
+                builder.RegisterComponent(seeder).AsImplementedInterfaces();
+            }
 
             builder.RegisterComponent(character).AsImplementedInterfaces();
             builder.RegisterInstance(GameSettings.CharacterSettings);
@@ -78,6 +90,22 @@ namespace Tavern.Architecture
         {
             builder.RegisterInstance(GameSettings.CameraSettings);
             builder.RegisterComponentInHierarchy<CameraSetup>();
+        }
+
+        private void RegisterGardening(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(GameSettings.SeedMakerSettings);
+            builder.RegisterInstance(GameSettings.SeedsCatalog);
+            builder.RegisterInstance(GameSettings.SeedbedSettings);
+            builder.RegisterComponentInHierarchy<SeedMaker>();
+            builder.Register<SeedbedFactory>(Lifetime.Singleton);
+        }
+
+        private void RegisterStorages(IContainerBuilder builder)
+        {
+            builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<ResourcesStorage>().AsImplementedInterfaces().AsSelf();
         }
     }
 }

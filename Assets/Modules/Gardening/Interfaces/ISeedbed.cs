@@ -1,7 +1,6 @@
 using System;
-using Modules.Gardening.Enums;
 
-namespace Modules.Gardening.Interfaces
+namespace Modules.Gardening
 {
     public interface ISeedbed
     {
@@ -10,7 +9,8 @@ namespace Modules.Gardening.Interfaces
         event Action<CaringType, CaringState> OnCaringChanged;
         
         CaringType? LostReason { get; }
-        
+        SeedbedState State { get; }
+
         bool Prepare();
         bool Seed(SeedConfig seed);
         bool Gather(out HarvestResult harvestResult);
@@ -19,5 +19,6 @@ namespace Modules.Gardening.Interfaces
         void Tick(float deltaTime);
         void Pause();
         void Resume();
+        void Stop();
     }
 }
