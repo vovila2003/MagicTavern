@@ -20,7 +20,9 @@ MonoBehaviour:
     DurationInSeconds: 10
     EnableCriticalTimer: 1
     CriticalDurationInSeconds: 20
+    Value: 2
   - Type: 1
     DurationInSeconds: 20
     EnableCriticalTimer: 1
     CriticalDurationInSeconds: 30
+    Value: 1

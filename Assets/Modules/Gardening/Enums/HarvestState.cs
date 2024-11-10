@@ -2,7 +2,7 @@ namespace Modules.Gardening
 {
     public enum HarvestState
     {
-        NorReady = 0,
+        NotReady = 0,
         Ready = 1,
         Lost = 2
     }

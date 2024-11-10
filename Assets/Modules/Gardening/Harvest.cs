@@ -25,7 +25,7 @@ namespace Modules.Gardening
             SetupCarings(seed);
             _readyValue = seed.ResultValue;
             Value = 0;
-            _state = HarvestState.NorReady;
+            _state = HarvestState.NotReady;
             PlantType = seed.Type;
             LostReason = null;
         }

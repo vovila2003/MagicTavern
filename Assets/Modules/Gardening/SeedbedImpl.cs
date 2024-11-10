@@ -12,8 +12,6 @@ namespace Modules.Gardening
 
         public CaringType? LostReason => _harvest?.LostReason;
         public SeedbedState State => _state;
-        public PlantType? PlantType => _harvest?.PlantType;
-
 
         private SeedbedState _state = SeedbedState.NotReady;
         private IHarvest _harvest;
@@ -32,8 +30,7 @@ namespace Modules.Gardening
         {
             if (_state != SeedbedState.Ready) return false;
 
-            Harvest harvest = new Harvest(seed);
-            _harvest = harvest;
+            _harvest = new Harvest(seed);
             StartGrow();
             _state = SeedbedState.Seeded;
             OnStateChanged?.Invoke(SeedbedState.Seeded);

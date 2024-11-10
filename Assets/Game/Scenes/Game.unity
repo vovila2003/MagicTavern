@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 368490054}
   - component: {fileID: 368490053}
   m_Layer: 0
-  m_Name: ProductStorage
+  m_Name: ProductsStorage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1594,6 +1594,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1199618900}
+  - component: {fileID: 1199618902}
+  - component: {fileID: 1199618901}
   m_Layer: 0
   m_Name: ResourcesStorage
   m_TagString: Untagged
@@ -1616,6 +1618,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 615366037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1199618901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199618899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b11e3900874f75b4163f99b919f1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Storages: {fileID: 1199618902}
+--- !u!114 &1199618902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199618899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18dbb7563fdc4a0bae021ad636791ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Storages:
+  - Type: 0
+    Limit: 1
+    MaxValue: 0
+  - Type: 1
+    Limit: 1
+    MaxValue: 0
 --- !u!1 &1223539206
 GameObject:
   m_ObjectHideFlags: 0

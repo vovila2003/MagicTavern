@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
 using Tavern.Architecture.GameManager.Interfaces;
@@ -20,12 +21,13 @@ namespace Tavern.Gardening
         private readonly ISeedbed _seedbed = new SeedbedImpl();
         private bool _isEnable;
         private int _count;
+        [CanBeNull] public SeedConfig CurrentSeedConfig { get; private set; }
 
         [ShowInInspector, ReadOnly]
         public SeedbedState SeedbedState => _seedbed.State;
         
         [ShowInInspector, ReadOnly]
-        public HarvestState HarvestState { get; private set; } = HarvestState.NorReady;
+        public HarvestState HarvestState { get; private set; } = HarvestState.NotReady;
 
         private void Awake()
         {
@@ -68,12 +70,12 @@ namespace Tavern.Gardening
             bool result = _seedbed.Seed(seedConfig);
             Debug.Log($"Seedbed seeded: {result}");
 
-            if (result)
-            {
-                _count = count;
-            }
+            if (!result) return false;
+            
+            _count = count;
+            CurrentSeedConfig = seedConfig;
 
-            return result;
+            return true;
         }
 
         public void Gather()
@@ -91,6 +93,7 @@ namespace Tavern.Gardening
             
             OnHarvestReceived?.Invoke(harvestResult.Type, harvestResult.Value * _count);
             _count = 0;
+            CurrentSeedConfig = null;
         }
 
         public void Care(CaringType caringType)

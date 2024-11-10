@@ -17,10 +17,14 @@ namespace Modules.Gardening
         
         [SerializeField] 
         private float CriticalDurationInSeconds;
+
+        [SerializeField] 
+        private float Value;
         
         public CaringType CaringType => Type;
         public float Duration => DurationInSeconds;
         public bool IsCriticalEnabled => EnableCriticalTimer;
         public float CriticalDuration => CriticalDurationInSeconds;
+        public float CaringValue => Value;
     }
 }

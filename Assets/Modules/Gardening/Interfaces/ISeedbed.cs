@@ -10,7 +10,6 @@ namespace Modules.Gardening
         
         CaringType? LostReason { get; }
         SeedbedState State { get; }
-        PlantType? PlantType { get; }
 
         bool Prepare();
         bool Seed(SeedConfig seed);
