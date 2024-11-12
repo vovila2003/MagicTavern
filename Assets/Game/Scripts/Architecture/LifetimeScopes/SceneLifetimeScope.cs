@@ -1,8 +1,11 @@
+using Modules.Cooking;
+using Modules.Inventories;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
+using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.InputServices;
 using Tavern.Settings;
@@ -32,6 +35,7 @@ namespace Tavern.Architecture
             RegisterCamera(builder);
             RegisterGardening(builder);
             RegisterStorages(builder);
+            RegisterCooking(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -106,6 +110,12 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<ResourcesStorage>().AsImplementedInterfaces().AsSelf();
+        }
+
+        private void RegisterCooking(IContainerBuilder builder)
+        {
+            builder.Register(_ => new ListInventory<KitchenItem>(), Lifetime.Singleton);
+            builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
         }
     }
 }
