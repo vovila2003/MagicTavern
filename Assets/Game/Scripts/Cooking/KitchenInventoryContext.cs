@@ -12,6 +12,9 @@ namespace Tavern.Cooking
         [SerializeField] 
         private KitchenItemConfig[] Items;
         
+        [SerializeField]
+        private KitchenItemsCatalog ItemsCatalog;
+        
         private ListInventory<KitchenItem> _inventory;
 
         [ShowInInspector, ReadOnly]
@@ -35,14 +38,18 @@ namespace Tavern.Cooking
         }
         
         [Button]
-        public void AddItem(KitchenItemConfig itemConfig)
+        public void AddItem(KitchenItemType type)
         {
+            if (!ItemsCatalog.TryGetKitchenItem(type, out KitchenItemConfig itemConfig)) return;
+            
             _inventory.AddItem(itemConfig.KitchenItem.Clone());
         }
 
         [Button]
-        public void RemoveItem(KitchenItemConfig itemConfig)
+        public void RemoveItem(KitchenItemType type)
         {
+            if (!ItemsCatalog.TryGetKitchenItem(type, out KitchenItemConfig itemConfig)) return;
+            
             _inventory.RemoveItem(itemConfig.KitchenItem.ItemName);
         }
     }
