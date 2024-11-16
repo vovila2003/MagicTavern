@@ -1,16 +1,12 @@
+using Modules.Items;
 using UnityEngine;
 
 namespace Modules.Cooking
 {
     [CreateAssetMenu(
         fileName = "KitchenItemConfig",
-        menuName = "Settings/Cooking/New KitchenItemConfig"
-    )]
-    public class KitchenItemConfig : ScriptableObject
+        menuName = "Settings/Cooking/New KitchenItemConfig")]
+    public class KitchenItemConfig : ItemConfig<KitchenItem>
     {
-        [SerializeField]
-        public KitchenItem KitchenItem;
-        
-        private void OnValidate() => KitchenItem.Attributes ??= new object[] { };
     }
 }

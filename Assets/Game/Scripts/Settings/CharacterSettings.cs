@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(fileName = "CharacterSettings", menuName = "Settings/Character Settings/Character Settings")]
+    [CreateAssetMenu(
+        fileName = "CharacterSettings", 
+        menuName = "Settings/Character Settings/Character Settings")]
     public sealed class CharacterSettings : ScriptableObject
     {
         [SerializeField]

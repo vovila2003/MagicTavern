@@ -1,10 +1,12 @@
 using System;
+using JetBrains.Annotations;
 using Tavern.Architecture.GameManager.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
 
 namespace Tavern.InputServices
 {
+    [UsedImplicitly]
     public sealed class InputService : 
         IShootInput, 
         IMoveInput,

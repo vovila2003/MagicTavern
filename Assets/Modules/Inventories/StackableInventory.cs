@@ -5,12 +5,19 @@ using Modules.Items;
 
 namespace Modules.Inventories
 {
-    public sealed class StackableInventory<T> where T : Item
+    public class StackableInventory<T> where T : Item
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;
         
         private readonly ListInventory<T> _inventory;
+
+        public List<T> Items => _inventory.Items;
+
+        public StackableInventory()
+        {
+            _inventory = new ListInventory<T>();
+        }
 
         public StackableInventory(ListInventory<T> inventory)
         {

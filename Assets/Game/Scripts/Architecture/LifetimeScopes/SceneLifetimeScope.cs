@@ -1,5 +1,5 @@
 using Modules.Cooking;
-using Modules.Inventories;
+using Modules.Looting;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
@@ -8,6 +8,7 @@ using Tavern.Components;
 using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.InputServices;
+using Tavern.Looting;
 using Tavern.Settings;
 using Tavern.Storages;
 using Tavern.UI;
@@ -36,6 +37,7 @@ namespace Tavern.Architecture
             RegisterGardening(builder);
             RegisterStorages(builder);
             RegisterCooking(builder);
+            RegisterLooting(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -102,7 +104,7 @@ namespace Tavern.Architecture
             builder.RegisterInstance(GameSettings.SeedsCatalog);
             builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
-            builder.Register<SeedbedFactory>(Lifetime.Singleton);
+            builder.Register<SeedbedFactory>(Lifetime.Singleton).WithParameter(World);
         }
 
         private void RegisterStorages(IContainerBuilder builder)
@@ -114,8 +116,14 @@ namespace Tavern.Architecture
 
         private void RegisterCooking(IContainerBuilder builder)
         {
-            builder.Register(_ => new ListInventory<KitchenItem>(), Lifetime.Singleton);
+            builder.Register<KitchenInventory>(Lifetime.Singleton).AsSelf();
             builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
+        }
+
+        private void RegisterLooting(IContainerBuilder builder)
+        {
+            builder.Register<LootInventory>(Lifetime.Singleton).AsSelf();
+            builder.RegisterComponentInHierarchy<LootInventoryContext>();
         }
     }
 }

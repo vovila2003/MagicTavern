@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1b78c884d44710b05a7163e314689d, type: 3}
   m_Name: CuttingBoard
   m_EditorClassIdentifier: 
-  KitchenItem:
+  Item:
     Name: CuttingBoard
     Flags: 0
     Metadata:
-      Title: "\u0420\u0430\u0437\u0434\u0435\u043B\u043E\u0447\u043D\u0430\u044F
-        \u0434\u043E\u0441\u043A\u0430"
+      Title: 
       Description: 
       Icon: {fileID: 0}
     Attributes: []

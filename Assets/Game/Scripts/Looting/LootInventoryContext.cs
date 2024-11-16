@@ -1,34 +1,34 @@
 using System.Collections.Generic;
-using Modules.Cooking;
 using Modules.Items;
+using Modules.Looting;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
 
-namespace Tavern.Cooking
+namespace Tavern.Looting
 {
-    public class KitchenInventoryContext : MonoBehaviour
+    public class LootInventoryContext : MonoBehaviour
     {
         [SerializeField] 
-        private KitchenItemConfig[] Items;
+        private LootItemConfig[] Items;
         
         [SerializeField]
-        private KitchenItemsCatalog ItemsCatalog;
+        private LootItemsCatalog ItemsCatalog;
         
-        private KitchenInventory _inventory;
+        private LootInventory _inventory;
 
         [ShowInInspector, ReadOnly]
-        private List<KitchenItem> KitchenItems => _inventory == null ? new List<KitchenItem>() : _inventory.Items;
+        private List<LootItem> LootItems => _inventory == null ? new List<LootItem>() : _inventory.Items;
 
         [Inject]
-        private void Construct(KitchenInventory inventory)
+        private void Construct(LootInventory inventory)
         {
             _inventory = inventory;
         }
 
         private void Awake()
         {
-            var items = new KitchenItem[Items.Length];
+            var items = new LootItem[Items.Length];
             for (var i = 0; i < Items.Length; i++)
             {
                 items[i] = Items[i].Item.Clone();
@@ -40,13 +40,13 @@ namespace Tavern.Cooking
         [Button]
         public void AddItemByName(string itemName)
         {
-            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<KitchenItem> itemConfig)) return;
+            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<LootItem> itemConfig)) return;
             
             _inventory.AddItem(itemConfig.Item.Clone());
         }
         
         [Button]
-        public void AddItemByConfig(KitchenItemConfig itemConfig)
+        public void AddItemByConfig(LootItemConfig itemConfig)
         {
             if (itemConfig is null) 
             {
@@ -60,13 +60,13 @@ namespace Tavern.Cooking
         [Button]
         public void RemoveItemByName(string itemName)
         {
-            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<KitchenItem> itemConfig)) return;
+            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<LootItem> itemConfig)) return;
             
             _inventory.RemoveItem(itemConfig.Item.ItemName);
         }
         
         [Button]
-        public void RemoveItemByConfig(KitchenItemConfig itemConfig)
+        public void RemoveItemByConfig(LootItemConfig itemConfig)
         {
             if (itemConfig is null) 
             {

@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(fileName = "CameraSettings", menuName = "Settings/Camera Settings/Camera Settings")]
+    [CreateAssetMenu(
+        fileName = "CameraSettings", 
+        menuName = "Settings/Camera Settings/Camera Settings")]
     public sealed class CameraSettings : ScriptableObject
     {
         [SerializeField]

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Modules.GameCycle;
 using Tavern.Settings;
 using Tavern.Storages;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 namespace Tavern.Gardening
 {
+    [UsedImplicitly]
     public class SeedbedFactory
     {
         private readonly IProductsStorage _productsStorage;
@@ -14,10 +16,11 @@ namespace Tavern.Gardening
         private readonly Transform _parent;
         private readonly Dictionary<Seedbed, SeedbedHarvestController> _controllers = new();
 
-        public SeedbedFactory(SeedbedSettings settings, IProductsStorage productsStorage, GameCycle gameCycle)
+        public SeedbedFactory(SeedbedSettings settings, IProductsStorage productsStorage, 
+            GameCycle gameCycle, Transform parent)
         {
             _seedbedPrefab = settings.Seedbed;
-            _parent = settings.Parent;
+            _parent = parent;
             _productsStorage = productsStorage;
             _gameCycle = gameCycle;
         }

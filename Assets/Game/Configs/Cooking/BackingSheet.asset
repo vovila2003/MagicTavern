@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1b78c884d44710b05a7163e314689d, type: 3}
   m_Name: BackingSheet
   m_EditorClassIdentifier: 
-  KitchenItem:
+  Item:
     Name: BackingSheet
     Flags: 0
     Metadata:
-      Title: "\u041F\u0440\u043E\u0442\u0438\u0432\u0435\u043D\u044C"
+      Title: 
       Description: 
       Icon: {fileID: 0}
     Attributes: []
-    KitchenItemType: 3
   references:
     version: 2
     RefIds: []

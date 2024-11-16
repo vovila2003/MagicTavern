@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(fileName = "CursorSettings", menuName = "Settings/Cursor Settings/Cursor Settings")]
+    [CreateAssetMenu(
+        fileName = "CursorSettings", 
+        menuName = "Settings/Cursor Settings/Cursor Settings")]
     public sealed class GameCursorSettings : ScriptableObject
     {
         [SerializeField]

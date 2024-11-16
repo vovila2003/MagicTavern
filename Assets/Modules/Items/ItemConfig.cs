@@ -2,15 +2,11 @@ using UnityEngine;
 
 namespace Modules.Items
 {
-    // [CreateAssetMenu(
-    //     fileName = "ItemConfig",
-    //     menuName = "Settings/Items/New ItemConfig"
-    // )]
-    // public class ItemConfig : ScriptableObject
-    // {
-    //     [SerializeField]
-    //     public Item Item;
-    //
-    //     private void OnValidate() => Item.Attributes ??= new object[] { };
-    // }
+    public class ItemConfig<T> : ScriptableObject where T : Item
+    {
+        [SerializeField]
+        public T Item;
+        
+        private void OnValidate() => Item.Attributes ??= new object[] { };
+    }
 }
