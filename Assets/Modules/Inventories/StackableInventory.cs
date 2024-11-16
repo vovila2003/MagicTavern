@@ -5,7 +5,7 @@ using Modules.Items;
 
 namespace Modules.Inventories
 {
-    public class StackableInventory<T> where T : Item
+    public class StackableInventory<T> : IInventory<T> where T : Item
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;

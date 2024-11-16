@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Modules.Cooking;
+using Modules.Inventories;
 using Modules.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,13 +15,13 @@ namespace Tavern.Cooking
         [SerializeField]
         private KitchenItemsCatalog ItemsCatalog;
         
-        private KitchenInventory _inventory;
+        private IInventory<KitchenItem> _inventory;
 
         [ShowInInspector, ReadOnly]
         private List<KitchenItem> KitchenItems => _inventory == null ? new List<KitchenItem>() : _inventory.Items;
 
         [Inject]
-        private void Construct(KitchenInventory inventory)
+        private void Construct(IInventory<KitchenItem> inventory)
         {
             _inventory = inventory;
         }

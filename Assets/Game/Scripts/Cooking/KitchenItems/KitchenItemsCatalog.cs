@@ -1,7 +1,7 @@
 using Modules.Items;
 using UnityEngine;
 
-namespace Modules.Cooking
+namespace Tavern.Cooking
 {
     [CreateAssetMenu(
         fileName = "KitchenItemsCatalog", 

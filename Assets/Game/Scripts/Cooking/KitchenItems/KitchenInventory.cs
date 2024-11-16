@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using Modules.Inventories;
 
-namespace Modules.Cooking
+namespace Tavern.Cooking
 {
     [UsedImplicitly]
     public class KitchenInventory : ListInventory<KitchenItem>

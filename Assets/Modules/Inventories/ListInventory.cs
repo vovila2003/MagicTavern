@@ -5,7 +5,7 @@ using Modules.Items;
 
 namespace Modules.Inventories
 {
-    public class ListInventory<T> where T : Item
+    public class ListInventory<T> : IInventory<T> where T : Item
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved; 
@@ -48,15 +48,17 @@ namespace Modules.Inventories
             }
         }
 
-        public void RemoveItem(string name)
+        public T RemoveItem(string name)
         {
             if (FindItem(name, out T item))
             {
                 RemoveItem(item);
             }
+
+            return item;
         }
 
-        public List<T> GetItems()
+        public IReadOnlyList<T> GetItems()
         {
             return _items.ToList();
         }
@@ -75,7 +77,7 @@ namespace Modules.Inventories
             return false;
         }
 
-        public int GetCount(string name)
+        public int GetItemCount(string name)
         {
             return _items.Count(it => it.ItemName == name);
         }

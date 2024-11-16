@@ -8,12 +8,16 @@ namespace Modules.Inventories
     {
         public event Action<int> OnValueChanged;
 
+        [SerializeField] 
+        private bool IsLimited;
+
         [SerializeField]
         private int MaxSize;
-        
+
         private int _value;
         
-        public bool IsFull => _value >= MaxSize;
+        public bool IsFull => IsLimited && _value >= MaxSize;
+
         public int Value
         {
             get => _value;
@@ -25,10 +29,14 @@ namespace Modules.Inventories
             get => MaxSize;
             set => MaxSize = value;
         }
-
+        
         private void SetValue(int value)
         {
-            value = Mathf.Clamp(value, 0, MaxSize);
+            if (IsLimited)
+            {
+                value = Mathf.Clamp(value, 0, MaxSize);
+            }
+            
             _value = value;
             OnValueChanged?.Invoke(value);
         }

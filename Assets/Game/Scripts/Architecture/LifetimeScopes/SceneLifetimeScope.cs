@@ -1,5 +1,3 @@
-using Modules.Cooking;
-using Modules.Looting;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
@@ -36,8 +34,8 @@ namespace Tavern.Architecture
             RegisterCamera(builder);
             RegisterGardening(builder);
             RegisterStorages(builder);
-            RegisterCooking(builder);
             RegisterLooting(builder);
+            RegisterCooking(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -114,16 +112,20 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<ResourcesStorage>().AsImplementedInterfaces().AsSelf();
         }
 
-        private void RegisterCooking(IContainerBuilder builder)
-        {
-            builder.Register<KitchenInventory>(Lifetime.Singleton).AsSelf();
-            builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
-        }
-
         private void RegisterLooting(IContainerBuilder builder)
         {
-            builder.Register<LootInventory>(Lifetime.Singleton).AsSelf();
+            builder.Register<LootInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<LootInventoryContext>();
+        }
+
+        private void RegisterCooking(IContainerBuilder builder)
+        {
+            builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
+            builder.Register<DishCrafter>(Lifetime.Singleton);
+            builder.RegisterComponentInHierarchy<DishCrafterContext>();
+            builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            
         }
     }
 }

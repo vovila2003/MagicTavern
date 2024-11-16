@@ -1,0 +1,6 @@
+{
+	"name": "Crafting",
+	"references":[ "GUID:46b63de7227ea059092da95efb637ec2", 
+		"GUID:8a259a3cdecb6af87bf67c8627bd758b", 
+		"GUID:f51ebe6a0ceec4240a699833d6309b23" ]
+}

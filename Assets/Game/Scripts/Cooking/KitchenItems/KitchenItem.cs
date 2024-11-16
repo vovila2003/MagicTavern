@@ -1,7 +1,7 @@
 using System;
 using Modules.Items;
 
-namespace Modules.Cooking
+namespace Tavern.Cooking
 {
     [Serializable]
     public class KitchenItem : Item

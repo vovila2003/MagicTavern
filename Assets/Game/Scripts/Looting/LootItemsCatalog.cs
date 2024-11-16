@@ -1,7 +1,7 @@
 using Modules.Items;
 using UnityEngine;
 
-namespace Modules.Looting
+namespace Tavern.Looting
 {
     [CreateAssetMenu(
         fileName = "LootItemsCatalog", 

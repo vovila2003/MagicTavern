@@ -1,7 +1,7 @@
 using System;
 using Modules.Items;
 
-namespace Modules.Looting
+namespace Tavern.Looting
 {
     [Serializable]
     public class LootItem : Item

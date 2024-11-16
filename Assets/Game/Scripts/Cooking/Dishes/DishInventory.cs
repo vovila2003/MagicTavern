@@ -1,10 +1,10 @@
 using JetBrains.Annotations;
 using Modules.Inventories;
 
-namespace Modules.Looting
+namespace Tavern.Cooking
 {
     [UsedImplicitly]
-    public class LootInventory : StackableInventory<LootItem>
+    public class DishInventory : ListInventory<DishItem>
     {
     }
 }

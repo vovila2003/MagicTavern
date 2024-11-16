@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using Modules.Inventories;
 using Modules.Items;
-using Modules.Looting;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
@@ -15,13 +15,13 @@ namespace Tavern.Looting
         [SerializeField]
         private LootItemsCatalog ItemsCatalog;
         
-        private LootInventory _inventory;
+        private IInventory<LootItem> _inventory;
 
         [ShowInInspector, ReadOnly]
         private List<LootItem> LootItems => _inventory == null ? new List<LootItem>() : _inventory.Items;
 
         [Inject]
-        private void Construct(LootInventory inventory)
+        private void Construct(IInventory<LootItem> inventory)
         {
             _inventory = inventory;
         }
