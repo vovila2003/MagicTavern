@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace Tavern.Cooking
 {
-    [UsedImplicitly]
     public class DishCrafter : 
         ItemCrafter<DishItem>,
         IExitGameListener,
@@ -23,7 +22,7 @@ namespace Tavern.Cooking
         private readonly IProductsStorage _productsStorage;
         private readonly IInventory<KitchenItem> _kitchenInventory;
         
-        public float TimerCurrentTime => Timer?.CurrentTime ?? -1;
+        public float TimerCurrentTime => Timer.CurrentTime;
         public bool InProgress => Timer.IsPlaying();
 
         public DishCrafter(

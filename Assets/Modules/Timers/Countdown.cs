@@ -1,5 +1,4 @@
 using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Timers
@@ -24,52 +23,29 @@ namespace Modules.Timers
         public event Action<float> OnCurrentTimeChanged;
         public event Action<float> OnDurationChanged;
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, ReadOnly, HideInEditorMode]
-#endif
         public State CurrentState => _currentState;
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public float Duration
         {
             get { return _duration; }
             set { SetDuration(value); }
         }
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public float CurrentTime
         {
             get { return _currentTime; }
             set { SetCurrentTime(value); }
         }
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public float Progress
         {
             get { return GetProgress(); }
             set { SetProgress(value); }
         }
 
-#if ODIN_INSPECTOR
-        [ShowInInspector, HideInEditorMode]
-#endif
         public bool Loop { get; set; }
 
-#if ODIN_INSPECTOR
-        [HideInPlayMode]
-#endif
         private float _duration;
-
-#if ODIN_INSPECTOR
-        [HideInPlayMode]
-#endif
-
         private float _currentTime;
         private State _currentState;
 
@@ -92,133 +68,90 @@ namespace Modules.Timers
         public float GetDuration() => _duration;
         public float GetCurrentTime() => _currentTime;
 
-#if ODIN_INSPECTOR
-        [Title("Methods")]
-        [Button]
-#endif
         public void ForceStart()
         {
             Stop();
             Start();
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void ForceStart(float currentTime)
         {
             Stop();
             Start(currentTime);
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Start()
         {
-            if (_currentState is not (State.Idle or State.Ended))
-            {
-                return false;
-            }
+            if (_currentState is not (State.Idle or State.Ended)) return false;
 
             _currentTime = _duration;
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnStarted?.Invoke();
+            
             return true;
         }
         
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Play()
         {
-            if (_currentState is not (State.Idle or State.Ended))
-            {
-                return false;
-            }
+            if (_currentState is not (State.Idle or State.Ended)) return false;
 
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnStarted?.Invoke();
+            
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Start(float currentTime)
         {
-            if (_currentState is not (State.Idle or State.Ended))
-            {
-                return false;
-            }
+            if (_currentState is not (State.Idle or State.Ended)) return false;
 
             _currentTime = Mathf.Clamp(currentTime, 0, _duration);
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnStarted?.Invoke();
+            
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Pause()
         {
-            if (_currentState != State.Playing)
-            {
-                return false;
-            }
+            if (_currentState != State.Playing) return false;
 
             _currentState = State.Paused;
             OnStateChanged?.Invoke(State.Paused);
             OnPaused?.Invoke();
+            
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Resume()
         {
-            if (_currentState != State.Paused)
-            {
-                return false;
-            }
+            if (_currentState != State.Paused) return false;
 
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnResumed?.Invoke();
+            
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public bool Stop()
         {
-            if (_currentState == State.Idle)
-            {
-                return false;
-            }
+            if (_currentState == State.Idle) return false;
 
             _currentTime = 0;
             _currentState = State.Idle;
             OnStateChanged?.Invoke(State.Idle);
             OnStopped?.Invoke();
+            
             return true;
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void Tick(float deltaTime)
         {
-            if (_currentState != State.Playing)
-            {
-                return;
-            }
+            if (_currentState != State.Playing) return;
 
             _currentTime = Mathf.Max(0, _currentTime - deltaTime);
             OnCurrentTimeChanged?.Invoke(_currentTime);
@@ -254,9 +187,6 @@ namespace Modules.Timers
             };
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void SetProgress(float progress)
         {
             progress = Mathf.Clamp01(progress);
@@ -267,9 +197,6 @@ namespace Modules.Timers
             OnProgressChanged?.Invoke(progress);
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void SetDuration(float duration)
         {
             if (duration < 0)
@@ -283,9 +210,6 @@ namespace Modules.Timers
             OnDurationChanged?.Invoke(duration);
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void SetCurrentTime(float time)
         {
             if (time < 0)
@@ -301,9 +225,6 @@ namespace Modules.Timers
             OnProgressChanged?.Invoke(GetProgress());
         }
 
-#if ODIN_INSPECTOR
-        [Button]
-#endif
         public void ResetTime() => SetCurrentTime(_duration);
     }
 }

@@ -317,6 +317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea72afcb15c3481bbabac7c9f746f4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugMode: 1
+  StartValueInStorageInDebugMode: 10
   Storages: {fileID: 368490054}
 --- !u!114 &368490054
 MonoBehaviour:

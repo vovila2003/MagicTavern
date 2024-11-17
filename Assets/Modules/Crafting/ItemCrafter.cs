@@ -2,7 +2,6 @@ using System;
 using Modules.Inventories;
 using Modules.Items;
 using Modules.Timers;
-using UnityEngine;
 
 namespace Modules.Crafting
 {
@@ -13,12 +12,12 @@ namespace Modules.Crafting
         private readonly IInventory<T> _outputInventory;
 
         private ItemRecipe<T> _currentRecipe;
-        protected readonly Timer Timer;
+        protected readonly Countdown Timer;
 
         protected ItemCrafter(IInventory<T> outputInventory)
         {
             _outputInventory = outputInventory;
-            Timer = new Timer();
+            Timer = new Countdown();
         }
 
         public abstract bool CanCraft(ItemRecipe<T> recipe);

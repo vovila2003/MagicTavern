@@ -26,7 +26,7 @@ namespace Tavern.Storages
         [SerializeField]
         private LimitType Limit = LimitType.Unlimited;
 
-        [SerializeField]
+        [SerializeField, ShowIf("Limit", LimitType.Limited)]
         private int MaxValue;
 
         public void Init()

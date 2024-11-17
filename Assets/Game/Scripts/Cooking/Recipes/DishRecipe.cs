@@ -39,8 +39,13 @@ namespace Tavern.Cooking
             foreach (var productIngredient in ProductIngredients)
             {
                 if (productIngredient is null) continue;
-                
+
                 PlantType type = productIngredient.Type;
+                if (productIngredient.ProductAmount <= 0)
+                {
+                    Debug.LogWarning($"Amount of products of type {type} has to be greater than zero.");    
+                }
+
                 if (collection.TryAdd(type, true)) continue;
 
                 throw new Exception($"Duplicate product of type {type} in recipe of {ResultItem.Item.ItemName}");
@@ -57,6 +62,11 @@ namespace Tavern.Cooking
                 if (lootIngredient.Loot is null) continue;
                 
                 string lootName = lootIngredient.Loot.Item.ItemName;
+                if (lootIngredient.LootAmount <= 0)
+                {
+                    Debug.LogWarning($"Amount of loot of name {lootName} has to be greater than zero.");    
+                }
+                
                 if (collection.TryAdd(lootName, true)) continue;
 
                 throw new Exception($"Duplicate loot of name {lootName} in recipe of {ResultItem.Item.ItemName}");

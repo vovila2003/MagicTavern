@@ -23,6 +23,7 @@ namespace Modules.Timers
                 durationInSeconds--;
                 OnTicked?.Invoke(durationInSeconds);
             }
+            
             OnFinished?.Invoke();
         }
 

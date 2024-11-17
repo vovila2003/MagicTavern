@@ -46,6 +46,11 @@ namespace Modules.Timers
         {
         }
 
+        public Timer(string name)
+        {
+            Debug.Log($"Timer created {name}");
+        }
+
         public Timer(float duration, bool loop = false)
         {
             _duration = duration;

@@ -13,7 +13,8 @@ namespace Tavern.Gardening
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener,
-        IExitGameListener
+        IExitGameListener, 
+        IUpdateListener
     {
         public event Action<PlantType, int> OnHarvestReceived;
         public event Action<Seedbed> OnDestroyed;
@@ -44,13 +45,6 @@ namespace Tavern.Gardening
         private void OnDisable()
         {
             Unsubscribe();
-        }
-
-        private void Update()
-        {
-            if (!_isEnable) return;
-            
-            _seedbed.Tick(Time.deltaTime);
         }
 
         public void Prepare()
@@ -110,6 +104,13 @@ namespace Tavern.Gardening
             Destroy(gameObject);
         }
 
+        void IUpdateListener.OnUpdate(float deltaTime)
+        {
+            if (!_isEnable) return;
+            
+            _seedbed.Tick(deltaTime);
+        }
+
         void IStartGameListener.OnStart()
         {
             _isEnable = true;
@@ -165,5 +166,7 @@ namespace Tavern.Gardening
         {
             Debug.Log($"Care {type} state changed to {caringState}!");
         }
+
+        
     }
 }

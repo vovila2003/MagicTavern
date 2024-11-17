@@ -2,8 +2,7 @@ namespace Modules.Storages
 {
     public class StorageInt : StorageBase<int>
     {
-        //TODO change value to 0
-        public StorageInt(int value = 10, LimitType limitType = LimitType.Unlimited, int limitValue = 0) 
+        protected StorageInt(int value = 0, LimitType limitType = LimitType.Unlimited, int limitValue = 0) 
             : base(value, limitType, limitValue)
         {
         }

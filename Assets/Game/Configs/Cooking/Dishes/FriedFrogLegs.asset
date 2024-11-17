@@ -20,13 +20,7 @@ MonoBehaviour:
         \u043B\u0430\u043F\u043A\u0438"
       Description: 
       Icon: {fileID: 0}
-    Attributes:
-    - rid: 835742464720764928
+    Attributes: []
   references:
     version: 2
-    RefIds:
-    - rid: 835742464720764928
-      type: {class: AttributeStackable, ns: Modules.Inventories, asm: Inventories}
-      data:
-        IsLimited: 0
-        MaxSize: 0
+    RefIds: []

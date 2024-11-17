@@ -1,4 +1,8 @@
+using Modules.GameCycle;
+using Modules.Inventories;
 using Sirenix.OdinInspector;
+using Tavern.Looting;
+using Tavern.Storages;
 using UnityEngine;
 using VContainer;
 
@@ -12,9 +16,15 @@ namespace Tavern.Cooking
         private float TimerCurrentTime => _dishCrafter?.TimerCurrentTime ?? -1;
         
         [Inject]
-        private void Construct(DishCrafter dishCrafter)
+        private void Construct(
+            IInventory<DishItem> dishInventory, 
+            IInventory<LootItem> lootInventory,
+            IProductsStorage productsStorage,
+            IInventory<KitchenItem> kitchenInventory,
+            GameCycle gameCycle)
         {
-            _dishCrafter = dishCrafter;
+            _dishCrafter = new DishCrafter(dishInventory, lootInventory, productsStorage, kitchenInventory);
+            gameCycle.AddListener(_dishCrafter);
         }
 
         private void OnEnable() => _dishCrafter.OnCrafted += OnCrafted;

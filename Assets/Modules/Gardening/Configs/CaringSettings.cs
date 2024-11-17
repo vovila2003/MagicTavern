@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Gardening
@@ -15,7 +16,7 @@ namespace Modules.Gardening
         [SerializeField] 
         private bool EnableCriticalTimer;
         
-        [SerializeField] 
+        [SerializeField, ShowIf("EnableCriticalTimer")] 
         private float CriticalDurationInSeconds;
 
         [SerializeField] 

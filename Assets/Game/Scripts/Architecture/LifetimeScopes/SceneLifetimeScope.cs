@@ -123,7 +123,6 @@ namespace Tavern.Architecture
             builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
             
-            builder.Register<DishCrafter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<DishCrafterContext>();
             
             builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
