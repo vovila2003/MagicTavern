@@ -11,7 +11,7 @@ namespace Tavern.Looting
         {
         }
         
-        public new virtual LootItem Clone()
+        public override Item Clone()
         {
             object[] attributes = GetAttributes();
     

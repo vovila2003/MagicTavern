@@ -1,8 +1,8 @@
 using System;
 using JetBrains.Annotations;
+using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
-using Tavern.Architecture.GameManager.Interfaces;
 using UnityEngine;
 
 namespace Tavern.Gardening

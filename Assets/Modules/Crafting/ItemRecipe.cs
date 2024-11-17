@@ -1,6 +1,5 @@
 using Modules.Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Modules.Crafting
 {
@@ -13,10 +12,7 @@ namespace Modules.Crafting
         [SerializeField]
         private int TimeInSeconds;
 
-        
-        
         public ItemConfig<T> ResultItem => ResultItemConfig;
         public int CraftingTimeInSeconds => TimeInSeconds;
-        
     }
 }

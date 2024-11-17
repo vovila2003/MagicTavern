@@ -5,7 +5,7 @@ namespace Tavern.Cooking
 {
     [CreateAssetMenu(
         fileName = "KitchenItemConfig",
-        menuName = "Settings/Cooking/New KitchenItemConfig")]
+        menuName = "Settings/Cooking/KitchenItems/Kitchen Item Config")]
     public class KitchenItemConfig : ItemConfig<KitchenItem>
     {
     }

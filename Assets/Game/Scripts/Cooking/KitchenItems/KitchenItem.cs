@@ -11,7 +11,7 @@ namespace Tavern.Cooking
         {
         }
         
-        public new virtual KitchenItem Clone()
+        public override Item Clone()
         {
             object[] attributes = GetAttributes();
 

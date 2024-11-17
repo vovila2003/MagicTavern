@@ -4,7 +4,7 @@ namespace Tavern.Settings
 {
     [CreateAssetMenu(
         fileName = "SeedbedConfig", 
-        menuName = "Settings/Gardening/Seedbed Settings")]
+        menuName = "Settings/Gardening/Seedbed Config")]
     public class SeedbedSettings : ScriptableObject
     {
         [SerializeField]    

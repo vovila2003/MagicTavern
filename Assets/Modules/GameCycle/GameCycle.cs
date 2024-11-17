@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using Tavern.Architecture.GameManager;
-using Tavern.Architecture.GameManager.Interfaces;
+using Modules.GameCycle.Interfaces;
 using UnityEngine;
 
 namespace Modules.GameCycle

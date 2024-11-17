@@ -1,11 +1,13 @@
 using System.Collections.Generic;
-using Tavern.Architecture.GameManager.Interfaces;
+using JetBrains.Annotations;
+using Modules.GameCycle.Interfaces;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
 namespace Tavern.Architecture
 {
+    [UsedImplicitly]
     public class GameCycleController:
         IInitializable, 
         ITickable, 

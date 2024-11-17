@@ -1,7 +1,8 @@
 using System;
-using Cysharp.Threading.Tasks;
 using Modules.Inventories;
 using Modules.Items;
+using Modules.Timers;
+using UnityEngine;
 
 namespace Modules.Crafting
 {
@@ -9,37 +10,62 @@ namespace Modules.Crafting
     {
         public event Action<T> OnCrafted;
         
-        private readonly IInventory<T> _dishInventory;
+        private readonly IInventory<T> _outputInventory;
 
-        public ItemCrafter(IInventory<T> dishInventory)
+        private ItemRecipe<T> _currentRecipe;
+        protected readonly Timer Timer;
+
+        protected ItemCrafter(IInventory<T> outputInventory)
         {
-            _dishInventory = dishInventory;
+            _outputInventory = outputInventory;
+            Timer = new Timer();
         }
 
         public abstract bool CanCraft(ItemRecipe<T> recipe);
-        
-        public async UniTaskVoid Craft(ItemRecipe<T> recipe)
-        {
-            if (!CanCraft(recipe))
-            {
-                throw new Exception("Not enough items");
-            }
-        
-            RemoveIngredientsFromInventory(recipe);
 
-            await UniTask.WaitForSeconds(recipe.CraftingTimeInSeconds);
+        public void Craft(ItemRecipe<T> recipe)
+        {
+            if (Timer.IsPlaying()) return;
             
-            T item = AddResultToInventory(recipe);
+            if (!CanCraft(recipe)) return;
+
+            _currentRecipe = recipe;
+            RemoveIngredientsFromInventories(_currentRecipe);
+
+            int time = _currentRecipe.CraftingTimeInSeconds;
+            if (time <= 0)
+            {
+                CreateResult();
+                return;
+            }
+            
+            Timer.Duration = time;
+            Timer.Start();
+            Timer.OnEnded += OnTimerEnded;
+        }
+
+        protected abstract void RemoveIngredientsFromInventories(ItemRecipe<T> recipe);
+
+        protected void Tick(float deltaTime) => Timer.Tick(deltaTime);
+
+        private void CreateResult()
+        {
+            T item = AddResultToInventory(_currentRecipe);
             OnCrafted?.Invoke(item);
         }
 
-        protected abstract void RemoveIngredientsFromInventory(ItemRecipe<T> recipe);
-        
         private T AddResultToInventory(ItemRecipe<T> recipe)
         {
             var item = recipe.ResultItem.Item.Clone() as T;
-            _dishInventory.AddItem(item);
+            _outputInventory.AddItem(item);
             return item;
+        }
+        
+        private void OnTimerEnded()
+        {
+            Timer.OnEnded -= OnTimerEnded;
+            Timer.Stop();
+            CreateResult();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Tavern.Looting
 {
     [CreateAssetMenu(
         fileName = "LootItemConfig",
-        menuName = "Settings/Looting/New LootItemConfig")]
+        menuName = "Settings/Looting/Loot Item Config")]
     public class LootItemConfig : ItemConfig<LootItem>
     {
     }

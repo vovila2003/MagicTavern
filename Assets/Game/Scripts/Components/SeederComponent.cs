@@ -1,6 +1,6 @@
+using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
-using Tavern.Architecture.GameManager.Interfaces;
 using Tavern.Gardening;
 using Tavern.Storages;
 using UnityEngine;

@@ -4,7 +4,7 @@ using Modules.Inventories;
 namespace Tavern.Looting
 {
     [UsedImplicitly]
-    public class LootInventory : StackableInventory<LootItem>
+    public class LootInventory : ListInventory<LootItem>
     {
     }
 }
