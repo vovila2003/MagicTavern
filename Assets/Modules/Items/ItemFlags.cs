@@ -5,10 +5,10 @@ namespace Modules.Items
     [Flags]
     public enum ItemFlags
     {
-        NONE = 0,
-        STACKABLE = 1,
-        CONSUMABLE = 2,
-        EQUIPPABLE = 4,
-        EFFECTIBLE = 8
+        None = 0,
+        Stackable = 1,
+        Consumable = 2,
+        Equippable = 4,
+        Effectible = 8
     }
 }

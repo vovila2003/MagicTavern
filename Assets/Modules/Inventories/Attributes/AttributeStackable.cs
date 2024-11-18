@@ -29,7 +29,16 @@ namespace Modules.Inventories
             get => MaxSize;
             set => MaxSize = value;
         }
-        
+
+        object ICloneable.Clone()
+        {
+            return new AttributeStackable
+            {
+                _value = _value,
+                MaxSize = MaxSize
+            };
+        }
+
         private void SetValue(int value)
         {
             if (IsLimited)
@@ -39,15 +48,6 @@ namespace Modules.Inventories
             
             _value = value;
             OnValueChanged?.Invoke(value);
-        }
-
-        public object Clone()
-        {
-            return new AttributeStackable
-            {
-                _value = _value,
-                MaxSize = MaxSize
-            };
         }
     }
 }

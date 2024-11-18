@@ -110,7 +110,7 @@ namespace Modules.Inventories
         public bool IsItemExists(T item) => 
             IsStackable(item) ? FindItem(item.ItemName, out T _) : _inventory.IsItemExists(item);
 
-        private bool IsStackable(T item) => item.ItemFlags.HasFlag(ItemFlags.STACKABLE);
+        private bool IsStackable(T item) => item.ItemFlags.HasFlag(ItemFlags.Stackable);
 
         private void AddSingle(T item)
         {

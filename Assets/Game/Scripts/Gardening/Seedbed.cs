@@ -166,7 +166,5 @@ namespace Tavern.Gardening
         {
             Debug.Log($"Care {type} state changed to {caringState}!");
         }
-
-        
     }
 }

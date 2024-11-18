@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
