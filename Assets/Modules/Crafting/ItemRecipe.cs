@@ -14,5 +14,7 @@ namespace Modules.Crafting
 
         public ItemConfig<T> ResultItem => ResultItemConfig;
         public int CraftingTimeInSeconds => TimeInSeconds;
+
+        public string Name => ResultItem.Item.ItemName;
     }
 }

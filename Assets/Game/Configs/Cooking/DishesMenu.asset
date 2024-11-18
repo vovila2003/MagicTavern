@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1049fd2552b94a2f9343b75952fc9f72, type: 3}
-  m_Name: DishesCatalog
+  m_Script: {fileID: 11500000, guid: 072840d09fe1487a91a98ed8e3a48756, type: 3}
+  m_Name: DishesMenu
   m_EditorClassIdentifier: 
-  Items:
-  - {fileID: 11400000, guid: c133a02f16a7ce09eadbfe95b4109590, type: 2}
+  Prices:
+  - Dish: {fileID: 11400000, guid: c133a02f16a7ce09eadbfe95b4109590, type: 2}
+    Price: 50

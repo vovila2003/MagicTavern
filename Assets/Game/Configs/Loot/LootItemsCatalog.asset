@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8914606972742048ac14c613c41a2cd, type: 3}
   m_Name: LootItemsCatalog
   m_EditorClassIdentifier: 
-  Items: []
+  Items:
+  - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
+  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}

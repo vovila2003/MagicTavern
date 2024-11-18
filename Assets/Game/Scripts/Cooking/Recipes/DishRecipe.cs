@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Modules.Crafting;
 using Modules.Gardening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Tavern.Cooking
@@ -11,6 +12,7 @@ namespace Tavern.Cooking
         menuName = "Settings/Cooking/Dish Recipe")]
     public class DishRecipe : ItemRecipe<DishItem>
     {
+        [Title("Ingredients"), Space(10)]
         [SerializeField]
         private ProductIngredient[] ProductIngredients;
         
@@ -48,7 +50,7 @@ namespace Tavern.Cooking
 
                 if (collection.TryAdd(type, true)) continue;
 
-                throw new Exception($"Duplicate product of type {type} in recipe of {ResultItem.Item.ItemName}");
+                throw new Exception($"Duplicate product of type {type} in recipe of {Name}");
             }
         }
 
@@ -69,7 +71,7 @@ namespace Tavern.Cooking
                 
                 if (collection.TryAdd(lootName, true)) continue;
 
-                throw new Exception($"Duplicate loot of name {lootName} in recipe of {ResultItem.Item.ItemName}");
+                throw new Exception($"Duplicate loot of name {lootName} in recipe of {Name}");
             }
         }
 
@@ -86,7 +88,7 @@ namespace Tavern.Cooking
                 if (collection.TryAdd(kitchenItemName, true)) continue;
 
                 throw new Exception($"Duplicate kitchen item of name {kitchenItemName} " +
-                                    $"in recipe of {ResultItem.Item.ItemName}");
+                                    $"in recipe of {Name}");
             }
         }
     }
