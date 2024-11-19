@@ -21,11 +21,11 @@ namespace Tavern.Gardening
             _seedbed.OnHarvestReceived -= OnHarvestReceived;
         }
 
-        private void OnHarvestReceived(PlantType type, int value)
+        private void OnHarvestReceived(Plant type, int value)
         {
             if (!_productsStorage.TryGetStorage(type, out PlantStorage storage))
             {
-                Debug.LogWarning($"Unknown storage of type {type}");
+                Debug.LogWarning($"Unknown storage of type {type.PlantName}");
                 return;
             }
 

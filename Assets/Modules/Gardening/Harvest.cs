@@ -4,29 +4,29 @@ using Modules.Timers;
 
 namespace Modules.Gardening
 {
-    internal class Harvest : IHarvest
+    internal class Harvest : IHarvest  
     {
         public event Action<HarvestState> OnStateChanged;
-        public event Action<CaringType, CaringState> OnCaringStateChanged;
+        public event Action<Caring, CaringState> OnCaringStateChanged;
         
         public int Value { get; private set; }
-        public PlantType PlantType { get; }
         public bool IsReady => _state == HarvestState.Ready;
-        public CaringType? LostReason { get; private set; }
-        
+        public Caring LostReason { get; private set; }
+        public Plant Plant { get; }
+
         private readonly int _readyValue;
         private HarvestState _state;
         private readonly Timer _growthTimer = new();
-        private readonly Dictionary<CaringType, HarvestCaring> _attributes = new();
+        private readonly Dictionary<Caring, HarvestCaring> _attributes = new();
         
-        public Harvest(SeedConfig seed)
+        public Harvest(PlantConfig plantConfig)
         {
-            SetupGrowthTimer(seed);
-            SetupCarings(seed);
-            _readyValue = seed.ResultValue;
+            SetupGrowthTimer(plantConfig.Plant);
+            SetupCaring(plantConfig.Plant.PlantCaring);
+            _readyValue = plantConfig.Plant.ResultValue;
             Value = 0;
             _state = HarvestState.NotReady;
-            PlantType = seed.Type;
+            Plant = plantConfig.Plant;
             LostReason = null;
         }
 
@@ -50,11 +50,11 @@ namespace Modules.Gardening
             Dispose();
         }
 
-        public void Care(CaringType caringType)
+        public void Care(Caring caring)
         {
             if (IsReady) return;
             
-            if (!_attributes.TryGetValue(caringType, out HarvestCaring attribute)) return;
+            if (!_attributes.TryGetValue(caring, out HarvestCaring attribute)) return;
             
             attribute.Care();            
         }
@@ -68,10 +68,10 @@ namespace Modules.Gardening
             }
         }
 
-        private void SetupGrowthTimer(SeedConfig seed)
+        private void SetupGrowthTimer(Plant plant)
         {
             _growthTimer.Loop = false;
-            _growthTimer.Duration = seed.GrowthDuration;
+            _growthTimer.Duration = plant.GrowthDuration;
             _growthTimer.OnEnded += OnGrowthEnded;
         }
 
@@ -86,38 +86,34 @@ namespace Modules.Gardening
             }
         }
 
-        private void SetupCarings(SeedConfig seed)
+        private void SetupCaring(IEnumerable<CaringConfig> caringList)
         {
-            foreach (CaringSettings attributeSettings in seed.PlantCaring)
+            foreach (CaringConfig caringConfig in caringList)
             {
-                CreateHarvestCaring(attributeSettings);
+                CreateHarvestCaring(caringConfig);
             }
         }
 
-        private void CreateHarvestCaring(CaringSettings caringSettings)
+        private void CreateHarvestCaring(CaringConfig caringConfig)
         {
-            var harvestCaring = new HarvestCaring(
-                caringSettings.CaringType,
-                caringSettings.Duration,
-                caringSettings.IsCriticalEnabled,
-                caringSettings.CriticalDuration);
+            var harvestCaring = new HarvestCaring(caringConfig);
 
             harvestCaring.OnLost += OnLost;
             harvestCaring.OnStateChanged += OnHarvestCaringChanged;
             
-            _attributes.Add(caringSettings.CaringType, harvestCaring);
+            _attributes.Add(caringConfig.Caring, harvestCaring);
         }
 
-        private void OnHarvestCaringChanged(CaringType type, CaringState state)
+        private void OnHarvestCaringChanged(Caring type, CaringState state)
         {
             OnCaringStateChanged?.Invoke(type, state);
         }
 
-        private void OnLost(CaringType caringType)
+        private void OnLost(Caring caring)
         {
             Value = 0;
             _state = HarvestState.Lost;
-            LostReason = caringType;
+            LostReason = caring;
             OnStateChanged?.Invoke(HarvestState.Lost);
             StopGrow();
         }

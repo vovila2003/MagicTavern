@@ -8,12 +8,12 @@ namespace Tavern.Cooking
     public class ProductIngredient
     {
         [SerializeField] 
-        private PlantType ProductType;
+        private PlantConfig Product;
 
         [SerializeField] 
         private int Amount;
         
-        public PlantType Type => ProductType;
+        public Plant Type => Product.Plant;
         public int ProductAmount => Amount;
     }
 }

@@ -5,31 +5,30 @@ namespace Modules.Gardening
 {
     internal class HarvestCaring
     {
-        public event Action<CaringType, CaringState> OnStateChanged;
-        public event Action<CaringType> OnLost;
+        public event Action<Caring, CaringState> OnStateChanged;
+        public event Action<Caring> OnLost;
 
         private readonly Timer _timer;
         private readonly Timer _criticalTimer;
-        private readonly CaringType _caringType;
+        private readonly Caring _caring;
         private readonly bool _isCriticalEnabled;
         private bool _isDisposed;
 
         private CaringState _state;
 
-        public HarvestCaring(CaringType caringType, float timerDuration, 
-            bool isCriticalEnabled,  float criticalTimerDuration)
+        public HarvestCaring(CaringConfig caringConfig)
         {
-            _caringType = caringType;
+            _caring = caringConfig.Caring;
             _isDisposed = false;
             _state = CaringState.Norm;
 
-            _timer = new Timer(timerDuration, loop:true);
+            _timer = new Timer(caringConfig.Duration, loop:true);
             _timer.OnEnded += OnTimerEnded;
 
-            _isCriticalEnabled = isCriticalEnabled;
+            _isCriticalEnabled = caringConfig.IsCriticalEnabled;
             if (!_isCriticalEnabled) return;
 
-            _criticalTimer = new Timer(criticalTimerDuration, loop: false);
+            _criticalTimer = new Timer(caringConfig.CriticalDuration, loop: false);
             _criticalTimer.OnEnded += OnCriticalTimerFail;
         }
 
@@ -54,7 +53,7 @@ namespace Modules.Gardening
         public void Care()
         {
             _state = CaringState.Norm;
-            OnStateChanged?.Invoke(_caringType, _state);
+            OnStateChanged?.Invoke(_caring, _state);
             
             _timer.ForceStart();
             if (_isCriticalEnabled)
@@ -88,12 +87,12 @@ namespace Modules.Gardening
         private void OnTimerEnded()
         {
             _state = CaringState.Need;
-            OnStateChanged?.Invoke(_caringType, _state);
+            OnStateChanged?.Invoke(_caring, _state);
         }
 
         private void OnCriticalTimerFail()
         {
-            OnLost?.Invoke(_caringType);
+            OnLost?.Invoke(_caring);
         }
     }
 }

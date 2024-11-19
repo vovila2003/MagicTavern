@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tavern.Storages
 {
-    public class ResourcesStorageTest : MonoBehaviour
+    public class ResourcesStorageContext : MonoBehaviour
     {
         [SerializeField]
         private ResourcesStorage Storages;
@@ -27,33 +27,33 @@ namespace Tavern.Storages
             Storages.OnStorageValueSpent -= OnSpent;
         }
 
-        private void ValueAdded(CaringType type, float value)
+        private void ValueAdded(Caring type, float value)
         {
-            Debug.Log($"Storage {type} added by {value}");
+            Debug.Log($"Storage {type.CaringName} added by {value}");
         }
 
-        private void ValueChanged(CaringType type, float value)
+        private void ValueChanged(Caring type, float value)
         {
-            Debug.Log($"Storage {type} value changed to {value}");
+            Debug.Log($"Storage {type.CaringName} value changed to {value}");
         }
 
-        private void OnSpent(CaringType type, float value)
+        private void OnSpent(Caring type, float value)
         {
-            Debug.Log($"Storage {type} spent by {value}");
+            Debug.Log($"Storage {type.CaringName} spent by {value}");
         }
 
-        private void OnFull(CaringType type)
+        private void OnFull(Caring type)
         {
-            Debug.Log($"Storage {type} is full");
+            Debug.Log($"Storage {type.CaringName} is full");
         }
 
-        private void OnEmpty(CaringType type)
+        private void OnEmpty(Caring type)
         {
-            Debug.Log($"Storage {type} is empty");
+            Debug.Log($"Storage {type.CaringName} is empty");
         }
 
         [Button]
-        public void Add(CaringType type, float value)
+        public void Add(Caring type, float value)
         {
             bool result = false;
             if (Storages.TryGetStorage(type, out ResourceStorage storage))
@@ -61,11 +61,11 @@ namespace Tavern.Storages
                 result = storage.Add(value);
             }
             
-            Debug.Log($"Add to {type} storage value {value}: result - {result}");
+            Debug.Log($"Add to {type.CaringName} storage value {value}: result - {result}");
         }
 
         [Button]
-        public void Spend(CaringType type, float value)
+        public void Spend(Caring type, float value)
         {
             bool result = false;
             if (Storages.TryGetStorage(type, out ResourceStorage storage))
@@ -73,11 +73,11 @@ namespace Tavern.Storages
                 result = storage.Spend(value);
             }
             
-            Debug.Log($"Spend from {type} storage value {value}: result - {result}");
+            Debug.Log($"Spend from {type.CaringName} storage value {value}: result - {result}");
         }
 
         [Button]
-        public void ResetStorage(CaringType type)
+        public void ResetStorage(Caring type)
         {
             bool getStorage = Storages.TryGetStorage(type, out ResourceStorage storage);
             if (getStorage)
@@ -85,7 +85,7 @@ namespace Tavern.Storages
                 storage.Reset();
             }
             
-            Debug.Log($"Reset {type} storage : result - {getStorage}");
+            Debug.Log($"Reset {type.CaringName} storage : result - {getStorage}");
         }
     }
 }

@@ -54,10 +54,10 @@ namespace Tavern.Cooking
             foreach (ProductIngredient productIngredient in dishRecipe.Products)
             {
                 int requiredAmount = productIngredient.ProductAmount;
-                PlantType plantType = productIngredient.Type;
+                Plant plantType = productIngredient.Type;
                 if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
                 {
-                    Debug.Log($"Product storage of type {plantType} not found!");
+                    Debug.Log($"Product storage of type {plantType.PlantName} not found!");
                     return false;
                 }
 
@@ -119,10 +119,10 @@ namespace Tavern.Cooking
             foreach (ProductIngredient productIngredient in dishRecipe.Products)
             {
                 int requiredAmount = productIngredient.ProductAmount;
-                PlantType plantType = productIngredient.Type;
+                Plant plantType = productIngredient.Type;
                 if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
                 {
-                    throw new ArgumentException($"Product storage of type {plantType} not found!");
+                    throw new ArgumentException($"Product storage of type {plantType.PlantName} not found!");
                 }
 
                 storage.Spend(requiredAmount);

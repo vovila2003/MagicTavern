@@ -4,6 +4,6 @@ namespace Tavern.Storages
 {
     public interface IResourcesStorage
     {
-        bool TryGetStorage(CaringType type, out ResourceStorage storage);
+        bool TryGetStorage(Caring type, out ResourceStorage storage);
     }
 }

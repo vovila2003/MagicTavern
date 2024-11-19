@@ -9,19 +9,19 @@ namespace Tavern.Storages
     [Serializable]
     public class PlantStorage : StorageInt
     {
-        public event Action<PlantType, int> OnPlantStorageAdded;
-        public event Action<PlantType, int> OnPlantStorageChanged;
-        public event Action<PlantType, int> OnPlantStorageValueSpent;
-        public event Action<PlantType> OnPlantStorageFull;
-        public event Action<PlantType> OnPlantStorageEmpty;
+        public event Action<Plant, int> OnPlantStorageAdded;
+        public event Action<Plant, int> OnPlantStorageChanged;
+        public event Action<Plant, int> OnPlantStorageValueSpent;
+        public event Action<Plant> OnPlantStorageFull;
+        public event Action<Plant> OnPlantStorageEmpty;
 
-        public PlantType PlantType => Type;
+        public Plant PlantType => Plant.Plant;
         
         [ShowInInspector, ReadOnly]
         public int CurrentValue => Value;
 
         [SerializeField] 
-        private PlantType Type;
+        private PlantConfig Plant;
 
         [SerializeField]
         private LimitType Limit = LimitType.Unlimited;
@@ -49,14 +49,14 @@ namespace Tavern.Storages
             OnEmpty -= OnStorageEmpty;
         }
         
-        private void OnStorageValueAdded(int value) => OnPlantStorageAdded?.Invoke(Type, value);
+        private void OnStorageValueAdded(int value) => OnPlantStorageAdded?.Invoke(PlantType, value);
 
-        private void OnStorageValueChanged(int value) => OnPlantStorageChanged?.Invoke(Type, value);
+        private void OnStorageValueChanged(int value) => OnPlantStorageChanged?.Invoke(PlantType, value);
 
-        private void OnStorageValueSpent(int value) => OnPlantStorageValueSpent?.Invoke(Type, value);
+        private void OnStorageValueSpent(int value) => OnPlantStorageValueSpent?.Invoke(PlantType, value);
 
-        private void OnStorageFull() => OnPlantStorageFull?.Invoke(Type);
+        private void OnStorageFull() => OnPlantStorageFull?.Invoke(PlantType);
 
-        private void OnStorageEmpty() => OnPlantStorageEmpty?.Invoke(Type);
+        private void OnStorageEmpty() => OnPlantStorageEmpty?.Invoke(PlantType);
     }
 }

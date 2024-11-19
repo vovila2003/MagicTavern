@@ -18,7 +18,10 @@ namespace Tavern.Gardening
         private float _ratio;
         
         [Inject]
-        private void Construct(IProductsStorage productsStorage, ISeedsStorage seedsStorage, SeedMakerSettings settings)
+        private void Construct(
+            IProductsStorage productsStorage, 
+            ISeedsStorage seedsStorage, 
+            SeedMakerSettings settings)
         {
             _productsStorage = productsStorage;
             _seedsStorage = seedsStorage;
@@ -26,7 +29,7 @@ namespace Tavern.Gardening
         }
 
         [Button]
-        public void ShowRatio(PlantType type)
+        public void ShowRatio(Plant type)
         {
             if (!_settings.TryGetSeedRatio(type, out int seedRatio))
             {
@@ -39,11 +42,11 @@ namespace Tavern.Gardening
         }
 
         [Button]
-        public void MakeSeeds(PlantType type, int productCount)
+        public void MakeSeeds(PlantConfig type, int productCount)
         {
-            if (!_productsStorage.TryGetStorage(type, out PlantStorage plantStorage))
+            if (!_productsStorage.TryGetStorage(type.Plant, out PlantStorage plantStorage))
             {
-                Debug.Log($"Product storage of type {type} not found");
+                Debug.Log($"Product storage of type {type.Name} not found");
                 return;
             }
 
@@ -53,15 +56,15 @@ namespace Tavern.Gardening
                 return;
             }
             
-            if (!_seedsStorage.TryGetStorage(type, out PlantStorage seedStorage))
+            if (!_seedsStorage.TryGetStorage(type.Plant, out PlantStorage seedStorage))
             {
-                Debug.Log($"Seed storage of type {type} not found");
+                Debug.Log($"Seed storage of type {type.Name} not found");
                 return;
             }
 
-            if (!_settings.TryGetSeedRatio(type, out int seedRatio))
+            if (!_settings.TryGetSeedRatio(type.Plant, out int seedRatio))
             {
-                Debug.Log($"Convert ratio of type {type} not found");
+                Debug.Log($"Convert ratio of type {type.Name} not found");
                 return;
             }
             

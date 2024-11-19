@@ -6,15 +6,15 @@ namespace Modules.Gardening
     {
         event Action<SeedbedState> OnStateChanged;
         event Action<HarvestState> OnHarvestStateChanged;
-        event Action<CaringType, CaringState> OnCaringChanged;
+        event Action<Caring, CaringState> OnCaringChanged;
         
-        CaringType? LostReason { get; }
+        Caring LostReason { get; }
         SeedbedState State { get; }
 
         bool Prepare();
-        bool Seed(SeedConfig seed);
+        bool Seed(PlantConfig seed);
         bool Gather(out HarvestResult harvestResult);
-        void Care(CaringType caringType);
+        void Care(Caring caringType);
         
         void Tick(float deltaTime);
         void Pause();

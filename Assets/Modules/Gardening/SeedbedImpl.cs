@@ -8,9 +8,9 @@ namespace Modules.Gardening
 
         public event Action<HarvestState> OnHarvestStateChanged;
 
-        public event Action<CaringType, CaringState> OnCaringChanged;
+        public event Action<Caring, CaringState> OnCaringChanged;
 
-        public CaringType? LostReason => _harvest?.LostReason;
+        public Caring LostReason => _harvest?.LostReason;
         public SeedbedState State => _state;
 
         private SeedbedState _state = SeedbedState.NotReady;
@@ -26,18 +26,18 @@ namespace Modules.Gardening
             return true;
         }
 
-        public bool Seed(SeedConfig seed) 
+        public bool Seed(PlantConfig plant) 
         {
             if (_state != SeedbedState.Ready) return false;
 
-            _harvest = new Harvest(seed);
+            _harvest = new Harvest(plant);
             StartGrow();
             _state = SeedbedState.Seeded;
             OnStateChanged?.Invoke(SeedbedState.Seeded);
             return true;
         }
 
-        public bool Gather(out HarvestResult harvestResult)
+        public bool Gather(out HarvestResult harvestResult) 
         {
             harvestResult = new HarvestResult();
             if (_harvest is null)
@@ -45,8 +45,6 @@ namespace Modules.Gardening
                 return false;
             }
 
-            harvestResult.Type = _harvest.PlantType;
-            
             if (_state != SeedbedState.Seeded ||
                 !_harvest.IsReady)
             {
@@ -57,13 +55,14 @@ namespace Modules.Gardening
 
             harvestResult.Value = _harvest.Value;
             harvestResult.IsCollected = true;
+            harvestResult.Plant = _harvest.Plant;
 
             StopGrow();
             
             return true;
         }
 
-        public void Care(CaringType caringType)
+        public void Care(Caring caringType)
         {
             _harvest?.Care(caringType);
         }
@@ -124,7 +123,7 @@ namespace Modules.Gardening
             }
         }
 
-        private void HarvestCaringStateChanged(CaringType type, CaringState state)
+        private void HarvestCaringStateChanged(Caring type, CaringState state)
         {
             OnCaringChanged?.Invoke(type, state);
         }

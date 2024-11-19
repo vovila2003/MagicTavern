@@ -16,14 +16,14 @@ namespace Tavern.Components
         IPauseGameListener,
         IResumeGameListener
     {
-        private SeedsCatalog _catalog;
+        private PlantsCatalog _catalog;
         private ISeedsStorage _seedsStorage;
         private IResourcesStorage _resourcesStorage;
         private SeedbedFactory _factory;
         private bool _isEnable;
 
         [Inject]
-        private void Construct(SeedsCatalog catalog, ISeedsStorage seedsStorage, 
+        private void Construct(PlantsCatalog catalog, ISeedsStorage seedsStorage, 
             IResourcesStorage resourcesStorage, SeedbedFactory factory)
         {
             _catalog = catalog;
@@ -55,7 +55,7 @@ namespace Tavern.Components
         }
 
         [Button]
-        public void Seed(Seedbed seedbed, PlantType type, int count)
+        public void Seed(Seedbed seedbed, PlantConfig plant, int count)
         {
             if (!_isEnable) return;
             
@@ -67,13 +67,13 @@ namespace Tavern.Components
                 return;
             }
             
-            if (!_catalog.TryGetSeed(type, out SeedConfig seedConfig))
+            if (!_catalog.TryGetPlant(plant.Plant, out PlantConfig seedConfig))
             {
-                Debug.Log($"Seeds of type {type} are not found in catalog");
+                Debug.Log($"Seeds of type {plant.Name} are not found in catalog");
                 return;
             }
 
-            if (!_seedsStorage.TryGetStorage(type, out PlantStorage storage))
+            if (!_seedsStorage.TryGetStorage(plant.Plant, out PlantStorage storage))
             {
                 Debug.Log("Seed storage of type {type} is not found!");
                 return;
@@ -108,7 +108,7 @@ namespace Tavern.Components
         }
 
         [Button]
-        public void Care(Seedbed seedbed, CaringType caringType)
+        public void Care(Seedbed seedbed, Caring caringType)
         {
             if (!_isEnable) return;
             
@@ -120,7 +120,7 @@ namespace Tavern.Components
 
             if (seedbed.CurrentSeedConfig is null) return;
 
-            if (!seedbed.CurrentSeedConfig.TryGetCaringSettings(caringType, out CaringSettings caringSettings)) return;
+            if (!seedbed.CurrentSeedConfig.TryGetCaring(caringType, out CaringConfig caringSettings)) return;
 
             float count = caringSettings.CaringValue;
             if (count <= 0)

@@ -9,19 +9,19 @@ namespace Tavern.Storages
     [Serializable]
     public class ResourceStorage : StorageFloat
     {
-        public event Action<CaringType, float> OnResourceStorageAdded;
-        public event Action<CaringType, float> OnResourceStorageChanged;
-        public event Action<CaringType, float> OnResourceStorageValueSpent;
-        public event Action<CaringType> OnResourceStorageFull;
-        public event Action<CaringType> OnResourceStorageEmpty;
+        public event Action<Caring, float> OnResourceStorageAdded;
+        public event Action<Caring, float> OnResourceStorageChanged;
+        public event Action<Caring, float> OnResourceStorageValueSpent;
+        public event Action<Caring> OnResourceStorageFull;
+        public event Action<Caring> OnResourceStorageEmpty;
 
-        public CaringType ResourceType => Type;
+        public Caring ResourceType => Type;
         
         [ShowInInspector, ReadOnly]
         public float CurrentValue => Value;
 
         [SerializeField] 
-        private CaringType Type;
+        private Caring Type;
 
         [SerializeField]
         private LimitType Limit = LimitType.Unlimited;

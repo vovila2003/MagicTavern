@@ -7,20 +7,20 @@ namespace Tavern.Storages
 {
     public class ResourcesStorage : MonoBehaviour, IResourcesStorage
     {
-        public event Action<CaringType, float> OnStorageValueAdded;
-        public event Action<CaringType, float> OnStorageValueChanged;
-        public event Action<CaringType, float> OnStorageValueSpent;
-        public event Action<CaringType> OnStorageIsFull;
-        public event Action<CaringType> OnStorageIsEmpty;
+        public event Action<Caring, float> OnStorageValueAdded;
+        public event Action<Caring, float> OnStorageValueChanged;
+        public event Action<Caring, float> OnStorageValueSpent;
+        public event Action<Caring> OnStorageIsFull;
+        public event Action<Caring> OnStorageIsEmpty;
 
         [SerializeField] 
         private ResourceStorage[] Storages;
         
-        private readonly Dictionary<CaringType, ResourceStorage> _storagesDictionary = new();
+        private readonly Dictionary<Caring, ResourceStorage> _storagesDictionary = new();
         
         private void OnValidate()
         {
-            var collection = new Dictionary<CaringType, bool>();
+            var collection = new Dictionary<Caring, bool>();
             foreach (ResourceStorage storage in Storages)
             {
                 if (collection.TryAdd(storage.ResourceType, true))
@@ -37,7 +37,7 @@ namespace Tavern.Storages
             foreach (ResourceStorage storage in Storages)
             {
                 storage.Init();
-                CaringType type = storage.ResourceType;
+                Caring type = storage.ResourceType;
                 _storagesDictionary.Add(type, storage);
                 Subscribe(storage);
             }
@@ -52,7 +52,7 @@ namespace Tavern.Storages
             }
         }
 
-        public bool TryGetStorage(CaringType type, out ResourceStorage storage)
+        public bool TryGetStorage(Caring type, out ResourceStorage storage)
         {
             return _storagesDictionary.TryGetValue(type, out storage);
         }
@@ -75,14 +75,14 @@ namespace Tavern.Storages
             storage.OnResourceStorageFull -= OnFull;
         }
 
-        private void OnValueAdded(CaringType type, float value) => OnStorageValueAdded?.Invoke(type, value);
+        private void OnValueAdded(Caring type, float value) => OnStorageValueAdded?.Invoke(type, value);
 
-        private void OnValueChanged(CaringType type, float value) => OnStorageValueChanged?.Invoke(type, value);
+        private void OnValueChanged(Caring type, float value) => OnStorageValueChanged?.Invoke(type, value);
 
-        private void OnValueSpent(CaringType type, float value) => OnStorageValueSpent?.Invoke(type, value);
+        private void OnValueSpent(Caring type, float value) => OnStorageValueSpent?.Invoke(type, value);
 
-        private void OnEmpty(CaringType type) => OnStorageIsEmpty?.Invoke(type);
+        private void OnEmpty(Caring type) => OnStorageIsEmpty?.Invoke(type);
 
-        private void OnFull(CaringType type) => OnStorageIsFull?.Invoke(type);
+        private void OnFull(Caring type) => OnStorageIsFull?.Invoke(type);
     }
 }

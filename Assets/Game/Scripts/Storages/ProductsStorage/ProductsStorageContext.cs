@@ -43,65 +43,65 @@ namespace Tavern.Storages
             }
         }
 
-        private void ValueAdded(PlantType type, int value)
+        private void ValueAdded(Plant type, int value)
         {
-            Debug.Log($"Storage {type} added by {value}");
+            Debug.Log($"Storage {type.PlantName} added by {value}");
         }
 
-        private void ValueChanged(PlantType type, int value)
+        private void ValueChanged(Plant type, int value)
         {
-            Debug.Log($"Storage {type} value changed to {value}");
+            Debug.Log($"Storage {type.PlantName} value changed to {value}");
         }
 
-        private void OnSpent(PlantType type, int value)
+        private void OnSpent(Plant type, int value)
         {
-            Debug.Log($"Storage {type} spent by {value}");
+            Debug.Log($"Storage {type.PlantName} spent by {value}");
         }
 
-        private void OnFull(PlantType type)
+        private void OnFull(Plant type)
         {
-            Debug.Log($"Storage {type} is full");
+            Debug.Log($"Storage {type.PlantName} is full");
         }
 
-        private void OnEmpty(PlantType type)
+        private void OnEmpty(Plant type)
         {
-            Debug.Log($"Storage {type} is empty");
+            Debug.Log($"Storage {type.PlantName} is empty");
         }
 
         [Button]
-        public void Add(PlantType type, int value)
+        public void Add(PlantConfig plant, int value)
         {
             bool result = false;
-            if (Storages.TryGetStorage(type, out PlantStorage storage))
+            if (Storages.TryGetStorage(plant.Plant, out PlantStorage storage))
             {
                 result = storage.Add(value);
             }
             
-            Debug.Log($"Add to {type} storage value {value}: result - {result}");
+            Debug.Log($"Add to {plant.Name} storage value {value}: result - {result}");
         }
 
         [Button]
-        public void Spend(PlantType type, int value)
+        public void Spend(PlantConfig plant, int value)
         {
             bool result = false;
-            if (Storages.TryGetStorage(type, out PlantStorage storage))
+            if (Storages.TryGetStorage(plant.Plant, out PlantStorage storage))
             {
                 result = storage.Spend(value);
             }
             
-            Debug.Log($"Spend from {type} storage value {value}: result - {result}");
+            Debug.Log($"Spend from {plant.Name} storage value {value}: result - {result}");
         }
 
         [Button]
-        public void ResetStorage(PlantType type)
+        public void ResetStorage(PlantConfig plant)
         {
-            bool getStorage = Storages.TryGetStorage(type, out PlantStorage storage);
+            bool getStorage = Storages.TryGetStorage(plant.Plant, out PlantStorage storage);
             if (getStorage)
             {
                 storage.Reset();
             }
             
-            Debug.Log($"Reset {type} storage : result - {getStorage}");
+            Debug.Log($"Reset {plant.Name} storage : result - {getStorage}");
         }
     }
 }

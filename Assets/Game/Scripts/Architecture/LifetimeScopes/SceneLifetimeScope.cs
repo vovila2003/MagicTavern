@@ -99,7 +99,7 @@ namespace Tavern.Architecture
         private void RegisterGardening(IContainerBuilder builder)
         {
             builder.RegisterInstance(GameSettings.SeedMakerSettings);
-            builder.RegisterInstance(GameSettings.SeedsCatalog);
+            builder.RegisterInstance(GameSettings.PlantsCatalog);
             builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
             builder.Register<SeedbedFactory>(Lifetime.Singleton).WithParameter(World);

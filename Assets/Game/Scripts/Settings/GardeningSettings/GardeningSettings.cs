@@ -1,14 +1,15 @@
 using System;
 using Modules.Gardening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tavern.Settings
 {
     [Serializable]
     public class GardeningSettings
     {
-        [SerializeField]
-        private SeedsCatalog SeedsCatalog;
+        [FormerlySerializedAs("SeedsCatalog")] [SerializeField]
+        private PlantsCatalog PlantsCatalog;
 
         [SerializeField]
         private SeedMakerSettings SeedMakerConfig;
@@ -16,7 +17,7 @@ namespace Tavern.Settings
         [SerializeField]
         private SeedbedSettings SeedbedConfig;
         
-        public SeedsCatalog Catalog => SeedsCatalog;
+        public PlantsCatalog Catalog => PlantsCatalog;
         public SeedMakerSettings SeedMakerSettings => SeedMakerConfig;
         public SeedbedSettings SeedbedSettings => SeedbedConfig;        
     }

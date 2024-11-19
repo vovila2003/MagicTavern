@@ -5,16 +5,16 @@ namespace Modules.Gardening
     internal interface IHarvest
     {
         event Action<HarvestState> OnStateChanged;
-        event Action<CaringType, CaringState> OnCaringStateChanged;
+        event Action<Caring, CaringState> OnCaringStateChanged;
 
         int Value { get; }
-        PlantType PlantType { get; }
+        Plant Plant { get; }
         bool IsReady { get; }
-        CaringType? LostReason { get; }
+        Caring LostReason { get; }
 
         void StartGrow();
         void StopGrow();
-        void Care(CaringType caringType);
+        void Care(Caring caring);
         
         void Tick(float deltaTime);
     }

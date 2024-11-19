@@ -16,13 +16,13 @@ namespace Tavern.Gardening
         IExitGameListener, 
         IUpdateListener
     {
-        public event Action<PlantType, int> OnHarvestReceived;
+        public event Action<Plant, int> OnHarvestReceived;
         public event Action<Seedbed> OnDestroyed;
 
         private readonly ISeedbed _seedbed = new SeedbedImpl();
         private bool _isEnable;
         private int _count;
-        [CanBeNull] public SeedConfig CurrentSeedConfig { get; private set; }
+        [CanBeNull] public PlantConfig CurrentSeedConfig { get; private set; }
 
         [ShowInInspector, ReadOnly]
         public SeedbedState SeedbedState => _seedbed.State;
@@ -55,19 +55,19 @@ namespace Tavern.Gardening
             Debug.Log($"Prepare seedbed: {result}");
         }
 
-        public bool Seed(SeedConfig seedConfig, int count)
+        public bool Seed(PlantConfig plantConfig, int count)
         {
             if (!_isEnable) return false;
 
-            if (seedConfig is null) return false; 
+            if (plantConfig is null) return false; 
             
-            bool result = _seedbed.Seed(seedConfig);
+            bool result = _seedbed.Seed(plantConfig);
             Debug.Log($"Seedbed seeded: {result}");
 
             if (!result) return false;
             
             _count = count;
-            CurrentSeedConfig = seedConfig;
+            CurrentSeedConfig = plantConfig;
 
             return true;
         }
@@ -81,16 +81,16 @@ namespace Tavern.Gardening
             if (!gathered) return;
             
             Debug.Log($"HarvestResult: {harvestResult.IsCollected}, " +
-                      $"{harvestResult.Value}, {harvestResult.Type}");
+                      $"{harvestResult.Value}, {harvestResult.Plant.PlantName}");
             
             if (!harvestResult.IsCollected) return;
             
-            OnHarvestReceived?.Invoke(harvestResult.Type, harvestResult.Value * _count);
+            OnHarvestReceived?.Invoke(harvestResult.Plant, harvestResult.Value * _count);
             _count = 0;
             CurrentSeedConfig = null;
         }
 
-        public void Care(CaringType caringType)
+        public void Care(Caring caringType)
         {
             if (!_isEnable) return;
             
@@ -158,13 +158,13 @@ namespace Tavern.Gardening
             Debug.Log($"Harvest state changed to {state}");
             if (state == HarvestState.Lost)
             {
-                Debug.Log($"Lost by reason {_seedbed.LostReason}");
+                Debug.Log($"Lost by reason {_seedbed.LostReason.CaringName}");
             }
         }
 
-        private void OnCaringChanged(CaringType type, CaringState caringState)
+        private void OnCaringChanged(Caring type, CaringState caringState)
         {
-            Debug.Log($"Care {type} state changed to {caringState}!");
+            Debug.Log($"Care {type.CaringName} state changed to {caringState}!");
         }
     }
 }

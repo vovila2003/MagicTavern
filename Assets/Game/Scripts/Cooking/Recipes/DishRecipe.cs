@@ -37,12 +37,12 @@ namespace Tavern.Cooking
         {
             if (ProductIngredients is null) return;
             
-            var collection = new Dictionary<PlantType, bool>();
+            var collection = new Dictionary<Plant, bool>();
             foreach (var productIngredient in ProductIngredients)
             {
                 if (productIngredient is null) continue;
 
-                PlantType type = productIngredient.Type;
+                Plant type = productIngredient.Type;
                 if (productIngredient.ProductAmount <= 0)
                 {
                     Debug.LogWarning($"Amount of products of type {type} has to be greater than zero.");    
