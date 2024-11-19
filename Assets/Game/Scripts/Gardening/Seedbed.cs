@@ -1,8 +1,8 @@
 using System;
 using JetBrains.Annotations;
+using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
-using Tavern.Architecture.GameManager.Interfaces;
 using UnityEngine;
 
 namespace Tavern.Gardening
@@ -13,7 +13,8 @@ namespace Tavern.Gardening
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener,
-        IExitGameListener
+        IExitGameListener, 
+        IUpdateListener
     {
         public event Action<PlantType, int> OnHarvestReceived;
         public event Action<Seedbed> OnDestroyed;
@@ -44,13 +45,6 @@ namespace Tavern.Gardening
         private void OnDisable()
         {
             Unsubscribe();
-        }
-
-        private void Update()
-        {
-            if (!_isEnable) return;
-            
-            _seedbed.Tick(Time.deltaTime);
         }
 
         public void Prepare()
@@ -108,6 +102,13 @@ namespace Tavern.Gardening
         {
             OnDestroyed?.Invoke(this);
             Destroy(gameObject);
+        }
+
+        void IUpdateListener.OnUpdate(float deltaTime)
+        {
+            if (!_isEnable) return;
+            
+            _seedbed.Tick(deltaTime);
         }
 
         void IStartGameListener.OnStart()

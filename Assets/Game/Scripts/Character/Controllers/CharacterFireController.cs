@@ -1,4 +1,4 @@
-using Tavern.Architecture.GameManager.Interfaces;
+using Modules.GameCycle.Interfaces;
 using Tavern.Character.Agents;
 using Tavern.InputServices.Interfaces;
 

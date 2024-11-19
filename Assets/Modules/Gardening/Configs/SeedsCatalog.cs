@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Modules.Gardening
 {
-    [CreateAssetMenu(fileName = "SeedsCatalog", menuName = "Settings/Gardening/Seeds Catalog", order = 0)]
+    [CreateAssetMenu(
+        fileName = "SeedsCatalog", 
+        menuName = "Settings/Gardening/Seeds Catalog")]
     public class SeedsCatalog : ScriptableObject
     {
         [SerializeField] 

@@ -18,6 +18,8 @@ namespace Tavern.Storages
         
         private readonly Dictionary<PlantType, PlantStorage> _storagesDictionary = new();
         
+        public IReadOnlyList<PlantStorage> PlantStorages => Storages;
+        
         private void OnValidate()
         {
             var collection = new Dictionary<PlantType, bool>();

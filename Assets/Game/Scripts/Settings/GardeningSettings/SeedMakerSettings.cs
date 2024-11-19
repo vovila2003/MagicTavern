@@ -5,7 +5,9 @@ using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(fileName = "SeedMakerConfig", menuName = "Settings/Gardening/SeedMaker Settings", order = 0)]
+    [CreateAssetMenu(
+        fileName = "SeedMakerConfig", 
+        menuName = "Settings/Gardening/SeedMaker Config")]
     public class SeedMakerSettings : ScriptableObject
     {
         [Serializable]

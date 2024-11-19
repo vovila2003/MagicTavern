@@ -46,6 +46,11 @@ namespace Modules.Timers
         {
         }
 
+        public Timer(string name)
+        {
+            Debug.Log($"Timer created {name}");
+        }
+
         public Timer(float duration, bool loop = false)
         {
             _duration = duration;
@@ -75,91 +80,76 @@ namespace Modules.Timers
 
         public bool Start()
         {
-            if (_currentState is not (State.Idle or State.Ended))
-            {
-                return false;
-            }
+            if (_currentState is not (State.Idle or State.Ended)) return false;
 
             _currentTime = 0;
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnStarted?.Invoke();
+            
             return true;
         }
         
         public bool Start(float currentTime)
         {
-            if (_currentState is not (State.Idle or State.Ended))
-            {
-                return false;
-            }
+            if (_currentState is not (State.Idle or State.Ended)) return false;
 
             _currentTime = Mathf.Clamp(currentTime, 0, _duration);
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnStarted?.Invoke();
+            
             return true;
         }
 
         public bool Play()
         {
-            if (_currentState is not (State.Idle or State.Ended))
-            {
-                return false;
-            }
+            if (_currentState is not (State.Idle or State.Ended)) return false;
             
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnStarted?.Invoke();
+            
             return true; 
         }
 
         public bool Stop()
         {
-            if (_currentState == State.Idle)
-            {
-                return false;
-            }
+            if (_currentState == State.Idle) return false;
 
             _currentTime = 0;
             _currentState = State.Idle;
             OnStateChanged?.Invoke(State.Idle);
             OnStopped?.Invoke();
+            
             return true;
         }
 
         public bool Pause()
         {
-            if (_currentState != State.Playing)
-            {
-                return false;
-            }
+            if (_currentState != State.Playing) return false;
 
             _currentState = State.Paused;
             OnStateChanged?.Invoke(State.Paused);
             OnPaused?.Invoke();
+            
             return true;
         }
 
         public bool Resume()
         {
-            if (_currentState != State.Paused)
-            {
-                return false;
-            }
+            if (_currentState != State.Paused) return false;
 
             _currentState = State.Playing;
             OnStateChanged?.Invoke(State.Playing);
             OnResumed?.Invoke();
+            
             return true;
         }
 
         public void Tick(float deltaTime)
         {
-            if (_currentState != State.Playing)
-            {
-                return;
-            }
+            if (_currentState != State.Playing) return;
 
             _currentTime = Mathf.Min(_duration, _currentTime + deltaTime);
             OnCurrentTimeChanged?.Invoke(_currentTime);
@@ -193,10 +183,7 @@ namespace Modules.Timers
 
         private void SetDuration(float duration)
         {
-            if (duration < 0)
-            {
-                return;
-            }
+            if (duration < 0) return;
 
             if (Math.Abs(_duration - duration) <= float.Epsilon) return;
             
@@ -206,10 +193,7 @@ namespace Modules.Timers
 
         private void SetCurrentTime(float time)
         {
-            if (time < 0)
-            {
-                return;
-            }
+            if (time < 0) return;
 
             float newTime = Mathf.Clamp(time, 0, _duration);
             if (Math.Abs(newTime - _currentTime) <= float.Epsilon) return;

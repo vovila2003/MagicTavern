@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Gardening
@@ -15,7 +16,10 @@ namespace Modules.Gardening
         [SerializeField] 
         private bool EnableCriticalTimer;
         
-        [SerializeField] 
+        [SerializeField, 
+         ShowIf("EnableCriticalTimer"), 
+         InfoBox("Must be greater than DurationInSeconds"),
+        ValidateInput("MustBeGreaterThanDuration")] 
         private float CriticalDurationInSeconds;
 
         [SerializeField] 
@@ -26,5 +30,8 @@ namespace Modules.Gardening
         public bool IsCriticalEnabled => EnableCriticalTimer;
         public float CriticalDuration => CriticalDurationInSeconds;
         public float CaringValue => Value;
+
+        private bool MustBeGreaterThanDuration(float value) => 
+            value > DurationInSeconds;
     }
 }

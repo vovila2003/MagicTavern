@@ -3,8 +3,10 @@ using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
+using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.InputServices;
+using Tavern.Looting;
 using Tavern.Settings;
 using Tavern.Storages;
 using Tavern.UI;
@@ -32,6 +34,8 @@ namespace Tavern.Architecture
             RegisterCamera(builder);
             RegisterGardening(builder);
             RegisterStorages(builder);
+            RegisterLooting(builder);
+            RegisterCooking(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -98,7 +102,7 @@ namespace Tavern.Architecture
             builder.RegisterInstance(GameSettings.SeedsCatalog);
             builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
-            builder.Register<SeedbedFactory>(Lifetime.Singleton);
+            builder.Register<SeedbedFactory>(Lifetime.Singleton).WithParameter(World);
         }
 
         private void RegisterStorages(IContainerBuilder builder)
@@ -106,6 +110,23 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<ResourcesStorage>().AsImplementedInterfaces().AsSelf();
+        }
+
+        private void RegisterLooting(IContainerBuilder builder)
+        {
+            builder.Register<LootInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<LootInventoryContext>();
+        }
+
+        private void RegisterCooking(IContainerBuilder builder)
+        {
+            builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
+            
+            builder.RegisterComponentInHierarchy<DishCrafterContext>();
+            
+            builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<DishInventoryContext>();
         }
     }
 }

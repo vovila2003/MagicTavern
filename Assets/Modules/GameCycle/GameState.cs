@@ -1,4 +1,4 @@
-namespace Tavern.Architecture.GameManager
+namespace Modules.GameCycle
 {
     public enum GameState
     {

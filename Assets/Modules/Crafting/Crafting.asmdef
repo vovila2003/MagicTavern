@@ -1,0 +1,18 @@
+{
+    "name": "Crafting",
+    "rootNamespace": "",
+    "references": [
+        "GUID:46b63de7227ea059092da95efb637ec2",
+        "GUID:8a259a3cdecb6af87bf67c8627bd758b",
+        "GUID:5e0803b9001c053cc9141b0923fbf038"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

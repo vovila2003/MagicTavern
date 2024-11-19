@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using Tavern.Architecture.GameManager;
-using Tavern.Architecture.GameManager.Interfaces;
+using Modules.GameCycle.Interfaces;
 using UnityEngine;
 
 namespace Modules.GameCycle
@@ -16,6 +15,20 @@ namespace Modules.GameCycle
         public void AddListener(IGameListener listener)
         {
             _listeners.Add(listener);
+            if (listener is IUpdateListener updateListener)
+            {
+                _updateListeners.Add(updateListener);
+            }
+            
+            if (listener is IFixedUpdateListener fixedUpdateListener)
+            {
+                _fixedUpdateListeners.Add(fixedUpdateListener);
+            }
+            
+            if (listener is ILateUpdateListener lateUpdateListener)
+            {
+                _lateUpdateListeners.Add(lateUpdateListener);
+            }
         }
 
         public void RemoveListener(IGameListener listener)

@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Modules.Gardening
 {
-    [CreateAssetMenu(fileName = "SeedConfig", menuName = "Settings/Gardening/Seed Settings", order = 0)]
+    [CreateAssetMenu(
+        fileName = "SeedConfig", 
+        menuName = "Settings/Gardening/Seed Settings")]
     public class SeedConfig : ScriptableObject
     {
         [SerializeField]
@@ -19,17 +21,15 @@ namespace Modules.Gardening
         [SerializeField]
         private CaringSettings[] Carings;
 
-        private Dictionary<CaringType, CaringSettings> _caringSettingsMap = new();
+        private readonly Dictionary<CaringType, CaringSettings> _caringSettingsMap = new();
         
         public PlantType Type => PlantType;
         public float GrowthDuration => GrowthDurationInSeconds;
         public int ResultValue => HarvestValue;
         public IEnumerable<CaringSettings> PlantCaring => Carings;
 
-        public bool TryGetCaringSettings(CaringType caringType, out CaringSettings settings)
-        {
-            return _caringSettingsMap.TryGetValue(caringType, out settings);
-        }
+        public bool TryGetCaringSettings(CaringType caringType, out CaringSettings settings) => 
+            _caringSettingsMap.TryGetValue(caringType, out settings);
 
         private void OnValidate()       
         {

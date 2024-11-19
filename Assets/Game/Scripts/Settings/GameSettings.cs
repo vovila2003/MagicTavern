@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(fileName = "GameSettings", menuName = "Settings/Game Settings/Game Settings", order = 0)]
+    [CreateAssetMenu(
+        fileName = "GameSettings", 
+        menuName = "Settings/Game Settings/Game Settings")]
     public class GameSettings : ScriptableObject
     {
         [SerializeField]

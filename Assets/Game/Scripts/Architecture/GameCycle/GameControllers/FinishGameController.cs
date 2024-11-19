@@ -1,4 +1,4 @@
-using Tavern.Architecture.GameManager.Interfaces;
+using Modules.GameCycle.Interfaces;
 
 namespace Tavern.Architecture
 {

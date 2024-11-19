@@ -14,11 +14,11 @@ namespace Modules.Storages
         public LimitType LimitType { get; private set; }
         public T LimitValue { get; private set; }
 
-        protected StorageBase( T value, LimitType limitType, T limitValue)
+        protected StorageBase(T value, LimitType limitType, T limitValue)
         {
-            LimitValue = limitValue;
-            LimitType = limitType;
             Value = value;
+            LimitType = limitType;
+            LimitValue = limitValue;
         }
 
         public void SetLimitType(LimitType limitType)

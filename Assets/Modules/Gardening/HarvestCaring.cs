@@ -23,21 +23,13 @@ namespace Modules.Gardening
             _isDisposed = false;
             _state = CaringState.Norm;
 
-            _timer = new Timer
-            {
-                Duration = timerDuration,
-                Loop = true
-            };
+            _timer = new Timer(timerDuration, loop:true);
             _timer.OnEnded += OnTimerEnded;
 
             _isCriticalEnabled = isCriticalEnabled;
             if (!_isCriticalEnabled) return;
 
-            _criticalTimer = new Timer
-            {
-                Duration = criticalTimerDuration,
-                Loop = false
-            };
+            _criticalTimer = new Timer(criticalTimerDuration, loop: false);
             _criticalTimer.OnEnded += OnCriticalTimerFail;
         }
 

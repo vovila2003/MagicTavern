@@ -1,5 +1,5 @@
+using Modules.GameCycle.Interfaces;
 using Sirenix.OdinInspector;
-using Tavern.Architecture.GameManager.Interfaces;
 using Tavern.Character.Agents;
 using Tavern.Components;
 using Tavern.Components.Interfaces;

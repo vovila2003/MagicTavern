@@ -4,8 +4,14 @@ using UnityEngine;
 
 namespace Tavern.Storages
 {
-    public class ProductsStorageTest : MonoBehaviour
+    public class ProductsStorageContext : MonoBehaviour
     {
+        [SerializeField] 
+        private bool DebugMode;
+
+        [SerializeField, ShowIf("DebugMode")] 
+        private int StartValueInStorageInDebugMode;
+        
         [SerializeField]
         private ProductsStorage Storages;
 
@@ -25,6 +31,16 @@ namespace Tavern.Storages
             Storages.OnStorageIsEmpty -= OnEmpty;
             Storages.OnStorageIsFull -= OnFull;
             Storages.OnStorageValueSpent -= OnSpent;
+        }
+
+        private void Start()
+        {
+            if (!DebugMode) return;
+
+            foreach (PlantStorage storage in Storages.PlantStorages)
+            {
+                storage.Add(StartValueInStorageInDebugMode);
+            }
         }
 
         private void ValueAdded(PlantType type, int value)
