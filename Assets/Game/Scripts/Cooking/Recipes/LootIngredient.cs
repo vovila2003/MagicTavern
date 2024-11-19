@@ -1,19 +1,13 @@
 using System;
+using Modules.Crafting;
 using Tavern.Looting;
-using UnityEngine;
 
 namespace Tavern.Cooking
 {
     [Serializable]
-    public class LootIngredient
+    public class LootIngredient : Ingredient<LootItem>
     {
-        [SerializeField] 
-        private LootItemConfig LootConfig;
-
-        [SerializeField] 
-        private int Amount;
-        
-        public LootItemConfig Loot => LootConfig;
-        public int LootAmount => Amount;
+        public LootItemConfig Loot => Item as LootItemConfig;
+        public int LootAmount => ItemAmount;
     }
 }

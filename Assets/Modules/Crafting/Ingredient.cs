@@ -1,18 +1,19 @@
 using System;
 using Modules.Items;
+using UnityEngine;
 
 namespace Modules.Crafting
 {
     [Serializable]
-    public struct Ingredient<T> where T : Item
+    public class Ingredient<T> where T : Item
     {
-        public ItemConfig<T> ItemConfig;
-        public int Amount;
+        [SerializeField]
+        private ItemConfig<T> ItemConfig;
+        
+        [SerializeField]
+        private int Amount;
 
-        public Ingredient(ItemConfig<T> itemConfig, int amount)
-        {
-            ItemConfig = itemConfig;
-            Amount = amount;
-        }
+        protected ItemConfig<T> Item => ItemConfig;
+        protected int ItemAmount => Amount;
     }
 }
