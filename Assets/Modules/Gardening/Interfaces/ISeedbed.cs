@@ -8,8 +8,11 @@ namespace Modules.Gardening
         event Action<HarvestState> OnHarvestStateChanged;
         event Action<Caring, CaringState> OnCaringChanged;
         
+        event Action<int> OnHarvestAgeChanged;
+        
         Caring LostReason { get; }
         SeedbedState State { get; }
+        IHarvest Harvest { get; }
 
         bool Prepare();
         bool Seed(PlantConfig seed);

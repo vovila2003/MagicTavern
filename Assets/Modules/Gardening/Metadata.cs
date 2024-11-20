@@ -1,10 +1,11 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Gardening
 {
     [Serializable]
-    public sealed class Metadata
+    public class Metadata
     {
         [SerializeField]
         public string Title;
@@ -12,9 +13,8 @@ namespace Modules.Gardening
         [SerializeField, TextArea] 
         public string Description;
 
-        [SerializeField] 
+        [SerializeField, PreviewField] 
         public Sprite Icon;
-        
         
     }
 }

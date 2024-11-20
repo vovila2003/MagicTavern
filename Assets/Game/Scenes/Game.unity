@@ -1219,6 +1219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 774227577}
   - component: {fileID: 774227578}
+  - component: {fileID: 774227579}
   m_Layer: 0
   m_Name: SeedsStorage
   m_TagString: Untagged
@@ -1260,6 +1261,21 @@ MonoBehaviour:
   - Plant: {fileID: 11400000, guid: bd80009925a4e2712bd3abdcc1536d8b, type: 2}
     Limit: 1
     MaxValue: 0
+--- !u!114 &774227579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774227576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b28397bf824fba868f75b862760719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 1
+  StartValueInStorageInDebugMode: 10
+  Storages: {fileID: 774227578}
 --- !u!1 &825965435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1886,6 +1902,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b11e3900874f75b4163f99b919f1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugMode: 1
+  StartValueInStorageInDebugMode: 10
   Storages: {fileID: 1199618902}
 --- !u!114 &1199618902
 MonoBehaviour:
@@ -1900,10 +1918,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Storages:
-  - Type: {fileID: 11400000, guid: 676b4afd7799d6293831ef8644afc155, type: 2}
+  - Type: {fileID: 11400000, guid: 4b2113678c898930a8130bfdf88e6803, type: 2}
     Limit: 1
     MaxValue: 0
-  - Type: {fileID: 11400000, guid: 4b2113678c898930a8130bfdf88e6803, type: 2}
+  - Type: {fileID: 11400000, guid: 290bec414a51554c2b378c52957dff1b, type: 2}
     Limit: 1
     MaxValue: 0
 --- !u!1 &1223539206

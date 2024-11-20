@@ -55,15 +55,19 @@ namespace Tavern.Components
         }
 
         [Button]
-        public void Seed(Seedbed seedbed, PlantConfig plant, int count)
+        public void Seed(Seedbed seedbed, PlantConfig plant)
         {
             if (!_isEnable) return;
-            
-            if (count <= 0) return;
             
             if (seedbed is null)
             {
                 Debug.LogWarning("Seedbed is null");
+                return;
+            }
+
+            if (plant is null)
+            {
+                Debug.LogWarning("Plant is null");
                 return;
             }
             
@@ -79,14 +83,14 @@ namespace Tavern.Components
                 return;
             }
 
+            const int count = 1;
+
             if (!storage.CanSpend(count))
             {
                 Debug.Log("Not enough seeds of type {type} in storage!");
                 return;
             }
 
-            if (!storage.CanSpend(count)) return;
-            
             bool result = seedbed.Seed(seedConfig, count);
             if (!result) return;
             
@@ -112,15 +116,21 @@ namespace Tavern.Components
         {
             if (!_isEnable) return;
             
+            if (caringType is null)
+            {
+                Debug.LogWarning("Caring is null");
+                return;
+            }
+            
             if (seedbed is null)
             {
                 Debug.LogWarning("Seedbed is null");
                 return;
             }
 
-            if (seedbed.CurrentSeedConfig is null) return;
+            if (seedbed.CurrentPlantConfig is null) return;
 
-            if (!seedbed.CurrentSeedConfig.TryGetCaring(caringType, out CaringConfig caringSettings)) return;
+            if (!seedbed.CurrentPlantConfig.TryGetCaring(caringType, out CaringConfig caringSettings)) return;
 
             float count = caringSettings.CaringValue;
             if (count <= 0)

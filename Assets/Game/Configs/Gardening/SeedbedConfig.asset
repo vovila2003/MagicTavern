@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SeedbedConfig
   m_EditorClassIdentifier: 
   SeedbedPrefab: {fileID: 7424019376148153440, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
-  SeedbedParent: {fileID: 0}
+  Water: {fileID: 11400000, guid: 4b2113678c898930a8130bfdf88e6803, type: 2}
+  Heal: {fileID: 11400000, guid: 290bec414a51554c2b378c52957dff1b, type: 2}

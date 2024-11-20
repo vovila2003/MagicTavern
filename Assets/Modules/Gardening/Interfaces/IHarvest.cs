@@ -2,13 +2,15 @@ using System;
 
 namespace Modules.Gardening
 {
-    internal interface IHarvest
+    public interface IHarvest
     {
         event Action<HarvestState> OnStateChanged;
         event Action<Caring, CaringState> OnCaringStateChanged;
+        event Action<int> OnAgeChanged;
 
         int Value { get; }
-        Plant Plant { get; }
+        int CurrentAge { get; }
+        PlantConfig PlantConfig { get; }
         bool IsReady { get; }
         Caring LostReason { get; }
 

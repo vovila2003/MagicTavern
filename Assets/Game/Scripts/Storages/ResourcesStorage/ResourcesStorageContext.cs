@@ -6,6 +6,12 @@ namespace Tavern.Storages
 {
     public class ResourcesStorageContext : MonoBehaviour
     {
+        [SerializeField] 
+        private bool DebugMode;
+
+        [SerializeField, ShowIf("DebugMode")] 
+        private int StartValueInStorageInDebugMode;
+        
         [SerializeField]
         private ResourcesStorage Storages;
 
@@ -25,6 +31,16 @@ namespace Tavern.Storages
             Storages.OnStorageIsEmpty -= OnEmpty;
             Storages.OnStorageIsFull -= OnFull;
             Storages.OnStorageValueSpent -= OnSpent;
+        }
+
+        private void Start()
+        {
+            if (!DebugMode) return;
+
+            foreach (ResourceStorage storage in Storages.ResourceStorages)
+            {
+                storage.Add(StartValueInStorageInDebugMode);
+            }
         }
 
         private void ValueAdded(Caring type, float value)

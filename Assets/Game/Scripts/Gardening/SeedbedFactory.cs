@@ -12,14 +12,14 @@ namespace Tavern.Gardening
     {
         private readonly IProductsStorage _productsStorage;
         private readonly GameCycle _gameCycle;
-        private readonly GameObject _seedbedPrefab;
+        private readonly SeedbedSettings _settings;
         private readonly Transform _parent;
         private readonly Dictionary<Seedbed, SeedbedHarvestController> _controllers = new();
 
         public SeedbedFactory(SeedbedSettings settings, IProductsStorage productsStorage, 
             GameCycle gameCycle, Transform parent)
         {
-            _seedbedPrefab = settings.Seedbed;
+            _settings = settings;
             _parent = parent;
             _productsStorage = productsStorage;
             _gameCycle = gameCycle;
@@ -27,8 +27,9 @@ namespace Tavern.Gardening
 
         public Seedbed CreateSeedbed(Vector3 position, Quaternion rotation)
         {
-            GameObject instance = Object.Instantiate(_seedbedPrefab, position, rotation, _parent);
+            GameObject instance = Object.Instantiate(_settings.Seedbed, position, rotation, _parent);
             var seedbed = instance.GetComponent<Seedbed>();
+            seedbed.SetupInternalControllers(_settings.WaterCaring, _settings.HealCaring);
             _gameCycle.AddListener(seedbed);
             
             var controller = new SeedbedHarvestController(seedbed, _productsStorage);

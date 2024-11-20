@@ -10,8 +10,11 @@ namespace Modules.Gardening
 
         public event Action<Caring, CaringState> OnCaringChanged;
 
+        public event Action<int> OnHarvestAgeChanged;
+
         public Caring LostReason => _harvest?.LostReason;
         public SeedbedState State => _state;
+        public IHarvest Harvest => _harvest;
 
         private SeedbedState _state = SeedbedState.NotReady;
         private IHarvest _harvest;
@@ -23,6 +26,7 @@ namespace Modules.Gardening
             
             _state = SeedbedState.Ready;
             OnStateChanged?.Invoke(SeedbedState.Ready);
+            
             return true;
         }
 
@@ -31,9 +35,12 @@ namespace Modules.Gardening
             if (_state != SeedbedState.Ready) return false;
 
             _harvest = new Harvest(plant);
-            StartGrow();
+            
             _state = SeedbedState.Seeded;
             OnStateChanged?.Invoke(SeedbedState.Seeded);
+            
+            StartGrow();
+            
             return true;
         }
 
@@ -55,7 +62,7 @@ namespace Modules.Gardening
 
             harvestResult.Value = _harvest.Value;
             harvestResult.IsCollected = true;
-            harvestResult.Plant = _harvest.Plant;
+            harvestResult.Plant = _harvest.PlantConfig.Plant;
 
             StopGrow();
             
@@ -93,21 +100,24 @@ namespace Modules.Gardening
         {
             _isEnable = true;
             if (_harvest is null) return;
-            
-            _harvest.StartGrow();
+
             _harvest.OnStateChanged += OnHarvestStateChangedImpl;
             _harvest.OnCaringStateChanged += HarvestCaringStateChanged;
+            _harvest.OnAgeChanged += HarvestAgeChanged;
+            
+            _harvest.StartGrow();
         }
 
         private void StopGrow()
         {
             _isEnable = false;
-            _state = SeedbedState.NotReady;
-            OnStateChanged?.Invoke(SeedbedState.NotReady);
-            
             if (_harvest is null) return;
 
             _harvest.StopGrow();
+            
+            _state = SeedbedState.NotReady;
+            OnStateChanged?.Invoke(SeedbedState.NotReady);
+            
             _harvest.OnStateChanged -= OnHarvestStateChangedImpl;
             _harvest.OnCaringStateChanged -= HarvestCaringStateChanged;
             _harvest = null;
@@ -126,6 +136,11 @@ namespace Modules.Gardening
         private void HarvestCaringStateChanged(Caring type, CaringState state)
         {
             OnCaringChanged?.Invoke(type, state);
+        }
+
+        private void HarvestAgeChanged(int age)
+        {
+            OnHarvestAgeChanged?.Invoke(age);    
         }
     }
 }

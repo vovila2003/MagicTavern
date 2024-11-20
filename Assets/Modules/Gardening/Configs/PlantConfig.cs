@@ -13,12 +13,12 @@ namespace Modules.Gardening
         public Plant Plant;
 
         [SerializeField] 
-        private Metadata Metadata;
+        private PlantMetadata Metadata;
 
         private readonly Dictionary<Caring, CaringConfig> _caringSettingsMap = new();
         
         public string Name => Plant.PlantName;
-        public Metadata PlantMetadata => Metadata;
+        public PlantMetadata PlantMetadata => Metadata;
         
         public bool TryGetCaring(Caring caring, out CaringConfig config) => 
             _caringSettingsMap.TryGetValue(caring, out config);

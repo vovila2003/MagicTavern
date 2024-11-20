@@ -18,6 +18,8 @@ namespace Tavern.Storages
         
         private readonly Dictionary<Caring, ResourceStorage> _storagesDictionary = new();
         
+        public IReadOnlyList<ResourceStorage> ResourceStorages => Storages;
+        
         private void OnValidate()
         {
             var collection = new Dictionary<Caring, bool>();

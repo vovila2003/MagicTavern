@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Modules.Timers;
+using UnityEngine;
 
 namespace Modules.Gardening
 {
@@ -8,35 +9,45 @@ namespace Modules.Gardening
     {
         public event Action<HarvestState> OnStateChanged;
         public event Action<Caring, CaringState> OnCaringStateChanged;
+        public event Action<int> OnAgeChanged;
         
         public int Value { get; private set; }
         public bool IsReady => _state == HarvestState.Ready;
         public Caring LostReason { get; private set; }
-        public Plant Plant { get; }
+        public PlantConfig PlantConfig { get; }
+        public int CurrentAge { get; private set; }
 
         private readonly int _readyValue;
+        private readonly int _maxAge;
         private HarvestState _state;
         private readonly Timer _growthTimer = new();
         private readonly Dictionary<Caring, HarvestCaring> _attributes = new();
+        private bool _isEnable; 
         
         public Harvest(PlantConfig plantConfig)
         {
-            SetupGrowthTimer(plantConfig.Plant);
-            SetupCaring(plantConfig.Plant.PlantCaring);
             _readyValue = plantConfig.Plant.ResultValue;
             Value = 0;
             _state = HarvestState.NotReady;
-            Plant = plantConfig.Plant;
+            _maxAge = plantConfig.PlantMetadata.Healthy.Length;
+            CurrentAge = -1;
+            PlantConfig = plantConfig;
             LostReason = null;
+            
+            SetupGrowthTimer(plantConfig.Plant);
+            SetupCaring(plantConfig.Plant.PlantCaring);
         }
 
         public void StartGrow()
         {
+            OnStateChanged?.Invoke(HarvestState.NotReady);
             _growthTimer.Start();
             foreach (HarvestCaring attribute in _attributes.Values)
             {
                 attribute.Start();
             }
+            
+            _isEnable = true;
         }
 
         public void StopGrow()
@@ -48,6 +59,7 @@ namespace Modules.Gardening
             }
             
             Dispose();
+            _isEnable = false;
         }
 
         public void Care(Caring caring)
@@ -61,6 +73,8 @@ namespace Modules.Gardening
 
         public void Tick(float deltaTime)
         {
+            if (!_isEnable) return;
+            
             _growthTimer.Tick(deltaTime);
             foreach (HarvestCaring attribute in _attributes.Values)
             {
@@ -73,6 +87,7 @@ namespace Modules.Gardening
             _growthTimer.Loop = false;
             _growthTimer.Duration = plant.GrowthDuration;
             _growthTimer.OnEnded += OnGrowthEnded;
+            _growthTimer.OnProgressChanged += OnProgressChanged;
         }
 
         private void OnGrowthEnded()
@@ -84,6 +99,15 @@ namespace Modules.Gardening
             {
                 attribute.Stop();
             }
+        }
+
+        private void OnProgressChanged(float progress)
+        {
+            var currentAge = (int) (progress * _maxAge);
+            if (currentAge == CurrentAge) return;
+            
+            CurrentAge = Mathf.Clamp(currentAge, 0, _maxAge - 1);
+            OnAgeChanged?.Invoke(CurrentAge);
         }
 
         private void SetupCaring(IEnumerable<CaringConfig> caringList)
@@ -126,7 +150,9 @@ namespace Modules.Gardening
                 attribute.OnLost -= OnLost;
                 attribute.OnStateChanged -= OnHarvestCaringChanged;
             }
+            
             _growthTimer.OnEnded -= OnGrowthEnded;
+            _growthTimer.OnProgressChanged -= OnProgressChanged;
         }
     }
 }

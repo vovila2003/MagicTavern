@@ -29,11 +29,11 @@ namespace Tavern.Gardening
         }
 
         [Button]
-        public void ShowRatio(Plant type)
+        public void ShowRatio(PlantConfig type)
         {
-            if (!_settings.TryGetSeedRatio(type, out int seedRatio))
+            if (!_settings.TryGetSeedRatio(type.Plant, out int seedRatio))
             {
-                Debug.Log($"Convert ratio of type {type} not found");
+                Debug.Log($"Convert ratio of type {type.Name} not found");
                 _ratio = 0;
                 return;
             }
@@ -42,8 +42,10 @@ namespace Tavern.Gardening
         }
 
         [Button]
-        public void MakeSeeds(PlantConfig type, int productCount)
+        public void MakeSeeds(PlantConfig type, int productCount = 1)
         {
+            //TODO
+            //refactor
             if (!_productsStorage.TryGetStorage(type.Plant, out PlantStorage plantStorage))
             {
                 Debug.Log($"Product storage of type {type.Name} not found");

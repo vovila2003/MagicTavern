@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45a7fc37466c4496b78208a656c340e9, type: 3}
-  m_Name: Water
+  m_Name: Heal
   m_EditorClassIdentifier: 
-  Name: Water
+  Name: Heal
   Metadata:
-    Title: "\u043F\u043E\u043B\u0438\u0432"
+    Title: "\u043B\u0435\u0447\u0435\u043D\u0438\u0435"
     Description: 
     Icon: {fileID: 0}

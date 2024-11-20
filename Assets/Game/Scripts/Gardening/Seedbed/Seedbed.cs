@@ -16,20 +16,32 @@ namespace Tavern.Gardening
         IExitGameListener, 
         IUpdateListener
     {
+        [SerializeField] 
+        private SpriteRenderer HarvestSpriteRenderer; 
+        
+        [SerializeField]
+        private MeshRenderer SeedbedRenderer;
+        
+        [SerializeField]
+        private Material SeedbedReadyMaterial;
+        
+        [SerializeField]
+        private Material SeedbedNotReadyMaterial;
+        
         public event Action<Plant, int> OnHarvestReceived;
         public event Action<Seedbed> OnDestroyed;
 
         private readonly ISeedbed _seedbed = new SeedbedImpl();
         private bool _isEnable;
         private int _count;
-        [CanBeNull] public PlantConfig CurrentSeedConfig { get; private set; }
+        private HarvestViewController _harvestController;
+        private SeedbedViewController _seedbedController;
+        
+        [CanBeNull] public PlantConfig CurrentPlantConfig { get; private set; }
 
         [ShowInInspector, ReadOnly]
         public SeedbedState SeedbedState => _seedbed.State;
         
-        [ShowInInspector, ReadOnly]
-        public HarvestState HarvestState { get; private set; } = HarvestState.NotReady;
-
         private void Awake()
         {
             _isEnable = true;
@@ -38,13 +50,20 @@ namespace Tavern.Gardening
         private void OnEnable()
         {
             _seedbed.OnStateChanged += OnStateChanged;
-            _seedbed.OnHarvestStateChanged += OnHarvestStateChanged;
-            _seedbed.OnCaringChanged += OnCaringChanged;
         }
 
         private void OnDisable()
         {
             Unsubscribe();
+            _harvestController.Dispose();
+            _seedbedController.Dispose();
+        }
+
+        public void SetupInternalControllers(Caring water, Caring heal)
+        {
+            _harvestController = new HarvestViewController(_seedbed, HarvestSpriteRenderer, water, heal);
+            _seedbedController = new SeedbedViewController(_seedbed, SeedbedRenderer,
+                SeedbedNotReadyMaterial, SeedbedReadyMaterial);
         }
 
         public void Prepare()
@@ -67,7 +86,7 @@ namespace Tavern.Gardening
             if (!result) return false;
             
             _count = count;
-            CurrentSeedConfig = plantConfig;
+            CurrentPlantConfig = plantConfig;
 
             return true;
         }
@@ -87,7 +106,7 @@ namespace Tavern.Gardening
             
             OnHarvestReceived?.Invoke(harvestResult.Plant, harvestResult.Value * _count);
             _count = 0;
-            CurrentSeedConfig = null;
+            CurrentPlantConfig = null;
         }
 
         public void Care(Caring caringType)
@@ -143,28 +162,11 @@ namespace Tavern.Gardening
         private void Unsubscribe()
         {
             _seedbed.OnStateChanged -= OnStateChanged;
-            _seedbed.OnHarvestStateChanged -= OnHarvestStateChanged;
-            _seedbed.OnCaringChanged -= OnCaringChanged;
         }
 
         private void OnStateChanged(SeedbedState state)
         {
             Debug.Log($"Seedbed changed state to {state}");
-        }
-
-        private void OnHarvestStateChanged(HarvestState state)
-        {
-            HarvestState = state;
-            Debug.Log($"Harvest state changed to {state}");
-            if (state == HarvestState.Lost)
-            {
-                Debug.Log($"Lost by reason {_seedbed.LostReason.CaringName}");
-            }
-        }
-
-        private void OnCaringChanged(Caring type, CaringState caringState)
-        {
-            Debug.Log($"Care {type.CaringName} state changed to {caringState}!");
         }
     }
 }
