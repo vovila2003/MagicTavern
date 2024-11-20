@@ -7,6 +7,8 @@ using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.InputServices;
 using Tavern.Looting;
+using Tavern.MiniGame;
+using Tavern.MiniGame.UI;
 using Tavern.Settings;
 using Tavern.Storages;
 using Tavern.UI;
@@ -36,6 +38,7 @@ namespace Tavern.Architecture
             RegisterStorages(builder);
             RegisterLooting(builder);
             RegisterCooking(builder);
+            RegisterMiniGames(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -127,6 +130,13 @@ namespace Tavern.Architecture
             
             builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<DishInventoryContext>();
+        }
+
+        private void RegisterMiniGames(IContainerBuilder builder)
+        {
+            builder.Register<MiniGameInputService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MiniGameView>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MiniGameManager>();
         }
     }
 }
