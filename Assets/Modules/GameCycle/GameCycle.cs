@@ -15,25 +15,35 @@ namespace Modules.GameCycle
         public void AddListener(IGameListener listener)
         {
             _listeners.Add(listener);
-            if (listener is IUpdateListener updateListener)
+            switch (listener)
             {
-                _updateListeners.Add(updateListener);
-            }
-            
-            if (listener is IFixedUpdateListener fixedUpdateListener)
-            {
-                _fixedUpdateListeners.Add(fixedUpdateListener);
-            }
-            
-            if (listener is ILateUpdateListener lateUpdateListener)
-            {
-                _lateUpdateListeners.Add(lateUpdateListener);
+                case IUpdateListener updateListener:
+                    _updateListeners.Add(updateListener);
+                    break;
+                case IFixedUpdateListener fixedUpdateListener:
+                    _fixedUpdateListeners.Add(fixedUpdateListener);
+                    break;
+                case ILateUpdateListener lateUpdateListener:
+                    _lateUpdateListeners.Add(lateUpdateListener);
+                    break;
             }
         }
 
         public void RemoveListener(IGameListener listener)
         {
             _listeners.Remove(listener);
+            switch (listener)
+            {
+                case IUpdateListener updateListener:
+                    _updateListeners.Remove(updateListener);
+                    break;
+                case IFixedUpdateListener fixedUpdateListener:
+                    _fixedUpdateListeners.Remove(fixedUpdateListener);
+                    break;
+                case ILateUpdateListener lateUpdateListener:
+                    _lateUpdateListeners.Remove(lateUpdateListener);
+                    break;
+            }
         }
         
         public void PrepareGame()

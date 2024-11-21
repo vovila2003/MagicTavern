@@ -1,4 +1,3 @@
-using System;
 using Modules.GameCycle;
 using Sirenix.OdinInspector;
 using Tavern.InputServices.Interfaces;
@@ -37,6 +36,7 @@ namespace Tavern.MiniGame
         private void OnDisable()
         {
             _presenter.Dispose();
+            _gameCycle.RemoveListener(_game);
         }
 
         [Button]

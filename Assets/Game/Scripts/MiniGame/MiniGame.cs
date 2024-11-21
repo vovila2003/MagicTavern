@@ -1,7 +1,9 @@
 using System;
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
+using TMPro.EditorUtilities;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Tavern.MiniGame
 {
@@ -19,6 +21,9 @@ namespace Tavern.MiniGame
         private bool _isEnable;
         private float _value;
         private int _factor;
+        private float _start;
+        private float _finish;
+        private float _speed;
 
         public MiniGame(ISpaceInput inputService, MiniGameConfig config)
         {
@@ -30,6 +35,7 @@ namespace Tavern.MiniGame
         public void StartGame()
         {
             SetTarget();
+            SetSpeed();
             _isEnable = true;
             _spaceInput.OnSpace += OnStop;
             _factor = 1;
@@ -40,20 +46,28 @@ namespace Tavern.MiniGame
         {
             _isEnable = false;
             _spaceInput.OnSpace -= OnStop;
-            OnResult?.Invoke(_value >= _config.MinValue && _value <= _config.MaxValue);
+            OnResult?.Invoke(_value >= _start && _value <= _finish);
         }
 
         private void SetTarget()
         {
-            Vector2 target = new Vector2(_config.MinValue, _config.MaxValue);
+            float range = Random.Range(_config.TargetValueMin, _config.TargetValueMax);
+            _start = Random.Range(0, 1 - range);
+            _finish = _start + range;
+            var target = new Vector2(_start, _finish);
             OnTargetChanged?.Invoke(target);
+        }
+
+        private void SetSpeed()
+        {
+            _speed = Random.Range(_config.SpeedValueMin, _config.SpeedValueMax);
         }
 
         public void OnUpdate(float deltaTime)
         {
             if (!_isEnable) return;
             
-            _value += _factor * deltaTime * _config.SpeedValue;
+            _value += _factor * deltaTime * _speed;
             _factor = _value switch
             {
                 > 1 => -1,

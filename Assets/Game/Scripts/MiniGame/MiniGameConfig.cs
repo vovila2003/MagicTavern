@@ -8,23 +8,31 @@ namespace Tavern.MiniGame
     public class MiniGameConfig : ScriptableObject
     {
         [SerializeField,
-         ValidateInput("ValidateMin", "Must be between 0 and 1")] 
-        private float Min;
+         Range(0, 1),
+         ValidateInput("ValidateTargetMin", "Must be greater than 0 and less than 1")] 
+        private float TargetMin;
         
         [SerializeField,
-         ValidateInput("ValidateMax", "Must be between Min and 1")] 
-        private float Max;
-
-        [SerializeField, 
-         ValidateInput("ValidateSpeed", "Must be greater than 0")] 
-        private float Speed;
+         Range(0, 1),
+         ValidateInput("ValidateTargetMax", "Must be greater than TargetMin and less than 1")] 
+        private float TargetMax;
         
-        public float MinValue => Min;
-        public float MaxValue => Max;
-        public float SpeedValue => Speed;
+        [SerializeField, 
+         ValidateInput("ValidateSpeedMin", "Must be greater than 0")] 
+        private float SpeedMin;
+        
+        [SerializeField, 
+         ValidateInput("ValidateSpeedMax", "Must be greater than SpeedMin")] 
+        private float SpeedMax;
+        
+        public float TargetValueMin => TargetMin;
+        public float TargetValueMax => TargetMax;
+        public float SpeedValueMin => SpeedMin;
+        public float SpeedValueMax => SpeedMax;
 
-        private bool ValidateMin(float value) => value is >= 0 and <= 1;
-        private bool ValidateMax(float value) => value > Min && value <= 1;
-        private bool ValidateSpeed(float value) => value > 0;
+        private bool ValidateTargetMin(float value) => value is > 0 and < 1;
+        private bool ValidateTargetMax(float value) => value > TargetMin && value < 1;
+        private bool ValidateSpeedMin(float value) => value > 0;
+        private bool ValidateSpeedMax(float value) => value > SpeedMin;
     }
 }
