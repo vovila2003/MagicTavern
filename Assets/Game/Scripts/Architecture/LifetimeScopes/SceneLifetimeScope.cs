@@ -106,13 +106,15 @@ namespace Tavern.Architecture
             builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
             builder.RegisterComponentInHierarchy<Seedbed>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<SeedbedHarvestController>();
         }
 
         private void RegisterStorages(IContainerBuilder builder)
         {
             builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
-            //builder.RegisterComponentInHierarchy<ResourcesStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
         }
 
         private void RegisterLooting(IContainerBuilder builder)

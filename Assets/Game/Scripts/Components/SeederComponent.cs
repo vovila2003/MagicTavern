@@ -18,11 +18,13 @@ namespace Tavern.Components
     {
         private ISeedsStorage _seedsStorage;
         private bool _isEnable;
+        private IWaterStorage _waterStorage;
 
         [Inject]
-        private void Construct(ISeedsStorage seedsStorage)
+        private void Construct(ISeedsStorage seedsStorage, IWaterStorage waterStorage)
         {
             _seedsStorage = seedsStorage;
+            _waterStorage = waterStorage;
         }
 
         [Button]
@@ -86,8 +88,17 @@ namespace Tavern.Components
                 Debug.LogWarning("Seedbed is null");
                 return;
             }
+            
+            const int count = 1;
+
+            if (_waterStorage.Value < count)
+            {
+                Debug.Log("Not enough water in storage!");
+                return;
+            }
 
             seedbed.Watering();
+            _waterStorage.Spend(count);
         }
 
         void IStartGameListener.OnStart() => _isEnable = true;

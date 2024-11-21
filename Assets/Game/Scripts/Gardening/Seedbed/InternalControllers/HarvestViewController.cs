@@ -3,27 +3,34 @@ using UnityEngine;
 
 namespace Tavern.Gardening
 {
-    public class HarvestViewController
+    public class HarvestViewController : MonoBehaviour
     {
-        private readonly SpriteRenderer _spriteRenderer;
-        private readonly GameObject _waterIndicator;
-        private readonly ISeedbed _seedbed;
+        [SerializeField]
+        private Seedbed Seedbed;
+        
+        [SerializeField] 
+        private SpriteRenderer HarvestSpriteRenderer;
 
+        [SerializeField] 
+        private GameObject WaterIndicator;
+        
+        private ISeedbed _seedbed;
         private PlantMetadata _metadata;
 
-        public HarvestViewController(ISeedbed seedbed,
-            SpriteRenderer spriteRenderer, GameObject waterIndicator) 
+        private void Awake()
         {
-            _seedbed = seedbed;
-            _spriteRenderer = spriteRenderer;
-            _waterIndicator = waterIndicator;
+            _seedbed = Seedbed.SeedbedImpl;
+        }
+
+        private void OnEnable()
+        {
             _seedbed.OnHarvestStateChanged += OnHarvestStateChanged;
             _seedbed.OnHarvestAgeChanged += OnHarvestAgeChanged;
             _seedbed.OnHarvestWateringRequired += OnHarvestWateringRequired;
             _seedbed.OnGathered += OnGathered;
         }
 
-        public void Dispose()
+        private void OnDisable()
         {
             _seedbed.OnHarvestStateChanged -= OnHarvestStateChanged;
             _seedbed.OnHarvestAgeChanged -= OnHarvestAgeChanged;
@@ -36,8 +43,8 @@ namespace Tavern.Gardening
             if (state == HarvestState.Dried)
             {
                 var age = (int) _seedbed.Harvest.Age;
-                _spriteRenderer.sprite = _metadata.Drying[age];
-                _waterIndicator.SetActive(false);
+                HarvestSpriteRenderer.sprite = _metadata.Drying[age];
+                WaterIndicator.SetActive(false);
             }
         }
 
@@ -47,19 +54,19 @@ namespace Tavern.Gardening
 
             _metadata ??= _seedbed.Harvest.PlantConfig.PlantMetadata;
             
-            _spriteRenderer.sprite = _metadata.Healthy[(int) harvestAge];
+            HarvestSpriteRenderer.sprite = _metadata.Healthy[(int) harvestAge];
         }
 
         private void OnHarvestWateringRequired(bool isNeed)
         {
-            _waterIndicator.SetActive(isNeed);
+            WaterIndicator.SetActive(isNeed);
         }
 
         private void OnGathered()
         {
             _metadata = null;
-            _spriteRenderer.sprite = null;
-            _waterIndicator.SetActive(false);
+            HarvestSpriteRenderer.sprite = null;
+            WaterIndicator.SetActive(false);
         }
     }
 }

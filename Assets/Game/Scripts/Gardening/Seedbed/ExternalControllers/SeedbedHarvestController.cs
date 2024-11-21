@@ -1,25 +1,37 @@
+using System;
 using Modules.Gardening;
 using Tavern.Storages;
 using UnityEngine;
+using UnityEngine.Serialization;
+using VContainer;
 
 namespace Tavern.Gardening
 {
-    public sealed class SeedbedHarvestController
+    public sealed class SeedbedHarvestController : MonoBehaviour
     {
-        private readonly Seedbed _seedbed;
-        private readonly IProductsStorage _productsStorage;
+        [SerializeField]
+        private Seedbed Seedbed;
+        
+        private IProductsStorage _productsStorage;
+        private ISlopsStorage _slopeStorage;
 
-        public SeedbedHarvestController(Seedbed seedbed, IProductsStorage productsStorage)
+        [Inject]
+        public void Construct(IProductsStorage productsStorage, ISlopsStorage slopeStorage)
         {
-            _seedbed = seedbed;
             _productsStorage = productsStorage;
-            _seedbed.OnHarvestReceived += OnHarvestReceived;
-            _seedbed.OnSlopsReceived += OnSlopsReceived;
+            _slopeStorage = slopeStorage;
         }
 
-        public void Dispose()
+        private void OnEnable()
         {
-            _seedbed.OnHarvestReceived -= OnHarvestReceived;
+            Seedbed.OnHarvestReceived += OnHarvestReceived;
+            Seedbed.OnSlopsReceived += OnSlopsReceived;
+        }
+
+        private void OnDisable()
+        {
+            Seedbed.OnHarvestReceived -= OnHarvestReceived;
+                        
         }
 
         private void OnHarvestReceived(Plant type, int value)
@@ -35,8 +47,7 @@ namespace Tavern.Gardening
 
         private void OnSlopsReceived(int value)
         {
-            //TODO
-            Debug.Log($"Received {value} slops");
+            _slopeStorage.Add(value);
         }
     }
 }

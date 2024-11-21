@@ -212,6 +212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5066533885858674876}
   - component: {fileID: 6997635550738304690}
+  - component: {fileID: 7778646240127939956}
   m_Layer: 0
   m_Name: Seedbed
   m_TagString: Untagged
@@ -247,8 +248,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086b10a9e231705da9c0deeca9e14b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HarvestSpriteRenderer: {fileID: 4055232673108454037}
-  WaterIndicator: {fileID: 1239905471590593185}
+--- !u!114 &7778646240127939956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7424019376148153440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b45282b6934501863e5d71d1fccd5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Seedbed: {fileID: 6997635550738304690}
 --- !u!1 &7790452882534296249
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,6 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8864520198912559275}
+  - component: {fileID: 858843882853099575}
   m_Layer: 0
   m_Name: VIEW
   m_TagString: Untagged
@@ -283,6 +296,21 @@ Transform:
   - {fileID: 5929545902421000787}
   m_Father: {fileID: 5066533885858674876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858843882853099575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7790452882534296249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc1c96a73a804485bc8e653eea80191a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Seedbed: {fileID: 6997635550738304690}
+  HarvestSpriteRenderer: {fileID: 4055232673108454037}
+  WaterIndicator: {fileID: 1239905471590593185}
 --- !u!1 &8533537374766293997
 GameObject:
   m_ObjectHideFlags: 0
