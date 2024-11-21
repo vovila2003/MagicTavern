@@ -16,42 +16,13 @@ namespace Tavern.Components
         IPauseGameListener,
         IResumeGameListener
     {
-        private PlantsCatalog _catalog;
         private ISeedsStorage _seedsStorage;
-        private IResourcesStorage _resourcesStorage;
-        private SeedbedFactory _factory;
         private bool _isEnable;
 
         [Inject]
-        private void Construct(PlantsCatalog catalog, ISeedsStorage seedsStorage, 
-            IResourcesStorage resourcesStorage, SeedbedFactory factory)
+        private void Construct(ISeedsStorage seedsStorage)
         {
-            _catalog = catalog;
             _seedsStorage = seedsStorage;
-            _resourcesStorage = resourcesStorage;
-            _factory = factory;
-        }
-
-        [Button]
-        public void CreateSeedbed(Vector3 position, Quaternion rotation)
-        {
-            if (!_isEnable) return;
-            
-            _factory.CreateSeedbed(position, rotation);
-        }
-
-        [Button]
-        public void Prepare(Seedbed seedbed)
-        {
-            if (!_isEnable) return;
-
-            if (seedbed is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-            
-            seedbed.Prepare();
         }
 
         [Button]
@@ -71,12 +42,6 @@ namespace Tavern.Components
                 return;
             }
             
-            if (!_catalog.TryGetPlant(plant.Plant, out PlantConfig seedConfig))
-            {
-                Debug.Log($"Seeds of type {plant.Name} are not found in catalog");
-                return;
-            }
-
             if (!_seedsStorage.TryGetStorage(plant.Plant, out PlantStorage storage))
             {
                 Debug.Log("Seed storage of type {type} is not found!");
@@ -91,7 +56,7 @@ namespace Tavern.Components
                 return;
             }
 
-            bool result = seedbed.Seed(seedConfig, count);
+            bool result = seedbed.Seed(plant);
             if (!result) return;
             
             storage.Spend(count);
@@ -112,15 +77,9 @@ namespace Tavern.Components
         }
 
         [Button]
-        public void Care(Seedbed seedbed, Caring caringType)
+        public void Watering(Seedbed seedbed)
         {
             if (!_isEnable) return;
-            
-            if (caringType is null)
-            {
-                Debug.LogWarning("Caring is null");
-                return;
-            }
             
             if (seedbed is null)
             {
@@ -128,57 +87,17 @@ namespace Tavern.Components
                 return;
             }
 
-            if (seedbed.CurrentPlantConfig is null) return;
-
-            if (!seedbed.CurrentPlantConfig.TryGetCaring(caringType, out CaringConfig caringSettings)) return;
-
-            float count = caringSettings.CaringValue;
-            if (count <= 0)
-            {
-                seedbed.Care(caringType);
-                return;
-            }
-
-            if (!_resourcesStorage.TryGetStorage(caringType, out ResourceStorage storage))
-            {
-                Debug.Log($"Resource storage of type {caringType} is not found!");
-                return;
-            }
-
-            if (!storage.CanSpend(count))
-            {
-                Debug.Log($"Not enough resource of type {caringType} in storage!");
-                return;
-            }
-
-            if (!storage.Spend(count)) return;
-            
-            seedbed.Care(caringType);
+            seedbed.Watering();
         }
 
-        void IStartGameListener.OnStart()
-        {
-            _isEnable = true;
-        }
+        void IStartGameListener.OnStart() => _isEnable = true;
 
-        void IFinishGameListener.OnFinish()
-        {
-            _isEnable = false;
-        }
+        void IFinishGameListener.OnFinish() => _isEnable = false;
 
-        void IPauseGameListener.OnPause()
-        {
-            _isEnable = false;
-        }
+        void IPauseGameListener.OnPause() => _isEnable = false;
 
-        void IResumeGameListener.OnResume()
-        {
-            _isEnable = true;
-        }
+        void IResumeGameListener.OnResume() => _isEnable = true;
 
-        void IInitGameListener.OnInit()
-        {
-            _isEnable = false;
-        }
+        void IInitGameListener.OnInit() => _isEnable = false;
     }
 }

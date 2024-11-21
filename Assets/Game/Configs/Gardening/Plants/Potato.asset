@@ -15,18 +15,8 @@ MonoBehaviour:
   Plant:
     Name: Potato
     GrowthDurationInSeconds: 20
+    WateringCount: 2
     HarvestValue: 5
-    Carings:
-    - PlantCaring: {fileID: 11400000, guid: 4b2113678c898930a8130bfdf88e6803, type: 2}
-      DurationInSeconds: 11
-      EnableCriticalTimer: 1
-      CriticalDurationInSeconds: 19
-      Value: 1
-    - PlantCaring: {fileID: 11400000, guid: 290bec414a51554c2b378c52957dff1b, type: 2}
-      DurationInSeconds: 15
-      EnableCriticalTimer: 0
-      CriticalDurationInSeconds: 0
-      Value: 1
   Metadata:
     Title: "\u041A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"
     Description: "\u0421\u0430\u043C\u0430\u044F \u0432\u043A\u0443\u0441\u043D\u0430\u044F"
@@ -34,10 +24,13 @@ MonoBehaviour:
     Healthy:
     - {fileID: -739947447, guid: eba578407643c18cabb84806af2e679b, type: 3}
     - {fileID: -1793514715, guid: eba578407643c18cabb84806af2e679b, type: 3}
+    - {fileID: -1793514715, guid: eba578407643c18cabb84806af2e679b, type: 3}
     Drying:
     - {fileID: 2019941692, guid: 515770866ef5d44c49caa23fcaca4b93, type: 3}
     - {fileID: 938241444, guid: 515770866ef5d44c49caa23fcaca4b93, type: 3}
+    - {fileID: 938241444, guid: 515770866ef5d44c49caa23fcaca4b93, type: 3}
     Sick:
     - {fileID: 426249902, guid: 259d84a62990454c0835cb267b241fef, type: 3}
+    - {fileID: 1440270410, guid: 259d84a62990454c0835cb267b241fef, type: 3}
     - {fileID: 1440270410, guid: 259d84a62990454c0835cb267b241fef, type: 3}
     Lost: {fileID: 67377685, guid: eba578407643c18cabb84806af2e679b, type: 3}

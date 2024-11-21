@@ -1,9 +1,10 @@
 using System;
-using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
+using Tavern.Storages;
 using UnityEngine;
+using VContainer;
 
 namespace Tavern.Gardening
 {
@@ -13,82 +14,66 @@ namespace Tavern.Gardening
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener,
-        IExitGameListener, 
         IUpdateListener
     {
         [SerializeField] 
-        private SpriteRenderer HarvestSpriteRenderer; 
-        
-        [SerializeField]
-        private MeshRenderer SeedbedRenderer;
-        
-        [SerializeField]
-        private Material SeedbedReadyMaterial;
-        
-        [SerializeField]
-        private Material SeedbedNotReadyMaterial;
-        
+        private SpriteRenderer HarvestSpriteRenderer;
+
+        [SerializeField] 
+        private GameObject WaterIndicator;
+
         public event Action<Plant, int> OnHarvestReceived;
-        public event Action<Seedbed> OnDestroyed;
+        public event Action<int> OnSlopsReceived;
 
-        private readonly ISeedbed _seedbed = new SeedbedImpl();
+        private ISeedbed _seedbed;
         private bool _isEnable;
-        private int _count;
         private HarvestViewController _harvestController;
-        private SeedbedViewController _seedbedController;
+        private SeedbedHarvestController _seedbedHarvestController;
+        private IProductsStorage _productsStorage;
         
-        [CanBeNull] public PlantConfig CurrentPlantConfig { get; private set; }
+        [ShowInInspector, ReadOnly] 
+        private float _progress;
+        
+        [ShowInInspector, ReadOnly] 
+        private float _dryingTimerProgress;
 
-        [ShowInInspector, ReadOnly]
-        public SeedbedState SeedbedState => _seedbed.State;
-        
+        [Inject]
+        private void Construct(IProductsStorage productsStorage)
+        {
+            _productsStorage = productsStorage;
+        }
+
         private void Awake()
         {
             _isEnable = true;
+            _seedbed = new SeedbedImpl();
+            _harvestController = new HarvestViewController(_seedbed, HarvestSpriteRenderer, WaterIndicator);
+            _seedbedHarvestController = new SeedbedHarvestController(this, _productsStorage);
         }
 
         private void OnEnable()
         {
-            _seedbed.OnStateChanged += OnStateChanged;
+            _seedbed.OnHarvestProgressChanged += OnHarvestProgressChanged;
+            _seedbed.OnDryingTimerProgressChanged += OnDryingTimerChanged;
         }
 
         private void OnDisable()
         {
-            Unsubscribe();
+            _seedbed.OnHarvestProgressChanged -= OnHarvestProgressChanged;
+            _seedbed.OnDryingTimerProgressChanged -= OnDryingTimerChanged;
+            
             _harvestController.Dispose();
-            _seedbedController.Dispose();
+            _seedbedHarvestController.Dispose();
         }
 
-        public void SetupInternalControllers(Caring water, Caring heal)
+        public bool Seed(PlantConfig plantConfig)
         {
-            _harvestController = new HarvestViewController(_seedbed, HarvestSpriteRenderer, water, heal);
-            _seedbedController = new SeedbedViewController(_seedbed, SeedbedRenderer,
-                SeedbedNotReadyMaterial, SeedbedReadyMaterial);
-        }
+            if (!_isEnable || plantConfig is null) return false;
 
-        public void Prepare()
-        {
-            if (!_isEnable) return;
-            
-            bool result = _seedbed.Prepare();
-            Debug.Log($"Prepare seedbed: {result}");
-        }
-
-        public bool Seed(PlantConfig plantConfig, int count)
-        {
-            if (!_isEnable) return false;
-
-            if (plantConfig is null) return false; 
-            
             bool result = _seedbed.Seed(plantConfig);
             Debug.Log($"Seedbed seeded: {result}");
 
-            if (!result) return false;
-            
-            _count = count;
-            CurrentPlantConfig = plantConfig;
-
-            return true;
+            return result;
         }
 
         public void Gather()
@@ -98,35 +83,28 @@ namespace Tavern.Gardening
             bool gathered = _seedbed.Gather(out HarvestResult harvestResult);
             Debug.Log($"Seedbed gathered: {gathered}.");
             if (!gathered) return;
-            
-            Debug.Log($"HarvestResult: {harvestResult.IsCollected}, " +
-                      $"{harvestResult.Value}, {harvestResult.Plant.PlantName}");
-            
-            if (!harvestResult.IsCollected) return;
-            
-            OnHarvestReceived?.Invoke(harvestResult.Plant, harvestResult.Value * _count);
-            _count = 0;
-            CurrentPlantConfig = null;
+
+            if (harvestResult.IsNormal)
+            {
+                OnHarvestReceived?.Invoke(harvestResult.Plant, harvestResult.Value);
+            }
+            else
+            {
+                OnSlopsReceived?.Invoke(harvestResult.Value);
+            }
         }
 
-        public void Care(Caring caringType)
+        public void Watering()
         {
             if (!_isEnable) return;
             
-            _seedbed.Care(caringType);
-        }
-
-        [Button]
-        public void DestroySeedbed()
-        {
-            OnDestroyed?.Invoke(this);
-            Destroy(gameObject);
+            _seedbed.Watering();
         }
 
         void IUpdateListener.OnUpdate(float deltaTime)
         {
             if (!_isEnable) return;
-            
+
             _seedbed.Tick(deltaTime);
         }
 
@@ -154,19 +132,8 @@ namespace Tavern.Gardening
             _seedbed.Stop();
         }
 
-        void IExitGameListener.OnExit()
-        {
-            Unsubscribe();
-        }
+        private void OnHarvestProgressChanged(float progress) => _progress = progress;
 
-        private void Unsubscribe()
-        {
-            _seedbed.OnStateChanged -= OnStateChanged;
-        }
-
-        private void OnStateChanged(SeedbedState state)
-        {
-            Debug.Log($"Seedbed changed state to {state}");
-        }
+        private void OnDryingTimerChanged(float progress) => _dryingTimerProgress = progress;
     }
 }

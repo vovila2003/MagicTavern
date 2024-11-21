@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0503352e9880410899767dcd6748a362, type: 3}
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
-  Min: 0.5
-  Max: 0.7
-  Speed: 1
+  TargetMin: 0.1
+  TargetMax: 0.3
+  SpeedMin: 1
+  SpeedMax: 2

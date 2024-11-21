@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Modules.Gardening
@@ -13,15 +12,15 @@ namespace Modules.Gardening
         [SerializeField]
         private float GrowthDurationInSeconds;
 
-        [SerializeField]
-        private int HarvestValue;
+        [SerializeField] 
+        private int WateringCount; 
 
         [SerializeField]
-        private CaringConfig[] Carings;
+        private int HarvestValue;
 
         public string PlantName => Name;
         public float GrowthDuration => GrowthDurationInSeconds;
         public int ResultValue => HarvestValue;
-        public IEnumerable<CaringConfig> PlantCaring => Carings;
+        public int WateringAmount => WateringCount;
     }
 }

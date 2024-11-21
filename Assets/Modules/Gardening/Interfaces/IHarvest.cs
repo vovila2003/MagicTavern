@@ -5,18 +5,19 @@ namespace Modules.Gardening
     public interface IHarvest
     {
         event Action<HarvestState> OnStateChanged;
-        event Action<Caring, CaringState> OnCaringStateChanged;
-        event Action<int> OnAgeChanged;
+        event Action<HarvestAge> OnAgeChanged;
+        event Action OnWaterRequired;
+        event Action<float> OnProgressChanged;
+        event Action<float> OnDryingTimerProgressChanged;
 
         int Value { get; }
-        int CurrentAge { get; }
+        HarvestState State { get; }
+        HarvestAge Age { get; }
         PlantConfig PlantConfig { get; }
-        bool IsReady { get; }
-        Caring LostReason { get; }
 
         void StartGrow();
         void StopGrow();
-        void Care(Caring caring);
+        void Watering();
         
         void Tick(float deltaTime);
     }

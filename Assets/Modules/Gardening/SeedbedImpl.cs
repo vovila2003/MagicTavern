@@ -4,74 +4,55 @@ namespace Modules.Gardening
 {
     public class SeedbedImpl : ISeedbed
     {
-        public event Action<SeedbedState> OnStateChanged;
-
+        private const int SlopsValue = 1;
+        public event Action<bool> OnHarvestWateringRequired;
         public event Action<HarvestState> OnHarvestStateChanged;
+        public event Action<HarvestAge> OnHarvestAgeChanged;
+        public event Action<float> OnHarvestProgressChanged;
+        public event Action OnGathered;
+        public event Action<float> OnDryingTimerProgressChanged;
 
-        public event Action<Caring, CaringState> OnCaringChanged;
-
-        public event Action<int> OnHarvestAgeChanged;
-
-        public Caring LostReason => _harvest?.LostReason;
-        public SeedbedState State => _state;
-        public IHarvest Harvest => _harvest;
-
-        private SeedbedState _state = SeedbedState.NotReady;
         private IHarvest _harvest;
         private bool _isEnable;
 
-        public bool Prepare()
-        {
-            if (_state is not SeedbedState.NotReady) return false;
-            
-            _state = SeedbedState.Ready;
-            OnStateChanged?.Invoke(SeedbedState.Ready);
-            
-            return true;
-        }
+        public IHarvest Harvest => _harvest; 
 
         public bool Seed(PlantConfig plant) 
         {
-            if (_state != SeedbedState.Ready) return false;
+            if (_harvest is not null) return false;
 
             _harvest = new Harvest(plant);
-            
-            _state = SeedbedState.Seeded;
-            OnStateChanged?.Invoke(SeedbedState.Seeded);
-            
-            StartGrow();
-            
+            _harvest.OnStateChanged += OnStateChanged;
+            _harvest.OnAgeChanged += OnAgeChanged;
+            _harvest.OnWaterRequired += OnWateringRequired;
+            _harvest.OnProgressChanged += OnProgressChanged;
+            _harvest.OnDryingTimerProgressChanged += OnDryingProgressChanged;
+            _harvest.StartGrow();
+
+            _isEnable = true;
+
             return true;
         }
 
         public bool Gather(out HarvestResult harvestResult) 
         {
             harvestResult = new HarvestResult();
-            if (_harvest is null)
-            {
-                return false;
-            }
+            if (_harvest is null || _harvest.State == HarvestState.Growing) return false;
 
-            if (_state != SeedbedState.Seeded ||
-                !_harvest.IsReady)
-            {
-                harvestResult.IsCollected = false;
-                harvestResult.Value = 0;
-                return false;
-            }
-
-            harvestResult.Value = _harvest.Value;
-            harvestResult.IsCollected = true;
+            harvestResult.IsNormal = _harvest.State == HarvestState.Ready;
+            harvestResult.Value = harvestResult.IsNormal ? _harvest.Value : SlopsValue;
             harvestResult.Plant = _harvest.PlantConfig.Plant;
-
-            StopGrow();
             
+            StopGrow();
+            OnGathered?.Invoke();
+
             return true;
         }
 
-        public void Care(Caring caringType)
+        public void Watering()
         {
-            _harvest?.Care(caringType);
+            _harvest?.Watering();
+            OnHarvestWateringRequired?.Invoke(false);
         }
 
         public void Tick(float deltaTime)
@@ -81,66 +62,35 @@ namespace Modules.Gardening
             _harvest?.Tick(deltaTime);
         }
 
-        public void Pause()
-        {
-            _isEnable = false;
-        }
+        public void Pause() => _isEnable = false;
 
-        public void Resume()
-        {
-            _isEnable = true;
-        }
+        public void Resume() => _isEnable = true;
 
-        public void Stop()
-        {
-            StopGrow();
-        }
-
-        private void StartGrow()
-        {
-            _isEnable = true;
-            if (_harvest is null) return;
-
-            _harvest.OnStateChanged += OnHarvestStateChangedImpl;
-            _harvest.OnCaringStateChanged += HarvestCaringStateChanged;
-            _harvest.OnAgeChanged += HarvestAgeChanged;
-            
-            _harvest.StartGrow();
-        }
+        public void Stop() => StopGrow();
 
         private void StopGrow()
         {
             _isEnable = false;
             if (_harvest is null) return;
 
+            _harvest.OnStateChanged -= OnStateChanged;
+            _harvest.OnAgeChanged -= OnAgeChanged;
+            _harvest.OnWaterRequired -= OnWateringRequired;
+            _harvest.OnProgressChanged -= OnProgressChanged;
+            _harvest.OnDryingTimerProgressChanged -= OnDryingProgressChanged;
             _harvest.StopGrow();
             
-            _state = SeedbedState.NotReady;
-            OnStateChanged?.Invoke(SeedbedState.NotReady);
-            
-            _harvest.OnStateChanged -= OnHarvestStateChangedImpl;
-            _harvest.OnCaringStateChanged -= HarvestCaringStateChanged;
             _harvest = null;
         }
 
+        private void OnAgeChanged(HarvestAge age) => OnHarvestAgeChanged?.Invoke(age);
 
-        private void OnHarvestStateChangedImpl(HarvestState state)
-        {
-            OnHarvestStateChanged?.Invoke(state);
-            if (state == HarvestState.Lost)
-            {
-                _state = SeedbedState.NotReady;
-            }
-        }
+        private void OnStateChanged(HarvestState state) => OnHarvestStateChanged?.Invoke(state);
 
-        private void HarvestCaringStateChanged(Caring type, CaringState state)
-        {
-            OnCaringChanged?.Invoke(type, state);
-        }
+        private void OnWateringRequired() => OnHarvestWateringRequired?.Invoke(true);
 
-        private void HarvestAgeChanged(int age)
-        {
-            OnHarvestAgeChanged?.Invoke(age);    
-        }
+        private void OnProgressChanged(float progress) => OnHarvestProgressChanged?.Invoke(progress);
+
+        private void OnDryingProgressChanged(float progress) => OnDryingTimerProgressChanged?.Invoke(progress);
     }
 }

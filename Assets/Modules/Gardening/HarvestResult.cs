@@ -2,7 +2,7 @@ namespace Modules.Gardening
 {
     public struct HarvestResult
     {
-        public bool IsCollected;
+        public bool IsNormal;
         public int Value;
         public Plant Plant;
     }

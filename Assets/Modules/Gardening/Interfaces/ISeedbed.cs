@@ -4,20 +4,18 @@ namespace Modules.Gardening
 {
     public interface ISeedbed
     {
-        event Action<SeedbedState> OnStateChanged;
         event Action<HarvestState> OnHarvestStateChanged;
-        event Action<Caring, CaringState> OnCaringChanged;
+        event Action<HarvestAge> OnHarvestAgeChanged;
+        event Action<bool> OnHarvestWateringRequired;
+        event Action<float> OnHarvestProgressChanged;
+        event Action OnGathered;
+        event Action<float> OnDryingTimerProgressChanged;
         
-        event Action<int> OnHarvestAgeChanged;
-        
-        Caring LostReason { get; }
-        SeedbedState State { get; }
         IHarvest Harvest { get; }
 
-        bool Prepare();
         bool Seed(PlantConfig seed);
         bool Gather(out HarvestResult harvestResult);
-        void Care(Caring caringType);
+        void Watering();
         
         void Tick(float deltaTime);
         void Pause();

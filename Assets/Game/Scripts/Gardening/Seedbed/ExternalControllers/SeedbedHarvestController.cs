@@ -14,6 +14,7 @@ namespace Tavern.Gardening
             _seedbed = seedbed;
             _productsStorage = productsStorage;
             _seedbed.OnHarvestReceived += OnHarvestReceived;
+            _seedbed.OnSlopsReceived += OnSlopsReceived;
         }
 
         public void Dispose()
@@ -30,6 +31,12 @@ namespace Tavern.Gardening
             }
 
             storage.Add(value);
+        }
+
+        private void OnSlopsReceived(int value)
+        {
+            //TODO
+            Debug.Log($"Received {value} slops");
         }
     }
 }

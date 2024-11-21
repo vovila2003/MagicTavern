@@ -7,26 +7,24 @@ namespace Modules.Gardening
     [Serializable]
     public class PlantMetadata : Metadata
     {
+        private const int AgeCount = 3;
+        
         [Space]
         [SerializeField, 
+         ValidateInput("Validate", "Arrays size must be 3"),
          PreviewField]
-        public Sprite[] Healthy = new Sprite[3];
+        public Sprite[] Healthy = new Sprite[AgeCount];
         
         [SerializeField, 
-         ValidateInput("DryingValidate", "Arrays must have the same size"),
+         ValidateInput("Validate", "Arrays size must be 3"),
          PreviewField]
-        public Sprite[] Drying = new Sprite[3];
+        public Sprite[] Drying = new Sprite[AgeCount];
         
         [SerializeField, 
-         ValidateInput("SickValidate", "Arrays must have the same size"),
+         ValidateInput("Validate", "Arrays size must be 3"),
          PreviewField]
-        public Sprite[] Sick = new Sprite[3];
+        public Sprite[] Sick = new Sprite[AgeCount];
 
-        [SerializeField,
-         PreviewField] 
-        public Sprite Lost;
-
-        private bool DryingValidate() => Drying.Length == Healthy.Length;
-        private bool SickValidate() => Sick.Length == Healthy.Length;
+        private bool Validate() => Drying.Length == AgeCount;
     }
 }
