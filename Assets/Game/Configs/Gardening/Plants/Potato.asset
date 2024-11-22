@@ -16,6 +16,8 @@ MonoBehaviour:
     Name: Potato
     GrowthDurationInSeconds: 20
     WateringCount: 2
+    BaseProbabilityOfSickness: 80
+    PenaltyProbabilityOfSickness: 10
     HarvestValue: 5
   Metadata:
     Title: "\u041A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"

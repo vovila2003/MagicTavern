@@ -7,6 +7,7 @@ namespace Modules.Gardening
         event Action<HarvestState> OnHarvestStateChanged;
         event Action<HarvestAge> OnHarvestAgeChanged;
         event Action<bool> OnHarvestWateringRequired;
+        event Action<bool> OnHealingRequired;
         event Action<float> OnHarvestProgressChanged;
         event Action OnGathered;
         event Action<float> OnDryingTimerProgressChanged;
@@ -16,6 +17,7 @@ namespace Modules.Gardening
         bool Seed(PlantConfig seed);
         bool Gather(out HarvestResult harvestResult);
         void Watering();
+        void Heal(int medicineReducing);
         
         void Tick(float deltaTime);
         void Pause();

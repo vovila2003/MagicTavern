@@ -6,28 +6,29 @@ namespace Modules.Gardening
     {
         private const int SlopsValue = 1;
         public event Action<bool> OnHarvestWateringRequired;
+
+        public event Action<bool> OnHealingRequired;
         public event Action<HarvestState> OnHarvestStateChanged;
         public event Action<HarvestAge> OnHarvestAgeChanged;
         public event Action<float> OnHarvestProgressChanged;
         public event Action OnGathered;
         public event Action<float> OnDryingTimerProgressChanged;
 
-        private IHarvest _harvest;
         private bool _isEnable;
 
-        public IHarvest Harvest => _harvest; 
+        public IHarvest Harvest { get; private set; }
 
         public bool Seed(PlantConfig plant) 
         {
-            if (_harvest is not null) return false;
+            if (Harvest is not null) return false;
 
-            _harvest = new Harvest(plant);
-            _harvest.OnStateChanged += OnStateChanged;
-            _harvest.OnAgeChanged += OnAgeChanged;
-            _harvest.OnWaterRequired += OnWateringRequired;
-            _harvest.OnProgressChanged += OnProgressChanged;
-            _harvest.OnDryingTimerProgressChanged += OnDryingProgressChanged;
-            _harvest.StartGrow();
+            Harvest = new Harvest(plant);
+            Harvest.OnStateChanged += OnStateChanged;
+            Harvest.OnAgeChanged += OnAgeChanged;
+            Harvest.OnWaterRequired += OnWateringRequired;
+            Harvest.OnProgressChanged += OnProgressChanged;
+            Harvest.OnDryingTimerProgressChanged += OnDryingProgressChanged;
+            Harvest.StartGrow();
 
             _isEnable = true;
 
@@ -37,11 +38,11 @@ namespace Modules.Gardening
         public bool Gather(out HarvestResult harvestResult) 
         {
             harvestResult = new HarvestResult();
-            if (_harvest is null || _harvest.State == HarvestState.Growing) return false;
+            if (Harvest is null || Harvest.State == HarvestState.Growing) return false;
 
-            harvestResult.IsNormal = _harvest.State == HarvestState.Ready;
-            harvestResult.Value = harvestResult.IsNormal ? _harvest.Value : SlopsValue;
-            harvestResult.Plant = _harvest.PlantConfig.Plant;
+            harvestResult.IsNormal = Harvest.State == HarvestState.Ready;
+            harvestResult.Value = harvestResult.IsNormal ? Harvest.Value : SlopsValue;
+            harvestResult.Plant = Harvest.PlantConfig.Plant;
             
             StopGrow();
             OnGathered?.Invoke();
@@ -51,15 +52,25 @@ namespace Modules.Gardening
 
         public void Watering()
         {
-            _harvest?.Watering();
+            if (Harvest is null) return;
+            
+            Harvest.Watering();
             OnHarvestWateringRequired?.Invoke(false);
+        }
+
+        public void Heal(int medicineReducing)
+        {
+            if (Harvest is null) return;
+            
+            Harvest.Heal(medicineReducing);
+            OnHealingRequired?.Invoke(false);
         }
 
         public void Tick(float deltaTime)
         {
             if (!_isEnable) return;
             
-            _harvest?.Tick(deltaTime);
+            Harvest?.Tick(deltaTime);
         }
 
         public void Pause() => _isEnable = false;
@@ -71,16 +82,16 @@ namespace Modules.Gardening
         private void StopGrow()
         {
             _isEnable = false;
-            if (_harvest is null) return;
+            if (Harvest is null) return;
 
-            _harvest.OnStateChanged -= OnStateChanged;
-            _harvest.OnAgeChanged -= OnAgeChanged;
-            _harvest.OnWaterRequired -= OnWateringRequired;
-            _harvest.OnProgressChanged -= OnProgressChanged;
-            _harvest.OnDryingTimerProgressChanged -= OnDryingProgressChanged;
-            _harvest.StopGrow();
+            Harvest.OnStateChanged -= OnStateChanged;
+            Harvest.OnAgeChanged -= OnAgeChanged;
+            Harvest.OnWaterRequired -= OnWateringRequired;
+            Harvest.OnProgressChanged -= OnProgressChanged;
+            Harvest.OnDryingTimerProgressChanged -= OnDryingProgressChanged;
+            Harvest.StopGrow();
             
-            _harvest = null;
+            Harvest = null;
         }
 
         private void OnAgeChanged(HarvestAge age) => OnHarvestAgeChanged?.Invoke(age);

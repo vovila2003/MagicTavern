@@ -2,6 +2,7 @@ using System;
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
+using Tavern.Gardening.Medicine;
 using UnityEngine;
 
 namespace Tavern.Gardening
@@ -26,6 +27,12 @@ namespace Tavern.Gardening
 
         [ShowInInspector, ReadOnly] 
         private float _dryingTimerProgress;
+
+        [ShowInInspector, ReadOnly]
+        private bool IsSick => SeedbedImpl.Harvest?.IsSick ?? false;
+
+        [ShowInInspector, ReadOnly]
+        private int SickProbability => SeedbedImpl.Harvest?.SickProbability ?? -1;
 
         private void Awake()
         {
@@ -77,6 +84,13 @@ namespace Tavern.Gardening
             if (!_isEnable) return;
             
             SeedbedImpl.Watering();
+        }
+
+        public void Heal(MedicineItemConfig medicine)
+        {
+            if (!_isEnable) return;
+            
+            SeedbedImpl.Heal(medicine.Reducing);
         }
 
         void IUpdateListener.OnUpdate(float deltaTime)

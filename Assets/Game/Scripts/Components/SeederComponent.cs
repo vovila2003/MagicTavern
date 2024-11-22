@@ -1,7 +1,9 @@
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
+using Modules.Inventories;
 using Sirenix.OdinInspector;
 using Tavern.Gardening;
+using Tavern.Gardening.Medicine;
 using Tavern.Storages;
 using UnityEngine;
 using VContainer;
@@ -17,14 +19,17 @@ namespace Tavern.Components
         IResumeGameListener
     {
         private ISeedsStorage _seedsStorage;
-        private bool _isEnable;
         private IWaterStorage _waterStorage;
+        private IInventory<MedicineItem> _medicineInventory;
+        private bool _isEnable;
 
         [Inject]
-        private void Construct(ISeedsStorage seedsStorage, IWaterStorage waterStorage)
+        private void Construct(ISeedsStorage seedsStorage, IWaterStorage waterStorage, 
+            IInventory<MedicineItem> medicineInventory)
         {
             _seedsStorage = seedsStorage;
             _waterStorage = waterStorage;
+            _medicineInventory = medicineInventory;
         }
 
         [Button]
@@ -99,6 +104,26 @@ namespace Tavern.Components
 
             seedbed.Watering();
             _waterStorage.Spend(count);
+        }
+
+        [Button]
+        public void Heal(Seedbed seedbed, MedicineItemConfig medicine)
+        {
+            if (!_isEnable) return;
+            if (seedbed is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return;
+            }
+            
+            if (_medicineInventory.GetItemCount(medicine.Item.ItemName) <= 0)
+            {
+                Debug.Log($"Medicine of type {medicine.Item.ItemName} is not found!");
+                return;
+            }
+
+            seedbed.Heal(medicine);
+            _medicineInventory.RemoveItem(medicine.Item.ItemName);            
         }
 
         void IStartGameListener.OnStart() => _isEnable = true;

@@ -2,16 +2,14 @@ using System;
 using Modules.Gardening;
 using Tavern.Storages;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VContainer;
 
 namespace Tavern.Gardening
 {
+    [RequireComponent(typeof(Seedbed))]
     public sealed class SeedbedHarvestController : MonoBehaviour
     {
-        [SerializeField]
-        private Seedbed Seedbed;
-        
+        private Seedbed _seedbed;
         private IProductsStorage _productsStorage;
         private ISlopsStorage _slopeStorage;
 
@@ -22,15 +20,20 @@ namespace Tavern.Gardening
             _slopeStorage = slopeStorage;
         }
 
+        private void Awake()
+        {
+            _seedbed = GetComponent<Seedbed>();
+        }
+
         private void OnEnable()
         {
-            Seedbed.OnHarvestReceived += OnHarvestReceived;
-            Seedbed.OnSlopsReceived += OnSlopsReceived;
+            _seedbed.OnHarvestReceived += OnHarvestReceived;
+            _seedbed.OnSlopsReceived += OnSlopsReceived;
         }
 
         private void OnDisable()
         {
-            Seedbed.OnHarvestReceived -= OnHarvestReceived;
+            _seedbed.OnHarvestReceived -= OnHarvestReceived;
                         
         }
 

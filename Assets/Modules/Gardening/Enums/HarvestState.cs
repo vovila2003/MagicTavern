@@ -4,6 +4,7 @@ namespace Modules.Gardening
     {
         Growing = 0,
         Ready = 1,
-        Dried = 2
+        Dried = 2,
+        Lost = 3
     }
 }

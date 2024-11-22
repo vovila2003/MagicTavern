@@ -5,15 +5,20 @@ namespace Modules.Gardening
 {
     public class HarvestWatering
     {
+        private const float PenaltyDryingTimerDuration = 0.5f;
+        
+        private readonly Harvest _harvest;
         public event Action OnLost;
         public event Action OnWateringRequired;
         public event Action<float> OnDryingTimerProgressChanged;
         
         private readonly Timer _wateringTimer = new();
         private readonly Timer _dryingTimer = new();
+        private float _baseDryingTimerDuration;
 
-        public HarvestWatering(Plant plant)
+        public HarvestWatering(Harvest harvest, Plant plant)
         {
+            _harvest = harvest;
             SetupWateringTimer(plant);
             SetupDryingTimer(plant);
         }
@@ -51,7 +56,8 @@ namespace Modules.Gardening
         private void SetupDryingTimer(Plant plant)
         {
             _dryingTimer.Loop = false;
-            _dryingTimer.Duration = plant.GrowthDuration / plant.WateringAmount;
+            _baseDryingTimerDuration = plant.GrowthDuration / plant.WateringAmount; 
+            _dryingTimer.Duration = _baseDryingTimerDuration;
             _dryingTimer.OnEnded += OnDry;
             _dryingTimer.OnProgressChanged += OnProgressChanged;
         }
@@ -59,6 +65,7 @@ namespace Modules.Gardening
         private void OnWateringNeeded()
         {
             OnWateringRequired?.Invoke();
+            _dryingTimer.Duration = _baseDryingTimerDuration * (_harvest.IsSick ? PenaltyDryingTimerDuration : 1f);
             _dryingTimer.Start();
         }
 
