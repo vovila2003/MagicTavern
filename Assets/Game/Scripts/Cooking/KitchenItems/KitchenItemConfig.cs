@@ -1,4 +1,4 @@
-using Modules.Items;
+using Modules.Inventories;
 using UnityEngine;
 
 namespace Tavern.Cooking
@@ -6,7 +6,7 @@ namespace Tavern.Cooking
     [CreateAssetMenu(
         fileName = "KitchenItemConfig",
         menuName = "Settings/Cooking/KitchenItems/Kitchen Item Config")]
-    public class KitchenItemConfig : ItemConfig<KitchenItem>
+    public class KitchenItemConfig : StackableItemConfig<KitchenItem>
     {
     }
 }

@@ -25,6 +25,7 @@ namespace Modules.Inventories
             MaxSize = maxSize;
         }
 
+        [ShowInInspector, ReadOnly]
         public int Value
         {
             get => _value;

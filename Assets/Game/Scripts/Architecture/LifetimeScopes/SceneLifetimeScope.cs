@@ -5,6 +5,7 @@ using Tavern.Character.Visual;
 using Tavern.Components;
 using Tavern.Cooking;
 using Tavern.Gardening;
+using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
 using Tavern.InputServices;
 using Tavern.Looting;
@@ -110,12 +111,19 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<SeedbedHarvestController>();
 
             RegisterMedicine(builder);
+            RegisterFertilizer(builder);
         }
 
         private void RegisterMedicine(IContainerBuilder builder)
         {
             builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
+        }
+
+        private void RegisterFertilizer(IContainerBuilder builder)
+        {
+            builder.Register<FertilizerInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<FertilizerInventoryContext>();
         }
 
         private void RegisterStorages(IContainerBuilder builder)

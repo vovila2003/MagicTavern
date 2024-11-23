@@ -14,13 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: "\u0410\u0441\u043F\u0438\u0440\u0438\u043D"
-    Flags: 0
+    Flags: 1
     Metadata:
       Title: 
       Description: 
       Icon: {fileID: 0}
-    Attributes: []
+    Attributes:
+    - rid: 835742615920181249
   SickProbabilityReducing: 30
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 835742615920181249
+      type: {class: AttributeStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 1
+        MaxSize: 10

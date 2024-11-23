@@ -4,7 +4,7 @@ using Modules.Inventories;
 namespace Tavern.Gardening.Medicine
 {
     [UsedImplicitly]
-    public class MedicineInventory : ListInventory<MedicineItem>
+    public class MedicineInventory : StackableInventory<MedicineItem>
     {
     }
 }

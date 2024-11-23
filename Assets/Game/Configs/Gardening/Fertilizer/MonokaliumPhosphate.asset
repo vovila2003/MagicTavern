@@ -10,19 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e48c19180f142dea41e02e8656b45a5, type: 3}
-  m_Name: Fertilizer1
+  m_Name: MonokaliumPhosphate
   m_EditorClassIdentifier: 
   Item:
-    Name: 
-    Flags: 0
+    Name: MonokaliumPhosphate
+    Flags: 1
     Metadata:
-      Title: 
+      Title: "\u041C\u043E\u043D\u043E\u043A\u0430\u043B\u0438\u0439\u0444\u043E\u0441\u0444\u0430\u0442"
       Description: 
       Icon: {fileID: 0}
-    Attributes: []
+    Attributes:
+    - rid: 835742615920181248
   GrowthAccelerator: 0
   SickProbabilityReducing: 0
   HarvestBooster: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 835742615920181248
+      type: {class: AttributeStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0

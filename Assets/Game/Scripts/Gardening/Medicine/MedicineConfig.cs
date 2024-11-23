@@ -1,4 +1,4 @@
-using Modules.Items;
+using Modules.Inventories;
 using UnityEngine;
 
 namespace Tavern.Gardening.Medicine
@@ -6,7 +6,7 @@ namespace Tavern.Gardening.Medicine
     [CreateAssetMenu(
         fileName = "MedicineConfig",
         menuName = "Settings/Gardening/Medicine/Medicine Config")]
-    public class MedicineConfig : ItemConfig<MedicineItem>
+    public class MedicineConfig : StackableItemConfig<MedicineItem>
     {
         [SerializeField] 
         private int SickProbabilityReducing;

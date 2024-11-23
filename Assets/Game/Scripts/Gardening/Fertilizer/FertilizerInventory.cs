@@ -4,7 +4,7 @@ using Modules.Inventories;
 namespace Tavern.Gardening.Fertilizer
 {
     [UsedImplicitly]
-    public class FertilizerInventory : ListInventory<FertilizerItem>
+    public class FertilizerInventory : StackableInventory<FertilizerItem>
     {
     }
 }

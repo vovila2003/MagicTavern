@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Modules.Items
@@ -17,7 +18,7 @@ namespace Modules.Items
         protected ItemMetadata Metadata;
 
         [SerializeReference] 
-        public object[] Attributes;
+        public List<object> Attributes;
         
         public string ItemName => Name;
         public ItemFlags ItemFlags => Flags;
@@ -32,8 +33,11 @@ namespace Modules.Items
             Name = name;
             Flags = flags;
             Metadata = metadata;
-            Attributes = attributes;
+            Attributes = new List<object>(attributes);
         }
+
+        public void SetFlags(ItemFlags flags) => Flags |= flags;
+        public void ResetFlags(ItemFlags flags) => Flags &= ~flags;
 
         public T GetAttribute<T>()
         {
@@ -48,6 +52,8 @@ namespace Modules.Items
             throw new Exception($"Attribute of type {typeof(T).Name} is not found!");
         }
 
+        public bool HasAttribute<T>() => Attributes.OfType<T>().Any();
+
         public virtual Item Clone()
         {
             object[] attributes = GetAttributes();
@@ -57,7 +63,7 @@ namespace Modules.Items
 
         protected object[] GetAttributes()
         {
-            int count = Attributes.Length;
+            int count = Attributes.Count;
             var attributes = new object[count];
 
             for (var i = 0; i < count; i++)

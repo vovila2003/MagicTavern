@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Modules.Items
@@ -7,9 +8,10 @@ namespace Modules.Items
         [SerializeField]
         public T Item;
 
-        protected virtual void OnValidate()
+        protected virtual void Awake()
         {
-            Item.Attributes ??= new object[]{};
+            Item.Attributes ??= new List<object>();
         }
+
     }
 }

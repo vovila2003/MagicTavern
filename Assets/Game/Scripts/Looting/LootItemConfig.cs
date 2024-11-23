@@ -1,4 +1,4 @@
-using Modules.Items;
+using Modules.Inventories;
 using UnityEngine;
 
 namespace Tavern.Looting
@@ -6,7 +6,7 @@ namespace Tavern.Looting
     [CreateAssetMenu(
         fileName = "LootItemConfig",
         menuName = "Settings/Looting/Loot Item Config")]
-    public class LootItemConfig : ItemConfig<LootItem>
+    public class LootItemConfig : StackableItemConfig<LootItem>
     {
     }
 }

@@ -10,23 +10,30 @@ namespace Modules.Inventories
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;
         
+        public event Action<T, int> OnItemCountIncreased;
+        
+        public event Action<T, int> OnItemCountDecreased;
+        
         private readonly ListInventory<T> _inventory;
 
         public List<T> Items => _inventory.Items;
 
-        public StackableInventory()
+        protected StackableInventory()
         {
             _inventory = new ListInventory<T>();
         }
 
-        public StackableInventory(ListInventory<T> inventory)
+        protected StackableInventory(ListInventory<T> inventory)
         {
             _inventory = inventory;
         }
 
         public void Setup(params T[] items)
         {
-            _inventory.Setup(items);
+            foreach (T item in items)
+            {
+                AddItem(item);                
+            }
         }
 
         public void AddItem(T item)
@@ -132,12 +139,13 @@ namespace Modules.Inventories
             OnItemAdded?.Invoke(item);
         }
 
-        private static bool TryIncrementStackable(T existsItem)
+        private bool TryIncrementStackable(T existsItem)
         {
-            var componentStackable = existsItem.GetAttribute<AttributeStackable>();
-            if (componentStackable.IsFull) return false;
+            var stackableComponent = existsItem.GetAttribute<AttributeStackable>();
+            if (stackableComponent.IsFull) return false;
             
-            componentStackable.Value++;
+            stackableComponent.Value++;
+            OnItemCountIncreased?.Invoke(existsItem, stackableComponent.Value);
             
             return true;
         }
@@ -161,6 +169,7 @@ namespace Modules.Inventories
             if (stackableComponent.Value <= 1) return false;
             
             stackableComponent.Value--;
+            OnItemCountDecreased?.Invoke(item, stackableComponent.Value);
             
             return true;
         }

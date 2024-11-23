@@ -2,11 +2,15 @@ using Modules.Items;
 
 namespace Modules.Inventories
 {
-    public class StackableItemConfig<T> : ItemConfig<T> where T : StackableItem
+    public class StackableItemConfig<T> : ItemConfig<T> where T : Item
     {
-        protected override void OnValidate()
+        protected override void Awake()
         {
-            Item.Attributes ??= new object[] {new AttributeStackable()};
+            base.Awake();
+            if (Item.HasAttribute<AttributeStackable>()) return;
+            
+            Item.Attributes?.Add(new AttributeStackable());
+            Item.SetFlags(ItemFlags.Stackable);
         }
     }
 }
