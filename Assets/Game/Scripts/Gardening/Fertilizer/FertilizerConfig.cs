@@ -1,4 +1,4 @@
-using Modules.Items;
+using Modules.Inventories;
 using UnityEngine;
 
 namespace Tavern.Gardening.Fertilizer
@@ -6,7 +6,7 @@ namespace Tavern.Gardening.Fertilizer
     [CreateAssetMenu(
         fileName = "FertilizerConfig",
         menuName = "Settings/Gardening/Fertilizer/Fertilizer Config")]
-    public class FertilizerConfig : ItemConfig<FertilizerItem>
+    public class FertilizerConfig : StackableItemConfig<FertilizerItem>
     {
         [SerializeField, Range(0f, 100f)] 
         private int GrowthAccelerator;

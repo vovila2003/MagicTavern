@@ -6,7 +6,10 @@ namespace Modules.Items
     {
         [SerializeField]
         public T Item;
-        
-        private void OnValidate() => Item.Attributes ??= new object[] { };
+
+        protected virtual void OnValidate()
+        {
+            Item.Attributes ??= new object[]{};
+        }
     }
 }

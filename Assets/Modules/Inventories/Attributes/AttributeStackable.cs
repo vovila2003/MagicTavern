@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Inventories
@@ -11,12 +12,18 @@ namespace Modules.Inventories
         [SerializeField] 
         private bool IsLimited;
 
-        [SerializeField]
+        [SerializeField, ShowIf("IsLimited")]
         private int MaxSize;
 
         private int _value;
-        
+
         public bool IsFull => IsLimited && _value >= MaxSize;
+
+        public AttributeStackable(bool isLimited = false, int maxSize = 0)
+        {
+            IsLimited = isLimited;
+            MaxSize = maxSize;
+        }
 
         public int Value
         {
