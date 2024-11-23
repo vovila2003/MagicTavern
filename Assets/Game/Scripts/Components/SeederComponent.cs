@@ -107,7 +107,7 @@ namespace Tavern.Components
         }
 
         [Button]
-        public void Heal(Seedbed seedbed, MedicineItemConfig medicine)
+        public void Heal(Seedbed seedbed, MedicineConfig medicine)
         {
             if (!_isEnable) return;
             if (seedbed is null)

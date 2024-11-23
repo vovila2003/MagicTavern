@@ -4,9 +4,9 @@ using UnityEngine;
 namespace Tavern.Gardening.Medicine
 {
     [CreateAssetMenu(
-        fileName = "MedicineItemConfig",
-        menuName = "Settings/Gardening/Medicine/Medicine Item Config")]
-    public class MedicineItemConfig : ItemConfig<MedicineItem>
+        fileName = "MedicineConfig",
+        menuName = "Settings/Gardening/Medicine/Medicine Config")]
+    public class MedicineConfig : ItemConfig<MedicineItem>
     {
         [SerializeField] 
         private int SickProbabilityReducing;

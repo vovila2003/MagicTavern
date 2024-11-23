@@ -86,7 +86,7 @@ namespace Tavern.Gardening
             SeedbedImpl.Watering();
         }
 
-        public void Heal(MedicineItemConfig medicine)
+        public void Heal(MedicineConfig medicine)
         {
             if (!_isEnable) return;
             

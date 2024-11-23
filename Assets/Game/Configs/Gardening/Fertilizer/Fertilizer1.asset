@@ -9,18 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6292505c47c14ec0b28d58c118eed982, type: 3}
-  m_Name: Aspirine
+  m_Script: {fileID: 11500000, guid: 6e48c19180f142dea41e02e8656b45a5, type: 3}
+  m_Name: Fertilizer1
   m_EditorClassIdentifier: 
   Item:
-    Name: "\u0410\u0441\u043F\u0438\u0440\u0438\u043D"
+    Name: 
     Flags: 0
     Metadata:
       Title: 
       Description: 
       Icon: {fileID: 0}
     Attributes: []
-  SickProbabilityReducing: 30
+  GrowthAccelerator: 0
+  SickProbabilityReducing: 0
+  HarvestBooster: 0
   references:
     version: 2
     RefIds: []
