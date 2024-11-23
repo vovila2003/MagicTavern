@@ -15,7 +15,11 @@ namespace Tavern.Gardening.Medicine
             private set => SickProbabilityReducing = value;
         }
 
-        public ComponentHarvestSickProbabilityReducing(int reducing = 0)
+        public ComponentHarvestSickProbabilityReducing()
+        {
+        }
+
+        private ComponentHarvestSickProbabilityReducing(int reducing = 0)
         {
             SickProbabilityReducing = reducing;
         }

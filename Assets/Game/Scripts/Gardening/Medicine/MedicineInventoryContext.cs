@@ -10,7 +10,6 @@ namespace Tavern.Gardening.Medicine
         {
             Consumer = consumer;
             Consumer.AddHandler(new SickProbabilityReducingHandler());
-            Consumer.AddHandler(new LogTextHandler());
         }
     }
 }
