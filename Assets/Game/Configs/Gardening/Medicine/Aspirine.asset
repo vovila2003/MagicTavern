@@ -13,20 +13,24 @@ MonoBehaviour:
   m_Name: Aspirine
   m_EditorClassIdentifier: 
   Item:
-    Name: "\u0410\u0441\u043F\u0438\u0440\u0438\u043D"
-    Flags: 1
+    Name: Aspirin
+    Flags: 3
     Metadata:
       Title: 
       Description: 
       Icon: {fileID: 0}
-    Attributes:
-    - rid: 835742615920181249
-  SickProbabilityReducing: 30
+    Components:
+    - rid: 835742624321896482
+    - rid: 835742624321896483
   references:
     version: 2
     RefIds:
-    - rid: 835742615920181249
-      type: {class: AttributeStackable, ns: Modules.Inventories, asm: Inventories}
+    - rid: 835742624321896482
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
-        IsLimited: 1
-        MaxSize: 10
+        IsLimited: 0
+        MaxSize: 0
+    - rid: 835742624321896483
+      type: {class: ComponentHarvestSickProbabilityReducing, ns: Tavern.Gardening.Medicine, asm: Game}
+      data:
+        SickProbabilityReducing: 30

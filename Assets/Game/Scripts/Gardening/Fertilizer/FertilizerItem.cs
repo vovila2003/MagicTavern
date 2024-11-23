@@ -1,5 +1,4 @@
 using System;
-using Modules.Inventories;
 using Modules.Items;
 
 namespace Tavern.Gardening.Fertilizer

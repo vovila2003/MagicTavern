@@ -7,9 +7,9 @@ namespace Modules.Inventories
         protected override void Awake()
         {
             base.Awake();
-            if (Item.HasAttribute<AttributeStackable>()) return;
+            if (Item.HasComponent<ComponentStackable>()) return;
             
-            Item.Attributes?.Add(new AttributeStackable());
+            Item.Components?.Add(new ComponentStackable());
             Item.SetFlags(ItemFlags.Stackable);
         }
     }

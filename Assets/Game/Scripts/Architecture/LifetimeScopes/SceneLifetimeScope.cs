@@ -1,3 +1,4 @@
+using Modules.Consuming;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
@@ -116,6 +117,7 @@ namespace Tavern.Architecture
 
         private void RegisterMedicine(IContainerBuilder builder)
         {
+            builder.Register<MedicineConsumer>(Lifetime.Singleton).AsSelf();
             builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
         }

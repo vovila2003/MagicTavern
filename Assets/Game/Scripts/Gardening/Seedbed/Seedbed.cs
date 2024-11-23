@@ -86,11 +86,11 @@ namespace Tavern.Gardening
             SeedbedImpl.Watering();
         }
 
-        public void Heal(MedicineConfig medicine)
+        public void Heal(int reducing)
         {
             if (!_isEnable) return;
             
-            SeedbedImpl.Heal(medicine.Reducing);
+            SeedbedImpl.Heal(reducing);
         }
 
         void IUpdateListener.OnUpdate(float deltaTime)

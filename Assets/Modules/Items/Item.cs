@@ -16,9 +16,9 @@ namespace Modules.Items
         
         [SerializeField] 
         protected ItemMetadata Metadata;
-
+        
         [SerializeReference] 
-        public List<object> Attributes;
+        public List<object> Components;
         
         public string ItemName => Name;
         public ItemFlags ItemFlags => Flags;
@@ -33,15 +33,15 @@ namespace Modules.Items
             Name = name;
             Flags = flags;
             Metadata = metadata;
-            Attributes = new List<object>(attributes);
+            Components = new List<object>(attributes);
         }
 
         public void SetFlags(ItemFlags flags) => Flags |= flags;
         public void ResetFlags(ItemFlags flags) => Flags &= ~flags;
 
-        public T GetAttribute<T>()
+        public T GetComponent<T>()
         {
-            foreach (object attribute in Attributes)
+            foreach (object attribute in Components)
             {
                 if (attribute is T tAttribute)
                 {
@@ -52,7 +52,7 @@ namespace Modules.Items
             throw new Exception($"Attribute of type {typeof(T).Name} is not found!");
         }
 
-        public bool HasAttribute<T>() => Attributes.OfType<T>().Any();
+        public bool HasComponent<T>() => Components.OfType<T>().Any();
 
         public virtual Item Clone()
         {
@@ -63,12 +63,12 @@ namespace Modules.Items
 
         protected object[] GetAttributes()
         {
-            int count = Attributes.Count;
+            int count = Components.Count;
             var attributes = new object[count];
 
             for (var i = 0; i < count; i++)
             {
-                object attribute = Attributes[i];
+                object attribute = Components[i];
                 if (attribute is ICloneable cloneable)
                 {
                     attribute = cloneable.Clone();

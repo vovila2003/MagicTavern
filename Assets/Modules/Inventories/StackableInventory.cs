@@ -94,7 +94,7 @@ namespace Modules.Inventories
             if (!FindAllItems(name, out List<T> items)) return 0;
 
             return IsStackable(items.First())
-                ? items.Sum(item => item.GetAttribute<AttributeStackable>().Value)
+                ? items.Sum(item => item.GetComponent<ComponentStackable>().Value)
                 : items.Count;
         }
 
@@ -141,7 +141,7 @@ namespace Modules.Inventories
 
         private bool TryIncrementStackable(T existsItem)
         {
-            var stackableComponent = existsItem.GetAttribute<AttributeStackable>();
+            var stackableComponent = existsItem.GetComponent<ComponentStackable>();
             if (stackableComponent.IsFull) return false;
             
             stackableComponent.Value++;
@@ -165,7 +165,7 @@ namespace Modules.Inventories
 
         private bool TryDecrementStackable(T item)
         {
-            var stackableComponent = item.GetAttribute<AttributeStackable>();
+            var stackableComponent = item.GetComponent<ComponentStackable>();
             if (stackableComponent.Value <= 1) return false;
             
             stackableComponent.Value--;
@@ -177,11 +177,11 @@ namespace Modules.Inventories
         private T RemoveItemWithMinValue(IReadOnlyList<T> items)
         {
             T itemWithMinValue = items[0];
-            int minValue = itemWithMinValue.GetAttribute<AttributeStackable>().Value;
+            int minValue = itemWithMinValue.GetComponent<ComponentStackable>().Value;
             for (var i = 1; i < items.Count; i++)
             {
                 T item = items[i];
-                int value = item.GetAttribute<AttributeStackable>().Value;
+                int value = item.GetComponent<ComponentStackable>().Value;
                 if (value > minValue) continue;
                 
                 minValue = value;

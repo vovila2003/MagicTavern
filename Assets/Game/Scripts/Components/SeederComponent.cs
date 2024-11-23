@@ -1,6 +1,5 @@
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
-using Modules.Inventories;
 using Sirenix.OdinInspector;
 using Tavern.Gardening;
 using Tavern.Gardening.Medicine;
@@ -20,16 +19,17 @@ namespace Tavern.Components
     {
         private ISeedsStorage _seedsStorage;
         private IWaterStorage _waterStorage;
-        private IInventory<MedicineItem> _medicineInventory;
+        private MedicineInventoryContext _medicineInventoryContext;
         private bool _isEnable;
 
         [Inject]
-        private void Construct(ISeedsStorage seedsStorage, IWaterStorage waterStorage, 
-            IInventory<MedicineItem> medicineInventory)
+        private void Construct(ISeedsStorage seedsStorage, 
+            IWaterStorage waterStorage, 
+            MedicineInventoryContext medicineConsumer)
         {
             _seedsStorage = seedsStorage;
             _waterStorage = waterStorage;
-            _medicineInventory = medicineInventory;
+            _medicineInventoryContext = medicineConsumer;
         }
 
         [Button]
@@ -116,14 +116,7 @@ namespace Tavern.Components
                 return;
             }
             
-            if (_medicineInventory.GetItemCount(medicine.Item.ItemName) <= 0)
-            {
-                Debug.Log($"Medicine of type {medicine.Item.ItemName} is not found!");
-                return;
-            }
-
-            seedbed.Heal(medicine);
-            _medicineInventory.RemoveItem(medicine.Item.ItemName);            
+            _medicineInventoryContext.Consume(medicine.Item, seedbed);            
         }
 
         void IStartGameListener.OnStart() => _isEnable = true;
