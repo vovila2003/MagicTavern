@@ -10,7 +10,7 @@ namespace Modules.Items
 
         protected virtual void Awake()
         {
-            Item.Components ??= new List<object>();
+            Item.Components ??= new List<IItemComponent>();
         }
     }
 }

@@ -1,14 +1,14 @@
 using System;
+using Modules.Items;
 
 namespace Tavern.Gardening.Medicine
 {
     [Serializable]
-    public class ComponentHarvestHeal : ICloneable
+    public class ComponentHarvestHeal : IItemComponent
     {
-        public ComponentHarvestHeal()
+        public IItemComponent Clone()
         {
+            return new ComponentHarvestHeal();
         }
-
-        object ICloneable.Clone() => new ComponentHarvestHeal();
     }
 }

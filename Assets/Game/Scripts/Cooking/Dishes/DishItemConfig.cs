@@ -8,10 +8,6 @@ namespace Tavern.Cooking
         menuName = "Settings/Cooking/Dishes/Dish Item Config")]
     public class DishItemConfig : StackableItemConfig<DishItem>
     {
-        [SerializeField, Space] 
-        private int Exotic;
-        
-        public int DishExotic => Exotic;
     }
 }
 

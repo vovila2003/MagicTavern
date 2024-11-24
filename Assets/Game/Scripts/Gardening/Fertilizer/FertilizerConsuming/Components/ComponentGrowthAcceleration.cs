@@ -1,10 +1,11 @@
 using System;
+using Modules.Items;
 using UnityEngine;
 
 namespace Tavern.Gardening.Fertilizer
 {
     [Serializable]
-    public class ComponentGrowthAcceleration : ICloneable
+    public class ComponentGrowthAcceleration : IItemComponent
     {
         [SerializeField, Range(0, 100)] 
         private int GrowthAccelerationInPercent;
@@ -24,6 +25,9 @@ namespace Tavern.Gardening.Fertilizer
             GrowthAccelerationInPercent = acceleration;
         }
 
-        object ICloneable.Clone() => new ComponentGrowthAcceleration(GrowthAccelerationInPercent);
+        public IItemComponent Clone()
+        {
+            return new ComponentGrowthAcceleration(GrowthAccelerationInPercent);    
+        }
     }
 }

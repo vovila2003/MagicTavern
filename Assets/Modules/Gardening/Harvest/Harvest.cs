@@ -129,8 +129,10 @@ namespace Modules.Gardening
         private void CheckSickness(HarvestAge age)
         {
             if (age == HarvestAge.Old) return;
-            
-            IsSick = IsSick || _harvestSickness.IsSick();
+
+            bool isSick = _harvestSickness.IsSick();
+            Debug.Log($"Is sick = {isSick}");
+            IsSick = IsSick || isSick;
             if (IsSick)
             {
                 OnSick?.Invoke();

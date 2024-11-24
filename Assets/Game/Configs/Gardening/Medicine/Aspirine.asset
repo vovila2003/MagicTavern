@@ -21,6 +21,7 @@ MonoBehaviour:
       Icon: {fileID: 0}
     Components:
     - rid: 835742624321896482
+    - rid: 835742636863127578
     - rid: 835742636863127566
   references:
     version: 2
@@ -34,3 +35,6 @@ MonoBehaviour:
       type: {class: ComponentHarvestSicknessReducing, ns: Tavern.Gardening.Medicine, asm: Game}
       data:
         SicknessReducingInPercents: 30
+    - rid: 835742636863127578
+      type: {class: ComponentHarvestHeal, ns: Tavern.Gardening.Medicine, asm: Game}
+      data: 

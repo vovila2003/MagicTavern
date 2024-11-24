@@ -1,10 +1,11 @@
 using System;
+using Modules.Items;
 using UnityEngine;
 
 namespace Tavern.Gardening.Medicine
 {
     [Serializable]
-    public class ComponentHarvestSicknessReducing : ICloneable
+    public class ComponentHarvestSicknessReducing : IItemComponent
     {
         [SerializeField, Range(0, 100)] 
         private int SicknessReducingInPercents;
@@ -24,6 +25,9 @@ namespace Tavern.Gardening.Medicine
             SicknessReducingInPercents = reducing;
         }
 
-        object ICloneable.Clone() => new ComponentHarvestSicknessReducing(SicknessReducingInPercents);
+        public IItemComponent Clone()
+        {
+            return new ComponentHarvestSicknessReducing(SicknessReducingInPercents);
+        }
     }
 }

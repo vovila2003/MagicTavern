@@ -1,11 +1,12 @@
 using System;
+using Modules.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Inventories
 {
     [Serializable]
-    public class ComponentStackable : ICloneable
+    public class ComponentStackable : IItemComponent
     {
         public event Action<int> OnValueChanged;
 
@@ -42,7 +43,7 @@ namespace Modules.Inventories
             set => MaxSize = value;
         }
 
-        object ICloneable.Clone()
+        public IItemComponent Clone()
         {
             return new ComponentStackable
             {

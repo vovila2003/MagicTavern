@@ -6,14 +6,14 @@ namespace Tavern.Cooking
     [Serializable]
     public class KitchenItem : Item
     {
-        public KitchenItem(string name, ItemFlags flags, ItemMetadata metadata, params object[] attributes) 
+        public KitchenItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }
         
         public override Item Clone()
         {
-            object[] attributes = GetAttributes();
+            IItemComponent[] attributes = GetComponents();
 
             return new KitchenItem(Name, Flags, Metadata, attributes);
         }

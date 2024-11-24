@@ -6,14 +6,14 @@ namespace Tavern.Gardening.Fertilizer
     [Serializable]
     public class FertilizerItem : Item
     {
-        public FertilizerItem(string name, ItemFlags flags, ItemMetadata metadata, params object[] attributes) 
+        public FertilizerItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }
         
         public override Item Clone()
         {
-            object[] attributes = GetAttributes();
+            IItemComponent[] attributes = GetComponents();
     
             return new FertilizerItem(Name, Flags, Metadata, attributes);
         }

@@ -514,7 +514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Water
   DebugMode: 1
-  StartValueInStorageInDebugMode: 10
+  StartValueInStorageInDebugMode: 100
   Storage:
     Limit: 0
     MaxValue: 500

@@ -18,7 +18,7 @@ namespace Modules.Items
         protected ItemMetadata Metadata;
         
         [SerializeReference] 
-        public List<object> Components;
+        public List<IItemComponent> Components;
         
         public string ItemName => Name;
         public ItemFlags ItemFlags => Flags;
@@ -28,12 +28,12 @@ namespace Modules.Items
             string name,
             ItemFlags flags,
             ItemMetadata metadata,
-            params object[] attributes)
+            params IItemComponent[] attributes)
         {
             Name = name;
             Flags = flags;
             Metadata = metadata;
-            Components = new List<object>(attributes);
+            Components = new List<IItemComponent>(attributes);
         }
 
         public void SetFlags(ItemFlags flags) => Flags |= flags;
@@ -41,7 +41,7 @@ namespace Modules.Items
 
         public T GetComponent<T>()
         {
-            foreach (object attribute in Components)
+            foreach (IItemComponent attribute in Components)
             {
                 if (attribute is T tAttribute)
                 {
@@ -56,28 +56,28 @@ namespace Modules.Items
 
         public virtual Item Clone()
         {
-            object[] attributes = GetAttributes();
+            IItemComponent[] components = GetComponents();
 
-            return new Item(Name, Flags, Metadata, attributes);
+            return new Item(Name, Flags, Metadata, components);
         }
 
-        protected object[] GetAttributes()
+        protected IItemComponent[] GetComponents()
         {
             int count = Components.Count;
-            var attributes = new object[count];
+            var components = new IItemComponent[count];
 
             for (var i = 0; i < count; i++)
             {
-                object attribute = Components[i];
-                if (attribute is ICloneable cloneable)
+                IItemComponent component = Components[i];
+                if (component is IItemComponent cloneable)
                 {
-                    attribute = cloneable.Clone();
+                    component = cloneable.Clone();
                 }
 
-                attributes[i] = attribute;
+                components[i] = component;
             }
 
-            return attributes;
+            return components;
         }
     }
 }

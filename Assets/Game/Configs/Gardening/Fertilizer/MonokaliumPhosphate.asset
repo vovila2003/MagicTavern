@@ -23,6 +23,7 @@ MonoBehaviour:
     - rid: 835742636863127567
     - rid: 835742636863127568
     - rid: 835742636863127569
+    - rid: 835742636863127572
   references:
     version: 2
     RefIds:
@@ -34,8 +35,12 @@ MonoBehaviour:
     - rid: 835742636863127568
       type: {class: ComponentHarvestBooster, ns: Tavern.Gardening.Fertilizer, asm: Game}
       data:
-        HarvestBoostInPercent: 0
+        HarvestBoostInPercent: 30
     - rid: 835742636863127569
       type: {class: ComponentHarvestSicknessReducing, ns: Tavern.Gardening.Medicine, asm: Game}
       data:
-        SicknessReducingInPercents: 0
+        SicknessReducingInPercents: 50
+    - rid: 835742636863127572
+      type: {class: ComponentGrowthAcceleration, ns: Tavern.Gardening.Fertilizer, asm: Game}
+      data:
+        GrowthAccelerationInPercent: 20
