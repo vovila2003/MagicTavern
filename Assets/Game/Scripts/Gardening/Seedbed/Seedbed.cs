@@ -21,7 +21,7 @@ namespace Tavern.Gardening
         private bool _isEnable;
 
         public ISeedbed SeedbedImpl { get; } = new SeedbedImpl();
-
+        
         [ShowInInspector, ReadOnly] 
         private float _progress;
 
@@ -33,6 +33,8 @@ namespace Tavern.Gardening
 
         [ShowInInspector, ReadOnly]
         private int SickProbability => SeedbedImpl.Harvest?.SickProbability ?? -1;
+        
+        public bool IsSeeded {get; private set;}
 
         private void Awake()
         {
@@ -55,10 +57,10 @@ namespace Tavern.Gardening
         {
             if (!_isEnable || plantConfig is null) return false;
 
-            bool result = SeedbedImpl.Seed(plantConfig);
-            Debug.Log($"Seedbed seeded: {result}");
+            IsSeeded = SeedbedImpl.Seed(plantConfig);
+            Debug.Log($"Seedbed seeded: {IsSeeded}");
 
-            return result;
+            return IsSeeded;
         }
 
         public void Gather()
@@ -67,6 +69,7 @@ namespace Tavern.Gardening
             
             bool gathered = SeedbedImpl.Gather(out HarvestResult harvestResult);
             Debug.Log($"Seedbed gathered: {gathered}.");
+            IsSeeded = !gathered;
             if (!gathered) return;
 
             if (harvestResult.IsNormal)
@@ -86,11 +89,18 @@ namespace Tavern.Gardening
             SeedbedImpl.Watering();
         }
 
-        public void Heal(int reducing)
+        public void Heal()
         {
             if (!_isEnable) return;
             
-            SeedbedImpl.Heal(reducing);
+            SeedbedImpl.Heal();
+        }
+
+        public void ReduceHarvestSicknessProbability(int reducing)
+        {
+            if (!_isEnable) return;
+            
+            SeedbedImpl.ReduceHarvestSicknessProbability(reducing);
         }
 
         void IUpdateListener.OnUpdate(float deltaTime)

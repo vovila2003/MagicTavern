@@ -13,12 +13,14 @@ namespace Modules.Gardening
         event Action<float> OnDryingTimerProgressChanged;
         
         IHarvest Harvest { get; }
+        SeedbedBoost SeedbedBoost { get; }
 
         bool Seed(PlantConfig seed);
         bool Gather(out HarvestResult harvestResult);
         void Watering();
-        void Heal(int medicineReducing);
-        
+        void Heal();
+        void ReduceHarvestSicknessProbability(int reducing);
+
         void Tick(float deltaTime);
         void Pause();
         void Resume();

@@ -124,6 +124,7 @@ namespace Tavern.Architecture
 
         private void RegisterFertilizer(IContainerBuilder builder)
         {
+            builder.Register<FertilizerConsumer>(Lifetime.Singleton).AsSelf();
             builder.Register<FertilizerInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<FertilizerInventoryContext>();
         }

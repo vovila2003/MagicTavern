@@ -9,7 +9,8 @@ namespace Tavern.Gardening.Medicine
         private void Construct(MedicineConsumer consumer)
         {
             Consumer = consumer;
-            Consumer.AddHandler(new SickProbabilityReducingHandler());
+            Consumer.AddHandler(new HarvestHealHandler());
+            Consumer.AddHandler(new HarvestSicknessReducingHandler());
         }
     }
 }

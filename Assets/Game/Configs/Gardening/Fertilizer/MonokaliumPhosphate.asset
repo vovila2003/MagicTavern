@@ -14,15 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: MonokaliumPhosphate
-    Flags: 1
+    Flags: 3
     Metadata:
       Title: "\u041C\u043E\u043D\u043E\u043A\u0430\u043B\u0438\u0439\u0444\u043E\u0441\u0444\u0430\u0442"
       Description: 
       Icon: {fileID: 0}
-    Attributes: []
-  GrowthAccelerator: 0
-  SickProbabilityReducing: 0
-  HarvestBooster: 0
+    Components:
+    - rid: 835742636863127567
+    - rid: 835742636863127568
+    - rid: 835742636863127569
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 835742636863127567
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0
+    - rid: 835742636863127568
+      type: {class: ComponentHarvestBooster, ns: Tavern.Gardening.Fertilizer, asm: Game}
+      data:
+        HarvestBoostInPercent: 0
+    - rid: 835742636863127569
+      type: {class: ComponentHarvestSicknessReducing, ns: Tavern.Gardening.Medicine, asm: Game}
+      data:
+        SicknessReducingInPercents: 0

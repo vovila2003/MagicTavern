@@ -17,12 +17,13 @@ namespace Modules.Gardening
         private bool _isEnable;
 
         public IHarvest Harvest { get; private set; }
+        public SeedbedBoost SeedbedBoost { get; } = new();
 
         public bool Seed(PlantConfig plant) 
         {
             if (Harvest is not null) return false;
 
-            Harvest = new Harvest(plant);
+            Harvest = new Harvest(plant, SeedbedBoost);
             Harvest.OnStateChanged += OnStateChanged;
             Harvest.OnAgeChanged += OnAgeChanged;
             Harvest.OnWaterRequired += OnWateringRequired;
@@ -41,7 +42,9 @@ namespace Modules.Gardening
             if (Harvest is null || Harvest.State == HarvestState.Growing) return false;
 
             harvestResult.IsNormal = Harvest.State == HarvestState.Ready;
-            harvestResult.Value = harvestResult.IsNormal ? Harvest.Value : SlopsValue;
+            harvestResult.Value = harvestResult.IsNormal 
+                ? (int) (Harvest.Value * (1 + SeedbedBoost.HarvestBoostInPercent / 100.0f)) 
+                : SlopsValue;
             harvestResult.Plant = Harvest.PlantConfig.Plant;
             
             StopGrow();
@@ -58,12 +61,17 @@ namespace Modules.Gardening
             OnHarvestWateringRequired?.Invoke(false);
         }
 
-        public void Heal(int medicineReducing)
+        public void Heal()
         {
             if (Harvest is null) return;
             
-            Harvest.Heal(medicineReducing);
+            Harvest.Heal();
             OnHealingRequired?.Invoke(false);
+        }
+
+        public void ReduceHarvestSicknessProbability(int reducing)
+        {
+            Harvest?.ReduceHarvestSicknessProbability(reducing);
         }
 
         public void Tick(float deltaTime)

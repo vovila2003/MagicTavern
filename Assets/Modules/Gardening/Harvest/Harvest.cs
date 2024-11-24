@@ -1,5 +1,6 @@
 using System;
 using Modules.Timers;
+using UnityEngine;
 
 namespace Modules.Gardening
 {
@@ -30,15 +31,21 @@ namespace Modules.Gardening
         public bool IsSick { get; private set; }
         public int SickProbability => _harvestSickness.Probability;
 
-        public Harvest(PlantConfig plantConfig)
+        public Harvest(PlantConfig plantConfig, SeedbedBoost seedbedBoost)
         {
+            Debug.Log($"Boost = {seedbedBoost.HarvestBoostInPercent}," +
+                      $" Acceleration = {seedbedBoost.GrowthAccelerationInPercent}," + 
+                      $" Reducing = {seedbedBoost.SicknessProbabilityReducingInPercent}");
+            
+            
             Value = 0;
             PlantConfig = plantConfig;
-            _resultHarvestAmount = plantConfig.Plant.ResultValue;
+            _resultHarvestAmount = (int)(plantConfig.Plant.ResultValue * 
+                                         (1 + seedbedBoost.HarvestBoostInPercent / 100.0f));
 
-            SetupGrowthTimer(plantConfig.Plant);
-            SetupWatering(plantConfig.Plant);
-            SetupSickness(plantConfig.Plant);
+            SetupGrowthTimer(plantConfig.Plant, seedbedBoost.GrowthAccelerationInPercent);
+            SetupWatering(plantConfig.Plant, seedbedBoost.GrowthAccelerationInPercent);
+            SetupSickness(plantConfig.Plant, seedbedBoost.SicknessProbabilityReducingInPercent);
         }
 
         public void StartGrow()
@@ -80,10 +87,14 @@ namespace Modules.Gardening
             _isPaused = false;
         }
 
-        public void Heal(int medicineReducing)
+        public void Heal()
         {
             IsSick = false;
-            _harvestSickness.DecreaseSicknessProbability(medicineReducing);
+        }
+
+        public void ReduceHarvestSicknessProbability(int reducing)
+        {
+            _harvestSickness.DecreaseSicknessProbability(reducing);
         }
 
         public void Tick(float deltaTime)
@@ -93,25 +104,25 @@ namespace Modules.Gardening
             _growthTimer.Tick(deltaTime);
         }
 
-        private void SetupGrowthTimer(Plant plant)
+        private void SetupGrowthTimer(Plant plant, int acceleration)
         {
             _growthTimer.Loop = false;
-            _growthTimer.Duration = plant.GrowthDuration;
+            _growthTimer.Duration = plant.GrowthDuration * (1 - acceleration / 100.0f);
             _growthTimer.OnEnded += OnGrowthEnded;
             _growthTimer.OnProgressChanged += OnGrowthProgressChanged;
         }
 
-        private void SetupWatering(Plant plant)
+        private void SetupWatering(Plant plant, int acceleration)
         {
-            _watering = new HarvestWatering(this, plant);
+            _watering = new HarvestWatering(this, plant, acceleration);
             _watering.OnWateringRequired += OnWateringRequired;
             _watering.OnLost += OnHarvestDry;
             _watering.OnDryingTimerProgressChanged += OnDryingProgressChanged;
         }
 
-        private void SetupSickness(Plant plant)
+        private void SetupSickness(Plant plant, int reducing)
         {
-            _harvestSickness = new HarvestSickness(plant);
+            _harvestSickness = new HarvestSickness(plant, reducing);
             OnAgeChanged += CheckSickness;
         }
 

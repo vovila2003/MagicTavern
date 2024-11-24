@@ -21,8 +21,9 @@ namespace Modules.Gardening
         void StartGrow();
         void StopGrow();
         void Watering();
-        void Heal(int medicineReducing);
-        
+        void Heal();
+        void ReduceHarvestSicknessProbability(int reducing);
+
         void Tick(float deltaTime);
     }
 }

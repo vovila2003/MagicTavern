@@ -1,4 +1,6 @@
 using Modules.Inventories;
+using Modules.Items;
+using Tavern.Gardening.Medicine;
 using UnityEngine;
 
 namespace Tavern.Gardening.Fertilizer
@@ -8,17 +10,25 @@ namespace Tavern.Gardening.Fertilizer
         menuName = "Settings/Gardening/Fertilizer/Fertilizer Config")]
     public class FertilizerConfig : StackableItemConfig<FertilizerItem>
     {
-        [SerializeField, Range(0f, 100f)] 
-        private int GrowthAccelerator;
-        
-        [SerializeField] 
-        private int SickProbabilityReducing;
+        protected override void Awake()
+        {
+            base.Awake();
+            Item.SetFlags(ItemFlags.Consumable);
 
-        [SerializeField, Range(0f, 100f)] 
-        private int HarvestBooster;
-
-        public int Accelerator => GrowthAccelerator;
-        public int Reducing => SickProbabilityReducing;
-        public int Booster => HarvestBooster;
+            if (!Item.HasComponent<ComponentHarvestBooster>())
+            {
+                Item.Components?.Add(new ComponentHarvestBooster());    
+            }
+            
+            if (!Item.HasComponent<ComponentHarvestSicknessReducing>())
+            {
+                Item.Components?.Add(new ComponentHarvestSicknessReducing());    
+            }
+            
+            if (!Item.HasComponent<ComponentGrowthAcceleration>())
+            {
+                Item.Components?.Add(new ComponentGrowthAcceleration());    
+            }
+        }
     }
 }

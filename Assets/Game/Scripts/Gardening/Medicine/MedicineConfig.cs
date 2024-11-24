@@ -12,10 +12,17 @@ namespace Tavern.Gardening.Medicine
         protected override void Awake()
         {
             base.Awake();
-            if (Item.HasComponent<ComponentHarvestSickProbabilityReducing>()) return;
-            
-            Item.Components?.Add(new ComponentHarvestSickProbabilityReducing());
             Item.SetFlags(ItemFlags.Consumable);
+
+            if (!Item.HasComponent<ComponentHarvestHeal>())
+            {
+                Item.Components?.Add(new ComponentHarvestHeal());
+            }
+
+            if (!Item.HasComponent<ComponentHarvestSicknessReducing>())
+            {
+                Item.Components?.Add(new ComponentHarvestSicknessReducing());
+            }
         }
     }
 }

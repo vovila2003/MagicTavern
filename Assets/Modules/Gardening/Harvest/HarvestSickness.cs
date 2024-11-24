@@ -6,13 +6,13 @@ namespace Modules.Gardening
     {
         private readonly int _penalty;
 
-        public HarvestSickness(Plant plant)
+        public int Probability { get; private set; }
+
+        public HarvestSickness(Plant plant, int reducing)
         {
-            Probability = plant.SicknessProbability;
+            SetNewProbabilityValue(plant.SicknessProbability - reducing);
             _penalty = plant.SicknessPenalty;
         }
-
-        public int Probability { get; private set; }
 
         public bool IsSick()
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tavern.Gardening.Medicine
 {
-    public class SickProbabilityReducingHandler : IInventoryItemConsumeHandler
+    public class HarvestHealHandler : IInventoryItemConsumeHandler
     {
         private Seedbed _target;
         public void SetTarget(object target)
@@ -20,10 +20,9 @@ namespace Tavern.Gardening.Medicine
                 return;
             }
 
-            if (!item.HasComponent<ComponentHarvestSickProbabilityReducing>()) return;
+            if (!item.HasComponent<ComponentHarvestHeal>()) return;
 
-            var attribute = item.GetComponent<ComponentHarvestSickProbabilityReducing>();
-            _target.Heal(attribute.Reducing);
+            _target.Heal();
         }
     }
 }

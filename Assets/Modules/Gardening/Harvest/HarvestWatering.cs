@@ -16,11 +16,11 @@ namespace Modules.Gardening
         private readonly Timer _dryingTimer = new();
         private float _baseDryingTimerDuration;
 
-        public HarvestWatering(Harvest harvest, Plant plant)
+        public HarvestWatering(Harvest harvest, Plant plant, int acceleration)
         {
             _harvest = harvest;
-            SetupWateringTimer(plant);
-            SetupDryingTimer(plant);
+            SetupWateringTimer(plant, acceleration);
+            SetupDryingTimer(plant, acceleration);
         }
 
         public void Start() => _wateringTimer.Start();
@@ -46,17 +46,17 @@ namespace Modules.Gardening
             _dryingTimer.OnProgressChanged -= OnProgressChanged;
         }
 
-        private void SetupWateringTimer(Plant plant)
+        private void SetupWateringTimer(Plant plant, int acceleration)
         {
             _wateringTimer.Loop = true;
-            _wateringTimer.Duration = plant.GrowthDuration / plant.WateringAmount;
+            _wateringTimer.Duration = plant.GrowthDuration * (1 - acceleration / 100.0f) / plant.WateringAmount;
             _wateringTimer.OnEnded += OnWateringNeeded;
         }
 
-        private void SetupDryingTimer(Plant plant)
+        private void SetupDryingTimer(Plant plant, int acceleration)
         {
             _dryingTimer.Loop = false;
-            _baseDryingTimerDuration = plant.GrowthDuration / plant.WateringAmount; 
+            _baseDryingTimerDuration = plant.GrowthDuration * (1 - acceleration / 100.0f) / plant.WateringAmount; 
             _dryingTimer.Duration = _baseDryingTimerDuration;
             _dryingTimer.OnEnded += OnDry;
             _dryingTimer.OnProgressChanged += OnProgressChanged;
