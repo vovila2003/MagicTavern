@@ -39,33 +39,9 @@ namespace Tavern.Components
         [Button]
         public void Seed(Pot pot, PlantConfig plant)
         {
-            if (!_isEnable) return;
-            
-            if (pot is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-
-            if (plant is null)
-            {
-                Debug.LogWarning("Plant is null");
-                return;
-            }
-            
-            if (!_seedsStorage.TryGetStorage(plant.Plant, out PlantStorage storage))
-            {
-                Debug.Log("Seed storage of type {type} is not found!");
-                return;
-            }
-
             const int count = 1;
-
-            if (!storage.CanSpend(count))
-            {
-                Debug.Log("Not enough seeds of type {type} in storage!");
-                return;
-            }
+            
+            if (!CanSeed(pot, plant, count, out PlantStorage storage)) return;
 
             bool result = pot.Seed(plant);
             if (!result) return;
@@ -76,21 +52,7 @@ namespace Tavern.Components
         [Button]
         public void Fertilize(Pot pot, FertilizerConfig fertilizer)
         {
-            if (!_isEnable) return;
-            
-            if (pot is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-
-            if (!pot.IsSeeded) return;
-            
-            if (fertilizer is null)
-            {
-                Debug.LogWarning("Fertilizer is null");
-                return;
-            }
+            if (!CanFertilize(pot, fertilizer)) return;
 
             if (pot.IsFertilized) return;
 
@@ -100,21 +62,9 @@ namespace Tavern.Components
         [Button]
         public void Watering(Pot pot)
         {
-            if (!_isEnable) return;
-            
-            if (pot is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-            
             const int count = 1;
-
-            if (_waterStorage.Value < count)
-            {
-                Debug.Log("Not enough water in storage!");
-                return;
-            }
+            
+            if (!CanWatering(pot, count)) return;
 
             pot.Watering();
             _waterStorage.Spend(count);
@@ -123,14 +73,9 @@ namespace Tavern.Components
         [Button]
         public void Heal(Pot pot, MedicineConfig medicine)
         {
-            if (!_isEnable) return;
-            if (pot is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-            
-            _medicineInventoryContext.Consume(medicine.Item, pot);            
+            if (!CanHeal(pot, medicine)) return;
+
+            _medicineInventoryContext.Consume(medicine.Item, pot);
         }
 
         void IStartGameListener.OnStart() => _isEnable = true;
@@ -156,5 +101,86 @@ namespace Tavern.Components
         void IResumeGameListener.OnResume() => _isEnable = true;
 
         void IInitGameListener.OnInit() => _isEnable = false;
+
+        private bool CanSeed(Pot pot, PlantConfig plant, int count, out PlantStorage storage)
+        {
+            storage = null;
+            if (!_isEnable) return false;
+
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return false;
+            }
+
+            if (plant is null)
+            {
+                Debug.LogWarning("Plant is null");
+                return false;
+            }
+
+            if (!_seedsStorage.TryGetStorage(plant.Plant, out storage))
+            {
+                Debug.Log("Seed storage of type {type} is not found!");
+                return false;
+            }
+
+            if (storage.CanSpend(count)) return true;
+            
+            Debug.Log("Not enough seeds of type {type} in storage!");
+            return false;
+        }
+
+        private bool CanFertilize(Pot pot, FertilizerConfig fertilizer)
+        {
+            if (!_isEnable) return false;
+            
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return false;
+            }
+
+            if (!pot.IsSeeded) return false;
+
+            if (fertilizer is not null) return true;
+            
+            Debug.LogWarning("Fertilizer is null");
+            return false;
+        }
+
+        private bool CanWatering(Pot pot, int count)
+        {
+            if (!_isEnable) return false;
+
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return false;
+            }
+
+            if (!(_waterStorage.Value < count)) return true;
+            
+            Debug.Log("Not enough water in storage!");
+            return false;
+        }
+
+        private bool CanHeal(Pot pot, MedicineConfig medicine)
+        {
+            if (!_isEnable) return false;
+            
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return false;
+            }
+
+            if (!pot.IsSick) return false;
+
+            if (medicine is not null) return true;
+            
+            Debug.LogWarning("Medicine is null");
+            return false;
+        }
     }
 }

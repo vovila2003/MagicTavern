@@ -29,7 +29,7 @@ namespace Tavern.Gardening
         private float _dryingTimerProgress;
 
         [ShowInInspector, ReadOnly]
-        private bool IsSick => Seedbed.Harvest?.IsSick ?? false;
+        public bool IsSick => Seedbed.Harvest?.IsSick ?? false;
 
         [ShowInInspector, ReadOnly]
         private int SickProbability => Seedbed.Harvest?.SickProbability ?? -1;
