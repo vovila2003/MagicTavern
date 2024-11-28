@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 namespace Tavern.Cooking
 {
-    public class Cookbook
+    public class DishCookbook
     {
         private readonly Dictionary<string, DishRecipe> _recipes = new();
         private readonly Dictionary<DishItemConfig, DishRecipe> _recipesByConfig = new();
 
         public IReadOnlyDictionary<string, DishRecipe> Recipes => _recipes;
 
-        public Cookbook(DishRecipe[] recipes)
+        public DishCookbook(DishRecipe[] recipes)
         {
             foreach (DishRecipe recipe in recipes)
             {

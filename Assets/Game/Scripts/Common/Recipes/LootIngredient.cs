@@ -2,7 +2,7 @@ using System;
 using Modules.Crafting;
 using Tavern.Looting;
 
-namespace Tavern.Cooking
+namespace Tavern.Common
 {
     [Serializable]
     public class LootIngredient : Ingredient<LootItem>

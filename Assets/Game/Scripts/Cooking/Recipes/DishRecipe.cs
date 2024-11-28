@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Modules.Crafting;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
+using Tavern.Common;
 using UnityEngine;
 
 namespace Tavern.Cooking

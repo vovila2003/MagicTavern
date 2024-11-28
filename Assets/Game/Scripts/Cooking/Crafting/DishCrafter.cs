@@ -3,6 +3,7 @@ using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Modules.Inventories;
+using Tavern.Common;
 using Tavern.Looting;
 using Tavern.Storages;
 using UnityEngine;
