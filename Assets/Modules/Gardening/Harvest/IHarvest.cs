@@ -22,7 +22,9 @@ namespace Modules.Gardening
         void StopGrow();
         void Watering();
         void Heal();
+        void BoostHarvestAmount(int boostInPercent);
         void ReduceHarvestSicknessProbability(int reducing);
+        void AccelerateGrowth(int accelerationInPercent);
 
         void Tick(float deltaTime);
     }

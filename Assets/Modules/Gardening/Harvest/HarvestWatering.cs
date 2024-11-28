@@ -16,11 +16,11 @@ namespace Modules.Gardening
         private readonly Timer _dryingTimer = new();
         private float _baseDryingTimerDuration;
 
-        public HarvestWatering(Harvest harvest, Plant plant, int acceleration)
+        public HarvestWatering(Harvest harvest, Plant plant)
         {
             _harvest = harvest;
-            SetupWateringTimer(plant, acceleration);
-            SetupDryingTimer(plant, acceleration);
+            SetupWateringTimer(plant);
+            SetupDryingTimer(plant);
         }
 
         public void Start() => _wateringTimer.Start();
@@ -32,6 +32,14 @@ namespace Modules.Gardening
         }
 
         public void Water() => _dryingTimer.Stop();
+
+        public void SetNewDuration(int accelerationInPercent)
+        {
+            float currentWateringDuration = _wateringTimer.Duration;
+            float newWateringDuration = currentWateringDuration * (1 - accelerationInPercent / 100f );
+            _wateringTimer.Duration = newWateringDuration;
+            _baseDryingTimerDuration = newWateringDuration;
+        }
 
         public void Tick(float deltaTime)
         {
@@ -46,17 +54,17 @@ namespace Modules.Gardening
             _dryingTimer.OnProgressChanged -= OnProgressChanged;
         }
 
-        private void SetupWateringTimer(Plant plant, int acceleration)
+        private void SetupWateringTimer(Plant plant)
         {
             _wateringTimer.Loop = true;
-            _wateringTimer.Duration = plant.GrowthDuration * (1 - acceleration / 100.0f) / plant.WateringAmount;
+            _wateringTimer.Duration = plant.GrowthDuration / plant.WateringAmount;
             _wateringTimer.OnEnded += OnWateringNeeded;
         }
 
-        private void SetupDryingTimer(Plant plant, int acceleration)
+        private void SetupDryingTimer(Plant plant)
         {
             _dryingTimer.Loop = false;
-            _baseDryingTimerDuration = plant.GrowthDuration * (1 - acceleration / 100.0f) / plant.WateringAmount; 
+            _baseDryingTimerDuration = plant.GrowthDuration / plant.WateringAmount; 
             _dryingTimer.Duration = _baseDryingTimerDuration;
             _dryingTimer.OnEnded += OnDry;
             _dryingTimer.OnProgressChanged += OnProgressChanged;

@@ -6,10 +6,10 @@ using VContainer;
 
 namespace Tavern.Gardening
 {
-    [RequireComponent(typeof(Seedbed))]
+    [RequireComponent(typeof(Pot))]
     public sealed class SeedbedHarvestController : MonoBehaviour
     {
-        private Seedbed _seedbed;
+        private Pot _pot;
         private IProductsStorage _productsStorage;
         private ISlopsStorage _slopeStorage;
 
@@ -22,18 +22,18 @@ namespace Tavern.Gardening
 
         private void Awake()
         {
-            _seedbed = GetComponent<Seedbed>();
+            _pot = GetComponent<Pot>();
         }
 
         private void OnEnable()
         {
-            _seedbed.OnHarvestReceived += OnHarvestReceived;
-            _seedbed.OnSlopsReceived += OnSlopsReceived;
+            _pot.OnHarvestReceived += OnHarvestReceived;
+            _pot.OnSlopsReceived += OnSlopsReceived;
         }
 
         private void OnDisable()
         {
-            _seedbed.OnHarvestReceived -= OnHarvestReceived;
+            _pot.OnHarvestReceived -= OnHarvestReceived;
                         
         }
 

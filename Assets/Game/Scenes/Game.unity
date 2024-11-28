@@ -1577,7 +1577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7424019376148153440, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
       propertyPath: m_Name
-      value: Seedbed
+      value: Pot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4152,7 +4152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1923880909}
   m_Layer: 0
-  m_Name: Seedbeds
+  m_Name: Pots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

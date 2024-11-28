@@ -26,8 +26,7 @@ namespace Modules.Consuming
             item.ItemFlags.HasFlag(ItemFlags.Consumable) && _inventory.IsItemExists(item);
 
         public bool CanConsumeItem(string name) =>
-            _inventory.FindItem(name, out T item) &&
-            item.ItemFlags.HasFlag(ItemFlags.Consumable);
+            _inventory.FindItem(name, out T item) && item.ItemFlags.HasFlag(ItemFlags.Consumable);
 
         public void ConsumeItem(T item, object target)
         {

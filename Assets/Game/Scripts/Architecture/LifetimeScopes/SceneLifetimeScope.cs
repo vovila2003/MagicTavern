@@ -1,4 +1,3 @@
-using Modules.Consuming;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
@@ -28,7 +27,7 @@ namespace Tavern.Architecture
 
         [SerializeField] 
         private Transform World;
-        
+
         protected override void Configure(IContainerBuilder builder)
         {
             RegisterCommon(builder);
@@ -108,7 +107,7 @@ namespace Tavern.Architecture
             builder.RegisterInstance(GameSettings.PlantsCatalog);
             builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
-            builder.RegisterComponentInHierarchy<Seedbed>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<Pot>().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<SeedbedHarvestController>();
 
             RegisterMedicine(builder);

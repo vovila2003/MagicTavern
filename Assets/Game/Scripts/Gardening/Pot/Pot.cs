@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Tavern.Gardening
 {
-    public class Seedbed :
+    public class Pot :
         MonoBehaviour,
         IStartGameListener,
         IPauseGameListener,
@@ -20,7 +20,7 @@ namespace Tavern.Gardening
 
         private bool _isEnable;
 
-        public ISeedbed SeedbedImpl { get; } = new SeedbedImpl();
+        public ISeedbed Seedbed { get; } = new Seedbed();
         
         [ShowInInspector, ReadOnly] 
         private float _progress;
@@ -29,12 +29,13 @@ namespace Tavern.Gardening
         private float _dryingTimerProgress;
 
         [ShowInInspector, ReadOnly]
-        private bool IsSick => SeedbedImpl.Harvest?.IsSick ?? false;
+        private bool IsSick => Seedbed.Harvest?.IsSick ?? false;
 
         [ShowInInspector, ReadOnly]
-        private int SickProbability => SeedbedImpl.Harvest?.SickProbability ?? -1;
+        private int SickProbability => Seedbed.Harvest?.SickProbability ?? -1;
         
         public bool IsSeeded {get; private set;}
+        public bool IsFertilized => Seedbed.IsFertilized;
 
         private void Awake()
         {
@@ -43,21 +44,21 @@ namespace Tavern.Gardening
 
         private void OnEnable()
         {
-            SeedbedImpl.OnHarvestProgressChanged += OnHarvestProgressChanged;
-            SeedbedImpl.OnDryingTimerProgressChanged += OnDryingTimerChanged;
+            Seedbed.OnHarvestProgressChanged += OnHarvestProgressChanged;
+            Seedbed.OnDryingTimerProgressChanged += OnDryingTimerChanged;
         }
 
         private void OnDisable()
         {
-            SeedbedImpl.OnHarvestProgressChanged -= OnHarvestProgressChanged;
-            SeedbedImpl.OnDryingTimerProgressChanged -= OnDryingTimerChanged;
+            Seedbed.OnHarvestProgressChanged -= OnHarvestProgressChanged;
+            Seedbed.OnDryingTimerProgressChanged -= OnDryingTimerChanged;
         }
 
         public bool Seed(PlantConfig plantConfig)
         {
             if (!_isEnable || plantConfig is null) return false;
 
-            IsSeeded = SeedbedImpl.Seed(plantConfig);
+            IsSeeded = Seedbed.Seed(plantConfig);
             Debug.Log($"Seedbed seeded: {IsSeeded}");
 
             return IsSeeded;
@@ -67,7 +68,7 @@ namespace Tavern.Gardening
         {
             if (!_isEnable) return;
             
-            bool gathered = SeedbedImpl.Gather(out HarvestResult harvestResult);
+            bool gathered = Seedbed.Gather(out HarvestResult harvestResult);
             Debug.Log($"Seedbed gathered: {gathered}.");
             IsSeeded = !gathered;
             if (!gathered) return;
@@ -86,52 +87,52 @@ namespace Tavern.Gardening
         {
             if (!_isEnable) return;
             
-            SeedbedImpl.Watering();
+            Seedbed.Watering();
         }
 
         public void Heal()
         {
             if (!_isEnable) return;
             
-            SeedbedImpl.Heal();
+            Seedbed.Heal();
         }
 
         public void ReduceHarvestSicknessProbability(int reducing)
         {
             if (!_isEnable) return;
             
-            SeedbedImpl.ReduceHarvestSicknessProbability(reducing);
+            Seedbed.ReduceHarvestSicknessProbability(reducing);
         }
 
         void IUpdateListener.OnUpdate(float deltaTime)
         {
             if (!_isEnable) return;
 
-            SeedbedImpl.Tick(deltaTime);
+            Seedbed.Tick(deltaTime);
         }
 
         void IStartGameListener.OnStart()
         {
             _isEnable = true;
-            SeedbedImpl.Resume();
+            Seedbed.Resume();
         }
 
         void IPauseGameListener.OnPause()
         {
             _isEnable = false;
-            SeedbedImpl.Pause();
+            Seedbed.Pause();
         }
 
         void IResumeGameListener.OnResume()
         {
             _isEnable = true;
-            SeedbedImpl.Resume();
+            Seedbed.Resume();
         }
 
         void IFinishGameListener.OnFinish()
         {
             _isEnable = false;
-            SeedbedImpl.Stop();
+            Seedbed.Stop();
         }
 
         private void OnHarvestProgressChanged(float progress) => _progress = progress;

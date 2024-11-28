@@ -1,12 +1,13 @@
 using Modules.Gardening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tavern.Gardening
 {
     public class HarvestViewController : MonoBehaviour
     {
-        [SerializeField]
-        private Seedbed Seedbed;
+        [FormerlySerializedAs("Seedbed")] [SerializeField]
+        private Pot Pot;
         
         [SerializeField] 
         private SpriteRenderer HarvestSpriteRenderer;
@@ -22,7 +23,7 @@ namespace Tavern.Gardening
 
         private void Awake()
         {
-            _seedbed = Seedbed.SeedbedImpl;
+            _seedbed = Pot.Seedbed;
         }
 
         private void OnEnable()

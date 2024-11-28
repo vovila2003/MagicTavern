@@ -8,9 +8,9 @@ namespace Modules.Gardening
 
         public int Probability { get; private set; }
 
-        public HarvestSickness(Plant plant, int reducing)
+        public HarvestSickness(Plant plant)
         {
-            SetNewProbabilityValue(plant.SicknessProbability - reducing);
+            SetNewProbabilityValue(plant.SicknessProbability);
             _penalty = plant.SicknessPenalty;
         }
 

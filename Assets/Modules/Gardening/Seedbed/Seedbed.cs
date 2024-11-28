@@ -2,7 +2,7 @@ using System;
 
 namespace Modules.Gardening
 {
-    public class SeedbedImpl : ISeedbed
+    public class Seedbed : ISeedbed
     {
         private const int SlopsValue = 1;
         public event Action<bool> OnHarvestWateringRequired;
@@ -15,15 +15,18 @@ namespace Modules.Gardening
         public event Action<float> OnDryingTimerProgressChanged;
 
         private bool _isEnable;
+        private bool _isBoosted;
+        private bool _isSickReduced;
+        private bool _isAccelerated;
 
         public IHarvest Harvest { get; private set; }
-        public SeedbedBoost SeedbedBoost { get; } = new();
+        public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
 
         public bool Seed(PlantConfig plant) 
         {
             if (Harvest is not null) return false;
 
-            Harvest = new Harvest(plant, SeedbedBoost);
+            Harvest = new Harvest(plant);
             Harvest.OnStateChanged += OnStateChanged;
             Harvest.OnAgeChanged += OnAgeChanged;
             Harvest.OnWaterRequired += OnWateringRequired;
@@ -32,6 +35,9 @@ namespace Modules.Gardening
             Harvest.StartGrow();
 
             _isEnable = true;
+            _isBoosted = false;
+            _isSickReduced = false;
+            _isAccelerated = false;
 
             return true;
         }
@@ -43,7 +49,7 @@ namespace Modules.Gardening
 
             harvestResult.IsNormal = Harvest.State == HarvestState.Ready;
             harvestResult.Value = harvestResult.IsNormal 
-                ? (int) (Harvest.Value * (1 + SeedbedBoost.HarvestBoostInPercent / 100.0f)) 
+                ? Harvest.Value 
                 : SlopsValue;
             harvestResult.Plant = Harvest.PlantConfig.Plant;
             
@@ -69,9 +75,34 @@ namespace Modules.Gardening
             OnHealingRequired?.Invoke(false);
         }
 
-        public void ReduceHarvestSicknessProbability(int reducing)
+        public bool ReduceHarvestSicknessProbability(int reducing)
         {
+            if (_isSickReduced) return false;
+            
+            _isSickReduced = true;
             Harvest?.ReduceHarvestSicknessProbability(reducing);
+
+            return true;
+        }
+
+        public bool BoostHarvestAmount(int boostInPercent)
+        {
+            if (_isBoosted) return false;
+            
+            _isBoosted = true;
+            Harvest?.BoostHarvestAmount(boostInPercent);
+
+            return true;
+        }
+
+        public bool AccelerateGrowth(int accelerationInPercent)
+        {
+            if (_isAccelerated) return false;
+            
+            _isAccelerated = true;
+            Harvest?.AccelerateGrowth(accelerationInPercent);
+
+            return true;
         }
 
         public void Tick(float deltaTime)

@@ -14,7 +14,7 @@ namespace Modules.Gardening
         public event Action<float> OnDryingTimerProgressChanged;
         public event Action OnSick;
 
-        private readonly int _resultHarvestAmount;
+        private int _resultHarvestAmount;
         private readonly Timer _growthTimer = new();
         private HarvestWatering _watering;
         private bool _waterRequired;
@@ -31,21 +31,15 @@ namespace Modules.Gardening
         public bool IsSick { get; private set; }
         public int SickProbability => _harvestSickness.Probability;
 
-        public Harvest(PlantConfig plantConfig, SeedbedBoost seedbedBoost)
+        public Harvest(PlantConfig plantConfig)
         {
-            Debug.Log($"Boost = {seedbedBoost.HarvestBoostInPercent}," +
-                      $" Acceleration = {seedbedBoost.GrowthAccelerationInPercent}," + 
-                      $" Reducing = {seedbedBoost.SicknessProbabilityReducingInPercent}");
-            
-            
             Value = 0;
             PlantConfig = plantConfig;
-            _resultHarvestAmount = (int)(plantConfig.Plant.ResultValue * 
-                                         (1 + seedbedBoost.HarvestBoostInPercent / 100.0f));
+            _resultHarvestAmount = plantConfig.Plant.ResultValue;
 
-            SetupGrowthTimer(plantConfig.Plant, seedbedBoost.GrowthAccelerationInPercent);
-            SetupWatering(plantConfig.Plant, seedbedBoost.GrowthAccelerationInPercent);
-            SetupSickness(plantConfig.Plant, seedbedBoost.SicknessProbabilityReducingInPercent);
+            SetupGrowthTimer(plantConfig.Plant);
+            SetupWatering(plantConfig.Plant);
+            SetupSickness(plantConfig.Plant);
         }
 
         public void StartGrow()
@@ -97,6 +91,20 @@ namespace Modules.Gardening
             _harvestSickness.DecreaseSicknessProbability(reducing);
         }
 
+        public void BoostHarvestAmount(int boostInPercent)
+        {
+            _resultHarvestAmount  = (int)(_resultHarvestAmount * (1 + boostInPercent / 100.0f));
+        }
+
+        public void AccelerateGrowth(int accelerationInPercent)
+        {
+            float currentDuration = _growthTimer.Duration;
+            float newDuration = currentDuration * (1 - accelerationInPercent / 100.0f);
+            _growthTimer.Duration = newDuration;
+            
+            _watering.SetNewDuration(accelerationInPercent);
+        }
+
         public void Tick(float deltaTime)
         {
             //Order is important
@@ -104,25 +112,25 @@ namespace Modules.Gardening
             _growthTimer.Tick(deltaTime);
         }
 
-        private void SetupGrowthTimer(Plant plant, int acceleration)
+        private void SetupGrowthTimer(Plant plant)
         {
             _growthTimer.Loop = false;
-            _growthTimer.Duration = plant.GrowthDuration * (1 - acceleration / 100.0f);
+            _growthTimer.Duration = plant.GrowthDuration;
             _growthTimer.OnEnded += OnGrowthEnded;
             _growthTimer.OnProgressChanged += OnGrowthProgressChanged;
         }
 
-        private void SetupWatering(Plant plant, int acceleration)
+        private void SetupWatering(Plant plant)
         {
-            _watering = new HarvestWatering(this, plant, acceleration);
+            _watering = new HarvestWatering(this, plant);
             _watering.OnWateringRequired += OnWateringRequired;
             _watering.OnLost += OnHarvestDry;
             _watering.OnDryingTimerProgressChanged += OnDryingProgressChanged;
         }
 
-        private void SetupSickness(Plant plant, int reducing)
+        private void SetupSickness(Plant plant)
         {
-            _harvestSickness = new HarvestSickness(plant, reducing);
+            _harvestSickness = new HarvestSickness(plant);
             OnAgeChanged += CheckSickness;
         }
 
@@ -131,7 +139,6 @@ namespace Modules.Gardening
             if (age == HarvestAge.Old) return;
 
             bool isSick = _harvestSickness.IsSick();
-            Debug.Log($"Is sick = {isSick}");
             IsSick = IsSick || isSick;
             if (IsSick)
             {

@@ -37,26 +37,11 @@ namespace Tavern.Components
         }
 
         [Button]
-        public void Fertilize(Seedbed seedbed, FertilizerConfig fertilizer)
-        {
-            if (!_isEnable) return;
-            if (seedbed is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-
-            if (seedbed.IsSeeded) return;
-            
-            _fertilizerInventoryContext.Consume(fertilizer.Item, seedbed);
-        }
-
-        [Button]
-        public void Seed(Seedbed seedbed, PlantConfig plant)
+        public void Seed(Pot pot, PlantConfig plant)
         {
             if (!_isEnable) return;
             
-            if (seedbed is null)
+            if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
                 return;
@@ -82,18 +67,42 @@ namespace Tavern.Components
                 return;
             }
 
-            bool result = seedbed.Seed(plant);
+            bool result = pot.Seed(plant);
             if (!result) return;
             
             storage.Spend(count);
         }
 
         [Button]
-        public void Watering(Seedbed seedbed)
+        public void Fertilize(Pot pot, FertilizerConfig fertilizer)
         {
             if (!_isEnable) return;
             
-            if (seedbed is null)
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return;
+            }
+
+            if (!pot.IsSeeded) return;
+            
+            if (fertilizer is null)
+            {
+                Debug.LogWarning("Fertilizer is null");
+                return;
+            }
+
+            if (pot.IsFertilized) return;
+
+            _fertilizerInventoryContext.Consume(fertilizer.Item, pot);
+        }
+
+        [Button]
+        public void Watering(Pot pot)
+        {
+            if (!_isEnable) return;
+            
+            if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
                 return;
@@ -107,37 +116,37 @@ namespace Tavern.Components
                 return;
             }
 
-            seedbed.Watering();
+            pot.Watering();
             _waterStorage.Spend(count);
         }
 
         [Button]
-        public void Heal(Seedbed seedbed, MedicineConfig medicine)
+        public void Heal(Pot pot, MedicineConfig medicine)
         {
             if (!_isEnable) return;
-            if (seedbed is null)
+            if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
                 return;
             }
             
-            _medicineInventoryContext.Consume(medicine.Item, seedbed);            
+            _medicineInventoryContext.Consume(medicine.Item, pot);            
         }
 
         void IStartGameListener.OnStart() => _isEnable = true;
 
         [Button]
-        public void Gather(Seedbed seedbed)
+        public void Gather(Pot pot)
         {
             if (!_isEnable) return;
             
-            if (seedbed is null)
+            if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
                 return;
             }
             
-            seedbed.Gather();
+            pot.Gather();
         }
 
         void IFinishGameListener.OnFinish() => _isEnable = false;

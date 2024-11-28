@@ -7,24 +7,24 @@ namespace Tavern.Gardening.Fertilizer
 {
     public class SeedbedBoostSicknessReducingHandler : IInventoryItemConsumeHandler
     {
-        private Seedbed _target;
+        private Pot _target;
         public void SetTarget(object target)
         {
-            _target = target as Seedbed;
+            _target = target as Pot;
         }
 
         public void OnConsume(Item item)
         {
             if (_target is null)
             {
-                Debug.Log($"Target is not {nameof(Seedbed)}");
+                Debug.Log($"Target is not {nameof(Pot)}");
                 return;
             }
 
             if (!item.HasComponent<ComponentHarvestSicknessReducing>()) return;
 
             var component = item.GetComponent<ComponentHarvestSicknessReducing>();
-            _target.SeedbedImpl.SeedbedBoost.SicknessProbabilityReducingInPercent = component.Reducing;
+            _target.Seedbed.ReduceHarvestSicknessProbability(component.Reducing);
         }
     }
 }

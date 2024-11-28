@@ -2,7 +2,7 @@ using Modules.Items;
 
 namespace Modules.Inventories
 {
-    public class StackableItemConfig<T> : ItemConfig<T> where T : Item
+    public abstract class StackableItemConfig<T> : ItemConfig<T> where T : Item
     {
         protected override void Awake()
         {
