@@ -18,6 +18,7 @@ namespace Modules.Gardening
         private bool _isBoosted;
         private bool _isSickReduced;
         private bool _isAccelerated;
+        private int _seedInHarvestProbability;
 
         public IHarvest Harvest { get; private set; }
         public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
@@ -38,21 +39,15 @@ namespace Modules.Gardening
             _isBoosted = false;
             _isSickReduced = false;
             _isAccelerated = false;
+            _seedInHarvestProbability = 0;
 
             return true;
         }
 
         public bool Gather(out HarvestResult harvestResult) 
         {
-            harvestResult = new HarvestResult();
-            if (Harvest is null || Harvest.State == HarvestState.Growing) return false;
+            if (!CalculateHarvest(out harvestResult)) return false;
 
-            harvestResult.IsNormal = Harvest.State == HarvestState.Ready;
-            harvestResult.Value = harvestResult.IsNormal 
-                ? Harvest.Value 
-                : SlopsValue;
-            harvestResult.Plant = Harvest.PlantConfig.Plant;
-            
             StopGrow();
             OnGathered?.Invoke();
 
@@ -105,6 +100,8 @@ namespace Modules.Gardening
             return true;
         }
 
+        public void SetSeedInHarvestProbability(int probability) => _seedInHarvestProbability = probability;
+
         public void Tick(float deltaTime)
         {
             if (!_isEnable) return;
@@ -142,5 +139,30 @@ namespace Modules.Gardening
         private void OnProgressChanged(float progress) => OnHarvestProgressChanged?.Invoke(progress);
 
         private void OnDryingProgressChanged(float progress) => OnDryingTimerProgressChanged?.Invoke(progress);
+
+        private bool CalculateHarvest(out HarvestResult harvestResult)
+        {
+            harvestResult = new HarvestResult();
+            if (Harvest is null || Harvest.State == HarvestState.Growing) return false;
+
+            harvestResult.IsNormal = Harvest.State == HarvestState.Ready;
+            harvestResult.Value = harvestResult.IsNormal 
+                ? Harvest.Value 
+                : SlopsValue;
+            harvestResult.Plant = Harvest.PlantConfig.Plant;
+
+            if (harvestResult.IsNormal && harvestResult.Plant.CanHaveSeed)
+            {
+                harvestResult.HasSeedInHarvest = CalculateSeedInHarvest();
+            }
+            
+            return true;
+        }
+
+        private bool CalculateSeedInHarvest()
+        {
+            int value = UnityEngine.Random.Range(0, 101);
+            return value <= _seedInHarvestProbability;
+        }
     }
 }

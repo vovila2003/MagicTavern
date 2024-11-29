@@ -5,5 +5,6 @@ namespace Modules.Gardening
         public bool IsNormal;
         public int Value;
         public Plant Plant;
+        public bool HasSeedInHarvest;
     }
 }

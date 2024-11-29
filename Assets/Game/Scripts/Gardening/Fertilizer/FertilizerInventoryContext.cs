@@ -12,6 +12,7 @@ namespace Tavern.Gardening.Fertilizer
             Consumer.AddHandler(new SeedbedBoostSicknessReducingHandler());
             Consumer.AddHandler(new GrowthAccelerationHandler());
             Consumer.AddHandler(new HarvestBoosterHandler());
+            Consumer.AddHandler(new SeedInHarvestHandler());
         }
     }
 }

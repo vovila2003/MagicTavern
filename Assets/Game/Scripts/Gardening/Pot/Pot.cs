@@ -15,7 +15,7 @@ namespace Tavern.Gardening
         IFinishGameListener,
         IUpdateListener
     {
-        public event Action<Plant, int> OnHarvestReceived;
+        public event Action<Plant, int, bool> OnHarvestReceived;
         public event Action<int> OnSlopsReceived;
 
         private bool _isEnable;
@@ -75,7 +75,7 @@ namespace Tavern.Gardening
 
             if (harvestResult.IsNormal)
             {
-                OnHarvestReceived?.Invoke(harvestResult.Plant, harvestResult.Value);
+                OnHarvestReceived?.Invoke(harvestResult.Plant, harvestResult.Value, harvestResult.HasSeedInHarvest);
             }
             else
             {

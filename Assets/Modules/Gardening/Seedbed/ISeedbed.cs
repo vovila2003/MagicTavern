@@ -22,6 +22,7 @@ namespace Modules.Gardening
         bool ReduceHarvestSicknessProbability(int reducing);
         bool BoostHarvestAmount(int boostInPercent);
         bool AccelerateGrowth(int accelerationInPercent);
+        void SetSeedInHarvestProbability(int probability);
 
         void Tick(float deltaTime);
         void Pause();

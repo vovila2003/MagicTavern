@@ -26,11 +26,16 @@ namespace Modules.Gardening
         [SerializeField]
         private int HarvestValue;
 
+        [Space] 
+        [SerializeField]
+        private bool CanHarvestHaveSeed;
+
         public string PlantName => Name;
         public float GrowthDuration => GrowthDurationInSeconds;
         public int ResultValue => HarvestValue;
         public int WateringAmount => WateringCount;
         public int SicknessProbability => BaseProbabilityOfSickness;
         public int SicknessPenalty => PenaltyProbabilityOfSickness;
+        public bool CanHaveSeed => CanHarvestHaveSeed;
     }
 }
