@@ -24,6 +24,7 @@ MonoBehaviour:
     - rid: 835742636863127568
     - rid: 835742636863127569
     - rid: 835742636863127572
+    - rid: 835742758902956041
   references:
     version: 2
     RefIds:
@@ -44,3 +45,7 @@ MonoBehaviour:
       type: {class: ComponentGrowthAcceleration, ns: Tavern.Gardening.Fertilizer, asm: Game}
       data:
         GrowthAccelerationInPercent: 20
+    - rid: 835742758902956041
+      type: {class: ComponentSeedInHarvest, ns: Tavern.Gardening.Fertilizer, asm: Game}
+      data:
+        SeedInHarvestProbability: 100
