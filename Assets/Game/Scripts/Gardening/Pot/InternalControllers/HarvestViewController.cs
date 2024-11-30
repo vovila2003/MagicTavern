@@ -6,7 +6,8 @@ namespace Tavern.Gardening
 {
     public class HarvestViewController : MonoBehaviour
     {
-        [FormerlySerializedAs("Seedbed")] [SerializeField]
+        [FormerlySerializedAs("Seedbed")] 
+        [SerializeField]
         private Pot Pot;
         
         [SerializeField] 

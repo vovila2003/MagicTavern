@@ -119,6 +119,7 @@ namespace Tavern.Architecture
             builder.Register<MedicineConsumer>(Lifetime.Singleton).AsSelf();
             builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
+            builder.RegisterComponentInHierarchy<MedicineCrafterContext>();
         }
 
         private void RegisterFertilizer(IContainerBuilder builder)
