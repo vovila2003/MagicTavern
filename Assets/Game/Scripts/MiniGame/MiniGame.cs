@@ -1,14 +1,12 @@
 using System;
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Tavern.MiniGame
 {
     public class MiniGame : 
-        IUpdateListener,
         IPauseGameListener,
         IResumeGameListener
     {
@@ -63,7 +61,7 @@ namespace Tavern.MiniGame
             _speed = Random.Range(_config.SpeedValueMin, _config.SpeedValueMax);
         }
 
-        public void OnUpdate(float deltaTime)
+        public void Tick(float deltaTime)
         {
             if (!_isEnable) return;
             

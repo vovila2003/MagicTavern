@@ -3,10 +3,10 @@ using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
 using Tavern.Common;
-using Tavern.Gardening.Fertilizer;
 using Tavern.Looting;
 using Tavern.Storages;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Gardening.Medicine
 {
@@ -16,7 +16,7 @@ namespace Tavern.Gardening.Medicine
         IFinishGameListener,
         IPauseGameListener,
         IResumeGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly IInventory<LootItem> _lootInventory;
         private readonly ISlopsStorage _slopsStorage;
@@ -99,6 +99,6 @@ namespace Tavern.Gardening.Medicine
 
         void IResumeGameListener.OnResume() => Timer.Resume();
 
-        void IUpdateListener.OnUpdate(float deltaTime) => Tick(deltaTime);
+        void ITickable.Tick() => Tick(Time.deltaTime);
     }
 }

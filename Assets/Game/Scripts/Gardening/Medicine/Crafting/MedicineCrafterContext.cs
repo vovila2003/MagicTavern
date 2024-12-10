@@ -1,8 +1,4 @@
-using Modules.GameCycle;
-using Modules.Inventories;
 using Sirenix.OdinInspector;
-using Tavern.Looting;
-using Tavern.Storages;
 using UnityEngine;
 using VContainer;
 
@@ -16,14 +12,9 @@ namespace Tavern.Gardening.Medicine
         private float TimerCurrentTime => _medicineCrafter?.TimerCurrentTime ?? -1;
         
         [Inject]
-        private void Construct(
-            IInventory<MedicineItem> medicineInventory,
-            IInventory<LootItem> lootInventory,
-            ISlopsStorage slopsStorage,
-            GameCycle gameCycle)
+        private void Construct(MedicineCrafter medicineCrafter)
         {
-            _medicineCrafter = new MedicineCrafter(medicineInventory, lootInventory, slopsStorage);
-            gameCycle.AddListener(_medicineCrafter);
+            _medicineCrafter = medicineCrafter;
         }
 
         private void OnEnable() => _medicineCrafter.OnCrafted += OnCrafted;

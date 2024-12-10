@@ -2,6 +2,7 @@ using Modules.GameCycle.Interfaces;
 using Tavern.Components.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
@@ -10,7 +11,7 @@ namespace Tavern.Character.Controllers
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener,
-        IFixedUpdateListener
+        IFixedTickable
     {
         private IMovable _movable;
         private readonly IMoveInput _moveInput;
@@ -27,8 +28,9 @@ namespace Tavern.Character.Controllers
             _speedable = speedable;
         }
 
-        void IFixedUpdateListener.OnFixedUpdate(float fixedDeltaTime)
+        void IFixedTickable.FixedTick()
         {
+            float fixedDeltaTime = Time.fixedDeltaTime;
             Vector3 newPosition = _direction * (fixedDeltaTime * _speedable.GetSpeed());
             if (!InBounds(newPosition))
             {

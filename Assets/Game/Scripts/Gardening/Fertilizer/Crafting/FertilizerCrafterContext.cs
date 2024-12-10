@@ -1,8 +1,4 @@
-using Modules.GameCycle;
-using Modules.Inventories;
 using Sirenix.OdinInspector;
-using Tavern.Looting;
-using Tavern.Storages;
 using UnityEngine;
 using VContainer;
 
@@ -16,14 +12,9 @@ namespace Tavern.Gardening.Fertilizer
         private float TimerCurrentTime => _fertilizerCrafter?.TimerCurrentTime ?? -1;
         
         [Inject]
-        private void Construct(
-            IInventory<FertilizerItem> fertilizerInventory,
-            IInventory<LootItem> lootInventory,
-            ISlopsStorage slopsStorage,
-            GameCycle gameCycle)
+        private void Construct(FertilizerCrafter fertilizerCrafter)
         {
-            _fertilizerCrafter = new FertilizerCrafter(fertilizerInventory, lootInventory, slopsStorage);
-            gameCycle.AddListener(_fertilizerCrafter);
+            _fertilizerCrafter = fertilizerCrafter;
         }
 
         private void OnEnable() => _fertilizerCrafter.OnCrafted += OnCrafted;

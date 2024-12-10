@@ -1,18 +1,14 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
 namespace Tavern.Architecture
 {
     [UsedImplicitly]
-    public class GameCycleController:
-        IInitializable, 
-        ITickable, 
-        IFixedTickable,
-        ILateTickable
+    public class GameCycleController: IInitializable 
+        
     {
         private readonly IObjectResolver _container;
         private readonly Modules.GameCycle.GameCycle _gameCycle;
@@ -38,29 +34,8 @@ namespace Tavern.Architecture
         void IInitializable.Initialize()
         {
             var listeners = _container.Resolve<IEnumerable<IGameListener>>();
-            var updateListeners = _container.Resolve<IEnumerable<IUpdateListener>>();
-            var fixedUpdateListeners = _container.Resolve<IEnumerable<IFixedUpdateListener>>();
-            var lateUpdateListeners = _container.Resolve<IEnumerable<ILateUpdateListener>>();
             
-            _gameCycle.Initialize(listeners, updateListeners, fixedUpdateListeners, lateUpdateListeners);
-        }
-
-        void ITickable.Tick()
-        {
-            float time = Time.deltaTime;
-            _gameCycle.Tick(time);
-        }
-
-        void IFixedTickable.FixedTick()
-        {
-            float time = Time.fixedDeltaTime;
-            _gameCycle.FixedTick(time);
-        }
-
-        void ILateTickable.LateTick()
-        {
-            float time = Time.deltaTime;
-            _gameCycle.LateTick(time);
+            _gameCycle.Initialize(listeners);
         }
     }
 }

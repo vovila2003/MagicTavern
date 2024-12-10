@@ -1,49 +1,24 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using UnityEngine;
 
 namespace Modules.GameCycle
 {
+    [UsedImplicitly]
     public class GameCycle
     {
         private readonly List<IGameListener> _listeners = new();
-        private readonly List<IUpdateListener> _updateListeners = new();
-        private readonly List<IFixedUpdateListener> _fixedUpdateListeners = new();
-        private readonly List<ILateUpdateListener> _lateUpdateListeners = new();
         private GameState _state = GameState.None;
 
         public void AddListener(IGameListener listener)
         {
             _listeners.Add(listener);
-            switch (listener)
-            {
-                case IUpdateListener updateListener:
-                    _updateListeners.Add(updateListener);
-                    break;
-                case IFixedUpdateListener fixedUpdateListener:
-                    _fixedUpdateListeners.Add(fixedUpdateListener);
-                    break;
-                case ILateUpdateListener lateUpdateListener:
-                    _lateUpdateListeners.Add(lateUpdateListener);
-                    break;
-            }
         }
 
         public void RemoveListener(IGameListener listener)
         {
             _listeners.Remove(listener);
-            switch (listener)
-            {
-                case IUpdateListener updateListener:
-                    _updateListeners.Remove(updateListener);
-                    break;
-                case IFixedUpdateListener fixedUpdateListener:
-                    _fixedUpdateListeners.Remove(fixedUpdateListener);
-                    break;
-                case ILateUpdateListener lateUpdateListener:
-                    _lateUpdateListeners.Remove(lateUpdateListener);
-                    break;
-            }
         }
         
         public void PrepareGame()
@@ -180,37 +155,10 @@ namespace Modules.GameCycle
         }
 
         public void Initialize(
-            IEnumerable<IGameListener> listeners, 
-            IEnumerable<IUpdateListener> updateListeners, 
-            IEnumerable<IFixedUpdateListener> fixedUpdateListeners, 
-            IEnumerable<ILateUpdateListener> lateUpdateListeners)
+            IEnumerable<IGameListener> listeners)
         {
-            AddListeners(listeners, updateListeners, fixedUpdateListeners, lateUpdateListeners);
+            AddListeners(listeners);
             InitGame();
-        }
-
-        public void Tick(float time)
-        {
-            for (var i = 0; i < _updateListeners.Count; i++)
-            {
-                _updateListeners[i].OnUpdate(time);
-            }
-        }
-
-        public void FixedTick(float time)
-        {
-            for (var i = 0; i < _fixedUpdateListeners.Count; i++)
-            {
-                _fixedUpdateListeners[i].OnFixedUpdate(time);
-            }
-        }
-
-        public void LateTick(float time)
-        {
-            for (var i = 0; i < _lateUpdateListeners.Count; i++)
-            {
-                _lateUpdateListeners[i].OnLateUpdate(time);
-            }
         }
 
         private static void QuitGame()
@@ -221,16 +169,9 @@ namespace Modules.GameCycle
             Application.Quit();
         }
 
-        private void AddListeners(
-            IEnumerable<IGameListener> listeners, 
-            IEnumerable<IUpdateListener> updateListeners,
-            IEnumerable<IFixedUpdateListener> fixedUpdateListeners,
-            IEnumerable<ILateUpdateListener> lateUpdateListeners)
+        private void AddListeners(IEnumerable<IGameListener> listeners)
         {
             _listeners.AddRange(listeners);
-            _updateListeners.AddRange(updateListeners);
-            _fixedUpdateListeners.AddRange(fixedUpdateListeners);
-            _lateUpdateListeners.AddRange(lateUpdateListeners);
         }
     }
 }

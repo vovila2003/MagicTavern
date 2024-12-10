@@ -4,33 +4,35 @@ using Tavern.InputServices.Interfaces;
 using Tavern.MiniGame.UI;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace Tavern.MiniGame
 {
-    public class MiniGameManager : MonoBehaviour
+    public class MiniGameManager : MonoBehaviour, ITickable
     {
         [SerializeField] 
         private MiniGameConfig Config;
         
-        private IMiniGameView _view;
-        private ISpaceInput _input;
         private MiniGame _game;
         private MiniGamePresenter _presenter;
         private GameCycle _gameCycle;
+        private IObjectResolver _container;
 
         [Inject]
-        public void Construct(IMiniGameView view, ISpaceInput input, GameCycle gameCycle)
+        public void Construct(GameCycle gameCycle, IObjectResolver container)
         {
-            _view = view;
-            _input = input;
             _gameCycle = gameCycle;
+            _container = container;
         }
 
         private void Start()
         {
-            _game = new MiniGame(_input, Config);
+            var input = _container.Resolve<ISpaceInput>(); 
+            var view = _container.Resolve<IMiniGameView>();    
+                
+            _game = new MiniGame(input, Config);
             _gameCycle.AddListener(_game);
-            _presenter = new MiniGamePresenter(_view, _game);
+            _presenter = new MiniGamePresenter(view, _game);
         }
 
         private void OnDisable()
@@ -43,6 +45,11 @@ namespace Tavern.MiniGame
         public void CreateGame()
         {
             _presenter.Show();
+        }
+
+        public void Tick()
+        {
+            _game?.Tick(Time.deltaTime);
         }
     }
 }

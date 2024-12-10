@@ -1,13 +1,14 @@
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
     public sealed class CharacterBlockController : 
         IStartGameListener,
         IFinishGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly ICharacter _character;
         private readonly IBlockInput _blockInput;
@@ -19,7 +20,7 @@ namespace Tavern.Character.Controllers
             _blockInput = blockInput;
         }
         
-        void IUpdateListener.OnUpdate(float _)
+        void ITickable.Tick()
         {
             if (!_blockRequired) return;
 

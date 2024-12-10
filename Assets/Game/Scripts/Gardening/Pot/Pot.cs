@@ -2,8 +2,8 @@ using System;
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
-using Tavern.Gardening.Medicine;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Gardening
 {
@@ -13,7 +13,7 @@ namespace Tavern.Gardening
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener,
-        IUpdateListener
+        ITickable
     {
         public event Action<Plant, int, bool> OnHarvestReceived;
         public event Action<int> OnSlopsReceived;
@@ -104,11 +104,11 @@ namespace Tavern.Gardening
             Seedbed.ReduceHarvestSicknessProbability(reducing);
         }
 
-        void IUpdateListener.OnUpdate(float deltaTime)
+        void ITickable.Tick()
         {
             if (!_isEnable) return;
 
-            Seedbed.Tick(deltaTime);
+            Seedbed.Tick(Time.deltaTime);
         }
 
         void IStartGameListener.OnStart()

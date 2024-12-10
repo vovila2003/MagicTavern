@@ -6,6 +6,7 @@ using Tavern.Common;
 using Tavern.Looting;
 using Tavern.Storages;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Gardening.Fertilizer
 {
@@ -15,7 +16,7 @@ namespace Tavern.Gardening.Fertilizer
         IFinishGameListener,
         IPauseGameListener,
         IResumeGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly IInventory<LootItem> _lootInventory;
         private readonly ISlopsStorage _slopsStorage;
@@ -98,6 +99,6 @@ namespace Tavern.Gardening.Fertilizer
 
         void IResumeGameListener.OnResume() => Timer.Resume();
 
-        void IUpdateListener.OnUpdate(float deltaTime) => Tick(deltaTime);
+        void ITickable.Tick() => Tick(Time.deltaTime);
     }
 }

@@ -1,13 +1,14 @@
 using Modules.GameCycle.Interfaces;
 using Tavern.Character.Agents;
 using Tavern.InputServices.Interfaces;
+using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
     public sealed class CharacterFireController : 
         IStartGameListener,
         IFinishGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly CharacterAttackAgent _attackAgent;
         private readonly IShootInput _shootInput;
@@ -20,7 +21,7 @@ namespace Tavern.Character.Controllers
             _shootInput = shootInput;
         }
         
-        void IUpdateListener.OnUpdate(float _)
+        void ITickable.Tick()
         {
             CheckAttack();
             CheckAlternativeAttack();

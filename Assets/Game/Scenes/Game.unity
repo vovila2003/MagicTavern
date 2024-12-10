@@ -1500,7 +1500,7 @@ GameObject:
   - component: {fileID: 589988104}
   - component: {fileID: 589988105}
   m_Layer: 0
-  m_Name: LifetimeScope
+  m_Name: SceneLifetimeScope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.InputServices
 {
@@ -20,7 +21,7 @@ namespace Tavern.InputServices
         IFinishGameListener,
         IPauseGameListener,
         IResumeGameListener, 
-        IUpdateListener
+        ITickable
     {
         public event Action OnFire;
         public event Action OnAlternativeFire;
@@ -38,7 +39,7 @@ namespace Tavern.InputServices
         private Vector2 _prevDodgeDirection;
         private bool _characterManagementInputEnabled;
 
-        void IUpdateListener.OnUpdate(float _)
+        void ITickable.Tick()
         {
             CheckPause();
             CheckCharacterManagement();

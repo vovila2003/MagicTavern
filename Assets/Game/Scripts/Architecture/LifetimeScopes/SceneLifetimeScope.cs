@@ -63,20 +63,20 @@ namespace Tavern.Architecture
             builder.RegisterComponent(character).AsImplementedInterfaces();
             builder.RegisterInstance(GameSettings.CharacterSettings);
             builder.Register<CharacterAttackAgent>(Lifetime.Singleton);
-            builder.Register<CharacterMoveController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterJumpController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterFireController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterBlockController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterActionController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterDodgeController>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterEntryPoint<CharacterMoveController>();
+            builder.RegisterEntryPoint<CharacterJumpController>();
+            builder.RegisterEntryPoint<CharacterFireController>();
+            builder.RegisterEntryPoint<CharacterBlockController>();
+            builder.RegisterEntryPoint<CharacterActionController>();
+            builder.RegisterEntryPoint<CharacterDodgeController>();
             builder.Register<CharacterAnimatorController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterEntryPoint<InputService>();
         }
 
         private void RegisterGame(IContainerBuilder builder)
         {
             builder.Register<Modules.GameCycle.GameCycle>(Lifetime.Singleton).AsSelf();
-            builder.Register<GameCycleController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterEntryPoint<GameCycleController>().AsSelf();
             builder.Register<FinishGameController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<QuitGameController>(Lifetime.Singleton);
@@ -108,6 +108,8 @@ namespace Tavern.Architecture
             builder.RegisterInstance(GameSettings.SeedbedSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
             builder.RegisterComponentInHierarchy<Pot>().AsImplementedInterfaces();
+            
+            //
             builder.RegisterComponentInHierarchy<SeedbedHarvestController>();
 
             RegisterMedicine(builder);
@@ -119,6 +121,8 @@ namespace Tavern.Architecture
             builder.Register<MedicineConsumer>(Lifetime.Singleton).AsSelf();
             builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
+            
+            builder.RegisterEntryPoint<MedicineCrafter>().AsSelf();
             builder.RegisterComponentInHierarchy<MedicineCrafterContext>();
         }
 
@@ -127,6 +131,8 @@ namespace Tavern.Architecture
             builder.Register<FertilizerConsumer>(Lifetime.Singleton).AsSelf();
             builder.Register<FertilizerInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<FertilizerInventoryContext>();
+            
+            builder.RegisterEntryPoint<FertilizerCrafter>().AsSelf();
             builder.RegisterComponentInHierarchy<FertilizerCrafterContext>();
         }
 
@@ -148,7 +154,8 @@ namespace Tavern.Architecture
         {
             builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
-            
+
+            builder.RegisterEntryPoint<DishCrafter>().AsSelf();
             builder.RegisterComponentInHierarchy<DishCrafterContext>();
             
             builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
@@ -159,7 +166,7 @@ namespace Tavern.Architecture
         {
             builder.Register<MiniGameInputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MiniGameView>().AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<MiniGameManager>();
+            builder.RegisterComponentInHierarchy<MiniGameManager>().AsImplementedInterfaces();
         }
     }
 }
