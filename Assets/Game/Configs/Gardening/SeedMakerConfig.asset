@@ -13,9 +13,5 @@ MonoBehaviour:
   m_Name: SeedMakerConfig
   m_EditorClassIdentifier: 
   ConvertToSeedsParams:
-  - PlantType: 0
-    ProductToSeedRatio: 10
-  - PlantType: 1
-    ProductToSeedRatio: 5
-  - PlantType: 2
-    ProductToSeedRatio: 8
+  - Plant: {fileID: 11400000, guid: 78459dccb0c144f969a49981fd08dd22, type: 2}
+    ProductToSeedRatio: 2

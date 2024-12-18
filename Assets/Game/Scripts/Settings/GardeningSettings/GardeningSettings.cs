@@ -8,16 +8,16 @@ namespace Tavern.Settings
     public class GardeningSettings
     {
         [SerializeField]
-        private SeedsCatalog SeedsCatalog;
+        private PlantsCatalog PlantsCatalog;
 
         [SerializeField]
         private SeedMakerSettings SeedMakerConfig;
 
         [SerializeField]
-        private SeedbedSettings SeedbedConfig;
+        private PotSettings PotConfig;
         
-        public SeedsCatalog Catalog => SeedsCatalog;
+        public PlantsCatalog Catalog => PlantsCatalog;
         public SeedMakerSettings SeedMakerSettings => SeedMakerConfig;
-        public SeedbedSettings SeedbedSettings => SeedbedConfig;        
+        public PotSettings PotSettings => PotConfig;        
     }
 }

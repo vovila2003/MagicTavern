@@ -1,6 +1,7 @@
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
@@ -9,7 +10,7 @@ namespace Tavern.Character.Controllers
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly IDodgeInput _dodgeInput;
         private Vector2 _direction;
@@ -22,7 +23,7 @@ namespace Tavern.Character.Controllers
             _dodgeInput = dodgeInput;
         }
 
-        void IUpdateListener.OnUpdate(float deltaTime)
+        void ITickable.Tick()
         {
             if (!_enabled) return;
             

@@ -22,9 +22,9 @@ namespace Tavern.Settings
         
         public SeedMakerSettings SeedMakerSettings => GardeningConfigs.SeedMakerSettings;
         
-        public SeedsCatalog SeedsCatalog => GardeningConfigs.Catalog;
+        public PlantsCatalog PlantsCatalog => GardeningConfigs.Catalog;
         
-        public SeedbedSettings SeedbedSettings => GardeningConfigs.SeedbedSettings;
+        public PotSettings PotSettings => GardeningConfigs.PotSettings;
         
         public CharacterSettings CharacterSettings => CharacterConfig;
         

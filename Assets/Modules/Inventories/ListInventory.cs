@@ -8,7 +8,9 @@ namespace Modules.Inventories
     public class ListInventory<T> : IInventory<T> where T : Item
     {
         public event Action<T> OnItemAdded;
-        public event Action<T> OnItemRemoved; 
+        public event Action<T> OnItemRemoved;
+        public event Action<T, int> OnItemCountIncreased;
+        public event Action<T, int> OnItemCountDecreased;
 
         private List<T> _items;
         

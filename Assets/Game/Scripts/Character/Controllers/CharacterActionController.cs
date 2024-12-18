@@ -1,13 +1,14 @@
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
     public sealed class CharacterActionController : 
         IStartGameListener,
         IFinishGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly ICharacter _character;
         private readonly IActionInput _actionInput;
@@ -19,7 +20,7 @@ namespace Tavern.Character.Controllers
             _actionInput = actionInput;
         }
         
-        void IUpdateListener.OnUpdate(float _)
+        void ITickable.Tick()
         {
             if (!_actionRequired) return;
 

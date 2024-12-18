@@ -2,6 +2,8 @@ using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
 using Tavern.Gardening;
+using Tavern.Gardening.Fertilizer;
+using Tavern.Gardening.Medicine;
 using Tavern.Storages;
 using UnityEngine;
 using VContainer;
@@ -16,159 +18,169 @@ namespace Tavern.Components
         IPauseGameListener,
         IResumeGameListener
     {
-        private SeedsCatalog _catalog;
         private ISeedsStorage _seedsStorage;
-        private IResourcesStorage _resourcesStorage;
-        private SeedbedFactory _factory;
+        private IWaterStorage _waterStorage;
+        private MedicineInventoryContext _medicineInventoryContext;
+        private FertilizerInventoryContext _fertilizerInventoryContext;
         private bool _isEnable;
 
         [Inject]
-        private void Construct(SeedsCatalog catalog, ISeedsStorage seedsStorage, 
-            IResourcesStorage resourcesStorage, SeedbedFactory factory)
+        private void Construct(ISeedsStorage seedsStorage, 
+            IWaterStorage waterStorage, 
+            MedicineInventoryContext medicineConsumer,
+            FertilizerInventoryContext fertilizerConsumer)
         {
-            _catalog = catalog;
             _seedsStorage = seedsStorage;
-            _resourcesStorage = resourcesStorage;
-            _factory = factory;
+            _waterStorage = waterStorage;
+            _medicineInventoryContext = medicineConsumer;
+            _fertilizerInventoryContext = fertilizerConsumer;
         }
 
         [Button]
-        public void CreateSeedbed(Vector3 position, Quaternion rotation)
+        public void Seed(Pot pot, PlantConfig plant)
         {
-            if (!_isEnable) return;
+            const int count = 1;
             
-            _factory.CreateSeedbed(position, rotation);
-        }
+            if (!CanSeed(pot, plant, count, out PlantStorage storage)) return;
 
-        [Button]
-        public void Prepare(Seedbed seedbed)
-        {
-            if (!_isEnable) return;
-
-            if (seedbed is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-            
-            seedbed.Prepare();
-        }
-
-        [Button]
-        public void Seed(Seedbed seedbed, PlantType type, int count)
-        {
-            if (!_isEnable) return;
-            
-            if (count <= 0) return;
-            
-            if (seedbed is null)
-            {
-                Debug.LogWarning("Seedbed is null");
-                return;
-            }
-            
-            if (!_catalog.TryGetSeed(type, out SeedConfig seedConfig))
-            {
-                Debug.Log($"Seeds of type {type} are not found in catalog");
-                return;
-            }
-
-            if (!_seedsStorage.TryGetStorage(type, out PlantStorage storage))
-            {
-                Debug.Log("Seed storage of type {type} is not found!");
-                return;
-            }
-
-            if (!storage.CanSpend(count))
-            {
-                Debug.Log("Not enough seeds of type {type} in storage!");
-                return;
-            }
-
-            if (!storage.CanSpend(count)) return;
-            
-            bool result = seedbed.Seed(seedConfig, count);
+            bool result = pot.Seed(plant);
             if (!result) return;
             
             storage.Spend(count);
         }
-        
+
         [Button]
-        public void Gather(Seedbed seedbed)
+        public void Fertilize(Pot pot, FertilizerConfig fertilizer)
+        {
+            if (!CanFertilize(pot, fertilizer)) return;
+
+            if (pot.IsFertilized) return;
+
+            _fertilizerInventoryContext.Consume(fertilizer.Item, pot);
+        }
+
+        [Button]
+        public void Watering(Pot pot)
+        {
+            const int count = 1;
+            
+            if (!CanWatering(pot, count)) return;
+
+            pot.Watering();
+            _waterStorage.Spend(count);
+        }
+
+        [Button]
+        public void Heal(Pot pot, MedicineConfig medicine)
+        {
+            if (!CanHeal(pot, medicine)) return;
+
+            _medicineInventoryContext.Consume(medicine.Item, pot);
+        }
+
+        [Button]
+        public void Gather(Pot pot)
         {
             if (!_isEnable) return;
             
-            if (seedbed is null)
+            if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
                 return;
             }
             
-            seedbed.Gather();
+            pot.Gather();
         }
 
-        [Button]
-        public void Care(Seedbed seedbed, CaringType caringType)
+        void IStartGameListener.OnStart() => _isEnable = true;
+
+        void IFinishGameListener.OnFinish() => _isEnable = false;
+
+        void IPauseGameListener.OnPause() => _isEnable = false;
+
+        void IResumeGameListener.OnResume() => _isEnable = true;
+
+        void IInitGameListener.OnInit() => _isEnable = false;
+
+        private bool CanSeed(Pot pot, PlantConfig plant, int count, out PlantStorage storage)
         {
-            if (!_isEnable) return;
-            
-            if (seedbed is null)
+            storage = null;
+            if (!_isEnable) return false;
+
+            if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
-                return;
+                return false;
             }
 
-            if (seedbed.CurrentSeedConfig is null) return;
-
-            if (!seedbed.CurrentSeedConfig.TryGetCaringSettings(caringType, out CaringSettings caringSettings)) return;
-
-            float count = caringSettings.CaringValue;
-            if (count <= 0)
+            if (plant is null)
             {
-                seedbed.Care(caringType);
-                return;
+                Debug.LogWarning("Plant is null");
+                return false;
             }
 
-            if (!_resourcesStorage.TryGetStorage(caringType, out ResourceStorage storage))
+            if (!_seedsStorage.TryGetStorage(plant.Plant, out storage))
             {
-                Debug.Log($"Resource storage of type {caringType} is not found!");
-                return;
+                Debug.Log("Seed storage of type {type} is not found!");
+                return false;
             }
 
-            if (!storage.CanSpend(count))
-            {
-                Debug.Log($"Not enough resource of type {caringType} in storage!");
-                return;
-            }
-
-            if (!storage.Spend(count)) return;
+            if (storage.CanSpend(count)) return true;
             
-            seedbed.Care(caringType);
+            Debug.Log("Not enough seeds of type {type} in storage!");
+            return false;
         }
 
-        void IStartGameListener.OnStart()
+        private bool CanFertilize(Pot pot, FertilizerConfig fertilizer)
         {
-            _isEnable = true;
+            if (!_isEnable) return false;
+            
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return false;
+            }
+
+            if (!pot.IsSeeded) return false;
+
+            if (fertilizer is not null) return true;
+            
+            Debug.LogWarning("Fertilizer is null");
+            return false;
         }
 
-        void IFinishGameListener.OnFinish()
+        private bool CanWatering(Pot pot, int count)
         {
-            _isEnable = false;
+            if (!_isEnable) return false;
+
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return false;
+            }
+
+            if (!(_waterStorage.Value < count)) return true;
+            
+            Debug.Log("Not enough water in storage!");
+            return false;
         }
 
-        void IPauseGameListener.OnPause()
+        private bool CanHeal(Pot pot, MedicineConfig medicine)
         {
-            _isEnable = false;
-        }
+            if (!_isEnable) return false;
+            
+            if (pot is null)
+            {
+                Debug.LogWarning("Seedbed is null");
+                return false;
+            }
 
-        void IResumeGameListener.OnResume()
-        {
-            _isEnable = true;
-        }
+            if (!pot.IsSick) return false;
 
-        void IInitGameListener.OnInit()
-        {
-            _isEnable = false;
+            if (medicine is not null) return true;
+            
+            Debug.LogWarning("Medicine is null");
+            return false;
         }
     }
 }

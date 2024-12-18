@@ -7,22 +7,22 @@ namespace Tavern.Storages
 {
     public class PlantsStorage : MonoBehaviour
     {
-        public event Action<PlantType, int> OnStorageValueAdded;
-        public event Action<PlantType, int> OnStorageValueChanged;
-        public event Action<PlantType, int> OnStorageValueSpent;
-        public event Action<PlantType> OnStorageIsFull;
-        public event Action<PlantType> OnStorageIsEmpty;
+        public event Action<Plant, int> OnStorageValueAdded;
+        public event Action<Plant, int> OnStorageValueChanged;
+        public event Action<Plant, int> OnStorageValueSpent;
+        public event Action<Plant> OnStorageIsFull;
+        public event Action<Plant> OnStorageIsEmpty;
 
         [SerializeField] 
         private PlantStorage[] Storages;
         
-        private readonly Dictionary<PlantType, PlantStorage> _storagesDictionary = new();
+        private readonly Dictionary<Plant, PlantStorage> _storagesDictionary = new();
         
         public IReadOnlyList<PlantStorage> PlantStorages => Storages;
         
         private void OnValidate()
         {
-            var collection = new Dictionary<PlantType, bool>();
+            var collection = new Dictionary<Plant, bool>();
             foreach (PlantStorage storage in Storages)
             {
                 if (collection.TryAdd(storage.PlantType, true))
@@ -39,7 +39,7 @@ namespace Tavern.Storages
             foreach (PlantStorage storage in Storages)
             {
                 storage.Init();
-                PlantType type = storage.PlantType;
+                Plant type = storage.PlantType;
                 _storagesDictionary.Add(type, storage);
                 Subscribe(storage);
             }
@@ -54,7 +54,7 @@ namespace Tavern.Storages
             }
         }
 
-        public bool TryGetStorage(PlantType type, out PlantStorage storage)
+        public bool TryGetStorage(Plant type, out PlantStorage storage)
         {
             return _storagesDictionary.TryGetValue(type, out storage);
         }
@@ -77,14 +77,14 @@ namespace Tavern.Storages
             storage.OnPlantStorageFull -= OnFull;
         }
 
-        private void OnValueAdded(PlantType type, int value) => OnStorageValueAdded?.Invoke(type, value);
+        private void OnValueAdded(Plant type, int value) => OnStorageValueAdded?.Invoke(type, value);
 
-        private void OnValueChanged(PlantType type, int value) => OnStorageValueChanged?.Invoke(type, value);
+        private void OnValueChanged(Plant type, int value) => OnStorageValueChanged?.Invoke(type, value);
 
-        private void OnValueSpent(PlantType type, int value) => OnStorageValueSpent?.Invoke(type, value);
+        private void OnValueSpent(Plant type, int value) => OnStorageValueSpent?.Invoke(type, value);
 
-        private void OnEmpty(PlantType type) => OnStorageIsEmpty?.Invoke(type);
+        private void OnEmpty(Plant type) => OnStorageIsEmpty?.Invoke(type);
 
-        private void OnFull(PlantType type) => OnStorageIsFull?.Invoke(type);
+        private void OnFull(Plant type) => OnStorageIsFull?.Invoke(type);
     }
 }

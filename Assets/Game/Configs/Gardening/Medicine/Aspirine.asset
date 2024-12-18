@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6292505c47c14ec0b28d58c118eed982, type: 3}
+  m_Name: Aspirine
+  m_EditorClassIdentifier: 
+  Item:
+    Name: Aspirin
+    Flags: 3
+    Metadata:
+      Title: 
+      Description: 
+      Icon: {fileID: 0}
+    Components:
+    - rid: 835742624321896482
+    - rid: 835742636863127578
+    - rid: 835742636863127566
+  references:
+    version: 2
+    RefIds:
+    - rid: 835742624321896482
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0
+    - rid: 835742636863127566
+      type: {class: ComponentHarvestSicknessReducing, ns: Tavern.Gardening.Medicine, asm: Game}
+      data:
+        SicknessReducingInPercents: 30
+    - rid: 835742636863127578
+      type: {class: ComponentHarvestHeal, ns: Tavern.Gardening.Medicine, asm: Game}
+      data: 

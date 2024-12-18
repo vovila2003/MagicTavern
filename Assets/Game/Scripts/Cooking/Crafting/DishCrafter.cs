@@ -1,21 +1,25 @@
 using System;
+using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Modules.Inventories;
+using Tavern.Common;
 using Tavern.Looting;
 using Tavern.Storages;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Cooking
 {
+    [UsedImplicitly]
     public class DishCrafter : 
         ItemCrafter<DishItem>,
         IExitGameListener,
         IFinishGameListener,
         IPauseGameListener,
         IResumeGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly IInventory<LootItem> _lootInventory;
         private readonly IProductsStorage _productsStorage;
@@ -54,10 +58,10 @@ namespace Tavern.Cooking
             foreach (ProductIngredient productIngredient in dishRecipe.Products)
             {
                 int requiredAmount = productIngredient.ProductAmount;
-                PlantType plantType = productIngredient.Type;
+                Plant plantType = productIngredient.Type;
                 if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
                 {
-                    Debug.Log($"Product storage of type {plantType} not found!");
+                    Debug.Log($"Product storage of type {plantType.PlantName} not found!");
                     return false;
                 }
 
@@ -119,10 +123,10 @@ namespace Tavern.Cooking
             foreach (ProductIngredient productIngredient in dishRecipe.Products)
             {
                 int requiredAmount = productIngredient.ProductAmount;
-                PlantType plantType = productIngredient.Type;
+                Plant plantType = productIngredient.Type;
                 if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
                 {
-                    throw new ArgumentException($"Product storage of type {plantType} not found!");
+                    throw new ArgumentException($"Product storage of type {plantType.PlantName} not found!");
                 }
 
                 storage.Spend(requiredAmount);
@@ -145,6 +149,6 @@ namespace Tavern.Cooking
 
         void IResumeGameListener.OnResume() => Timer.Resume();
 
-        void IUpdateListener.OnUpdate(float deltaTime) => Tick(deltaTime);
+        void ITickable.Tick() => Tick(Time.deltaTime);
     }
 }

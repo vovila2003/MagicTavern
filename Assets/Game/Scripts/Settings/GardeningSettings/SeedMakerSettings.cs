@@ -14,21 +14,21 @@ namespace Tavern.Settings
         private class SeedParams
         {
             [SerializeField] 
-            private PlantType PlantType;
+            private PlantConfig Plant;
             
             [SerializeField] 
             private int ProductToSeedRatio;
             
-            public PlantType Type => PlantType;
+            public Plant Type => Plant.Plant;
             public int Ratio => ProductToSeedRatio;
         }
         
         [SerializeField]
         private SeedParams[] ConvertToSeedsParams;
         
-        private readonly Dictionary<PlantType, int> _seeds = new ();
+        private readonly Dictionary<Plant, int> _seeds = new ();
 
-        public bool TryGetSeedRatio(PlantType plantType, out int convertRatio)
+        public bool TryGetSeedRatio(Plant plantType, out int convertRatio)
         {
             bool contains = _seeds.TryGetValue(plantType, out int ratio);
             convertRatio = ratio;
@@ -37,17 +37,17 @@ namespace Tavern.Settings
 
         private void OnValidate()
         {
-            var collection = new Dictionary<PlantType, bool>();
+            var collection = new Dictionary<Plant, bool>();
             foreach (SeedParams settings in ConvertToSeedsParams)
             {
-                PlantType plantType = settings.Type;
+                Plant plantType = settings.Type;
                 _seeds[plantType] = settings.Ratio;
                 if (collection.TryAdd(plantType, true))
                 {
                     continue;
                 }
 
-                throw new Exception($"Duplicate convert params of type {plantType}");
+                throw new Exception($"Duplicate convert params of type {plantType.PlantName}");
             }
         }
     }

@@ -5,8 +5,12 @@ using Tavern.Character.Visual;
 using Tavern.Components;
 using Tavern.Cooking;
 using Tavern.Gardening;
+using Tavern.Gardening.Fertilizer;
+using Tavern.Gardening.Medicine;
 using Tavern.InputServices;
 using Tavern.Looting;
+using Tavern.MiniGame;
+using Tavern.MiniGame.UI;
 using Tavern.Settings;
 using Tavern.Storages;
 using Tavern.UI;
@@ -16,14 +20,20 @@ using VContainer.Unity;
 
 namespace Tavern.Architecture
 {
-    public class SceneLifetimeScope : LifetimeScope
+    public sealed class SceneLifetimeScope : LifetimeScope
     {
         [SerializeField] 
         private GameSettings GameSettings;
 
         [SerializeField] 
         private Transform World;
-        
+
+        [SerializeField] 
+        private Transform Pots;
+
+        [SerializeField] 
+        private Pot PotPrefab;
+
         protected override void Configure(IContainerBuilder builder)
         {
             RegisterCommon(builder);
@@ -32,10 +42,11 @@ namespace Tavern.Architecture
             RegisterUi(builder);
             RegisterGameCursor(builder);
             RegisterCamera(builder);
-            RegisterGardening(builder);
             RegisterStorages(builder);
+            RegisterGardening(builder);
             RegisterLooting(builder);
             RegisterCooking(builder);
+            RegisterMiniGames(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -58,20 +69,20 @@ namespace Tavern.Architecture
             builder.RegisterComponent(character).AsImplementedInterfaces();
             builder.RegisterInstance(GameSettings.CharacterSettings);
             builder.Register<CharacterAttackAgent>(Lifetime.Singleton);
-            builder.Register<CharacterMoveController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterJumpController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterFireController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterBlockController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterActionController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CharacterDodgeController>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterEntryPoint<CharacterMoveController>();
+            builder.RegisterEntryPoint<CharacterJumpController>();
+            builder.RegisterEntryPoint<CharacterFireController>();
+            builder.RegisterEntryPoint<CharacterBlockController>();
+            builder.RegisterEntryPoint<CharacterActionController>();
+            builder.RegisterEntryPoint<CharacterDodgeController>();
             builder.Register<CharacterAnimatorController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterEntryPoint<InputService>();
         }
 
         private void RegisterGame(IContainerBuilder builder)
         {
             builder.Register<Modules.GameCycle.GameCycle>(Lifetime.Singleton).AsSelf();
-            builder.Register<GameCycleController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterEntryPoint<GameCycleController>().AsSelf();
             builder.Register<FinishGameController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<QuitGameController>(Lifetime.Singleton);
@@ -96,20 +107,46 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<CameraSetup>();
         }
 
-        private void RegisterGardening(IContainerBuilder builder)
-        {
-            builder.RegisterInstance(GameSettings.SeedMakerSettings);
-            builder.RegisterInstance(GameSettings.SeedsCatalog);
-            builder.RegisterInstance(GameSettings.SeedbedSettings);
-            builder.RegisterComponentInHierarchy<SeedMaker>();
-            builder.Register<SeedbedFactory>(Lifetime.Singleton).WithParameter(World);
-        }
-
         private void RegisterStorages(IContainerBuilder builder)
         {
             builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<ResourcesStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
+        }
+
+        private void RegisterGardening(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(GameSettings.SeedMakerSettings);
+            builder.RegisterInstance(GameSettings.PlantsCatalog);
+            builder.RegisterInstance(GameSettings.PotSettings);
+            builder.RegisterComponentInHierarchy<SeedMaker>();
+
+            builder.Register<PotsController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf().WithParameter(Pots);
+            builder.RegisterComponentInHierarchy<PotCreator>();
+            
+            RegisterMedicine(builder);
+            RegisterFertilizer(builder);
+        }
+
+        private void RegisterMedicine(IContainerBuilder builder)
+        {
+            builder.Register<MedicineConsumer>(Lifetime.Singleton).AsSelf();
+            builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
+            
+            builder.RegisterEntryPoint<MedicineCrafter>().AsSelf();
+            builder.RegisterComponentInHierarchy<MedicineCrafterContext>();
+        }
+
+        private void RegisterFertilizer(IContainerBuilder builder)
+        {
+            builder.Register<FertilizerConsumer>(Lifetime.Singleton).AsSelf();
+            builder.Register<FertilizerInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<FertilizerInventoryContext>();
+            
+            builder.RegisterEntryPoint<FertilizerCrafter>().AsSelf();
+            builder.RegisterComponentInHierarchy<FertilizerCrafterContext>();
         }
 
         private void RegisterLooting(IContainerBuilder builder)
@@ -122,11 +159,19 @@ namespace Tavern.Architecture
         {
             builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
-            
+
+            builder.RegisterEntryPoint<DishCrafter>().AsSelf();
             builder.RegisterComponentInHierarchy<DishCrafterContext>();
             
             builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<DishInventoryContext>();
+        }
+
+        private void RegisterMiniGames(IContainerBuilder builder)
+        {
+            builder.Register<MiniGameInputService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MiniGameView>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MiniGameManager>().AsImplementedInterfaces();
         }
     }
 }

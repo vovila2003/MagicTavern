@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Modules.Items
@@ -14,9 +16,9 @@ namespace Modules.Items
         
         [SerializeField] 
         protected ItemMetadata Metadata;
-
+        
         [SerializeReference] 
-        public object[] Attributes;
+        public List<IItemComponent> Components;
         
         public string ItemName => Name;
         public ItemFlags ItemFlags => Flags;
@@ -26,17 +28,20 @@ namespace Modules.Items
             string name,
             ItemFlags flags,
             ItemMetadata metadata,
-            params object[] attributes)
+            params IItemComponent[] attributes)
         {
             Name = name;
             Flags = flags;
             Metadata = metadata;
-            Attributes = attributes;
+            Components = new List<IItemComponent>(attributes);
         }
 
-        public T GetAttribute<T>()
+        public void SetFlags(ItemFlags flags) => Flags |= flags;
+        public void ResetFlags(ItemFlags flags) => Flags &= ~flags;
+
+        public T GetComponent<T>()
         {
-            foreach (object attribute in Attributes)
+            foreach (IItemComponent attribute in Components)
             {
                 if (attribute is T tAttribute)
                 {
@@ -47,30 +52,32 @@ namespace Modules.Items
             throw new Exception($"Attribute of type {typeof(T).Name} is not found!");
         }
 
+        public bool HasComponent<T>() => Components.OfType<T>().Any();
+
         public virtual Item Clone()
         {
-            object[] attributes = GetAttributes();
+            IItemComponent[] components = GetComponents();
 
-            return new Item(Name, Flags, Metadata, attributes);
+            return new Item(Name, Flags, Metadata, components);
         }
 
-        protected object[] GetAttributes()
+        protected IItemComponent[] GetComponents()
         {
-            int count = Attributes.Length;
-            var attributes = new object[count];
+            int count = Components.Count;
+            var components = new IItemComponent[count];
 
             for (var i = 0; i < count; i++)
             {
-                object attribute = Attributes[i];
-                if (attribute is ICloneable cloneable)
+                IItemComponent component = Components[i];
+                if (component is IItemComponent cloneable)
                 {
-                    attribute = cloneable.Clone();
+                    component = cloneable.Clone();
                 }
 
-                attributes[i] = attribute;
+                components[i] = component;
             }
 
-            return attributes;
+            return components;
         }
     }
 }

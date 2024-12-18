@@ -1,13 +1,14 @@
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
     public sealed class CharacterJumpController : 
         IStartGameListener,
         IFinishGameListener,
-        IUpdateListener
+        ITickable
     {
         private readonly ICharacter _character;
         private readonly IJumpInput _jumpInput;
@@ -19,7 +20,7 @@ namespace Tavern.Character.Controllers
             _jumpInput = jumpInput;
         }
         
-        void IUpdateListener.OnUpdate(float _)
+        void ITickable.Tick()
         {
             if (!_jumpRequired) return;
 

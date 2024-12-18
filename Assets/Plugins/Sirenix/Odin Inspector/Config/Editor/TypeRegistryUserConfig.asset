@@ -21,4 +21,9 @@ MonoBehaviour:
   typeSettings:
     serializedDictionary: []
   typePriorities:
-    serializedDictionary: []
+    serializedDictionary:
+    - typeName: Tavern.Gardening.Medicine.MyTestComponent, Game
+      priority: 1
+    - typeName: Tavern.Gardening.Medicine.ComponentHarvestSickProbabilityReducing,
+        Game
+      priority: 1
