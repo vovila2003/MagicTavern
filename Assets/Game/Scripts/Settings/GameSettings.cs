@@ -24,7 +24,7 @@ namespace Tavern.Settings
         
         public PlantsCatalog PlantsCatalog => GardeningConfigs.Catalog;
         
-        public SeedbedSettings SeedbedSettings => GardeningConfigs.SeedbedSettings;
+        public PotSettings PotSettings => GardeningConfigs.PotSettings;
         
         public CharacterSettings CharacterSettings => CharacterConfig;
         

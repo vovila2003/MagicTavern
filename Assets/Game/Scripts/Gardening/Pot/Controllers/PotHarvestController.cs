@@ -1,41 +1,34 @@
 using Modules.Gardening;
 using Tavern.Storages;
 using UnityEngine;
-using VContainer;
 
 namespace Tavern.Gardening
 {
-    [RequireComponent(typeof(Pot))]
-    public sealed class SeedbedHarvestController : MonoBehaviour
+    public sealed class PotHarvestController
     {
-        private Pot _pot;
-        private IProductsStorage _productsStorage;
-        private ISlopsStorage _slopeStorage;
-        private ISeedsStorage _seedsStorage;
+        private readonly Pot _pot;
+        private readonly IProductsStorage _productsStorage;
+        private readonly ISlopsStorage _slopeStorage;
+        private readonly ISeedsStorage _seedsStorage;
 
-        [Inject]
-        public void Construct(IProductsStorage productsStorage, ISlopsStorage slopeStorage, ISeedsStorage seedsStorage)
+       public PotHarvestController(
+            Pot pot, 
+            IProductsStorage productsStorage, 
+            ISlopsStorage slopeStorage, 
+            ISeedsStorage seedsStorage)
         {
+            _pot = pot;
             _productsStorage = productsStorage;
             _slopeStorage = slopeStorage;
             _seedsStorage = seedsStorage;
-        }
-
-        private void Awake()
-        {
-            _pot = GetComponent<Pot>();
-        }
-
-        private void OnEnable()
-        {
             _pot.OnHarvestReceived += OnHarvestReceived;
             _pot.OnSlopsReceived += OnSlopsReceived;
         }
 
-        private void OnDisable()
+        public void Dispose()
         {
             _pot.OnHarvestReceived -= OnHarvestReceived;
-                        
+            _pot.OnSlopsReceived -= OnSlopsReceived;
         }
 
         private void OnHarvestReceived(Plant type, int value, bool hasSeed)

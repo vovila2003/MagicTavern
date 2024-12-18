@@ -1,12 +1,10 @@
 using Modules.Gardening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Tavern.Gardening
 {
-    public class HarvestViewController : MonoBehaviour
+    public class HarvestView : MonoBehaviour
     {
-        [FormerlySerializedAs("Seedbed")] 
         [SerializeField]
         private Pot Pot;
         

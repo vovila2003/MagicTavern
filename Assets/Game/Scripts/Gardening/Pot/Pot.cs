@@ -1,19 +1,11 @@
 using System;
-using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using VContainer.Unity;
 
 namespace Tavern.Gardening
 {
-    public class Pot :
-        MonoBehaviour,
-        IStartGameListener,
-        IPauseGameListener,
-        IResumeGameListener,
-        IFinishGameListener,
-        ITickable
+    public class Pot : MonoBehaviour
     {
         public event Action<Plant, int, bool> OnHarvestReceived;
         public event Action<int> OnSlopsReceived;
@@ -104,36 +96,15 @@ namespace Tavern.Gardening
             Seedbed.ReduceHarvestSicknessProbability(reducing);
         }
 
-        void ITickable.Tick()
-        {
-            if (!_isEnable) return;
+        public void Tick(float deltaTime) => Seedbed.Tick(deltaTime);
 
-            Seedbed.Tick(Time.deltaTime);
-        }
+        public void OnStart() => Seedbed.Resume();
 
-        void IStartGameListener.OnStart()
-        {
-            _isEnable = true;
-            Seedbed.Resume();
-        }
+        public void OnPause() => Seedbed.Pause();
 
-        void IPauseGameListener.OnPause()
-        {
-            _isEnable = false;
-            Seedbed.Pause();
-        }
+        public void OnResume() => Seedbed.Resume();
 
-        void IResumeGameListener.OnResume()
-        {
-            _isEnable = true;
-            Seedbed.Resume();
-        }
-
-        void IFinishGameListener.OnFinish()
-        {
-            _isEnable = false;
-            Seedbed.Stop();
-        }
+        public void OnFinish() => Seedbed.Stop();
 
         private void OnHarvestProgressChanged(float progress) => _progress = progress;
 

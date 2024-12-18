@@ -78,8 +78,6 @@ namespace Tavern.Components
             _medicineInventoryContext.Consume(medicine.Item, pot);
         }
 
-        void IStartGameListener.OnStart() => _isEnable = true;
-
         [Button]
         public void Gather(Pot pot)
         {
@@ -93,6 +91,8 @@ namespace Tavern.Components
             
             pot.Gather();
         }
+
+        void IStartGameListener.OnStart() => _isEnable = true;
 
         void IFinishGameListener.OnFinish() => _isEnable = false;
 

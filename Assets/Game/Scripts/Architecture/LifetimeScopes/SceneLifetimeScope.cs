@@ -20,13 +20,19 @@ using VContainer.Unity;
 
 namespace Tavern.Architecture
 {
-    public class SceneLifetimeScope : LifetimeScope
+    public sealed class SceneLifetimeScope : LifetimeScope
     {
         [SerializeField] 
         private GameSettings GameSettings;
 
         [SerializeField] 
         private Transform World;
+
+        [SerializeField] 
+        private Transform Pots;
+
+        [SerializeField] 
+        private Pot PotPrefab;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -36,8 +42,8 @@ namespace Tavern.Architecture
             RegisterUi(builder);
             RegisterGameCursor(builder);
             RegisterCamera(builder);
-            RegisterGardening(builder);
             RegisterStorages(builder);
+            RegisterGardening(builder);
             RegisterLooting(builder);
             RegisterCooking(builder);
             RegisterMiniGames(builder);
@@ -101,17 +107,24 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<CameraSetup>();
         }
 
+        private void RegisterStorages(IContainerBuilder builder)
+        {
+            builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
+        }
+
         private void RegisterGardening(IContainerBuilder builder)
         {
             builder.RegisterInstance(GameSettings.SeedMakerSettings);
             builder.RegisterInstance(GameSettings.PlantsCatalog);
-            builder.RegisterInstance(GameSettings.SeedbedSettings);
+            builder.RegisterInstance(GameSettings.PotSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
-            builder.RegisterComponentInHierarchy<Pot>().AsImplementedInterfaces();
-            
-            //
-            builder.RegisterComponentInHierarchy<SeedbedHarvestController>();
 
+            builder.Register<PotsController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf().WithParameter(Pots);
+            builder.RegisterComponentInHierarchy<PotCreator>();
+            
             RegisterMedicine(builder);
             RegisterFertilizer(builder);
         }
@@ -134,14 +147,6 @@ namespace Tavern.Architecture
             
             builder.RegisterEntryPoint<FertilizerCrafter>().AsSelf();
             builder.RegisterComponentInHierarchy<FertilizerCrafterContext>();
-        }
-
-        private void RegisterStorages(IContainerBuilder builder)
-        {
-            builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
         }
 
         private void RegisterLooting(IContainerBuilder builder)
