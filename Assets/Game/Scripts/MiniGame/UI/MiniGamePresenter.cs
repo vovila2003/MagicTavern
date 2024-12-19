@@ -11,6 +11,8 @@ namespace Tavern.MiniGame.UI
         private readonly IMiniGameView _view;
 
         private readonly MiniGame _game;
+        private int _currentScore;
+        private int _totalScore;
 
         public MiniGamePresenter(IMiniGameView view, MiniGame game)
         {
@@ -26,6 +28,8 @@ namespace Tavern.MiniGame.UI
 
         public void Show(int currentScore, int totalScore)
         {
+            _currentScore = currentScore;
+            _totalScore = totalScore;
             _view.SetResultText("");
             _view.SetScoreText($"{currentScore} / {totalScore}");
             _view.SetSliderValue(0);
@@ -62,10 +66,32 @@ namespace Tavern.MiniGame.UI
 
         private void OnResult(bool result)
         {
+            if (result)
+            {
+                _currentScore++;
+                _view.SetScoreText($"{_currentScore} / {_totalScore}");
+            }
+
+            if (_currentScore < _totalScore)
+            {
+                _view.ShowRestartButton();
+            }
+            
+            _view.SetResultText(GetResultText(result));
             _view.ShowCloseButton();
-            _view.ShowRestartButton();
-            _view.SetResultText(result? "YOU WIN!" : "You lose!");
+            
             OnGameOver?.Invoke(result);
+        }
+
+        private string GetResultText(bool result)
+        {
+            string resultText = result? "YOU WIN!" : "You lose!";
+            if (_currentScore >= _totalScore)
+            {
+                resultText += "\nRecipe record completed!";
+            }
+            
+            return resultText;
         }
 
         private void OnCloseGame() => _view.Hide();
