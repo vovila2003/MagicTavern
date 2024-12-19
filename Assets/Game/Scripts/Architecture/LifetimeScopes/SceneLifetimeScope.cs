@@ -2,6 +2,7 @@ using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
+using Tavern.Common;
 using Tavern.Components;
 using Tavern.Cooking;
 using Tavern.Gardening;
@@ -165,6 +166,8 @@ namespace Tavern.Architecture
             
             builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<DishInventoryContext>();
+
+            builder.RegisterComponentInHierarchy<DishCookbookContext>();
         }
 
         private void RegisterMiniGames(IContainerBuilder builder)

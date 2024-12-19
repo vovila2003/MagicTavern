@@ -6,6 +6,7 @@ namespace Tavern.MiniGame.UI
     {
         event Action OnStartGame;
         event Action OnCloseGame;
+        event Action OnRestartGame;
         void Show();
         void Hide();
         void SetSliderValue(float value);
@@ -14,6 +15,9 @@ namespace Tavern.MiniGame.UI
         void HideStartButton();
         void ShowCloseButton();
         void HideCloseButton();
+        void ShowRestartButton();
+        void HideRestartButton();
         void SetResultText(string text);
+        void SetScoreText(string text);
     }
 }

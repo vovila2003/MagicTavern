@@ -24,11 +24,15 @@ namespace Tavern.MiniGame
         [SerializeField, 
          ValidateInput("ValidateSpeedMax", "Must be greater than SpeedMin")] 
         private float SpeedMax;
+
+        [SerializeField] 
+        private int MatchCount = 10;
         
         public float TargetValueMin => TargetMin;
         public float TargetValueMax => TargetMax;
         public float SpeedValueMin => SpeedMin;
         public float SpeedValueMax => SpeedMax;
+        public int Match => MatchCount;
 
         private bool ValidateTargetMin(float value) => value is > 0 and < 1;
         private bool ValidateTargetMax(float value) => value > TargetMin && value < 1;

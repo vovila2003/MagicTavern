@@ -15,11 +15,14 @@ namespace Tavern.Common
         
         [ShowInInspector, ReadOnly]
         private IReadOnlyDictionary<string, ItemRecipe<T>> Recipes => _cookbook?.Recipes; 
-
+        
         private void Awake()
         {
             _cookbook = new Cookbook<T>(ItemRecipes);
         }
+
+        public bool HasRecipe(ItemRecipe<T> recipe) => 
+            _cookbook?.Recipes.ContainsKey(recipe.Name) ?? false;
 
         [Button]
         public void AddRecipe(ItemRecipe<T> recipe)

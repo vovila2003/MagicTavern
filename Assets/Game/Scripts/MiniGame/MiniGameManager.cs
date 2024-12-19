@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Modules.GameCycle;
 using Sirenix.OdinInspector;
+using Tavern.Cooking;
 using Tavern.InputServices.Interfaces;
 using Tavern.MiniGame.UI;
 using UnityEngine;
@@ -13,43 +15,76 @@ namespace Tavern.MiniGame
         [SerializeField] 
         private MiniGameConfig Config;
         
+        private readonly Dictionary<DishRecipe, int> _recipes = new();
+        
         private MiniGame _game;
         private MiniGamePresenter _presenter;
         private GameCycle _gameCycle;
-        private IObjectResolver _container;
+        private ISpaceInput _input;
+        private IMiniGameView _view;
+        private DishRecipe _currentRecipe;
+        private DishCookbookContext _cookbook;
 
         [Inject]
-        public void Construct(GameCycle gameCycle, IObjectResolver container)
+        public void Construct(GameCycle gameCycle, ISpaceInput input, IMiniGameView view, DishCookbookContext cookbook)
         {
             _gameCycle = gameCycle;
-            _container = container;
+            _input = input;
+            _view = view;
+            _cookbook = cookbook;
         }
 
         private void Start()
         {
-            var input = _container.Resolve<ISpaceInput>(); 
-            var view = _container.Resolve<IMiniGameView>();    
-                
-            _game = new MiniGame(input, Config);
+            _game = new MiniGame(_input, Config);
             _gameCycle.AddListener(_game);
-            _presenter = new MiniGamePresenter(view, _game);
+            _presenter = new MiniGamePresenter(_view, _game);
+            _presenter.OnGameOver += OnGameOver;
+            _presenter.OnGameRestart += OnRestartGame;
         }
 
         private void OnDisable()
         {
             _presenter.Dispose();
             _gameCycle.RemoveListener(_game);
+            _presenter.OnGameOver -= OnGameOver;
+            _presenter.OnGameRestart -= OnRestartGame;
         }
 
         [Button]
-        public void CreateGame()
+        public void CreateGame(DishRecipe recipe)
         {
-            _presenter.Show();
+            if (recipe is null) return;
+
+            if (_cookbook.HasRecipe(recipe))
+            {
+                Debug.Log($"Recipe {recipe.Name} is already in cookbook");
+                return;
+            }
+            
+            int currentScore = _recipes.GetValueOrDefault(recipe, 0);
+            
+            _presenter.Show(currentScore, Config.Match);
+            _currentRecipe = recipe;
         }
 
-        public void Tick()
+        public void Tick() => _game?.Tick(Time.deltaTime);
+
+        private void OnGameOver(bool win)
         {
-            _game?.Tick(Time.deltaTime);
+            if (_currentRecipe is null) return;
+
+            if (!win) return;
+            
+            _recipes.TryAdd(_currentRecipe, 0);
+            _recipes[_currentRecipe]++;
+
+            if (_recipes[_currentRecipe] < Config.Match) return;
+            
+            _cookbook.AddRecipe(_currentRecipe);
+            _recipes.Remove(_currentRecipe);
         }
+
+        private void OnRestartGame() => CreateGame(_currentRecipe);
     }
 }
