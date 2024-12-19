@@ -1,4 +1,5 @@
 using Modules.Gardening;
+using Tavern.MiniGame;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -19,6 +20,9 @@ namespace Tavern.Settings
 
         [SerializeField]
         private GardeningSettings GardeningConfigs;
+
+        [SerializeField] 
+        private MiniGameConfig MiniGameConfig;
         
         public SeedMakerSettings SeedMakerSettings => GardeningConfigs.SeedMakerSettings;
         
@@ -31,5 +35,7 @@ namespace Tavern.Settings
         public GameCursorSettings CursorSettings => CursorConfig;
         
         public CameraSettings CameraSettings => CameraConfigs;
+        
+        public MiniGameConfig MiniGameSettings => MiniGameConfig;
     }
 }

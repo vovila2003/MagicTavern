@@ -1,14 +1,18 @@
 using System;
+using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
+using VContainer.Unity;
 using Random = UnityEngine.Random;
 
 namespace Tavern.MiniGame
 {
+    [UsedImplicitly]
     public class MiniGame : 
         IPauseGameListener,
-        IResumeGameListener
+        IResumeGameListener,
+        ITickable
     {
         public event Action<Vector2> OnTargetChanged;
         public event Action<float> OnValueChanged;
@@ -61,11 +65,11 @@ namespace Tavern.MiniGame
             _speed = Random.Range(_config.SpeedValueMin, _config.SpeedValueMax);
         }
 
-        public void Tick(float deltaTime)
+        void ITickable.Tick()
         {
             if (!_isEnable) return;
             
-            _value += _factor * deltaTime * _speed;
+            _value += _factor * Time.deltaTime * _speed;
             _factor = _value switch
             {
                 > 1 => -1,
