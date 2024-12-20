@@ -18,8 +18,8 @@ namespace Tavern.Storages
         [SerializeField]
         private ResourceStorage Storage;
 
-        [ShowInInspector, ReadOnly]
-        public float Value => Storage.Value;
+        [ShowInInspector, ReadOnly] 
+        protected int Value => Storage.Value;
 
         private void OnEnable()
         {
@@ -49,17 +49,17 @@ namespace Tavern.Storages
             }
         }
 
-        private void ValueAdded(float value)
+        private void ValueAdded(int value)
         {
             Debug.Log($"{Name} storage added by {value}");
         }
 
-        private void ValueChanged(float value)
+        private void ValueChanged(int value)
         {
         Debug.Log($"{Name} storage value changed to {value}");
         }
 
-        private void OnSpent(float value)
+        private void OnSpent(int value)
         {
         Debug.Log($"{Name} storage spent by {value}");
         }
@@ -75,7 +75,7 @@ namespace Tavern.Storages
         }
 
         [Button]
-        public void Add(float value)
+        protected void Add(int value)
         {
             bool result = Storage.Add(value);
 
@@ -83,7 +83,7 @@ namespace Tavern.Storages
         }
 
         [Button]
-        public void Spend(float value)
+        protected void Spend(int value)
         {
             bool result = Storage.Spend(value);
 
@@ -91,7 +91,7 @@ namespace Tavern.Storages
         }
 
         [Button]
-        public void ResetStorage()
+        protected void ResetStorage()
         {
             Storage.Reset();
 

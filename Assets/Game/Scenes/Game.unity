@@ -1572,6 +1572,7 @@ Transform:
   - {fileID: 368490052}
   - {fileID: 774227577}
   - {fileID: 1199618900}
+  - {fileID: 1727991712}
   m_Father: {fileID: 1057946215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &733329106
@@ -2342,7 +2343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f609881f40124771b33ed8cf39dc9968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Config: {fileID: 11400000, guid: a9fc13967d3f73189b46fb3446501003, type: 2}
 --- !u!1 &1084976229
 GameObject:
   m_ObjectHideFlags: 0
@@ -4486,6 +4486,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705273100}
   m_CullTransparentMesh: 1
+--- !u!1 &1727991711
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1727991712}
+  - component: {fileID: 1727991713}
+  m_Layer: 0
+  m_Name: MoneyStorage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1727991712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727991711}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 615366037}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1727991713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727991711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6c81cf3c9944d799795368da48d5166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Money
+  DebugMode: 1
+  StartValueInStorageInDebugMode: 1000
+  Storage:
+    Limit: 1
+    MaxValue: 0
 --- !u!1 &1749139920
 GameObject:
   m_ObjectHideFlags: 0

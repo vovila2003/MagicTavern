@@ -13,6 +13,7 @@ using Tavern.MiniGame;
 using Tavern.MiniGame.UI;
 using Tavern.Settings;
 using Tavern.Storages;
+using Tavern.Storages.CurrencyStorages;
 using Tavern.UI;
 using UnityEngine;
 using VContainer;
@@ -113,6 +114,7 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
         }
 
         private void RegisterGardening(IContainerBuilder builder)

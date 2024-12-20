@@ -30,7 +30,6 @@ namespace Tavern.MiniGame
             
             _presenter.OnRestart += RestartGame;
             _presenter.OnGameOver += GameOver;
-            Debug.Log("Inject");
         }
 
         void IDisposable.Dispose()

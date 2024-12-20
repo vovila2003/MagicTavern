@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
@@ -10,6 +11,7 @@ using VContainer.Unity;
 
 namespace Tavern.Gardening.Fertilizer
 {
+    [UsedImplicitly]
     public class FertilizerCrafter : 
         ItemCrafter<FertilizerItem>,
         IExitGameListener,
@@ -48,7 +50,7 @@ namespace Tavern.Gardening.Fertilizer
         }
 
         private bool CheckSlops(FertilizerRecipe fertilizerRecipe) => 
-            _slopsStorage.Value >= fertilizerRecipe.Slops;
+            _slopsStorage.Slops >= fertilizerRecipe.Slops;
 
         private bool CheckLoots(FertilizerRecipe fertilizerRecipe)
         {
@@ -80,7 +82,7 @@ namespace Tavern.Gardening.Fertilizer
 
         private void SpendSlops(FertilizerRecipe fertilizerRecipe)
         {
-            _slopsStorage.Spend(fertilizerRecipe.Slops);
+            _slopsStorage.SpendSlops(fertilizerRecipe.Slops);
         }
 
         private void RemoveLoots(FertilizerRecipe fertilizerRecipe)

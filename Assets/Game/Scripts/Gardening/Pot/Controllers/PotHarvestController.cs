@@ -65,7 +65,7 @@ namespace Tavern.Gardening
 
         private void OnSlopsReceived(int value)
         {
-            _slopeStorage.Add(value);
+            _slopeStorage.AddSlops(value);
         }
     }
 }

@@ -5,11 +5,11 @@ using UnityEngine;
 namespace Modules.Storages
 {
     [Serializable]
-    public class ResourceStorage : StorageFloat
+    public class ResourceStorage : StorageInt
     {
-        public event Action<float> OnResourceStorageAdded;
-        public event Action<float> OnResourceStorageChanged;
-        public event Action<float> OnResourceStorageValueSpent;
+        public event Action<int> OnResourceStorageAdded;
+        public event Action<int> OnResourceStorageChanged;
+        public event Action<int> OnResourceStorageValueSpent;
         public event Action OnResourceStorageFull;
         public event Action OnResourceStorageEmpty;
 
@@ -39,11 +39,11 @@ namespace Modules.Storages
             OnEmpty -= OnStorageEmpty;
         }
         
-        private void OnStorageValueAdded(float value) => OnResourceStorageAdded?.Invoke(value);
+        private void OnStorageValueAdded(int value) => OnResourceStorageAdded?.Invoke(value);
 
-        private void OnStorageValueChanged(float value) => OnResourceStorageChanged?.Invoke(value);
+        private void OnStorageValueChanged(int value) => OnResourceStorageChanged?.Invoke(value);
 
-        private void OnStorageValueSpent(float value) => OnResourceStorageValueSpent?.Invoke(value);
+        private void OnStorageValueSpent(int value) => OnResourceStorageValueSpent?.Invoke(value);
 
         private void OnStorageFull() => OnResourceStorageFull?.Invoke();
 
