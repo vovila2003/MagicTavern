@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Modules.Items
 {
     [Serializable]
-    public sealed class ItemMetadata
+    public class ItemMetadata
     {
         [SerializeField]
         public string Title;

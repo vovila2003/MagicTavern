@@ -24,10 +24,21 @@ namespace Tavern.Storages
         private PlantConfig Plant;
 
         [SerializeField]
-        private LimitType Limit = LimitType.Unlimited;
+        private LimitType Limit;
 
         [SerializeField, ShowIf("Limit", LimitType.Limited)]
         private int MaxValue;
+
+        public PlantStorage(
+            PlantConfig plant, 
+            LimitType limit, 
+            int maxValue) 
+            : base(0, limit, maxValue)
+        {
+            Plant = plant;
+            Limit = limit;
+            MaxValue = maxValue;
+        }
 
         public void Init()
         {

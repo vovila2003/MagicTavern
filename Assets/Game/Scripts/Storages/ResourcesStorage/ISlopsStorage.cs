@@ -2,9 +2,8 @@ namespace Tavern.Storages
 {
     public interface ISlopsStorage
     {
-        void Add(float value);
-        void Spend(float value);
-        void ResetStorage();
-        float Value { get; }
+        void AddSlops(int value);
+        void SpendSlops(int value);
+        int Slops { get; }
     }
 }

@@ -2,8 +2,8 @@ namespace Tavern.Storages
 {
     public interface IWaterStorage
     {
-        void Add(float value);
-        void Spend(float value);
-        float Value { get; }
+        void AddWater(int value);
+        void SpendWater(int value);
+        int Water { get; }
     }
 }

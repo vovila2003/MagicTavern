@@ -1,3 +1,4 @@
+using Tavern.Buying;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
@@ -13,6 +14,7 @@ using Tavern.MiniGame;
 using Tavern.MiniGame.UI;
 using Tavern.Settings;
 using Tavern.Storages;
+using Tavern.Storages.CurrencyStorages;
 using Tavern.UI;
 using UnityEngine;
 using VContainer;
@@ -47,6 +49,7 @@ namespace Tavern.Architecture
             RegisterLooting(builder);
             RegisterCooking(builder);
             RegisterMiniGames(builder);
+            RegisterShopping(builder);
         }
 
         private void RegisterCommon(IContainerBuilder builder)
@@ -113,6 +116,7 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
         }
 
         private void RegisterGardening(IContainerBuilder builder)
@@ -178,6 +182,28 @@ namespace Tavern.Architecture
             builder.RegisterEntryPoint<MiniGame.MiniGame>().AsSelf();
             builder.RegisterComponentInHierarchy<MiniGamePlayer>();
             builder.Register<MiniGamePresenter>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private void RegisterShopping(IContainerBuilder builder)
+        {
+            builder.Register<GoodsBuyCondition_CanSpendMoney>(Lifetime.Singleton).AsImplementedInterfaces();
+            
+            builder.Register<GoodsBuyProcessor_SpendMoney>(Lifetime.Singleton).AsImplementedInterfaces();
+            
+            builder.Register<DishItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<FertilizerItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<KitchenItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<LootItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<MedicineItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            
+            builder.Register<ProductBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<SeedsBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<WaterBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+
+            builder.Register<GoodsBuyer>(Lifetime.Singleton).AsSelf();
+
+            builder.RegisterComponentInHierarchy<Shop.Shop>();
+
         }
     }
 }

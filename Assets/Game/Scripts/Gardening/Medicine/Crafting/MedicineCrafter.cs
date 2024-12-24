@@ -48,7 +48,7 @@ namespace Tavern.Gardening.Medicine
         }
 
         private bool CheckSlops(MedicineRecipe fertilizerRecipe) => 
-            _slopsStorage.Value >= fertilizerRecipe.Slops;
+            _slopsStorage.Slops >= fertilizerRecipe.Slops;
 
         private bool CheckLoots(MedicineRecipe fertilizerRecipe)
         {
@@ -80,7 +80,7 @@ namespace Tavern.Gardening.Medicine
 
         private void SpendSlops(MedicineRecipe fertilizerRecipe)
         {
-            _slopsStorage.Spend(fertilizerRecipe.Slops);
+            _slopsStorage.SpendSlops(fertilizerRecipe.Slops);
         }
 
         private void RemoveLoots(MedicineRecipe fertilizerRecipe)

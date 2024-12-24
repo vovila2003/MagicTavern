@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Modules.Gardening;
+using Modules.Storages;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Tavern.Storages
@@ -16,9 +19,10 @@ namespace Tavern.Storages
         [SerializeField] 
         private PlantStorage[] Storages;
         
+        [ShowInInspector, ReadOnly]
         private readonly Dictionary<Plant, PlantStorage> _storagesDictionary = new();
         
-        public IReadOnlyList<PlantStorage> PlantStorages => Storages;
+        public IReadOnlyList<PlantStorage> PlantStorages => _storagesDictionary.Values.ToList();
         
         private void OnValidate()
         {
@@ -47,7 +51,7 @@ namespace Tavern.Storages
 
         private void OnDisable()
         {
-            foreach (PlantStorage storage in Storages)
+            foreach (PlantStorage storage in PlantStorages)
             {
                 Unsubscribe(storage);
                 storage.Dispose();
@@ -57,6 +61,18 @@ namespace Tavern.Storages
         public bool TryGetStorage(Plant type, out PlantStorage storage)
         {
             return _storagesDictionary.TryGetValue(type, out storage);
+        }
+
+        public PlantStorage CreateStorage(
+            PlantConfig config, 
+            LimitType limitType = LimitType.Unlimited, 
+            int maxValue = 0)
+        {
+            var storage = new PlantStorage(config, limitType, maxValue);
+            storage.Init();
+            _storagesDictionary.Add(config.Plant, storage);
+            Subscribe(storage);
+            return storage;
         }
 
         private void Subscribe(PlantStorage storage)

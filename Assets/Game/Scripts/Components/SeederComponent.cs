@@ -67,7 +67,7 @@ namespace Tavern.Components
             if (!CanWatering(pot, count)) return;
 
             pot.Watering();
-            _waterStorage.Spend(count);
+            _waterStorage.SpendWater(count);
         }
 
         [Button]
@@ -159,7 +159,7 @@ namespace Tavern.Components
                 return false;
             }
 
-            if (!(_waterStorage.Value < count)) return true;
+            if (!(_waterStorage.Water < count)) return true;
             
             Debug.Log("Not enough water in storage!");
             return false;
