@@ -11,14 +11,10 @@ namespace Tavern.Goods
         [SerializeField]
         private ItemConfig<T> ItemConfig;
 
-        [SerializeField] 
-        private int Amount;
-
         private GoodsMetadata _metadata;
         private bool _initialized;
 
         public string Name => ItemConfig.Item.ItemName;
-        public int Count => Amount;
         public GoodsMetadata GoodsMetadata => GetMetadata();
         public ItemConfig<T> Config => ItemConfig;
 

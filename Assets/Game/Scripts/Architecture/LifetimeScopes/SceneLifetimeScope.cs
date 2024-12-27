@@ -42,7 +42,6 @@ namespace Tavern.Architecture
             RegisterGameCursor(builder);
             RegisterCamera(builder);
             RegisterStorages(builder);
-            RegisterProducts(builder);
             RegisterGardening(builder);
             RegisterLooting(builder);
             RegisterCooking(builder);
@@ -110,16 +109,16 @@ namespace Tavern.Architecture
 
         private void RegisterStorages(IContainerBuilder builder)
         {
-            builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
-        }
-
-        private void RegisterProducts(IContainerBuilder builder)
-        {
             builder.Register<ProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<ProductInventoryContext>();
+            
+            builder.Register<SeedInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<SeedInventoryContext>();
+            
+            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
+            
+            builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
         }
 
         private void RegisterGardening(IContainerBuilder builder)
@@ -197,9 +196,9 @@ namespace Tavern.Architecture
             builder.Register<KitchenItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LootItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<MedicineItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            
             builder.Register<ProductBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<SeedsBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<SeedBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            
             builder.Register<WaterBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
 
             builder.Register<GoodsBuyer>(Lifetime.Singleton).AsSelf();

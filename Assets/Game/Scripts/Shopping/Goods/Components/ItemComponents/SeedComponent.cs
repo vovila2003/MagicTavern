@@ -4,7 +4,7 @@ using Tavern.Gardening;
 namespace Tavern.Goods
 {
     [UsedImplicitly]
-    public sealed class ProductComponent : ItemComponent<ProductItem>
+    public sealed class SeedComponent : ItemComponent<SeedItem>
     {
     }
 }

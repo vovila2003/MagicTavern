@@ -1,6 +1,5 @@
 using Modules.Gardening;
 using Tavern.Storages;
-using UnityEngine;
 
 namespace Tavern.Gardening
 {
@@ -9,13 +8,13 @@ namespace Tavern.Gardening
         private readonly Pot _pot;
         private readonly ProductInventoryContext _productsStorage;
         private readonly ISlopsStorage _slopeStorage;
-        private readonly ISeedsStorage _seedsStorage;
+        private readonly SeedInventoryContext _seedsStorage;
 
        public PotHarvestController(
             Pot pot, 
             ProductInventoryContext productsStorage, 
             ISlopsStorage slopeStorage, 
-            ISeedsStorage seedsStorage)
+            SeedInventoryContext seedsStorage)
         {
             _pot = pot;
             _productsStorage = productsStorage;
@@ -37,7 +36,7 @@ namespace Tavern.Gardening
 
             if (hasSeed)
             {
-                AddSeedToStorage(config.Plant, 1); //one seed in harvest
+                _seedsStorage.AddItemByName(SeedNameProvider.GetName(config.Name));
             }
         }
 
@@ -45,19 +44,8 @@ namespace Tavern.Gardening
         {
             for (var i = 0; i < value; i++)
             {
-                _productsStorage.AddItemByName(config.Name);
+                _productsStorage.AddItemByName(ProductNameProvider.GetName(config.Name));
             }
-        }
-
-        private void AddSeedToStorage(Plant type, int count)
-        {
-            if (!_seedsStorage.TryGetStorage(type, out PlantStorage storage))
-            {
-                Debug.LogWarning($"Unknown seed storage of type {type.PlantName}");
-                return;
-            }
-            
-            storage.Add(count);
         }
 
         private void OnSlopsReceived(int value)

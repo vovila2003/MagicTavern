@@ -21,7 +21,7 @@ namespace Tavern.Gardening
         private readonly Transform _parent;
         private readonly ProductInventoryContext _productsStorage;
         private readonly ISlopsStorage _slopsStorage;
-        private readonly ISeedsStorage _seedsStorage;
+        private readonly SeedInventoryContext _seedsStorage;
 
         private readonly Dictionary<Pot, PotHarvestController> _pots = new();
         private bool _isEnable;
@@ -29,7 +29,7 @@ namespace Tavern.Gardening
         public PotsController(
             ProductInventoryContext productsStorage, 
             ISlopsStorage slopsStorage,
-            ISeedsStorage seedsStorage,
+            SeedInventoryContext seedsStorage,
             PotSettings settings, 
             Transform parent, 
             GameCycle cycle)

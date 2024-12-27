@@ -1518,7 +1518,6 @@ MonoBehaviour:
   GameSettings: {fileID: 11400000, guid: 9d37a83389cd24f91acbaed76e2766d9, type: 2}
   World: {fileID: 1347470388}
   Pots: {fileID: 1923880909}
-  PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
 --- !u!1 &615366036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1659,7 +1658,6 @@ GameObject:
   m_Component:
   - component: {fileID: 774227577}
   - component: {fileID: 774227578}
-  - component: {fileID: 774227579}
   m_Layer: 0
   m_Name: SeedsStorage
   m_TagString: Untagged
@@ -1691,31 +1689,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 774227576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a14636cbfd445658d205d7fb490853e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c606bd21423409fb887fe1c1b120a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Storages:
-  - Plant: {fileID: 11400000, guid: 78459dccb0c144f969a49981fd08dd22, type: 2}
-    Limit: 1
-    MaxValue: 0
-  - Plant: {fileID: 11400000, guid: bd80009925a4e2712bd3abdcc1536d8b, type: 2}
-    Limit: 1
-    MaxValue: 0
---- !u!114 &774227579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 774227576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7b28397bf824fba868f75b862760719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugMode: 1
-  StartValueInStorageInDebugMode: 10
-  Storages: {fileID: 774227578}
+  Items: []
+  ItemsCatalog: {fileID: 11400000, guid: 09dd44bbf50fab5d488c29a31b7c5ec7, type: 2}
 --- !u!1 &825965435
 GameObject:
   m_ObjectHideFlags: 0

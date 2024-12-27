@@ -57,7 +57,11 @@ namespace Tavern.Common
         [Button]
         public void AddItemByName(string itemName)
         {
-            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<T> itemConfig)) return;
+            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<T> itemConfig))
+            {
+                Debug.Log($"{itemName} is not fount in catalog");
+                return;
+            }
             
             _inventory.AddItem(itemConfig.Item.Clone() as T);
         }

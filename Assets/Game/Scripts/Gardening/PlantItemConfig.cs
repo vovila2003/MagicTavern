@@ -12,14 +12,5 @@ namespace Tavern.Gardening
             
             Item.Components?.Add(new ComponentPlant());
         }
-
-        private void OnValidate()
-        {
-            if (!Item.TryGetComponent(out ComponentPlant component)) return;
-            
-            if (component.Config is null) return;
-            
-            Item.SetName(component.Config.Name);
-        }
     }
 }
