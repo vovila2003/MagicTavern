@@ -1,19 +1,13 @@
 using System;
-using Modules.Gardening;
-using UnityEngine;
+using Modules.Crafting;
+using Tavern.Gardening;
 
 namespace Tavern.Cooking
 {
     [Serializable]
-    public class ProductIngredient
+    public class ProductIngredient : Ingredient<ProductItem>
     {
-        [SerializeField] 
-        private PlantConfig Product;
-
-        [SerializeField] 
-        private int Amount;
-        
-        public Plant Type => Product.Plant;
-        public int ProductAmount => Amount;
+        public ProductItemConfig Product => Item as ProductItemConfig;
+        public int ProductAmount => ItemAmount;
     }
 }

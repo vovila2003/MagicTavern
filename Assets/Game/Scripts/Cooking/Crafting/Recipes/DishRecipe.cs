@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using Modules.Crafting;
 using Modules.Gardening;
+using Modules.Items;
 using Sirenix.OdinInspector;
 using Tavern.Common;
+using Tavern.Gardening;
+using Tavern.Looting;
 using UnityEngine;
 
 namespace Tavern.Cooking
@@ -26,7 +29,24 @@ namespace Tavern.Cooking
         public ProductIngredient[] Products => ProductIngredients;
         public LootIngredient[] Loots => LootIngredients;
         public KitchenItemConfig[] KitchenItems => RequiredKitchenItems;
-        
+
+        private IReadOnlyDictionary<Item,int> GetRecipeItems()
+        {
+            Dictionary<Item, int> recipeItems = new();
+            
+            foreach (ProductIngredient productIngredient in ProductIngredients)
+            {
+                recipeItems.Add(productIngredient.Product.Item, productIngredient.ProductAmount);
+            }
+            
+            foreach (LootIngredient lootIngredient in LootIngredients)
+            {
+                recipeItems.Add(lootIngredient.Loot.Item, lootIngredient.LootAmount);
+            }
+            
+            return recipeItems;
+        }
+
         private void OnValidate()
         {
             CheckProductDuplicates();
@@ -39,16 +59,24 @@ namespace Tavern.Cooking
             if (ProductIngredients is null) return;
             
             var collection = new Dictionary<Plant, bool>();
-            foreach (var productIngredient in ProductIngredients)
+            foreach (ProductIngredient productIngredient in ProductIngredients)
             {
                 if (productIngredient is null) continue;
 
-                Plant type = productIngredient.Type;
-                if (productIngredient.ProductAmount <= 0)
+                ProductItem productItem = productIngredient.Product.Item;
+                if (!productItem.TryGetComponent(out ComponentPlant componentPlant))
+                {
+                    throw new Exception($"Product ingredient {productIngredient.Product.Item.ItemName} " +
+                                        "does not have a component plant");
+                }
+
+                Plant type = componentPlant.Config.Plant;
+                int amount = productIngredient.ProductAmount;
+                if (amount <= 0)
                 {
                     Debug.LogWarning($"Amount of products of type {type} has to be greater than zero.");    
                 }
-
+                
                 if (collection.TryAdd(type, true)) continue;
 
                 throw new Exception($"Duplicate product of type {type} in recipe of {Name}");
@@ -63,9 +91,11 @@ namespace Tavern.Cooking
             foreach (LootIngredient lootIngredient in LootIngredients)
             {
                 if (lootIngredient.Loot is null) continue;
-                
-                string lootName = lootIngredient.Loot.Item.ItemName;
-                if (lootIngredient.LootAmount <= 0)
+
+                LootItem lootItem = lootIngredient.Loot.Item;
+                string lootName = lootItem.ItemName;
+                int amount = lootIngredient.LootAmount;
+                if (amount <= 0)
                 {
                     Debug.LogWarning($"Amount of loot of name {lootName} has to be greater than zero.");    
                 }

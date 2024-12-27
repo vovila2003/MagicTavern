@@ -739,8 +739,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 368490052}
-  - component: {fileID: 368490054}
-  - component: {fileID: 368490053}
+  - component: {fileID: 368490055}
   m_Layer: 0
   m_Name: ProductsStorage
   m_TagString: Untagged
@@ -763,7 +762,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 615366037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &368490053
+--- !u!114 &368490055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -772,31 +771,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 368490051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea72afcb15c3481bbabac7c9f746f4a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fda83e81cdd4c1fa3343b2bc2634ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 1
-  StartValueInStorageInDebugMode: 10
-  Storages: {fileID: 368490054}
---- !u!114 &368490054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 368490051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 041b612d38d662c2184449c5fe6ddd92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Storages:
-  - Plant: {fileID: 11400000, guid: 78459dccb0c144f969a49981fd08dd22, type: 2}
-    Limit: 1
-    MaxValue: 0
-  - Plant: {fileID: 11400000, guid: bd80009925a4e2712bd3abdcc1536d8b, type: 2}
-    Limit: 0
-    MaxValue: 20
+  Items: []
+  ItemsCatalog: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
 --- !u!1 &483100650
 GameObject:
   m_ObjectHideFlags: 0

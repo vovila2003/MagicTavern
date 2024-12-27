@@ -15,7 +15,7 @@ MonoBehaviour:
   ResultItemConfig: {fileID: 11400000, guid: c133a02f16a7ce09eadbfe95b4109590, type: 2}
   TimeInSeconds: 10
   ProductIngredients:
-  - Product: {fileID: 11400000, guid: 78459dccb0c144f969a49981fd08dd22, type: 2}
+  - ItemConfig: {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
     Amount: 1
   LootIngredients:
   - ItemConfig: {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}

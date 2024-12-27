@@ -7,13 +7,13 @@ namespace Tavern.Gardening
     public sealed class PotHarvestController
     {
         private readonly Pot _pot;
-        private readonly IProductsStorage _productsStorage;
+        private readonly ProductInventoryContext _productsStorage;
         private readonly ISlopsStorage _slopeStorage;
         private readonly ISeedsStorage _seedsStorage;
 
        public PotHarvestController(
             Pot pot, 
-            IProductsStorage productsStorage, 
+            ProductInventoryContext productsStorage, 
             ISlopsStorage slopeStorage, 
             ISeedsStorage seedsStorage)
         {
@@ -31,25 +31,22 @@ namespace Tavern.Gardening
             _pot.OnSlopsReceived -= OnSlopsReceived;
         }
 
-        private void OnHarvestReceived(Plant type, int value, bool hasSeed)
+        private void OnHarvestReceived(PlantConfig config, int value, bool hasSeed)
         {
-            AddHarvestToProductStorage(type, value);
+            AddHarvestToProductStorage(config, value);
 
             if (hasSeed)
             {
-                AddSeedToStorage(type, 1); //one seed in harvest
+                AddSeedToStorage(config.Plant, 1); //one seed in harvest
             }
         }
 
-        private void AddHarvestToProductStorage(Plant type, int value)
+        private void AddHarvestToProductStorage(PlantConfig config, int value)
         {
-            if (!_productsStorage.TryGetStorage(type, out PlantStorage storage))
+            for (var i = 0; i < value; i++)
             {
-                Debug.LogWarning($"Unknown storage of type {type.PlantName}");
-                return;
+                _productsStorage.AddItemByName(config.Name);
             }
-
-            storage.Add(value);
         }
 
         private void AddSeedToStorage(Plant type, int count)

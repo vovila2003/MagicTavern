@@ -1,4 +1,3 @@
-using Modules.Gardening;
 using Tavern.MiniGame;
 using UnityEngine;
 
@@ -25,8 +24,6 @@ namespace Tavern.Settings
         private MiniGameConfig MiniGameConfig;
         
         public SeedMakerSettings SeedMakerSettings => GardeningConfigs.SeedMakerSettings;
-        
-        public PlantsCatalog PlantsCatalog => GardeningConfigs.Catalog;
         
         public PotSettings PotSettings => GardeningConfigs.PotSettings;
         

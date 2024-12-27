@@ -22,9 +22,5 @@ MonoBehaviour:
     - rid: 1692307190500032525
       type: {class: ProductComponent, ns: Tavern.Goods, asm: Game}
       data:
-        PlantConfig: {fileID: 11400000, guid: 78459dccb0c144f969a49981fd08dd22, type: 2}
+        ItemConfig: {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
         Amount: 20
-        Metadata:
-          Title: "\u041A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"
-          Description: "\u0421\u0432\u0435\u0436\u0430\u044F"
-          Icon: {fileID: 0}

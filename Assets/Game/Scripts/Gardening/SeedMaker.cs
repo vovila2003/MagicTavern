@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Modules.Gardening;
 using Modules.Storages;
 using Sirenix.OdinInspector;
@@ -10,47 +11,44 @@ namespace Tavern.Gardening
 {
     public class SeedMaker : MonoBehaviour
     {
-        private IProductsStorage _productsStorage;
+        private ProductInventory _productsStorage;
         private ISeedsStorage _seedsStorage;
         private SeedMakerSettings _settings;
-        
-        [ShowInInspector, ReadOnly]
-        private float _ratio;
+        private readonly Dictionary<string, int> _seeds = new ();
         
         [Inject]
         private void Construct(
-            IProductsStorage productsStorage, 
+            ProductInventory productsStorage, 
             ISeedsStorage seedsStorage, 
             SeedMakerSettings settings)
         {
             _productsStorage = productsStorage;
             _seedsStorage = seedsStorage;
             _settings = settings;
+            Initialize();
         }
 
         [Button]
         public void ShowRatio(PlantConfig type)
         {
-            if (!_settings.TryGetSeedRatio(type.Plant, out int seedRatio))
+            if (!TryGetSeedRatio(type.Name, out int seedRatio))
             {
                 Debug.Log($"Convert ratio of type {type.Name} not found");
-                _ratio = 0;
                 return;
             }
             
-            _ratio = seedRatio;
+            Debug.Log($"Convert ratio from {type.Name} to seeds is {seedRatio}");
         }
 
         [Button]
         public void MakeSeeds(PlantConfig type, int productCount = 1)
         {
-            if (!CanMakeSeeds(type, productCount, out PlantStorage plantStorage, 
-                    out PlantStorage seedStorage, out int seedRatio)) return;
+            if (!CanMakeSeeds(type, productCount, out PlantStorage seedStorage, out int seedRatio)) return;
 
             int seedCount = productCount * seedRatio;
             if (seedStorage.LimitType == LimitType.Unlimited)
             {
-                plantStorage.Spend(productCount);
+                _productsStorage.RemoveItems(type.Name, productCount);
                 seedStorage.Add(seedCount);
                 return;
             }
@@ -58,30 +56,25 @@ namespace Tavern.Gardening
             int availableSeedCount = seedStorage.LimitValue - seedStorage.Value;
             if (availableSeedCount > seedCount)
             {
-                plantStorage.Spend(productCount);
+                _productsStorage.RemoveItems(type.Name, productCount);
                 seedStorage.Add(seedCount);
                 return;
             }
 
             int availableProductCount = availableSeedCount / seedRatio;
             availableSeedCount = availableProductCount * seedRatio;
-            plantStorage.Spend(availableProductCount);
+            _productsStorage.RemoveItems(type.Name, availableProductCount);
             seedStorage.Add(availableSeedCount);
         }
 
-        private bool CanMakeSeeds(PlantConfig type, int productCount, out PlantStorage plantStorage,
+        private bool CanMakeSeeds(PlantConfig type, int productCount, 
             out PlantStorage seedStorage, out int seedRatio)
         {
-            plantStorage = null;
             seedStorage = null;
             seedRatio = 0;
-            if (!_productsStorage.TryGetStorage(type.Plant, out plantStorage))
-            {
-                Debug.Log($"Product storage of type {type.Name} not found");
-                return false;
-            }
 
-            if (!plantStorage.CanSpend(productCount))
+            int itemCount = _productsStorage.GetItemCount(type.Name);
+            if (itemCount < productCount)
             {
                 Debug.Log($"Not enough products of type {type}");
                 return false;
@@ -93,10 +86,26 @@ namespace Tavern.Gardening
                 return false;
             }
 
-            if (_settings.TryGetSeedRatio(type.Plant, out seedRatio)) return true;
+            if (TryGetSeedRatio(type.Name, out seedRatio)) return true;
             
             Debug.Log($"Convert ratio of type {type.Name} not found");
             return false;
+        }
+
+        private bool TryGetSeedRatio(string plant, out int convertRatio)
+        {
+            bool contains = _seeds.TryGetValue(plant, out int ratio);
+            convertRatio = ratio;
+            return contains;
+        }
+
+        private void Initialize()
+        {
+            foreach (SeedParams settings in _settings.Params)
+            {
+                string plant = settings.Type.PlantName;
+                _seeds[plant] = settings.Ratio;
+            }
         }
     }
 }

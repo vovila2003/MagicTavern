@@ -33,9 +33,6 @@ namespace Tavern.Architecture
         [SerializeField] 
         private Transform Pots;
 
-        [SerializeField] 
-        private Pot PotPrefab;
-
         protected override void Configure(IContainerBuilder builder)
         {
             RegisterCommon(builder);
@@ -45,6 +42,7 @@ namespace Tavern.Architecture
             RegisterGameCursor(builder);
             RegisterCamera(builder);
             RegisterStorages(builder);
+            RegisterProducts(builder);
             RegisterGardening(builder);
             RegisterLooting(builder);
             RegisterCooking(builder);
@@ -112,17 +110,21 @@ namespace Tavern.Architecture
 
         private void RegisterStorages(IContainerBuilder builder)
         {
-            builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
         }
 
+        private void RegisterProducts(IContainerBuilder builder)
+        {
+            builder.Register<ProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<ProductInventoryContext>();
+        }
+
         private void RegisterGardening(IContainerBuilder builder)
         {
             builder.RegisterInstance(GameSettings.SeedMakerSettings);
-            builder.RegisterInstance(GameSettings.PlantsCatalog);
             builder.RegisterInstance(GameSettings.PotSettings);
             builder.RegisterComponentInHierarchy<SeedMaker>();
 

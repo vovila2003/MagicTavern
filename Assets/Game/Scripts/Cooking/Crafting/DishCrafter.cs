@@ -2,11 +2,10 @@ using System;
 using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
-using Modules.Gardening;
 using Modules.Inventories;
 using Tavern.Common;
+using Tavern.Gardening;
 using Tavern.Looting;
-using Tavern.Storages;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -22,7 +21,7 @@ namespace Tavern.Cooking
         ITickable
     {
         private readonly IInventory<LootItem> _lootInventory;
-        private readonly IProductsStorage _productsStorage;
+        private readonly IInventory<ProductItem> _productsStorage;
         private readonly IInventory<KitchenItem> _kitchenInventory;
         
         public float TimerCurrentTime => Timer.CurrentTime;
@@ -31,7 +30,7 @@ namespace Tavern.Cooking
         public DishCrafter(
             IInventory<DishItem> dishInventory, 
             IInventory<LootItem> lootInventory,
-            IProductsStorage productsStorage,
+            IInventory<ProductItem> productsStorage,
             IInventory<KitchenItem> kitchenInventory) 
             : base(dishInventory)
         {
@@ -58,17 +57,12 @@ namespace Tavern.Cooking
             foreach (ProductIngredient productIngredient in dishRecipe.Products)
             {
                 int requiredAmount = productIngredient.ProductAmount;
-                Plant plantType = productIngredient.Type;
-                if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
-                {
-                    Debug.Log($"Product storage of type {plantType.PlantName} not found!");
-                    return false;
-                }
-
-                if (storage.CurrentValue >= requiredAmount) continue;
+                string productName = productIngredient.Product.Item.ItemName;
+                int itemCount = _productsStorage.GetItemCount(productName);
+                if (itemCount >= requiredAmount) continue;    
                 
-                Debug.Log($"There is not enough product of type {plantType}! Required amount: {requiredAmount}. " +
-                          $"Current amount: {storage.CurrentValue}");
+                Debug.Log($"There is not enough {productName}! Required amount: {requiredAmount}. " +
+                          $"Current amount: {itemCount}");
                 return false;
             }
 
@@ -122,14 +116,7 @@ namespace Tavern.Cooking
         {
             foreach (ProductIngredient productIngredient in dishRecipe.Products)
             {
-                int requiredAmount = productIngredient.ProductAmount;
-                Plant plantType = productIngredient.Type;
-                if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
-                {
-                    throw new ArgumentException($"Product storage of type {plantType.PlantName} not found!");
-                }
-
-                storage.Spend(requiredAmount);
+                _productsStorage.RemoveItems(productIngredient.Product.Item.ItemName, productIngredient.ProductAmount);
             }
         }
 

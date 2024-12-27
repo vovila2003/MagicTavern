@@ -7,7 +7,7 @@ namespace Tavern.Gardening
 {
     public class Pot : MonoBehaviour
     {
-        public event Action<Plant, int, bool> OnHarvestReceived;
+        public event Action<PlantConfig, int, bool> OnHarvestReceived;
         public event Action<int> OnSlopsReceived;
 
         private bool _isEnable;
@@ -67,7 +67,8 @@ namespace Tavern.Gardening
 
             if (harvestResult.IsNormal)
             {
-                OnHarvestReceived?.Invoke(harvestResult.Plant, harvestResult.Value, harvestResult.HasSeedInHarvest);
+                OnHarvestReceived?.Invoke(harvestResult.PlantConfig, 
+                    harvestResult.Value, harvestResult.HasSeedInHarvest);
             }
             else
             {
