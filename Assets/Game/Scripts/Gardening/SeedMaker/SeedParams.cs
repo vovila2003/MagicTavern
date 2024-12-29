@@ -2,7 +2,7 @@ using System;
 using Modules.Gardening;
 using UnityEngine;
 
-namespace Tavern.Settings
+namespace Tavern.Gardening
 {
     [Serializable]
     public class SeedParams

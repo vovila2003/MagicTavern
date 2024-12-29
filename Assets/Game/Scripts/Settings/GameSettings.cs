@@ -1,3 +1,5 @@
+using Tavern.Cooking;
+using Tavern.Gardening;
 using Tavern.MiniGame;
 using UnityEngine;
 
@@ -23,9 +25,12 @@ namespace Tavern.Settings
         [SerializeField] 
         private MiniGameConfig MiniGameConfig;
         
+        [SerializeField]
+        private DishRecipeCatalog DishRecipeCatalog;
+        
         public SeedMakerSettings SeedMakerSettings => GardeningConfigs.SeedMakerSettings;
         
-        public PotSettings PotSettings => GardeningConfigs.PotSettings;
+        public Pot PotPrefab => GardeningConfigs.Pot;
         
         public CharacterSettings CharacterSettings => CharacterConfig;
         
@@ -34,5 +39,7 @@ namespace Tavern.Settings
         public CameraSettings CameraSettings => CameraConfigs;
         
         public MiniGameConfig MiniGameSettings => MiniGameConfig;
+        
+        public DishRecipeCatalog DishRecipes => DishRecipeCatalog;
     }
 }

@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Modules.Crafting;
 using Sirenix.OdinInspector;
-using Tavern.Common;
+using Tavern.Looting;
 using UnityEngine;
 
 namespace Tavern.Gardening.Fertilizer
@@ -17,15 +15,14 @@ namespace Tavern.Gardening.Fertilizer
         private int SlopsAmount;
         
         [SerializeField] 
-        private LootIngredient[] LootIngredients;
+        private LootItemConfig[] LootIngredients;
 
-        public LootIngredient[] Loots => LootIngredients;
+        public LootItemConfig[] Loots => LootIngredients;
         public int Slops => SlopsAmount;
         
         private void OnValidate()
         {
             CheckSlopsAmount();
-            CheckLootDuplicates();
         }
 
         private void CheckSlopsAmount()
@@ -33,27 +30,6 @@ namespace Tavern.Gardening.Fertilizer
             if (SlopsAmount <= 0)
             {
                 Debug.LogWarning($"Amount of slops has to be greater than zero.");
-            }
-        }
-
-        private void CheckLootDuplicates()
-        {
-            if (LootIngredients is null) return;
-            
-            var collection = new Dictionary<string, bool>();
-            foreach (LootIngredient lootIngredient in LootIngredients)
-            {
-                if (lootIngredient.Loot is null) continue;
-                
-                string lootName = lootIngredient.Loot.Item.ItemName;
-                if (lootIngredient.LootAmount <= 0)
-                {
-                    Debug.LogWarning($"Amount of loot of name {lootName} has to be greater than zero.");    
-                }
-                
-                if (collection.TryAdd(lootName, true)) continue;
-
-                throw new Exception($"Duplicate loot of name {lootName} in recipe of {Name}");
             }
         }
     }

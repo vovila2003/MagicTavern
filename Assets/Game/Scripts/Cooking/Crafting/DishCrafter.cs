@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
-using Tavern.Common;
+using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
 using UnityEngine;
@@ -43,62 +44,33 @@ namespace Tavern.Cooking
         {
             if (recipe is DishRecipe dishRecipe)
             {
-                return CheckProducts(dishRecipe) &&
-                       CheckLoots(dishRecipe) &&
-                       CheckKitchenItems(dishRecipe);
+                return CheckProducts(dishRecipe.Products) &&
+                       CheckLoots(dishRecipe.Loots) &&
+                       CheckKitchens(dishRecipe.KitchenItems);
             }
 
             Debug.Log($"Recipe's type is not {nameof(DishRecipe)}!");
             return false;
         }
+        
+        private bool CheckProducts(ProductItemConfig[] configs) => 
+            configs.All(config => CheckItem(_productsStorage, config));
 
-        private bool CheckProducts(DishRecipe dishRecipe)
+        private bool CheckLoots(LootItemConfig[] configs) => 
+            configs.All(config => CheckItem(_lootInventory, config));
+
+        private bool CheckKitchens(KitchenItemConfig[] configs) => 
+            configs.All(config => CheckItem(_kitchenInventory, config));
+
+        private static bool CheckItem<T>(IInventory<T> storage, ItemConfig<T> config) where T : Item
         {
-            foreach (ProductIngredient productIngredient in dishRecipe.Products)
-            {
-                int requiredAmount = productIngredient.ProductAmount;
-                string productName = productIngredient.Product.Item.ItemName;
-                int itemCount = _productsStorage.GetItemCount(productName);
-                if (itemCount >= requiredAmount) continue;    
+            string itemName = config.Item.ItemName;
+            int itemCount = storage.GetItemCount(itemName);
+            if (itemCount > 0) return true;    
                 
-                Debug.Log($"There is not enough {productName}! Required amount: {requiredAmount}. " +
-                          $"Current amount: {itemCount}");
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool CheckLoots(DishRecipe dishRecipe)
-        {
-            foreach (LootIngredient lootIngredient in dishRecipe.Loots)
-            {
-                int requiredAmount = lootIngredient.LootAmount;
-                string lootName = lootIngredient.Loot.Item.ItemName;
-                int itemCount = _lootInventory.GetItemCount(lootName);
-                if (itemCount >= requiredAmount) continue;    
-
-                Debug.Log($"There is not enough {lootName}! Required amount: {requiredAmount}. " +
-                          $"Current amount: {itemCount}");
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool CheckKitchenItems(DishRecipe dishRecipe)
-        {
-            foreach (KitchenItemConfig kitchenItemConfig in dishRecipe.KitchenItems)
-            {
-                string kitchenItemName = kitchenItemConfig.Item.ItemName;
-                int itemCount = _kitchenInventory.GetItemCount(kitchenItemName);
-                if (itemCount > 0) continue;    
-
-                Debug.Log($"There is no kitchen item {kitchenItemName}!");
-                return false;
-            }
-
-            return true;
+            Debug.Log($"There is not enough {itemName}!");
+                
+            return false;
         }
 
         protected override void RemoveIngredientsFromInventories(ItemRecipe<DishItem> recipe)
@@ -114,17 +86,17 @@ namespace Tavern.Cooking
 
         private void RemoveProducts(DishRecipe dishRecipe)
         {
-            foreach (ProductIngredient productIngredient in dishRecipe.Products)
+            foreach (ProductItemConfig productIngredient in dishRecipe.Products)
             {
-                _productsStorage.RemoveItems(productIngredient.Product.Item.ItemName, productIngredient.ProductAmount);
+                _productsStorage.RemoveItem(productIngredient.Item.ItemName);
             }
         }
 
         private void RemoveLoots(DishRecipe dishRecipe)
         {
-            foreach (LootIngredient lootIngredient in dishRecipe.Loots)
+            foreach (LootItemConfig lootIngredient in dishRecipe.Loots)
             {
-                _lootInventory.RemoveItems(lootIngredient.Loot.Item.ItemName, lootIngredient.LootAmount);    
+                _lootInventory.RemoveItem(lootIngredient.Item.ItemName);    
             }
         }
 

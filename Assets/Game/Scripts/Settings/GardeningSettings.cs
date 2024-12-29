@@ -1,4 +1,5 @@
 using System;
+using Tavern.Gardening;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -9,10 +10,10 @@ namespace Tavern.Settings
         [SerializeField]
         private SeedMakerSettings SeedMakerConfig;
 
-        [SerializeField]
-        private PotSettings PotConfig;
-        
+        [SerializeField]    
+        private Pot PotPrefab;
+
         public SeedMakerSettings SeedMakerSettings => SeedMakerConfig;
-        public PotSettings PotSettings => PotConfig;        
+        public Pot Pot => PotPrefab;
     }
 }

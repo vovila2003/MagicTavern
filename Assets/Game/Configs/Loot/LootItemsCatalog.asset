@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: LootItemsCatalog
   m_EditorClassIdentifier: 
   Items:
+  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
   - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
   - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}

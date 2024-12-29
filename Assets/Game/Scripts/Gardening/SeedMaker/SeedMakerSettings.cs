@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Modules.Gardening;
+using Tavern.Settings;
 using UnityEngine;
 
-namespace Tavern.Settings
+namespace Tavern.Gardening
 {
     [CreateAssetMenu(
         fileName = "SeedMakerConfig", 

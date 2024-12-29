@@ -15,4 +15,5 @@ MonoBehaviour:
   ResultItemConfig: {fileID: 11400000, guid: acd7d02443eaf4d26ade34fd03d86a33, type: 2}
   TimeInSeconds: 10
   SlopsAmount: 3
-  LootIngredients: []
+  LootIngredients:
+  - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
