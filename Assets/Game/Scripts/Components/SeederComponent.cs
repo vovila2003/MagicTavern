@@ -1,5 +1,6 @@
 using Modules.GameCycle.Interfaces;
 using Modules.Gardening;
+using Modules.Inventories;
 using Sirenix.OdinInspector;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
@@ -18,14 +19,15 @@ namespace Tavern.Components
         IPauseGameListener,
         IResumeGameListener
     {
-        private ISeedsStorage _seedsStorage;
+        private IInventory<SeedItem> _seedsStorage;
         private IWaterStorage _waterStorage;
         private MedicineInventoryContext _medicineInventoryContext;
         private FertilizerInventoryContext _fertilizerInventoryContext;
         private bool _isEnable;
 
         [Inject]
-        private void Construct(ISeedsStorage seedsStorage, 
+        private void Construct(
+            IInventory<SeedItem> seedsStorage, 
             IWaterStorage waterStorage, 
             MedicineInventoryContext medicineConsumer,
             FertilizerInventoryContext fertilizerConsumer)
@@ -41,12 +43,12 @@ namespace Tavern.Components
         {
             const int count = 1;
             
-            if (!CanSeed(pot, plant, count, out PlantStorage storage)) return;
+            if (!CanSeed(pot, plant, count)) return;
 
             bool result = pot.Seed(plant);
             if (!result) return;
             
-            storage.Spend(count);
+            _seedsStorage.RemoveItems(SeedNameProvider.GetName(plant.Name), count);
         }
 
         [Button]
@@ -102,9 +104,8 @@ namespace Tavern.Components
 
         void IInitGameListener.OnInit() => _isEnable = false;
 
-        private bool CanSeed(Pot pot, PlantConfig plant, int count, out PlantStorage storage)
+        private bool CanSeed(Pot pot, PlantConfig plant, int count)
         {
-            storage = null;
             if (!_isEnable) return false;
 
             if (pot is null)
@@ -119,15 +120,10 @@ namespace Tavern.Components
                 return false;
             }
 
-            if (!_seedsStorage.TryGetStorage(plant.Plant, out storage))
-            {
-                Debug.Log("Seed storage of type {type} is not found!");
-                return false;
-            }
-
-            if (storage.CanSpend(count)) return true;
+            int seedCountAvailable = _seedsStorage.GetItemCount(SeedNameProvider.GetName(plant.Name));
+            if (seedCountAvailable >= count) return true;
             
-            Debug.Log("Not enough seeds of type {type} in storage!");
+            Debug.Log($"Not enough seeds of type {plant.Name} in storage!");
             return false;
         }
 

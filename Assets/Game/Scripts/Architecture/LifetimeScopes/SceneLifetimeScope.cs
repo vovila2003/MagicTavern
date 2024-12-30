@@ -33,9 +33,6 @@ namespace Tavern.Architecture
         [SerializeField] 
         private Transform Pots;
 
-        [SerializeField] 
-        private Pot PotPrefab;
-
         protected override void Configure(IContainerBuilder builder)
         {
             RegisterCommon(builder);
@@ -112,18 +109,22 @@ namespace Tavern.Architecture
 
         private void RegisterStorages(IContainerBuilder builder)
         {
-            builder.RegisterComponentInHierarchy<ProductsStorage>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<SeedsStorage>().AsImplementedInterfaces().AsSelf();
+            builder.Register<ProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<ProductInventoryContext>();
+            
+            builder.Register<SeedInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<SeedInventoryContext>();
+            
             builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
+            
             builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
         }
 
         private void RegisterGardening(IContainerBuilder builder)
         {
             builder.RegisterInstance(GameSettings.SeedMakerSettings);
-            builder.RegisterInstance(GameSettings.PlantsCatalog);
-            builder.RegisterInstance(GameSettings.PotSettings);
+            builder.RegisterInstance(GameSettings.PotPrefab);
             builder.RegisterComponentInHierarchy<SeedMaker>();
 
             builder.Register<PotsController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf().WithParameter(Pots);
@@ -138,9 +139,6 @@ namespace Tavern.Architecture
             builder.Register<MedicineConsumer>(Lifetime.Singleton).AsSelf();
             builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
-            
-            builder.RegisterEntryPoint<MedicineCrafter>().AsSelf();
-            builder.RegisterComponentInHierarchy<MedicineCrafterContext>();
         }
 
         private void RegisterFertilizer(IContainerBuilder builder)
@@ -171,6 +169,11 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<DishInventoryContext>();
 
             builder.RegisterComponentInHierarchy<DishCookbookContext>();
+            
+            builder.RegisterInstance(GameSettings.DishRecipes);
+
+            builder.Register<RecipeMatcher>(Lifetime.Singleton);
+            builder.RegisterComponentInHierarchy<RecipeMatcherContext>();
         }
 
         private void RegisterMiniGames(IContainerBuilder builder)
@@ -195,9 +198,9 @@ namespace Tavern.Architecture
             builder.Register<KitchenItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LootItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<MedicineItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            
             builder.Register<ProductBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<SeedsBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<SeedBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
+            
             builder.Register<WaterBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
 
             builder.Register<GoodsBuyer>(Lifetime.Singleton).AsSelf();

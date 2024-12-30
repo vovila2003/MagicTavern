@@ -21,7 +21,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aaa8f24a9141df3a699e30dde17b5101, type: 2}
   - {fileID: 11400000, guid: c5d6e20f3063c29638568577de803c69, type: 2}
   - {fileID: 11400000, guid: d77a02864c63fd891b844d308c607998, type: 2}
-  - {fileID: 11400000, guid: eaf1497aefe2111a192fe25b9c47c523, type: 2}
+  - {fileID: 11400000, guid: d9a4a562ef31b40c9a2e827ff4adb85b, type: 2}
   CatalogMetadata:
     Title: "\u041E\u0431\u0449\u0438\u0439 \u043A\u0430\u0442\u0430\u043B\u043E\u0433"
     Description: 

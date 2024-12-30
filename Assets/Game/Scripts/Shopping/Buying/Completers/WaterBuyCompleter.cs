@@ -1,8 +1,10 @@
+using JetBrains.Annotations;
 using Tavern.Goods;
 using Tavern.Storages;
 
 namespace Tavern.Buying
 {
+    [UsedImplicitly]
     public class WaterBuyCompleter : IGoodsBuyCompleter
     {
         private readonly IWaterStorage _storage;
@@ -16,7 +18,7 @@ namespace Tavern.Buying
         {
             if (goods.GoodsComponent is not WaterComponent) return;
 
-            _storage.AddWater(goods.GoodsComponent.Count);
+            _storage.AddWater(1);
         }
     }
 }

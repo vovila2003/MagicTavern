@@ -38,7 +38,23 @@ namespace Modules.Items
 
         public void SetFlags(ItemFlags flags) => Flags |= flags;
         public void ResetFlags(ItemFlags flags) => Flags &= ~flags;
+        
+        public void SetName(string name) => Name = name;
 
+        public bool TryGetComponent<T>(out T component)
+        {
+            foreach (IItemComponent attribute in Components)
+            {
+                if (attribute is not T tAttribute) continue;
+                
+                component = tAttribute;
+                return true;
+            }
+
+            component = default;
+            return false;
+        }
+        
         public T GetComponent<T>()
         {
             foreach (IItemComponent attribute in Components)

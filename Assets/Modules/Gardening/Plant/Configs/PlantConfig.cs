@@ -4,7 +4,7 @@ namespace Modules.Gardening
 {
     [CreateAssetMenu(
         fileName = "PlantConfig", 
-        menuName = "Settings/Gardening/Plant Config")]
+        menuName = "Settings/Gardening/Plants/Plant Config")]
     public class PlantConfig : ScriptableObject 
     {
         [SerializeField]

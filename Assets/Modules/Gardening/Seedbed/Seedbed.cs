@@ -149,9 +149,9 @@ namespace Modules.Gardening
             harvestResult.Value = harvestResult.IsNormal 
                 ? Harvest.Value 
                 : SlopsValue;
-            harvestResult.Plant = Harvest.PlantConfig.Plant;
+            harvestResult.PlantConfig = Harvest.PlantConfig;
 
-            if (harvestResult.IsNormal && harvestResult.Plant.CanHaveSeed)
+            if (harvestResult.IsNormal && harvestResult.PlantConfig.Plant.CanHaveSeed)
             {
                 harvestResult.HasSeedInHarvest = CalculateSeedInHarvest();
             }

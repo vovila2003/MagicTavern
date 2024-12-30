@@ -4,7 +4,7 @@ namespace Modules.Gardening
     {
         public bool IsNormal;
         public int Value;
-        public Plant Plant;
+        public PlantConfig PlantConfig;
         public bool HasSeedInHarvest;
     }
 }

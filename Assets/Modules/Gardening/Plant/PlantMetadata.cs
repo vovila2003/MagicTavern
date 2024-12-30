@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Modules.Gardening
 {
     [Serializable]
-    public class PlantMetadata : Metadata
+    public class PlantMetadata
     {
         private const int AgeCount = 3;
         

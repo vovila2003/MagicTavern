@@ -1,21 +1,20 @@
 using Modules.Gardening;
 using Tavern.Storages;
-using UnityEngine;
 
 namespace Tavern.Gardening
 {
     public sealed class PotHarvestController
     {
         private readonly Pot _pot;
-        private readonly IProductsStorage _productsStorage;
+        private readonly ProductInventoryContext _productsStorage;
         private readonly ISlopsStorage _slopeStorage;
-        private readonly ISeedsStorage _seedsStorage;
+        private readonly SeedInventoryContext _seedsStorage;
 
        public PotHarvestController(
             Pot pot, 
-            IProductsStorage productsStorage, 
+            ProductInventoryContext productsStorage, 
             ISlopsStorage slopeStorage, 
-            ISeedsStorage seedsStorage)
+            SeedInventoryContext seedsStorage)
         {
             _pot = pot;
             _productsStorage = productsStorage;
@@ -31,36 +30,22 @@ namespace Tavern.Gardening
             _pot.OnSlopsReceived -= OnSlopsReceived;
         }
 
-        private void OnHarvestReceived(Plant type, int value, bool hasSeed)
+        private void OnHarvestReceived(PlantConfig config, int value, bool hasSeed)
         {
-            AddHarvestToProductStorage(type, value);
+            AddHarvestToProductStorage(config, value);
 
             if (hasSeed)
             {
-                AddSeedToStorage(type, 1); //one seed in harvest
+                _seedsStorage.AddItemByName(SeedNameProvider.GetName(config.Name));
             }
         }
 
-        private void AddHarvestToProductStorage(Plant type, int value)
+        private void AddHarvestToProductStorage(PlantConfig config, int value)
         {
-            if (!_productsStorage.TryGetStorage(type, out PlantStorage storage))
+            for (var i = 0; i < value; i++)
             {
-                Debug.LogWarning($"Unknown storage of type {type.PlantName}");
-                return;
+                _productsStorage.AddItemByName(ProductNameProvider.GetName(config.Name));
             }
-
-            storage.Add(value);
-        }
-
-        private void AddSeedToStorage(Plant type, int count)
-        {
-            if (!_seedsStorage.TryGetStorage(type, out PlantStorage storage))
-            {
-                Debug.LogWarning($"Unknown seed storage of type {type.PlantName}");
-                return;
-            }
-            
-            storage.Add(count);
         }
 
         private void OnSlopsReceived(int value)

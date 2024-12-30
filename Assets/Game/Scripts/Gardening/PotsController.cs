@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle;
 using Modules.GameCycle.Interfaces;
-using Tavern.Settings;
 using Tavern.Storages;
 using UnityEngine;
 using VContainer.Unity;
@@ -19,25 +18,25 @@ namespace Tavern.Gardening
     {
         private readonly Pot _prefab;
         private readonly Transform _parent;
-        private readonly IProductsStorage _productsStorage;
+        private readonly ProductInventoryContext _productsStorage;
         private readonly ISlopsStorage _slopsStorage;
-        private readonly ISeedsStorage _seedsStorage;
+        private readonly SeedInventoryContext _seedsStorage;
 
         private readonly Dictionary<Pot, PotHarvestController> _pots = new();
         private bool _isEnable;
 
         public PotsController(
-            IProductsStorage productsStorage, 
+            ProductInventoryContext productsStorage, 
             ISlopsStorage slopsStorage,
-            ISeedsStorage seedsStorage,
-            PotSettings settings, 
+            SeedInventoryContext seedsStorage,
+            Pot prefab, 
             Transform parent, 
             GameCycle cycle)
         {
             _productsStorage = productsStorage;
             _slopsStorage = slopsStorage;
             _seedsStorage = seedsStorage;
-            _prefab = settings.Pot;
+            _prefab = prefab;
             _parent = parent;
         }
 

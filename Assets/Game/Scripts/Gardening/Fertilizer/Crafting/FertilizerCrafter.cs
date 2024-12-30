@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
-using Tavern.Common;
 using Tavern.Looting;
 using Tavern.Storages;
 using UnityEngine;
@@ -54,15 +53,14 @@ namespace Tavern.Gardening.Fertilizer
 
         private bool CheckLoots(FertilizerRecipe fertilizerRecipe)
         {
-            foreach (LootIngredient lootIngredient in fertilizerRecipe.Loots)
+            foreach (LootItemConfig lootItemConfig in fertilizerRecipe.Loots)
             {
-                int requiredAmount = lootIngredient.LootAmount;
-                string lootName = lootIngredient.Loot.Item.ItemName;
+                string lootName = lootItemConfig.Item.ItemName;
                 int itemCount = _lootInventory.GetItemCount(lootName);
-                if (itemCount >= requiredAmount) continue;    
+                if (itemCount > 0) continue;    
 
-                Debug.Log($"There is not enough {lootName}! Required amount: {requiredAmount}. " +
-                          $"Current amount: {itemCount}");
+                Debug.Log($"There is not enough {lootName}!");
+                
                 return false;
             }
 
@@ -87,9 +85,9 @@ namespace Tavern.Gardening.Fertilizer
 
         private void RemoveLoots(FertilizerRecipe fertilizerRecipe)
         {
-            foreach (LootIngredient lootIngredient in fertilizerRecipe.Loots)
+            foreach (LootItemConfig lootItemConfig in fertilizerRecipe.Loots)
             {
-                _lootInventory.RemoveItems(lootIngredient.Loot.Item.ItemName, lootIngredient.LootAmount);    
+                _lootInventory.RemoveItem(lootItemConfig.Item.ItemName);    
             }
         }
 

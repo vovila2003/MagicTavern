@@ -1,12 +1,12 @@
 using System;
+using System.Linq;
 using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
-using Modules.Gardening;
 using Modules.Inventories;
-using Tavern.Common;
+using Modules.Items;
+using Tavern.Gardening;
 using Tavern.Looting;
-using Tavern.Storages;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -22,7 +22,7 @@ namespace Tavern.Cooking
         ITickable
     {
         private readonly IInventory<LootItem> _lootInventory;
-        private readonly IProductsStorage _productsStorage;
+        private readonly IInventory<ProductItem> _productsStorage;
         private readonly IInventory<KitchenItem> _kitchenInventory;
         
         public float TimerCurrentTime => Timer.CurrentTime;
@@ -31,7 +31,7 @@ namespace Tavern.Cooking
         public DishCrafter(
             IInventory<DishItem> dishInventory, 
             IInventory<LootItem> lootInventory,
-            IProductsStorage productsStorage,
+            IInventory<ProductItem> productsStorage,
             IInventory<KitchenItem> kitchenInventory) 
             : base(dishInventory)
         {
@@ -44,67 +44,33 @@ namespace Tavern.Cooking
         {
             if (recipe is DishRecipe dishRecipe)
             {
-                return CheckProducts(dishRecipe) &&
-                       CheckLoots(dishRecipe) &&
-                       CheckKitchenItems(dishRecipe);
+                return CheckProducts(dishRecipe.Products) &&
+                       CheckLoots(dishRecipe.Loots) &&
+                       CheckKitchens(dishRecipe.KitchenItems);
             }
 
             Debug.Log($"Recipe's type is not {nameof(DishRecipe)}!");
             return false;
         }
+        
+        private bool CheckProducts(ProductItemConfig[] configs) => 
+            configs.All(config => CheckItem(_productsStorage, config));
 
-        private bool CheckProducts(DishRecipe dishRecipe)
+        private bool CheckLoots(LootItemConfig[] configs) => 
+            configs.All(config => CheckItem(_lootInventory, config));
+
+        private bool CheckKitchens(KitchenItemConfig[] configs) => 
+            configs.All(config => CheckItem(_kitchenInventory, config));
+
+        private static bool CheckItem<T>(IInventory<T> storage, ItemConfig<T> config) where T : Item
         {
-            foreach (ProductIngredient productIngredient in dishRecipe.Products)
-            {
-                int requiredAmount = productIngredient.ProductAmount;
-                Plant plantType = productIngredient.Type;
-                if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
-                {
-                    Debug.Log($"Product storage of type {plantType.PlantName} not found!");
-                    return false;
-                }
-
-                if (storage.CurrentValue >= requiredAmount) continue;
+            string itemName = config.Item.ItemName;
+            int itemCount = storage.GetItemCount(itemName);
+            if (itemCount > 0) return true;    
                 
-                Debug.Log($"There is not enough product of type {plantType}! Required amount: {requiredAmount}. " +
-                          $"Current amount: {storage.CurrentValue}");
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool CheckLoots(DishRecipe dishRecipe)
-        {
-            foreach (LootIngredient lootIngredient in dishRecipe.Loots)
-            {
-                int requiredAmount = lootIngredient.LootAmount;
-                string lootName = lootIngredient.Loot.Item.ItemName;
-                int itemCount = _lootInventory.GetItemCount(lootName);
-                if (itemCount >= requiredAmount) continue;    
-
-                Debug.Log($"There is not enough {lootName}! Required amount: {requiredAmount}. " +
-                          $"Current amount: {itemCount}");
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool CheckKitchenItems(DishRecipe dishRecipe)
-        {
-            foreach (KitchenItemConfig kitchenItemConfig in dishRecipe.KitchenItems)
-            {
-                string kitchenItemName = kitchenItemConfig.Item.ItemName;
-                int itemCount = _kitchenInventory.GetItemCount(kitchenItemName);
-                if (itemCount > 0) continue;    
-
-                Debug.Log($"There is no kitchen item {kitchenItemName}!");
-                return false;
-            }
-
-            return true;
+            Debug.Log($"There is not enough {itemName}!");
+                
+            return false;
         }
 
         protected override void RemoveIngredientsFromInventories(ItemRecipe<DishItem> recipe)
@@ -120,24 +86,17 @@ namespace Tavern.Cooking
 
         private void RemoveProducts(DishRecipe dishRecipe)
         {
-            foreach (ProductIngredient productIngredient in dishRecipe.Products)
+            foreach (ProductItemConfig productIngredient in dishRecipe.Products)
             {
-                int requiredAmount = productIngredient.ProductAmount;
-                Plant plantType = productIngredient.Type;
-                if (!_productsStorage.TryGetStorage(plantType, out PlantStorage storage))
-                {
-                    throw new ArgumentException($"Product storage of type {plantType.PlantName} not found!");
-                }
-
-                storage.Spend(requiredAmount);
+                _productsStorage.RemoveItem(productIngredient.Item.ItemName);
             }
         }
 
         private void RemoveLoots(DishRecipe dishRecipe)
         {
-            foreach (LootIngredient lootIngredient in dishRecipe.Loots)
+            foreach (LootItemConfig lootIngredient in dishRecipe.Loots)
             {
-                _lootInventory.RemoveItems(lootIngredient.Loot.Item.ItemName, lootIngredient.LootAmount);    
+                _lootInventory.RemoveItem(lootIngredient.Item.ItemName);    
             }
         }
 
