@@ -183,7 +183,7 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<MiniGameView>().AsImplementedInterfaces();
             
             builder.RegisterEntryPoint<MiniGame.MiniGame>().AsSelf();
-            builder.RegisterComponentInHierarchy<MiniGamePlayer>();
+            builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<MiniGamePresenter>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 

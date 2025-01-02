@@ -1,25 +1,22 @@
 using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
+using JetBrains.Annotations;
 using Tavern.Cooking;
 using Tavern.MiniGame.UI;
 using UnityEngine;
-using VContainer;
 
 namespace Tavern.MiniGame
 {
-    public class MiniGamePlayer : MonoBehaviour, IDisposable
+    [UsedImplicitly]
+    public class MiniGamePlayer : IDisposable
     {
-        
         private readonly Dictionary<DishRecipe, int> _recipes = new();
-
+        private readonly DishCookbookContext _cookbook;
+        private readonly IMiniGamePresenter _presenter;
+        private readonly MiniGameConfig _config;
         private DishRecipe _currentRecipe;
-        private DishCookbookContext _cookbook;
-        private IMiniGamePresenter _presenter;
-        private MiniGameConfig _config;
 
-        [Inject]
-        public void Construct(
+        public MiniGamePlayer(
             IMiniGamePresenter presenter,
             DishCookbookContext cookbook,
             MiniGameConfig config)
@@ -32,13 +29,6 @@ namespace Tavern.MiniGame
             _presenter.OnGameOver += GameOver;
         }
 
-        void IDisposable.Dispose()
-        {
-            _presenter.OnRestart -= RestartGame;
-            _presenter.OnGameOver -= GameOver;
-        }
-
-        [Button]
         public void CreateGame(DishRecipe recipe)
         {
             if (recipe is null) return;
@@ -53,6 +43,12 @@ namespace Tavern.MiniGame
             
             _presenter.Show(currentScore, _config.Match);
             _currentRecipe = recipe;
+        }
+
+        void IDisposable.Dispose()
+        {
+            _presenter.OnRestart -= RestartGame;
+            _presenter.OnGameOver -= GameOver;
         }
 
         private void GameOver(bool win)
