@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Modules.Items;
 using Sirenix.OdinInspector;
+using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
 using Tavern.Looting;
 using UnityEngine;
@@ -14,11 +15,13 @@ namespace Tavern.Cooking
         private List<string> _items = new();
 
         private RecipeMatcher _matcher;
+        private MiniGamePlayer _player;
 
         [Inject]
-        private void Construct(RecipeMatcher matcher)
+        private void Construct(RecipeMatcher matcher, MiniGamePlayer player)
         {
             _matcher = matcher;
+            _player = player;
         }
 
         [Button]
@@ -55,7 +58,11 @@ namespace Tavern.Cooking
         public void TryMatch()
         {
             (bool result, DishRecipe recipe) = _matcher.MatchRecipe(_items);
-            Debug.Log(result ? $"Recipe name is {recipe.Name}" : "Matching result is false");
+            Debug.Log(result ? $"Recipe name is {recipe.Name}" : "Mismatch recipe");
+            if (result)
+            {
+                _player.CreateGame(recipe);
+            }
         }
     }
 }

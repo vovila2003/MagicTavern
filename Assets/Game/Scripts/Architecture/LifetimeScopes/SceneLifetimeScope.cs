@@ -5,13 +5,13 @@ using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
 using Tavern.Cooking;
+using Tavern.Cooking.MiniGame;
+using Tavern.Cooking.MiniGame.UI;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
 using Tavern.InputServices;
 using Tavern.Looting;
-using Tavern.MiniGame;
-using Tavern.MiniGame.UI;
 using Tavern.Settings;
 using Tavern.Storages;
 using Tavern.Storages.CurrencyStorages;
@@ -178,12 +178,11 @@ namespace Tavern.Architecture
 
         private void RegisterMiniGames(IContainerBuilder builder)
         {
-            builder.RegisterInstance(GameSettings.MiniGameSettings);
             builder.Register<MiniGameInputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<MiniGameView>().AsImplementedInterfaces();
             
-            builder.RegisterEntryPoint<MiniGame.MiniGame>().AsSelf();
-            builder.RegisterComponentInHierarchy<MiniGamePlayer>();
+            builder.RegisterEntryPoint<MiniGame>().AsSelf();
+            builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<MiniGamePresenter>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
