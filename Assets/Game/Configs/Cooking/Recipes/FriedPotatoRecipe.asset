@@ -21,3 +21,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
   RequiredKitchenItems:
   - {fileID: 11400000, guid: c472c6082de52fcd2a5d623defe91d2d, type: 2}
+  Stars: 3
+  MiniGameConfig:
+    GreenZone: 10
+    YellowZone: 20
+    Speed: 1

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Modules.Items;
 using Sirenix.OdinInspector;
+using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
 using Tavern.Looting;
-using Tavern.MiniGame;
 using UnityEngine;
 using VContainer;
 
