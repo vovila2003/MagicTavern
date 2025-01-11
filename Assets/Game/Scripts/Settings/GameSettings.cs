@@ -1,6 +1,6 @@
 using Tavern.Cooking;
+using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
-using Tavern.MiniGame;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -22,9 +22,6 @@ namespace Tavern.Settings
         [SerializeField]
         private GardeningSettings GardeningConfigs;
 
-        [SerializeField] 
-        private MiniGameConfig MiniGameConfig;
-        
         [SerializeField]
         private DishRecipeCatalog DishRecipeCatalog;
         
@@ -37,8 +34,6 @@ namespace Tavern.Settings
         public GameCursorSettings CursorSettings => CursorConfig;
         
         public CameraSettings CameraSettings => CameraConfigs;
-        
-        public MiniGameConfig MiniGameSettings => MiniGameConfig;
         
         public DishRecipeCatalog DishRecipes => DishRecipeCatalog;
     }
