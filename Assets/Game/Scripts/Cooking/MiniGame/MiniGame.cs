@@ -31,11 +31,14 @@ namespace Tavern.Cooking.MiniGame
             _isEnable = false;
         }
 
-        public void StartGame(MiniGameConfig config)
+        public void CreateGame(MiniGameConfig config)
         {
             SetZones(config);
-            
             _speed = config.SpeedValue;
+        } 
+
+        public void StartGame()
+        {
             _isEnable = true;
             _factor = 1;
             _value = 0;

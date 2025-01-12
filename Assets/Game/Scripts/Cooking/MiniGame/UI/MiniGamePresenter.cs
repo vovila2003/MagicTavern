@@ -31,6 +31,7 @@ namespace Tavern.Cooking.MiniGame.UI
             _recipe = recipe;
             
             UpdateScore(currentScore, recipe.StarsCount);
+            _game.CreateGame(recipe.GameConfig);
 
             _view.SetSliderValue(0);
             _view.ShowStartButton();
@@ -60,7 +61,7 @@ namespace Tavern.Cooking.MiniGame.UI
         private void OnStartGame()
         {
             _view.HideStartButton();
-            _game.StartGame(_recipe.GameConfig);
+            _game.StartGame();
         }
 
         private void RegionsChanged(Regions regions) => _view.SetRegions(regions);
