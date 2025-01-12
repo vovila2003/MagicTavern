@@ -93,6 +93,10 @@ namespace Tavern.Architecture
         {
             builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
             builder.Register<ViewModelFactory>(Lifetime.Singleton).AsImplementedInterfaces();
+
+
+            builder.RegisterComponentInHierarchy<Tester>();
+            builder.RegisterInstance(GameSettings.UISettings.EntityCard);
         }
 
         private void RegisterGameCursor(IContainerBuilder builder)

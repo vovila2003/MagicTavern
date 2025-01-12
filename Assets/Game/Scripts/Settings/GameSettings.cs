@@ -25,6 +25,9 @@ namespace Tavern.Settings
         [SerializeField]
         private DishRecipeCatalog DishRecipeCatalog;
         
+        [SerializeField]
+        private UISettings UIConfigs;
+        
         public SeedMakerSettings SeedMakerSettings => GardeningConfigs.SeedMakerSettings;
         
         public Pot PotPrefab => GardeningConfigs.Pot;
@@ -36,5 +39,6 @@ namespace Tavern.Settings
         public CameraSettings CameraSettings => CameraConfigs;
         
         public DishRecipeCatalog DishRecipes => DishRecipeCatalog;
+        public UISettings UISettings => UIConfigs;
     }
 }

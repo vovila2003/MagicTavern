@@ -1,9 +1,11 @@
+using JetBrains.Annotations;
 using Tavern.Architecture;
 using Tavern.UI.ViewModels;
 using Tavern.UI.ViewModels.Interfaces;
 
 namespace Tavern.UI
 {
+    [UsedImplicitly]
     public sealed class ViewModelFactory : IViewModelFactory
     {
         private readonly StartGameController _startGameController;
