@@ -29,10 +29,10 @@ namespace Tavern.UI
             _view.gameObject.SetActive(true);
         }
 
-        public void Hide()
+        public void DestroyView()
         {
             _view.OnCardClicked -= OnClicked;
-            
+
             Object.Destroy(_view.gameObject);
         }
 

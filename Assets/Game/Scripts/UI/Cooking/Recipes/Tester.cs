@@ -7,10 +7,13 @@ namespace Tavern.UI
     public class Tester : MonoBehaviour
     {
         [SerializeField] 
-        private Button Button;
+        private Button OpenButton;
+        
+        [SerializeField] 
+        private Button CloseButton;
 
         private PresentersFactory _factory;
-        private LeftGridPresenter _presenter;
+        private LeftGridRecipesPresenter _recipesPresenter;
 
         [Inject]
         private void Construct(PresentersFactory factory)
@@ -20,19 +23,26 @@ namespace Tavern.UI
 
         private void OnEnable()
         {
-            Button.onClick.AddListener(OnClick);
+            OpenButton.onClick.AddListener(OnOpen);
+            CloseButton.onClick.AddListener(OnClose);
         }
 
         private void OnDisable()
         {
-            Button.onClick.RemoveListener(OnClick);
+            OpenButton.onClick.RemoveListener(OnOpen);
+            CloseButton.onClick.RemoveListener(OnClose);
         }
 
-        private void OnClick()
+        private void OnOpen()
         {
-            _presenter ??= _factory.CreateLeftGridPresenter();
+            _recipesPresenter ??= _factory.CreateLeftGridPresenter();
 
-            _presenter.Show();
+            _recipesPresenter.Show();
+        }
+
+        private void OnClose()
+        {
+            _recipesPresenter.Hide();
         }
     }
 }

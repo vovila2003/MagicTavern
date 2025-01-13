@@ -4,7 +4,7 @@ using Tavern.Cooking;
 
 namespace Tavern.UI
 {
-    public class LeftGridPresenter
+    public class LeftGridRecipesPresenter
     {
         private readonly DishCookbookContext _cookbook;
         private readonly PresentersFactory _presentersFactory;
@@ -13,17 +13,20 @@ namespace Tavern.UI
         
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
 
-        public LeftGridPresenter(LeftGridView view, PresentersFactory presentersFactory, DishCookbookContext  cookbook)
+        public LeftGridRecipesPresenter(
+            LeftGridView view, 
+            PresentersFactory presentersFactory, 
+            DishCookbookContext cookbook)
         {
             _view = view;
             _presentersFactory = presentersFactory;
             _cookbook = cookbook;
         }
-
+        
         public void Show()
         {
             SetupCards();
-
+            
             _cookbook.OnRecipeAdded += OnRecipeAdded;
             _cookbook.OnRecipeRemoved += OnRecipeRemoved;
             _view.gameObject.SetActive(true);
@@ -31,14 +34,17 @@ namespace Tavern.UI
 
         public void Hide()
         {
-            foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
-            {
-                cardPresenter.Hide();
-            }
-            
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
+
             _view.gameObject.SetActive(false);
+            
+            foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
+            {
+                cardPresenter.DestroyView();
+            }
+            
+            _recipeCardPresenters.Clear();
         }
 
         private void SetupCards()
@@ -72,7 +78,7 @@ namespace Tavern.UI
 
             if (_recipeCardPresenters.Remove(dishRecipe, out RecipeCardPresenter presenter))
             {
-                presenter.Hide();
+                presenter.DestroyView();
             }
         }
     }

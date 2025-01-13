@@ -20,9 +20,9 @@ namespace Tavern.UI
             return new RecipeCardPresenter(_viewsFactory.CreateEntityCardView());
         }
 
-        public LeftGridPresenter CreateLeftGridPresenter()
+        public LeftGridRecipesPresenter CreateLeftGridPresenter()
         {
-            return new LeftGridPresenter(_viewsFactory.CreateLeftGridView(), this, _dishCookbook);
+            return new LeftGridRecipesPresenter(_viewsFactory.CreateLeftGridView(), this, _dishCookbook);
         }
     }
 }
