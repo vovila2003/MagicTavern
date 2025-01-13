@@ -18,7 +18,7 @@ MonoBehaviour:
     Metadata:
       Title: "\u0416\u0430\u0440\u0435\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"
       Description: 
-      Icon: {fileID: 0}
+      Icon: {fileID: -1171785395, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 1692307354129530888
   references:

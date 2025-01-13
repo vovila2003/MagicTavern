@@ -1,4 +1,3 @@
-using Tavern.Cooking;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -10,19 +9,13 @@ namespace Tavern.UI
         [SerializeField] 
         private Button Button;
 
-        [SerializeField] 
-        private Transform Parent;
-
-        [SerializeField] 
-        private DishRecipe Recipe;
-        
-        private EntityCardView _viewPrefab;
-        private RecipeCardPresenter _presenter;
+        private PresentersFactory _factory;
+        private LeftGridPresenter _presenter;
 
         [Inject]
-        private void Construct(EntityCardView viewPrefab)
+        private void Construct(PresentersFactory factory)
         {
-            _viewPrefab = viewPrefab;
+            _factory = factory;
         }
 
         private void OnEnable()
@@ -37,20 +30,9 @@ namespace Tavern.UI
 
         private void OnClick()
         {
-            if (Recipe == null)
-            {
-                Debug.Log("Recipe is null!");
-                return; 
-            }
+            _presenter ??= _factory.CreateLeftGridPresenter();
 
-            if (_presenter == null)
-            {
-                EntityCardView view = Instantiate(_viewPrefab, Parent);
-                _presenter = new RecipeCardPresenter(view);
-                
-            }
-            
-            _presenter.Show(Recipe);
+            _presenter.Show();
         }
     }
 }

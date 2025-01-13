@@ -1,3 +1,4 @@
+using Modules.Crafting;
 using Tavern.Buying;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
@@ -96,7 +97,10 @@ namespace Tavern.Architecture
 
 
             builder.RegisterComponentInHierarchy<Tester>();
-            builder.RegisterInstance(GameSettings.UISettings.EntityCard);
+            builder.RegisterInstance(GameSettings.UISettings);
+
+            builder.Register<ViewsFactory>(Lifetime.Singleton);
+            builder.Register<PresentersFactory>(Lifetime.Singleton);
         }
 
         private void RegisterGameCursor(IContainerBuilder builder)

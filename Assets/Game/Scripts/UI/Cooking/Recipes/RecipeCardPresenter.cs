@@ -1,12 +1,15 @@
 using JetBrains.Annotations;
 using Modules.Items;
 using Tavern.Cooking;
+using UnityEngine;
 
 namespace Tavern.UI
 {
     [UsedImplicitly]
     public class RecipeCardPresenter
     {
+        public EntityCardView View => _view;
+        
         private readonly EntityCardView _view;
 
         public RecipeCardPresenter(EntityCardView view)
@@ -30,12 +33,12 @@ namespace Tavern.UI
         {
             _view.OnCardClicked -= OnClicked;
             
-            _view.gameObject.SetActive(false);
+            Object.Destroy(_view.gameObject);
         }
 
         private void OnClicked()
         {
-            Hide();
+            Debug.Log("Recipe clicked");
         }
     }
 }

@@ -14,13 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: FriedFrogLegs
-    Flags: 0
+    Flags: 1
     Metadata:
       Title: "\u0416\u0430\u0440\u0435\u043D\u044B\u0435 \u043B\u0435\u0433\u0443\u0448\u0430\u0447\u044C\u0438 
         \u043B\u0430\u043F\u043A\u0438"
       Description: 
-      Icon: {fileID: 0}
-    Attributes: []
+      Icon: {fileID: -2094843947, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
+    Components:
+    - rid: 2912130500639850629
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2912130500639850629
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0
