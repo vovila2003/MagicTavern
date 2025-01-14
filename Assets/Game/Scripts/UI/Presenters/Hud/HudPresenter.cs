@@ -1,24 +1,22 @@
-using Tavern.UI.Views;
-
 namespace Tavern.UI.Presenters
 {
     public sealed class HudPresenter
     {
-        private readonly HudView _view;
+        private readonly IHudView _view;
 
-        public HudPresenter(HudView view)
+        public HudPresenter(IHudView view)
         {
             _view = view;
         }
 
         public void Show()
         {
-            _view.gameObject.SetActive(true);
+            _view.Show();
         }
 
         public void Hide()
         {
-            _view.gameObject.SetActive(false);
+            _view.Hide();
         }
     }
 }

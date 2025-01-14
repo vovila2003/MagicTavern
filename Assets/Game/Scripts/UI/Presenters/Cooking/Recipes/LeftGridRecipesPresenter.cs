@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Modules.Crafting;
 using Tavern.Cooking;
-using Tavern.UI.Views;
 
 namespace Tavern.UI.Presenters
 {
@@ -10,12 +9,12 @@ namespace Tavern.UI.Presenters
         private readonly DishCookbookContext _cookbook;
         private readonly PresentersFactory _presentersFactory;
         
-        private readonly LeftGridView _view;
+        private readonly ILeftGridView _view;
         
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
 
         public LeftGridRecipesPresenter(
-            LeftGridView view, 
+            ILeftGridView view, 
             PresentersFactory presentersFactory, 
             DishCookbookContext cookbook)
         {
@@ -30,7 +29,7 @@ namespace Tavern.UI.Presenters
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
             _cookbook.OnRecipeRemoved += OnRecipeRemoved;
-            _view.gameObject.SetActive(true);
+            _view.Show();
         }
 
         public void Hide()
@@ -38,7 +37,7 @@ namespace Tavern.UI.Presenters
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
 
-            _view.gameObject.SetActive(false);
+            _view.Hide();
             
             foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
             {
@@ -62,7 +61,7 @@ namespace Tavern.UI.Presenters
         {
             RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter();
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
-            _view.AddCardView(recipePresenter.View);
+            recipePresenter.SetViewParent(_view.ContentTransform);
             recipePresenter.Show(dishRecipe);
         }
 

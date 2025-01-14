@@ -1,10 +1,11 @@
+using Tavern.UI.Presenters;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class MainMenuView : MonoBehaviour
+    public sealed class MainMenuView : View, IMainMenuView
     {
         public event UnityAction OnStartGame
         {

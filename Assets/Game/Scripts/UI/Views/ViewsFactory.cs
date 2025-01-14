@@ -1,11 +1,12 @@
 using JetBrains.Annotations;
 using Tavern.Settings;
+using Tavern.UI.Presenters;
 using UnityEngine;
 
 namespace Tavern.UI.Views
 {
     [UsedImplicitly]
-    public class ViewsFactory
+    public class ViewsFactory : IViewsFactory
     {
         private readonly UISettings _settings;
 
@@ -14,12 +15,12 @@ namespace Tavern.UI.Views
             _settings = settings;
         }
 
-        public EntityCardView CreateEntityCardView()
+        public IEntityCardView CreateEntityCardView()
         {
             return Object.Instantiate(_settings.EntityCard, _settings.Canvas);
         }
 
-        public LeftGridView CreateLeftGridView()
+        public ILeftGridView CreateLeftGridView()
         {
             return Object.Instantiate(_settings.LeftGridView, _settings.Canvas);
         }

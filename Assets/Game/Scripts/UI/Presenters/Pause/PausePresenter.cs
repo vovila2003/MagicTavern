@@ -1,14 +1,13 @@
 using Tavern.Architecture;
-using Tavern.UI.Views;
 
 namespace Tavern.UI.Presenters
 {
     public sealed class PausePresenter
     {
-        private readonly PauseView _view;
+        private readonly IPauseView _view;
         private readonly PauseGameController _pauseGameController;
 
-        public PausePresenter(PauseView view, PauseGameController pauseGameController)
+        public PausePresenter(IPauseView view, PauseGameController pauseGameController)
         {
             _view = view;
             _pauseGameController = pauseGameController;
@@ -17,13 +16,13 @@ namespace Tavern.UI.Presenters
         public void Show()
         {
             _view.OnResume += OnResume;
-            _view.gameObject.SetActive(true);
+            _view.Show();
         }
 
         public void Hide()
         {
             _view.OnResume -= OnResume;
-            _view.gameObject.SetActive(false);
+            _view.Hide();
         }
 
         private void OnResume()

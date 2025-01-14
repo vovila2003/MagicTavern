@@ -1,21 +1,20 @@
 using JetBrains.Annotations;
 using Tavern.Architecture;
 using Tavern.Cooking;
-using Tavern.UI.Views;
 
 namespace Tavern.UI.Presenters
 {
     [UsedImplicitly]
     public class PresentersFactory
     {
-        private readonly ViewsFactory _viewsFactory;
+        private readonly IViewsFactory _viewsFactory;
         private readonly DishCookbookContext _dishCookbook;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
 
         public PresentersFactory(
-            ViewsFactory viewsViewsFactory, 
+            IViewsFactory viewsViewsFactory, 
             DishCookbookContext dishCookbook,
             StartGameController startGameController,
             QuitGameController quitGameController,
@@ -38,17 +37,17 @@ namespace Tavern.UI.Presenters
             return new LeftGridRecipesPresenter(_viewsFactory.CreateLeftGridView(), this, _dishCookbook);
         }
 
-        public MainMenuPresenter CreateMainMenuPresenter(MainMenuView mainMenuView)
+        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView)
         {
             return new MainMenuPresenter(mainMenuView, _startGameController, _quitGameController);
         }
 
-        public HudPresenter CreateHudPresenter(HudView hudView)
+        public HudPresenter CreateHudPresenter(IHudView hudView)
         {
             return new HudPresenter(hudView);
         }
 
-        public PausePresenter CreatePausePresenter(PauseView pauseView)
+        public PausePresenter CreatePausePresenter(IPauseView pauseView)
         {
             return new PausePresenter(pauseView, _pauseGameController);
         }

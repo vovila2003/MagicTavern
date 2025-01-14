@@ -1,7 +1,6 @@
 using JetBrains.Annotations;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.UI.Views;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -9,11 +8,9 @@ namespace Tavern.UI.Presenters
     [UsedImplicitly]
     public class RecipeCardPresenter
     {
-        public EntityCardView View => _view;
-        
-        private readonly EntityCardView _view;
+        private readonly IEntityCardView _view;
 
-        public RecipeCardPresenter(EntityCardView view)
+        public RecipeCardPresenter(IEntityCardView view)
         {
             _view = view;
         }
@@ -27,15 +24,20 @@ namespace Tavern.UI.Presenters
             _view.SetStars(recipe.StarsCount);
             _view.OnCardClicked += OnClicked;
             
-            _view.gameObject.SetActive(true);
+            _view.Show();
         }
 
         public void DestroyView()
         {
             _view.OnCardClicked -= OnClicked;
 
-            Object.Destroy(_view.gameObject);
+            _view.Hide();
         }
+
+        public void SetViewParent(Transform parent)
+        {
+            _view.SetParent(parent);
+        }        
 
         private void OnClicked()
         {

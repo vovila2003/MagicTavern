@@ -1,3 +1,4 @@
+using Tavern.UI.Presenters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public class EntityCardView : MonoBehaviour
+    public class EntityCardView : View, IEntityCardView
     {
         public event UnityAction OnCardClicked
         {
@@ -46,6 +47,11 @@ namespace Tavern.UI.Views
         public void SetStars(float stars)
         {
             Stars.SetStars(stars);
+        }
+
+        public void SetParent(Transform parent)
+        {
+            transform.SetParent(parent);
         }
     }
 }

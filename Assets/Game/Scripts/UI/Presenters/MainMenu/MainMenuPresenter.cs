@@ -1,16 +1,15 @@
 using Tavern.Architecture;
-using Tavern.UI.Views;
 
 namespace Tavern.UI.Presenters
 {
     public class MainMenuPresenter
     {
-        private readonly MainMenuView _view;
+        private readonly IMainMenuView _view;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         
         public MainMenuPresenter(
-            MainMenuView view,
+            IMainMenuView view,
             StartGameController startGameController, 
             QuitGameController quitGameController)
         {
@@ -23,14 +22,14 @@ namespace Tavern.UI.Presenters
         {
             _view.OnStartGame += OnStartGame; 
             _view.OnQuitGame += OnQuitGame; 
-            _view.gameObject.SetActive(true);
+            _view.Show();
         }
 
         public void Hide()
         {
             _view.OnStartGame -= OnStartGame; 
             _view.OnQuitGame -= OnQuitGame; 
-            _view.gameObject.SetActive(false);
+            _view.Hide();
         }
 
         private void OnStartGame()

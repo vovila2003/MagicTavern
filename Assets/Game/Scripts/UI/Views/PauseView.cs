@@ -1,10 +1,11 @@
+using Tavern.UI.Presenters;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class PauseView : MonoBehaviour
+    public sealed class PauseView : View, IPauseView
     {
         public event UnityAction OnResume
         {
@@ -14,5 +15,7 @@ namespace Tavern.UI.Views
         
         [SerializeField] 
         private Button ResumeButton;
+
+        
     }
 }

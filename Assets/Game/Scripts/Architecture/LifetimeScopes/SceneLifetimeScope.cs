@@ -97,7 +97,7 @@ namespace Tavern.Architecture
             builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
 
             builder.RegisterInstance(GameSettings.UISettings);
-            builder.Register<ViewsFactory>(Lifetime.Singleton);
+            builder.Register<ViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PresentersFactory>(Lifetime.Singleton);
             
             builder.RegisterComponentInHierarchy<Tester>(); //TODO for test -> remove
