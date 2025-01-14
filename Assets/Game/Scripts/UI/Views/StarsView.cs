@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tavern.UI
+namespace Tavern.UI.Views
 {
     public class StarsView : MonoBehaviour
     {

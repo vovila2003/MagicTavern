@@ -1,9 +1,10 @@
 using JetBrains.Annotations;
 using Modules.Items;
 using Tavern.Cooking;
+using Tavern.UI.Views;
 using UnityEngine;
 
-namespace Tavern.UI
+namespace Tavern.UI.Presenters
 {
     [UsedImplicitly]
     public class RecipeCardPresenter

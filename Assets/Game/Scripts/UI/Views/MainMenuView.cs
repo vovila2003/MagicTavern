@@ -1,42 +1,27 @@
-using System.IO;
-using Tavern.UI.ViewModels.Interfaces;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class MainMenuView : MonoBehaviour, IView
+    public sealed class MainMenuView : MonoBehaviour
     {
+        public event UnityAction OnStartGame
+        {
+            add => StartButton.onClick.AddListener(value);
+            remove => StartButton.onClick.RemoveListener(value);
+        }
+        
+        public event UnityAction OnQuitGame
+        {
+            add => QuitButton.onClick.AddListener(value);
+            remove => QuitButton.onClick.RemoveListener(value);
+        }
+        
         [SerializeField] 
         private Button StartButton;
         
         [SerializeField]
         private Button QuitButton;
-
-        private IMainMenuViewModel _viewModel;
-
-        public void Show(IViewModel viewModel)
-        {
-            if (viewModel is not IMainMenuViewModel mainMenuViewModel)
-            {
-                throw new InvalidDataException($"{nameof(viewModel)} must be {nameof(IMainMenuViewModel)}");
-            }
-
-            _viewModel = mainMenuViewModel;
-            StartButton.onClick.AddListener(OnStartButtonClicked);
-            QuitButton.onClick.AddListener(OnQuitButtonClicked);
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            StartButton.onClick.RemoveListener(OnStartButtonClicked);
-            QuitButton.onClick.RemoveListener(OnQuitButtonClicked);
-            gameObject.SetActive(false);
-        }
-
-        private void OnStartButtonClicked() => _viewModel.StartGame();
-
-        private void OnQuitButtonClicked() => _viewModel.QuitGame();
     }
 }

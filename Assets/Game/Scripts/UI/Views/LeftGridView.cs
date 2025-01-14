@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tavern.UI
+namespace Tavern.UI.Views
 {
     public class LeftGridView : MonoBehaviour
     {

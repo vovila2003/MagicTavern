@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Modules.Crafting;
 using Tavern.Cooking;
+using Tavern.UI.Views;
 
-namespace Tavern.UI
+namespace Tavern.UI.Presenters
 {
     public class LeftGridRecipesPresenter
     {

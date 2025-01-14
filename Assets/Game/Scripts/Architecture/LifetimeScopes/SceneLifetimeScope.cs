@@ -17,6 +17,8 @@ using Tavern.Settings;
 using Tavern.Storages;
 using Tavern.Storages.CurrencyStorages;
 using Tavern.UI;
+using Tavern.UI.Presenters;
+using Tavern.UI.Views;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -93,14 +95,12 @@ namespace Tavern.Architecture
         private void RegisterUi(IContainerBuilder builder)
         {
             builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
-            builder.Register<ViewModelFactory>(Lifetime.Singleton).AsImplementedInterfaces();
 
-
-            builder.RegisterComponentInHierarchy<Tester>();
             builder.RegisterInstance(GameSettings.UISettings);
-
             builder.Register<ViewsFactory>(Lifetime.Singleton);
             builder.Register<PresentersFactory>(Lifetime.Singleton);
+            
+            builder.RegisterComponentInHierarchy<Tester>(); //TODO for test -> remove
         }
 
         private void RegisterGameCursor(IContainerBuilder builder)

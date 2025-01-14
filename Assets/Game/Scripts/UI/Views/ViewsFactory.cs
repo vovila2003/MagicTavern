@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using Tavern.Settings;
 using UnityEngine;
 
-namespace Tavern.UI
+namespace Tavern.UI.Views
 {
     [UsedImplicitly]
     public class ViewsFactory
@@ -16,14 +16,12 @@ namespace Tavern.UI
 
         public EntityCardView CreateEntityCardView()
         {
-            EntityCardView entityCardView = Object.Instantiate(_settings.EntityCard, _settings.Canvas);
-            return entityCardView;
+            return Object.Instantiate(_settings.EntityCard, _settings.Canvas);
         }
 
         public LeftGridView CreateLeftGridView()
         {
-            LeftGridView leftGridView = Object.Instantiate(_settings.LeftGridView, _settings.Canvas);
-            return leftGridView;
+            return Object.Instantiate(_settings.LeftGridView, _settings.Canvas);
         }
     }
 }

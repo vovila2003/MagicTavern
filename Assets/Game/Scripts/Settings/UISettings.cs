@@ -1,6 +1,8 @@
 using System;
 using Tavern.UI;
+using Tavern.UI.Views;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Tavern.Settings
 {
