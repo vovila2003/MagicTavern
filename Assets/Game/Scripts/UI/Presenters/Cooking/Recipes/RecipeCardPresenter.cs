@@ -9,14 +9,20 @@ namespace Tavern.UI.Presenters
     public class RecipeCardPresenter
     {
         private readonly IEntityCardView _view;
+        private readonly IEntityCardViewPool _pool;
+        private bool _isShown;
 
-        public RecipeCardPresenter(IEntityCardView view)
+        public RecipeCardPresenter(IEntityCardView view, IEntityCardViewPool pool)
         {
             _view = view;
+            _pool = pool;
+            _isShown = false;
         }
 
         public void Show(DishRecipe recipe)
         {
+            if (_isShown) return;
+            
             ItemMetadata metadata = recipe.ResultItem.Item.ItemMetadata;
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
@@ -25,13 +31,18 @@ namespace Tavern.UI.Presenters
             _view.OnCardClicked += OnClicked;
             
             _view.Show();
+            _isShown = true;
         }
 
-        public void DestroyView()
+        public void Hide()
         {
+            if (!_isShown) return;
+            
             _view.OnCardClicked -= OnClicked;
 
             _view.Hide();
+            _pool.UnspawnEntityCardView(_view);
+            _isShown = false;
         }
 
         public void SetViewParent(Transform parent)

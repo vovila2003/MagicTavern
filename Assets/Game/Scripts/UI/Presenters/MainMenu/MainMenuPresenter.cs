@@ -1,4 +1,4 @@
-using Tavern.Architecture;
+using Tavern.Infrastructure;
 
 namespace Tavern.UI.Presenters
 {

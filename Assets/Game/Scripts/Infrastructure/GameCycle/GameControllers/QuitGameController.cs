@@ -1,4 +1,4 @@
-namespace Tavern.Architecture
+namespace Tavern.Infrastructure
 {
     public sealed class QuitGameController  
     {

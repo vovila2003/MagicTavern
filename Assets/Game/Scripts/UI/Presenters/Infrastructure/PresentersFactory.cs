@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
-using Tavern.Architecture;
 using Tavern.Cooking;
+using Tavern.Infrastructure;
 
 namespace Tavern.UI.Presenters
 {
@@ -29,7 +29,7 @@ namespace Tavern.UI.Presenters
 
         public RecipeCardPresenter CreateRecipeCardPresenter()
         {
-            return new RecipeCardPresenter(_viewsFactory.CreateEntityCardView());
+            return new RecipeCardPresenter(_viewsFactory.GetEntityCardView(), _viewsFactory.EntityCardViewPool);
         }
 
         public LeftGridRecipesPresenter CreateLeftGridPresenter()

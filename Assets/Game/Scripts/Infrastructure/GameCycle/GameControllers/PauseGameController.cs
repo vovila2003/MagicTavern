@@ -1,7 +1,7 @@
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 
-namespace Tavern.Architecture
+namespace Tavern.Infrastructure
 {
     public sealed class PauseGameController :
         IInitGameListener,

@@ -1,4 +1,3 @@
-using Modules.Crafting;
 using Tavern.Buying;
 using Tavern.Cameras;
 using Tavern.Character.Agents;
@@ -23,7 +22,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Tavern.Architecture
+namespace Tavern.Infrastructure
 {
     public sealed class SceneLifetimeScope : LifetimeScope
     {
@@ -35,6 +34,9 @@ namespace Tavern.Architecture
 
         [SerializeField] 
         private Transform Pots;
+
+        [SerializeField]
+        private UITransformSettings UITransformSettings;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -94,9 +96,11 @@ namespace Tavern.Architecture
 
         private void RegisterUi(IContainerBuilder builder)
         {
-            builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
-
+            builder.RegisterInstance(UITransformSettings);
             builder.RegisterInstance(GameSettings.UISettings);
+            
+            builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
+            
             builder.Register<ViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PresentersFactory>(Lifetime.Singleton);
             

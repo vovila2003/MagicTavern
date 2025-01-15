@@ -20,6 +20,7 @@ MonoBehaviour:
     PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
   DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
   UIConfigs:
-    EntityCardPrefab: {fileID: 4258311151134655795, guid: 5273ba42baa781860a681d640fb81931, type: 3}
+    EntityCardSettings:
+      EntityCardPrefab: {fileID: 4258311151134655795, guid: 5273ba42baa781860a681d640fb81931, type: 3}
+      StartPoolSize: 5
     LeftGridPrefab: {fileID: 3514127635666266337, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
-    CanvasTransform: {fileID: 0}

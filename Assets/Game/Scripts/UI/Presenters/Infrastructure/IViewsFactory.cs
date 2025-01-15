@@ -2,7 +2,8 @@ namespace Tavern.UI.Presenters
 {
     public interface IViewsFactory
     {
-        IEntityCardView CreateEntityCardView();
         ILeftGridView CreateLeftGridView();
+        IEntityCardViewPool EntityCardViewPool { get; }
+        IEntityCardView GetEntityCardView();
     }
 }

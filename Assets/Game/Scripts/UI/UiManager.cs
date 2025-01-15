@@ -1,4 +1,5 @@
 using Modules.GameCycle.Interfaces;
+using Tavern.Settings;
 using Tavern.UI.Presenters;
 using Tavern.UI.Views;
 using UnityEngine;
@@ -14,31 +15,24 @@ namespace Tavern.UI
         IResumeGameListener,
         IFinishGameListener
     {
-        [SerializeField] 
-        private MainMenuView MainMenuView;
-        
-        [SerializeField] 
-        private PauseView PauseView;
-
-        [SerializeField] 
-        private HudView HudView;
-
+        private UITransformSettings _settings;
         private PresentersFactory _factory;
         private MainMenuPresenter _mainMenuPresenter;
         private PausePresenter _pausePresenter;
         private HudPresenter _hudPresenter;
         
         [Inject]
-        private void Construct(PresentersFactory factory)
+        private void Construct(PresentersFactory factory, UITransformSettings settings)
         {
             _factory = factory;
+            _settings = settings;
         }
 
         void IInitGameListener.OnInit()
         {
-            _mainMenuPresenter = _factory.CreateMainMenuPresenter(MainMenuView);
-            _pausePresenter = _factory.CreatePausePresenter(PauseView);
-            _hudPresenter = _factory.CreateHudPresenter(HudView);
+            _mainMenuPresenter = _factory.CreateMainMenuPresenter(_settings.MainMenu);
+            _pausePresenter = _factory.CreatePausePresenter(_settings.Pause);
+            _hudPresenter = _factory.CreateHudPresenter(_settings.Hud);
             
             _mainMenuPresenter.Show();
         }

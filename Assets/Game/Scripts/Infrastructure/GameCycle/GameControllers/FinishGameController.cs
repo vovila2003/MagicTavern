@@ -1,6 +1,6 @@
 using Modules.GameCycle.Interfaces;
 
-namespace Tavern.Architecture
+namespace Tavern.Infrastructure
 {
     public sealed class FinishGameController : 
         IStartGameListener,

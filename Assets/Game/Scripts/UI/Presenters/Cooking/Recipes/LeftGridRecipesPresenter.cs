@@ -8,10 +8,9 @@ namespace Tavern.UI.Presenters
     {
         private readonly DishCookbookContext _cookbook;
         private readonly PresentersFactory _presentersFactory;
-        
         private readonly ILeftGridView _view;
-        
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
+        private bool _isShown;
 
         public LeftGridRecipesPresenter(
             ILeftGridView view, 
@@ -21,19 +20,25 @@ namespace Tavern.UI.Presenters
             _view = view;
             _presentersFactory = presentersFactory;
             _cookbook = cookbook;
+            _isShown = false;
         }
         
         public void Show()
         {
+            if (_isShown) return;
+            
             SetupCards();
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
             _cookbook.OnRecipeRemoved += OnRecipeRemoved;
             _view.Show();
+            _isShown = true;
         }
 
         public void Hide()
         {
+            if (!_isShown) return;
+            
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
 
@@ -41,10 +46,11 @@ namespace Tavern.UI.Presenters
             
             foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
             {
-                cardPresenter.DestroyView();
+                cardPresenter.Hide();
             }
             
             _recipeCardPresenters.Clear();
+            _isShown = false;
         }
 
         private void SetupCards()
@@ -78,7 +84,7 @@ namespace Tavern.UI.Presenters
 
             if (_recipeCardPresenters.Remove(dishRecipe, out RecipeCardPresenter presenter))
             {
-                presenter.DestroyView();
+                presenter.Hide();
             }
         }
     }

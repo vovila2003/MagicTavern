@@ -4,7 +4,7 @@ using Modules.GameCycle.Interfaces;
 using VContainer;
 using VContainer.Unity;
 
-namespace Tavern.Architecture
+namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
     public class GameCycleController: IInitializable 

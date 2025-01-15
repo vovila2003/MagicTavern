@@ -1,0 +1,45 @@
+using System.Collections.Generic;
+using Modules.Pools;
+using Tavern.Settings;
+using Tavern.UI.Presenters;
+using UnityEngine;
+
+namespace Tavern.UI.Views
+{
+    public class EntityCardViewPool : IEntityCardViewPool
+    {
+        private readonly Pool<EntityCardView> _cardPool;
+        
+        private readonly Dictionary<IEntityCardView, EntityCardView> _cardViews = new();
+
+        public EntityCardViewPool(UISettings settings, Transform entityCardViewPoolParent)
+        {
+            _cardPool = new Pool<EntityCardView>(
+                settings.EntityCardConfig.EntityCard, 
+                settings.EntityCardConfig.StartPoolLength, 
+                PoolLimit.Unlimited, 
+                entityCardViewPoolParent);
+        }
+
+        public bool TrySpawnEntityCardView(out IEntityCardView view)
+        {
+            if (_cardPool.TrySpawn(out EntityCardView cardView))
+            {
+                view = cardView;
+                _cardViews.Add(view, cardView);
+                return true;
+            }
+            
+            view = null;
+            return false;
+        }
+
+        public void UnspawnEntityCardView(IEntityCardView view)
+        {
+            if (_cardViews.Remove(view, out EntityCardView cardView))
+            {
+                _cardPool.Unspawn(cardView);
+            }
+        }
+    }
+}

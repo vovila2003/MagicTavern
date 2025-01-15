@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Items
@@ -13,6 +14,7 @@ namespace Modules.Items
         public string Description;
 
         [SerializeField] 
+        [PreviewField(50, ObjectFieldAlignment.Right)]
         public Sprite Icon;
     }
 }

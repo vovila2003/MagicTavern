@@ -1,4 +1,5 @@
 using Modules.Items;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Crafting
@@ -13,7 +14,16 @@ namespace Modules.Crafting
         private int TimeInSeconds;
 
         public string Name => ResultItem.Item.ItemName;
+
         public ItemConfig<T> ResultItem => ResultItemConfig;
+
         public int CraftingTimeInSeconds => TimeInSeconds;
+        
+        
+        [ShowInInspector, ReadOnly, PreviewField(50, ObjectFieldAlignment.Right)] 
+        private Sprite Icon => ResultItemConfig?.Item.ItemMetadata.Icon;
+        
+        [ShowInInspector, ReadOnly]
+        private string RecipeName => ResultItemConfig?.Item.ItemMetadata.Title;
     }
 }
