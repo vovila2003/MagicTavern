@@ -24,7 +24,7 @@ namespace Tavern.UI.Views
             }
 
             float fractional = stars - fullStars;
-            if (!(fractional >= Threshold)) return;
+            if (fractional < Threshold) return;
             
             Stars[fullStars].fillAmount = fractional;
         }

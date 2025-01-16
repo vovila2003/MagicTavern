@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Shopping
@@ -27,6 +28,7 @@ namespace Modules.Shopping
         public bool TryGetGoods(string goodsName, out GoodsConfig goodsConfig) => 
             _goodsDict.TryGetValue(goodsName, out goodsConfig);
 
+        [Button]
         private void OnValidate()
         {
             var collection = new Dictionary<string, bool>();
