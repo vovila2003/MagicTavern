@@ -15,11 +15,11 @@ namespace Tavern.UI.Views
 
         private readonly EntityCardViewPool _entityCardViewPool;
 
-        public ViewsFactory(UISettings settings, UITransformSettings transformSettings)
+        public ViewsFactory(UISettings settings, UISceneSettings sceneSettings)
         {
             _settings = settings;
-            _canvasTransform = transformSettings.Canvas;
-            _entityCardViewPool = new EntityCardViewPool(settings, transformSettings.EntityCardParent);
+            _canvasTransform = sceneSettings.Canvas;
+            _entityCardViewPool = new EntityCardViewPool(settings, sceneSettings.EntityCardTransform);
         }
 
         public IEntityCardView GetEntityCardView()
@@ -32,9 +32,14 @@ namespace Tavern.UI.Views
             throw new System.Exception("Failed to get entity card view");
         }
 
-        public ILeftGridView CreateLeftGridView()
+        public ILeftGridView CreateLeftGridView(Transform viewContainer)
         {
-            return Object.Instantiate(_settings.LeftGridView, _canvasTransform);
+            return Object.Instantiate(_settings.LeftGridView, viewContainer);
+        }
+
+        public ICookingView CreateCookingPanelView()
+        {
+            return Object.Instantiate(_settings.CookingPanel, _canvasTransform);
         }
     }
 }

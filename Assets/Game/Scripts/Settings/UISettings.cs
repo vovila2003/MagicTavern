@@ -12,8 +12,12 @@ namespace Tavern.Settings
         
         [SerializeField]
         private LeftGridView LeftGridPrefab;
+        
+        [SerializeField]
+        private CookingView CookingPanelPrefab;
 
         public EntityCardSettings EntityCardConfig => EntityCardSettings;
         public LeftGridView LeftGridView => LeftGridPrefab;
+        public CookingView CookingPanel => CookingPanelPrefab;
     }
 }

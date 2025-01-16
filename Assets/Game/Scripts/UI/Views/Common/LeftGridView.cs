@@ -9,5 +9,10 @@ namespace Tavern.UI.Views
 
         [SerializeField] 
         private Transform Content;
+
+        public void SetParent(Transform parent)
+        {
+            transform.SetParent(parent);
+        }
     }
 }

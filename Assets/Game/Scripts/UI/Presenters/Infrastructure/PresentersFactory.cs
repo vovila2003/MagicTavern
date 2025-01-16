@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using Tavern.Cooking;
 using Tavern.Infrastructure;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -32,9 +33,12 @@ namespace Tavern.UI.Presenters
             return new RecipeCardPresenter(_viewsFactory.GetEntityCardView(), _viewsFactory.EntityCardViewPool);
         }
 
-        public LeftGridRecipesPresenter CreateLeftGridPresenter()
+        public LeftGridRecipesPresenter CreateLeftGridPresenter(Transform viewContainer)
         {
-            return new LeftGridRecipesPresenter(_viewsFactory.CreateLeftGridView(), this, _dishCookbook);
+            return new LeftGridRecipesPresenter(
+                _viewsFactory.CreateLeftGridView(viewContainer), 
+                this, 
+                _dishCookbook);
         }
 
         public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView)
@@ -50,6 +54,11 @@ namespace Tavern.UI.Presenters
         public PausePresenter CreatePausePresenter(IPauseView pauseView)
         {
             return new PausePresenter(pauseView, _pauseGameController);
+        }
+
+        public CookingPanelPresenter CreateCookingPanelPresenter()
+        {
+            return new CookingPanelPresenter(_viewsFactory.CreateCookingPanelView(), this);
         }
     }
 }

@@ -10,11 +10,8 @@ namespace Tavern.UI
         [SerializeField] 
         private Button OpenButton;
         
-        [SerializeField] 
-        private Button CloseButton;
-
         private PresentersFactory _factory;
-        private LeftGridRecipesPresenter _recipesPresenter;
+        private CookingPanelPresenter _presenter;
 
         [Inject]
         private void Construct(PresentersFactory factory)
@@ -25,25 +22,18 @@ namespace Tavern.UI
         private void OnEnable()
         {
             OpenButton.onClick.AddListener(OnOpen);
-            CloseButton.onClick.AddListener(OnClose);
         }
 
         private void OnDisable()
         {
             OpenButton.onClick.RemoveListener(OnOpen);
-            CloseButton.onClick.RemoveListener(OnClose);
         }
 
         private void OnOpen()
         {
-            _recipesPresenter ??= _factory.CreateLeftGridPresenter();
+            _presenter ??= _factory.CreateCookingPanelPresenter();
 
-            _recipesPresenter.Show();
-        }
-
-        private void OnClose()
-        {
-            _recipesPresenter.Hide();
+            _presenter.Show();
         }
     }
 }

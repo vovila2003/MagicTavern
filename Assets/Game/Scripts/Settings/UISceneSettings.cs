@@ -5,13 +5,13 @@ using UnityEngine;
 namespace Tavern.Settings
 {
     [Serializable]
-    public class UITransformSettings
+    public class UISceneSettings
     {
         [SerializeField] 
         private Transform CanvasTransform;
         
         [SerializeField] 
-        private Transform EntityCardPoolParent;
+        private Transform EntityCardPoolTransform;
         
         [SerializeField] 
         private MainMenuView MainMenuView;
@@ -23,7 +23,7 @@ namespace Tavern.Settings
         private HudView HudView;
 
         public Transform Canvas => CanvasTransform;
-        public Transform EntityCardParent => EntityCardPoolParent;
+        public Transform EntityCardTransform => EntityCardPoolTransform;
         public MainMenuView MainMenu => MainMenuView; 
         public PauseView Pause => PauseView; 
         public HudView Hud => HudView; 

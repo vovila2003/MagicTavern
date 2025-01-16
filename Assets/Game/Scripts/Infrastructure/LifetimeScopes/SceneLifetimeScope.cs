@@ -19,6 +19,7 @@ using Tavern.UI;
 using Tavern.UI.Presenters;
 using Tavern.UI.Views;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 using VContainer.Unity;
 
@@ -35,8 +36,8 @@ namespace Tavern.Infrastructure
         [SerializeField] 
         private Transform Pots;
 
-        [SerializeField]
-        private UITransformSettings UITransformSettings;
+        [FormerlySerializedAs("UITransformSettings")] [SerializeField]
+        private UISceneSettings UISceneSettings;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -96,7 +97,7 @@ namespace Tavern.Infrastructure
 
         private void RegisterUi(IContainerBuilder builder)
         {
-            builder.RegisterInstance(UITransformSettings);
+            builder.RegisterInstance(UISceneSettings);
             builder.RegisterInstance(GameSettings.UISettings);
             
             builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();

@@ -15,14 +15,14 @@ namespace Tavern.UI
         IResumeGameListener,
         IFinishGameListener
     {
-        private UITransformSettings _settings;
+        private UISceneSettings _settings;
         private PresentersFactory _factory;
         private MainMenuPresenter _mainMenuPresenter;
         private PausePresenter _pausePresenter;
         private HudPresenter _hudPresenter;
         
         [Inject]
-        private void Construct(PresentersFactory factory, UITransformSettings settings)
+        private void Construct(PresentersFactory factory, UISceneSettings settings)
         {
             _factory = factory;
             _settings = settings;

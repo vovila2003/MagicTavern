@@ -1,11 +1,9 @@
-using JetBrains.Annotations;
 using Modules.Items;
 using Tavern.Cooking;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    [UsedImplicitly]
     public class RecipeCardPresenter
     {
         private readonly IEntityCardView _view;
