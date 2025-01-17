@@ -28,9 +28,18 @@ namespace Tavern.UI.Presenters
             _pauseGameController = pauseGameController;
         }
 
-        public RecipeCardPresenter CreateRecipeCardPresenter()
+        public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform)
         {
-            return new RecipeCardPresenter(_viewsFactory.GetEntityCardView(), _viewsFactory.EntityCardViewPool);
+            return new RecipeCardPresenter(
+                _viewsFactory.GetEntityCardView(viewContentTransform), 
+                _viewsFactory.EntityCardViewPool);
+        }
+        
+        public ItemCardPresenter CreateItemCardPresenter(Transform viewContentTransform)
+        {
+            return new ItemCardPresenter(
+                _viewsFactory.GetItemCardView(viewContentTransform), 
+                _viewsFactory.ItemCardViewPool);
         }
 
         public LeftGridRecipesPresenter CreateLeftGridPresenter(Transform viewContainer)

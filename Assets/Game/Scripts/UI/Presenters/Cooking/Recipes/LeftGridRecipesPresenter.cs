@@ -8,12 +8,12 @@ namespace Tavern.UI.Presenters
     {
         private readonly DishCookbookContext _cookbook;
         private readonly PresentersFactory _presentersFactory;
-        private readonly ILeftGridView _view;
+        private readonly IContainerView _view;
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
         private bool _isShown;
 
         public LeftGridRecipesPresenter(
-            ILeftGridView view, 
+            IContainerView view, 
             PresentersFactory presentersFactory, 
             DishCookbookContext cookbook)
         {
@@ -65,9 +65,9 @@ namespace Tavern.UI.Presenters
 
         private void AddPresenter(DishRecipe dishRecipe)
         {
-            RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter();
+            RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_view.ContentTransform);
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
-            recipePresenter.SetViewParent(_view.ContentTransform);
+            // recipePresenter.SetViewParent(_view.ContentTransform);
             recipePresenter.Show(dishRecipe);
         }
 

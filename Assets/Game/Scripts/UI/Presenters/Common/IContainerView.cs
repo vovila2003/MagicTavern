@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public interface ILeftGridView : IView
+    public interface IContainerView : IView
     {
         Transform ContentTransform { get; }
-        void SetParent(Transform parent);
     }
 }

@@ -14,6 +14,9 @@ namespace Tavern.Settings
         private Transform EntityCardPoolTransform;
         
         [SerializeField] 
+        private Transform ItemCardPoolTransform;
+        
+        [SerializeField] 
         private MainMenuView MainMenuView;
         
         [SerializeField] 
@@ -26,6 +29,7 @@ namespace Tavern.Settings
         public Transform EntityCardTransform => EntityCardPoolTransform;
         public MainMenuView MainMenu => MainMenuView; 
         public PauseView Pause => PauseView; 
-        public HudView Hud => HudView; 
+        public HudView Hud => HudView;
+        public Transform ItemCardTransform => ItemCardPoolTransform;
     }
 }

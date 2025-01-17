@@ -25,5 +25,5 @@ MonoBehaviour:
       StartPoolSize: 5
     PanelPrefab: {fileID: 7738879138012533936, guid: 03a34b1d162fa087cb808aa0a56e0fdf, type: 3}
     LeftGridPrefab: {fileID: 3514127635666266337, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
-    CookingMiniGamePrefab: {fileID: 0}
-    CookingIngredientsPrefab: {fileID: 0}
+    CookingMiniGamePrefab: {fileID: 6802189202206962366, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
+    CookingIngredientsPrefab: {fileID: 1332371814995094287, guid: 0bbbb944f225bdbddbc55fa0f27fcc7e, type: 3}

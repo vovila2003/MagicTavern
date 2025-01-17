@@ -1,31 +1,27 @@
 using Modules.Items;
-using Tavern.Cooking;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class RecipeCardPresenter
+    public class ItemCardPresenter
     {
-        private readonly IEntityCardView _view;
-        private readonly IEntityCardViewPool _pool;
+        private readonly IItemCardView _view;
+        private readonly IItemCardViewPool _pool;
         private bool _isShown;
 
-        public RecipeCardPresenter(IEntityCardView view, IEntityCardViewPool pool)
+        public ItemCardPresenter(IItemCardView view, IItemCardViewPool pool)
         {
             _view = view;
             _pool = pool;
             _isShown = false;
         }
 
-        public void Show(DishRecipe recipe)
+        public void Show(Item item)
         {
             if (_isShown) return;
             
-            ItemMetadata metadata = recipe.ResultItem.Item.ItemMetadata;
-            _view.SetTitle(metadata.Title);
+            ItemMetadata metadata = item.ItemMetadata;
             _view.SetIcon(metadata.Icon);
-            _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");
-            _view.SetStars(recipe.StarsCount);
             _view.OnCardClicked += OnClicked;
             
             _view.Show();
@@ -39,13 +35,13 @@ namespace Tavern.UI.Presenters
             _view.OnCardClicked -= OnClicked;
 
             _view.Hide();
-            _pool.UnspawnEntityCardView(_view);
+            _pool.UnspawnItemCardView(_view);
             _isShown = false;
         }
 
         private void OnClicked()
         {
-            Debug.Log("Recipe clicked");
+            Debug.Log("Item clicked");
         }
     }
 }

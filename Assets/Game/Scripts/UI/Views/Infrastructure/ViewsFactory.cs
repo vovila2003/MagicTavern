@@ -9,27 +9,40 @@ namespace Tavern.UI.Views
     public class ViewsFactory : IViewsFactory
     {
         public IEntityCardViewPool EntityCardViewPool => _entityCardViewPool;
+        public IItemCardViewPool ItemCardViewPool => _itemCardViewPool;
 
         private readonly UISettings _settings;
         private readonly Transform _canvasTransform;
 
-        private readonly EntityCardViewPool _entityCardViewPool;
+        private readonly IEntityCardViewPool _entityCardViewPool;
+        private readonly IItemCardViewPool _itemCardViewPool;
 
         public ViewsFactory(UISettings settings, UISceneSettings sceneSettings)
         {
             _settings = settings;
             _canvasTransform = sceneSettings.Canvas;
             _entityCardViewPool = new EntityCardViewPool(settings, sceneSettings.EntityCardTransform);
+            _itemCardViewPool = new ItemCardViewPool(settings, sceneSettings.ItemCardTransform);
         }
 
-        public IEntityCardView GetEntityCardView()
+        public IEntityCardView GetEntityCardView(Transform viewContentTransform)
         {
-            if (_entityCardViewPool.TrySpawnEntityCardView(out IEntityCardView view))
-            {
+            if (_entityCardViewPool.TrySpawnEntityCardViewUnderTransform(
+                    viewContentTransform,
+                    out IEntityCardView view)) 
                 return view;
-            }
             
             throw new System.Exception("Failed to get entity card view");
+        }
+
+        public IItemCardView GetItemCardView(Transform viewContentTransform)
+        {
+            if (_itemCardViewPool.TrySpawnItemCardViewUnderTransform(
+                    viewContentTransform,
+                    out IItemCardView view)) 
+                return view;
+            
+            throw new System.Exception("Failed to get item card view");
         }
 
         public IPanelView CreatePanelView()
@@ -37,9 +50,9 @@ namespace Tavern.UI.Views
             return Object.Instantiate(_settings.Panel, _canvasTransform);
         }
 
-        public ILeftGridView CreateLeftGridView(Transform viewContainer)
+        public IContainerView CreateLeftGridView(Transform viewContainer)
         {
-            return Object.Instantiate(_settings.LeftGridView, viewContainer);
+            return Object.Instantiate(_settings.ContainerView, viewContainer);
         }
 
         public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer)
@@ -47,9 +60,9 @@ namespace Tavern.UI.Views
             return Object.Instantiate(_settings.CookingMiniGameView, viewContainer);
         }
         
-        public IIngredientsView CreateCookingIngredientsView(Transform viewContainer)
+        public IContainerView CreateCookingIngredientsView(Transform viewContainer)
         {
-            return Object.Instantiate(_settings.IngredientsView, viewContainer);
+            return Object.Instantiate(_settings.CookingIngredientsView, viewContainer);
         }
     }
 }

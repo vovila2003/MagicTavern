@@ -17,20 +17,23 @@ namespace Tavern.UI.Views
             _cardPool = new Pool<EntityCardView>(
                 settings.EntityCardConfig.EntityCard, 
                 settings.EntityCardConfig.StartPoolLength, 
-                PoolLimit.Unlimited, 
+                settings.EntityCardConfig.Limit, 
                 entityCardViewPoolParent);
         }
 
-        public bool TrySpawnEntityCardView(out IEntityCardView view)
+        public bool TrySpawnEntityCardViewUnderTransform(Transform viewContentTransform, out IEntityCardView view)
         {
             if (_cardPool.TrySpawn(out EntityCardView cardView))
             {
                 view = cardView;
+                cardView.SetParent(viewContentTransform);
                 _cardViews.Add(view, cardView);
+                
                 return true;
             }
             
             view = null;
+            
             return false;
         }
 

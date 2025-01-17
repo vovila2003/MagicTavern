@@ -2,10 +2,10 @@ namespace Tavern.UI.Presenters
 {
     public class CookingIngredientsPresenter
     {
-        private readonly IIngredientsView _view;
+        private readonly IContainerView _view;
         private bool _isShown;
 
-        public CookingIngredientsPresenter(IIngredientsView view)
+        public CookingIngredientsPresenter(IContainerView view)
         {
             _view = view;
         }

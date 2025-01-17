@@ -1,7 +1,6 @@
 using System;
 using Tavern.UI.Views;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Tavern.Settings
 {
@@ -10,23 +9,27 @@ namespace Tavern.Settings
     {
         [SerializeField] 
         private EntityCardSettings EntityCardSettings;
+        
+        [SerializeField] 
+        private ItemCardSettings ItemCardSettings;
 
         [SerializeField]
         private PanelView PanelPrefab;
 
         [SerializeField]
-        private LeftGridView LeftGridPrefab;
+        private ContainerView LeftGridPrefab;
 
         [SerializeField]
         private CookingMiniGameView CookingMiniGamePrefab;
-        
-        [FormerlySerializedAs("CookingIngredientsPrefab")] [SerializeField]
-        private IngredientsView IngredientsPrefab;
+
+        [SerializeField]
+        private ContainerView CookingIngredientsPrefab;
 
         public EntityCardSettings EntityCardConfig => EntityCardSettings;
-        public LeftGridView LeftGridView => LeftGridPrefab;
+        public ItemCardSettings ItemCardConfig => ItemCardSettings;
+        public ContainerView ContainerView => LeftGridPrefab;
         public PanelView Panel => PanelPrefab;
         public CookingMiniGameView CookingMiniGameView => CookingMiniGamePrefab;
-        public IngredientsView IngredientsView => IngredientsPrefab;
+        public ContainerView CookingIngredientsView => CookingIngredientsPrefab;
     }
 }

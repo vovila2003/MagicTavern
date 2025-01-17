@@ -1,16 +1,15 @@
 using System;
 using Modules.Pools;
-using Sirenix.OdinInspector;
 using Tavern.UI.Views;
 using UnityEngine;
 
 namespace Tavern.Settings
 {
     [Serializable]
-    public class EntityCardSettings
+    public class ItemCardSettings
     {
         [SerializeField] 
-        private EntityCardView EntityCardPrefab;
+        private ItemCardView ItemCardPrefab;
         
         [SerializeField]
         private PoolLimit PoolLimit = PoolLimit.Unlimited;
@@ -18,7 +17,7 @@ namespace Tavern.Settings
         [SerializeField] 
         private int StartPoolSize = 5;
         
-        public EntityCardView EntityCard => EntityCardPrefab;
+        public ItemCardView ItemCard => ItemCardPrefab;
         public int StartPoolLength => StartPoolSize;
         public PoolLimit Limit => PoolLimit;
     }

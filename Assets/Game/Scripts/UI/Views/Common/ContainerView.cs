@@ -3,16 +3,11 @@ using UnityEngine;
 
 namespace Tavern.UI.Views
 {
-    public class LeftGridView : View, ILeftGridView
+    public class ContainerView : View, IContainerView
     {
         public Transform ContentTransform => Content;
 
         [SerializeField] 
         private Transform Content;
-
-        public void SetParent(Transform parent)
-        {
-            transform.SetParent(parent);
-        }
     }
 }
