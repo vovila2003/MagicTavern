@@ -4,9 +4,11 @@ namespace Tavern.UI.Presenters
 {
     public interface IViewsFactory
     {
-        ILeftGridView CreateLeftGridView(Transform viewContainer);
         IEntityCardViewPool EntityCardViewPool { get; }
         IEntityCardView GetEntityCardView();
-        ICookingView CreateCookingPanelView();
+        IPanelView CreatePanelView();
+        ILeftGridView CreateLeftGridView(Transform viewContainer);
+        ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer);
+        IIngredientsView CreateCookingIngredientsView(Transform viewContainer);
     }
 }

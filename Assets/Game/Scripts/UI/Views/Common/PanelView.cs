@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public class CookingView : View, ICookingView
+    public class PanelView : View, IPanelView
     {
         public Transform Container => transform;
         
@@ -18,5 +18,13 @@ namespace Tavern.UI.Views
         
         [SerializeField] 
         private Button CloseButton;
+        
+        [SerializeField]
+        private TMP_Text Title;
+
+        public void SetTitle(string title)
+        {
+            Title.text = title;
+        }
     }
 }

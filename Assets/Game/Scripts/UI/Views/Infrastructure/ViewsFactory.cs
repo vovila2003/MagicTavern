@@ -32,14 +32,24 @@ namespace Tavern.UI.Views
             throw new System.Exception("Failed to get entity card view");
         }
 
+        public IPanelView CreatePanelView()
+        {
+            return Object.Instantiate(_settings.Panel, _canvasTransform);
+        }
+
         public ILeftGridView CreateLeftGridView(Transform viewContainer)
         {
             return Object.Instantiate(_settings.LeftGridView, viewContainer);
         }
 
-        public ICookingView CreateCookingPanelView()
+        public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer)
         {
-            return Object.Instantiate(_settings.CookingPanel, _canvasTransform);
+            return Object.Instantiate(_settings.CookingMiniGameView, viewContainer);
+        }
+        
+        public IIngredientsView CreateCookingIngredientsView(Transform viewContainer)
+        {
+            return Object.Instantiate(_settings.IngredientsView, viewContainer);
         }
     }
 }
