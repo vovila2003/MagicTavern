@@ -1,6 +1,9 @@
 using JetBrains.Annotations;
+using Modules.Inventories;
 using Tavern.Cooking;
+using Tavern.Gardening;
 using Tavern.Infrastructure;
+using Tavern.Looting;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -10,6 +13,8 @@ namespace Tavern.UI.Presenters
     {
         private readonly IViewsFactory _viewsFactory;
         private readonly DishCookbookContext _dishCookbook;
+        private readonly IInventory<ProductItem> _productInventory;
+        private readonly IInventory<LootItem> _lootInventory;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
@@ -17,12 +22,16 @@ namespace Tavern.UI.Presenters
         public PresentersFactory(
             IViewsFactory viewsViewsFactory, 
             DishCookbookContext dishCookbook,
+            IInventory<ProductItem> productInventory,
+            IInventory<LootItem> lootInventory,
             StartGameController startGameController,
             QuitGameController quitGameController,
             PauseGameController pauseGameController)
         {
             _viewsFactory = viewsViewsFactory;
             _dishCookbook = dishCookbook;
+            _productInventory = productInventory;
+            _lootInventory = lootInventory;
             _startGameController = startGameController;
             _quitGameController = quitGameController;
             _pauseGameController = pauseGameController;
@@ -46,8 +55,8 @@ namespace Tavern.UI.Presenters
         {
             return new LeftGridRecipesPresenter(
                 _viewsFactory.CreateLeftGridView(viewContainer), 
-                this, 
-                _dishCookbook);
+                _dishCookbook,
+                this);
         }
 
         public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView)
@@ -77,7 +86,11 @@ namespace Tavern.UI.Presenters
         
         public CookingIngredientsPresenter CreateCookingIngredientsPresenter(Transform viewContainer)
         {
-            return new CookingIngredientsPresenter(_viewsFactory.CreateCookingIngredientsView(viewContainer));
+            return new CookingIngredientsPresenter(
+                _viewsFactory.CreateCookingIngredientsView(viewContainer),
+                _productInventory,
+                _lootInventory,
+                this);
         }
     }
 }

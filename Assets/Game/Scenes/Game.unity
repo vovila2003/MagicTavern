@@ -840,7 +840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772c614b96ddaeb5dabbc693aa277546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemRecipes: []
+  ItemRecipes:
+  - {fileID: 11400000, guid: 84a8fe6173e81aa5c85a212992dc888c, type: 2}
 --- !u!1 &368490051
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,7 +886,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fda83e81cdd4c1fa3343b2bc2634ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Items: []
+  Items:
+  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
   ItemsCatalog: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
 --- !u!1 &483100650
 GameObject:

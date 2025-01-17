@@ -8,6 +8,7 @@ namespace Tavern.UI.Presenters
     {
         private readonly IEntityCardView _view;
         private readonly IEntityCardViewPool _pool;
+        private DishRecipe _recipe;
         private bool _isShown;
 
         public RecipeCardPresenter(IEntityCardView view, IEntityCardViewPool pool)
@@ -21,13 +22,10 @@ namespace Tavern.UI.Presenters
         {
             if (_isShown) return;
             
-            ItemMetadata metadata = recipe.ResultItem.Item.ItemMetadata;
-            _view.SetTitle(metadata.Title);
-            _view.SetIcon(metadata.Icon);
-            _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");
-            _view.SetStars(recipe.StarsCount);
-            _view.OnCardClicked += OnClicked;
+            _recipe = recipe;
             
+            SetupView(recipe);
+
             _view.Show();
             _isShown = true;
         }
@@ -43,9 +41,19 @@ namespace Tavern.UI.Presenters
             _isShown = false;
         }
 
+        private void SetupView(DishRecipe recipe)
+        {
+            ItemMetadata metadata = recipe.ResultItem.Item.ItemMetadata;
+            _view.SetTitle(metadata.Title);
+            _view.SetIcon(metadata.Icon);
+            _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");
+            _view.SetStars(recipe.StarsCount);
+            _view.OnCardClicked += OnClicked;
+        }
+
         private void OnClicked()
         {
-            Debug.Log("Recipe clicked");
+            Debug.Log($"Recipe {_recipe.Name} clicked");
         }
     }
 }

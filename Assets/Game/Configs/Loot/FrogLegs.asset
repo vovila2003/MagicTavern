@@ -14,12 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: FrogLegs
-    Flags: 0
+    Flags: 1
     Metadata:
       Title: "\u041B\u0435\u0433\u0443\u0448\u0430\u0447\u044C\u0438 \u043B\u0430\u043F\u043A\u0438"
       Description: 
-      Icon: {fileID: 0}
-    Attributes: []
+      Icon: {fileID: -1345353128, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
+    Components:
+    - rid: 2912130613709373440
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2912130613709373440
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0

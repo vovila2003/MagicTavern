@@ -7,6 +7,7 @@ namespace Tavern.UI.Presenters
     {
         private readonly IItemCardView _view;
         private readonly IItemCardViewPool _pool;
+        private Item _item;
         private bool _isShown;
 
         public ItemCardPresenter(IItemCardView view, IItemCardViewPool pool)
@@ -19,6 +20,8 @@ namespace Tavern.UI.Presenters
         public void Show(Item item)
         {
             if (_isShown) return;
+            
+            _item = item;
             
             ItemMetadata metadata = item.ItemMetadata;
             _view.SetIcon(metadata.Icon);
@@ -41,7 +44,7 @@ namespace Tavern.UI.Presenters
 
         private void OnClicked()
         {
-            Debug.Log("Item clicked");
+            Debug.Log($"Item {_item.ItemName} clicked");
         }
     }
 }

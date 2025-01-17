@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: PotatoProduct
   m_EditorClassIdentifier: 
   Item:
-    Name: Potato
+    Name: PotatoProduct
     Flags: 1
     Metadata:
-      Title: 
+      Title: "\u041A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"
       Description: 
-      Icon: {fileID: 0}
+      Icon: {fileID: 728119445, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 1692307273784492042
     - rid: 1692307273784492043

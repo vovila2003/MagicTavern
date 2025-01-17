@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: WheatProduct
   m_EditorClassIdentifier: 
   Item:
-    Name: Wheat
+    Name: WheatProduct
     Flags: 1
     Metadata:
-      Title: 
+      Title: "\u041C\u0443\u043A\u0430"
       Description: 
-      Icon: {fileID: 0}
+      Icon: {fileID: -1885639332, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 1692307273784492044
     - rid: 1692307273784492045
