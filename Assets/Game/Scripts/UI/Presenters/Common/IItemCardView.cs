@@ -8,5 +8,6 @@ namespace Tavern.UI.Presenters
         event UnityAction OnCardClicked;
         void SetIcon(Sprite icon);
         void SetParent(Transform parent);
+        void SetCount(string count);
     }
 }

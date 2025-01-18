@@ -1,4 +1,5 @@
 using Tavern.UI.Presenters;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -18,6 +19,9 @@ namespace Tavern.UI.Views
         
         [SerializeField] 
         private Button Button;
+        
+        [SerializeField]
+        private TMP_Text Count;
 
         public void SetIcon(Sprite icon)
         {
@@ -27,6 +31,11 @@ namespace Tavern.UI.Views
         public void SetParent(Transform parent)
         {
             transform.SetParent(parent);
+        }
+
+        public void SetCount(string count)
+        {
+            Count.text = count;
         }
     }
 }

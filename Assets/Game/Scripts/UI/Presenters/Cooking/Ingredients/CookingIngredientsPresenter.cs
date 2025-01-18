@@ -35,9 +35,10 @@ namespace Tavern.UI.Presenters
 
             SetupCards();
             
-            _productInventory.OnItemAdded += OnItemAdded;
+            _productInventory.OnItemAdded += OnProductAdded;
             _productInventory.OnItemRemoved += OnItemRemoved;
-            _lootInventory.OnItemAdded += OnItemAdded;
+            
+            _lootInventory.OnItemAdded += OnLootAdded;
             _lootInventory.OnItemRemoved += OnItemRemoved;
             _view.Show();
             _isShown = true;
@@ -47,9 +48,10 @@ namespace Tavern.UI.Presenters
         {
             if (!_isShown) return;
 
-            _productInventory.OnItemAdded -= OnItemAdded;
+            _productInventory.OnItemAdded -= OnProductAdded;
             _productInventory.OnItemRemoved -= OnItemRemoved;
-            _lootInventory.OnItemAdded -= OnItemAdded;
+            
+            _lootInventory.OnItemAdded -= OnLootAdded;
             _lootInventory.OnItemRemoved -= OnItemRemoved;
 
             _view.Hide();
@@ -67,25 +69,30 @@ namespace Tavern.UI.Presenters
         {
             foreach (ProductItem item in _productInventory.Items)
             {
-                AddPresenter(item);
+                AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
             }
             
             foreach (LootItem item in _lootInventory.Items)
             {
-                AddPresenter(item);
+                AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
             }
         }
 
-        private void AddPresenter(Item item)
+        private void AddPresenter(Item item, int itemCount)
         {
             ItemCardPresenter presenter = _presentersFactory.CreateItemCardPresenter(_view.ContentTransform);
             _presenters.Add(item, presenter);
-            presenter.Show(item);
+            presenter.Show(item, itemCount);
         }
 
-        private void OnItemAdded(Item item)
+        private void OnProductAdded(Item item)
         {
-            AddPresenter(item);
+            AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
+        }
+
+        private void OnLootAdded(LootItem item)
+        {
+            AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
         }
 
         private void OnItemRemoved(Item item)

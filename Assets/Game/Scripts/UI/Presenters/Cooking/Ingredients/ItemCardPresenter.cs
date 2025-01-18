@@ -17,16 +17,14 @@ namespace Tavern.UI.Presenters
             _isShown = false;
         }
 
-        public void Show(Item item)
+        public void Show(Item item, int count)
         {
             if (_isShown) return;
             
             _item = item;
             
-            ItemMetadata metadata = item.ItemMetadata;
-            _view.SetIcon(metadata.Icon);
-            _view.OnCardClicked += OnClicked;
-            
+            SetupView(item, count);
+
             _view.Show();
             _isShown = true;
         }
@@ -40,6 +38,14 @@ namespace Tavern.UI.Presenters
             _view.Hide();
             _pool.UnspawnItemCardView(_view);
             _isShown = false;
+        }
+
+        private void SetupView(Item item, int count)
+        {
+            ItemMetadata metadata = item.ItemMetadata;
+            _view.SetIcon(metadata.Icon);
+            _view.SetCount($"{count}");
+            _view.OnCardClicked += OnClicked;
         }
 
         private void OnClicked()

@@ -26,7 +26,7 @@ namespace Tavern.UI.Views
             if (_cardPool.TrySpawn(out ItemCardView cardView))
             {
                 view = cardView;
-                cardView.SetParent(viewContentTransform);
+                view.SetParent(viewContentTransform);
                 _cardViews.Add(view, cardView);
                 
                 return true;
