@@ -1,22 +1,19 @@
 namespace Tavern.UI.Presenters
 {
-    public sealed class HudPresenter
+    public sealed class HudPresenter : BasePresenter
     {
-        private readonly IHudView _view;
-
-        public HudPresenter(IHudView view)
+        public HudPresenter(IHudView view) : base(view)
         {
-            _view = view;
         }
 
-        public void Show()
+        protected override void OnShow()
         {
-            _view.Show();
+            
         }
 
-        public void Hide()
+        protected override void OnHide()
         {
-            _view.Hide();
+            
         }
     }
 }

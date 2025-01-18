@@ -3,36 +3,33 @@ using Modules.Inventories;
 using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class CookingIngredientsPresenter
+    public class CookingIngredientsPresenter : BasePresenter
     {
-        private readonly IContainerView _view;
+        private readonly Transform _parent;
         private readonly IInventory<ProductItem> _productInventory;
         private readonly IInventory<LootItem> _lootInventory;
         private readonly PresentersFactory _presentersFactory;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
-        private bool _isShown;
 
         public CookingIngredientsPresenter(
             IContainerView view,
             IInventory<ProductItem> productInventory,
             IInventory<LootItem> lootInventory,
             PresentersFactory presentersFactory
-            )
+            ) : base(view)
         {
-            _view = view;
+            _parent = view.ContentTransform;
             _productInventory = productInventory;
             _lootInventory = lootInventory;
             _presentersFactory = presentersFactory;
-            _isShown = false;
         }
 
-        public void Show()
+        protected override void OnShow()
         {
-            if (_isShown) return;
-
             SetupCards();
             
             _productInventory.OnItemAdded += OnProductAdded;
@@ -40,29 +37,24 @@ namespace Tavern.UI.Presenters
             
             _lootInventory.OnItemAdded += OnLootAdded;
             _lootInventory.OnItemRemoved += OnItemRemoved;
-            _view.Show();
-            _isShown = true;
+            
         }
 
-        public void Hide()
+        protected override void OnHide()
         {
-            if (!_isShown) return;
-
             _productInventory.OnItemAdded -= OnProductAdded;
             _productInventory.OnItemRemoved -= OnItemRemoved;
             
             _lootInventory.OnItemAdded -= OnLootAdded;
             _lootInventory.OnItemRemoved -= OnItemRemoved;
 
-            _view.Hide();
 
             foreach (ItemCardPresenter presenter in _presenters.Values)
             {
                 presenter.Hide();
             }
-            
+
             _presenters.Clear();
-            _isShown = false;
         }
 
         private void SetupCards()
@@ -80,7 +72,7 @@ namespace Tavern.UI.Presenters
 
         private void AddPresenter(Item item, int itemCount)
         {
-            ItemCardPresenter presenter = _presentersFactory.CreateItemCardPresenter(_view.ContentTransform);
+            ItemCardPresenter presenter = _presentersFactory.CreateItemCardPresenter(_parent);
             _presenters.Add(item, presenter);
             presenter.Show(item, itemCount);
         }

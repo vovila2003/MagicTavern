@@ -3,41 +3,35 @@ using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class ItemCardPresenter
+    public class ItemCardPresenter : BasePresenter
     {
         private readonly IItemCardView _view;
         private readonly IItemCardViewPool _pool;
         private Item _item;
-        private bool _isShown;
+        private int _count;
 
-        public ItemCardPresenter(IItemCardView view, IItemCardViewPool pool)
+        public ItemCardPresenter(IItemCardView view, IItemCardViewPool pool) : base(view)
         {
             _view = view;
             _pool = pool;
-            _isShown = false;
         }
 
         public void Show(Item item, int count)
         {
-            if (_isShown) return;
-            
             _item = item;
-            
-            SetupView(item, count);
-
-            _view.Show();
-            _isShown = true;
+            _count = count;
+            Show();
         }
 
-        public void Hide()
+        protected override void OnShow()
         {
-            if (!_isShown) return;
-            
-            _view.OnCardClicked -= OnClicked;
+            SetupView(_item, _count);
+        }
 
-            _view.Hide();
+        protected override void OnHide()
+        {
+            _view.OnCardClicked -= OnClicked;
             _pool.UnspawnItemCardView(_view);
-            _isShown = false;
         }
 
         private void SetupView(Item item, int count)

@@ -1,48 +1,40 @@
 using System.Collections.Generic;
 using Modules.Crafting;
 using Tavern.Cooking;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class LeftGridRecipesPresenter
+    public class LeftGridRecipesPresenter : BasePresenter
     {
-        private readonly IContainerView _view;
+        private readonly Transform _parent;
         private readonly PresentersFactory _presentersFactory;
         private readonly DishCookbookContext _cookbook;
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
-        private bool _isShown;
 
         public LeftGridRecipesPresenter(
             IContainerView view, 
             DishCookbookContext cookbook,
-            PresentersFactory presentersFactory)
+            PresentersFactory presentersFactory) : base(view)
         {
-            _view = view;
+            _parent = view.ContentTransform;
             _presentersFactory = presentersFactory;
             _cookbook = cookbook;
-            _isShown = false;
         }
-        
-        public void Show()
+
+        protected override void OnShow()
         {
-            if (_isShown) return;
-            
             SetupCards();
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
             _cookbook.OnRecipeRemoved += OnRecipeRemoved;
-            _view.Show();
-            _isShown = true;
         }
 
-        public void Hide()
+        protected override void OnHide()
         {
-            if (!_isShown) return;
-            
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
 
-            _view.Hide();
             
             foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
             {
@@ -50,7 +42,6 @@ namespace Tavern.UI.Presenters
             }
             
             _recipeCardPresenters.Clear();
-            _isShown = false;
         }
 
         private void SetupCards()
@@ -65,7 +56,7 @@ namespace Tavern.UI.Presenters
 
         private void AddPresenter(DishRecipe dishRecipe)
         {
-            RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_view.ContentTransform);
+            RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_parent);
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
             recipePresenter.Show(dishRecipe);
         }

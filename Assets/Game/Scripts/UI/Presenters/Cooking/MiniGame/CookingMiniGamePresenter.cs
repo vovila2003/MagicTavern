@@ -1,31 +1,17 @@
 namespace Tavern.UI.Presenters
 {
-    public class CookingMiniGamePresenter
+    public class CookingMiniGamePresenter : BasePresenter
     {
-        private readonly ICookingMiniGameView _view;
-        private bool _isShown;
-
-        public CookingMiniGamePresenter(ICookingMiniGameView view)
+        public CookingMiniGamePresenter(ICookingMiniGameView view) : base(view)
         {
-            _view = view;
         }
 
-        public void Show()
+        protected override void OnShow()
         {
-            if (_isShown) return;
-            
-            _view.Show();
-            
-            _isShown = true;
         }
 
-        public void Hide()
+        protected override void OnHide()
         {
-            if (!_isShown) return;
-            
-            _view.Hide();
-            
-            _isShown = false;
         }
     }
 }

@@ -2,27 +2,25 @@ using Tavern.Infrastructure;
 
 namespace Tavern.UI.Presenters
 {
-    public sealed class PausePresenter
+    public sealed class PausePresenter : BasePresenter
     {
         private readonly IPauseView _view;
         private readonly PauseGameController _pauseGameController;
 
-        public PausePresenter(IPauseView view, PauseGameController pauseGameController)
+        public PausePresenter(IPauseView view, PauseGameController pauseGameController) : base(view)
         {
             _view = view;
             _pauseGameController = pauseGameController;
         }
 
-        public void Show()
+        protected override void OnShow()
         {
             _view.OnResume += OnResume;
-            _view.Show();
         }
 
-        public void Hide()
+        protected override void OnHide()
         {
             _view.OnResume -= OnResume;
-            _view.Hide();
         }
 
         private void OnResume()

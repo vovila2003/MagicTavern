@@ -4,41 +4,33 @@ using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class RecipeCardPresenter
+    public class RecipeCardPresenter : BasePresenter
     {
         private readonly IEntityCardView _view;
         private readonly IEntityCardViewPool _pool;
         private DishRecipe _recipe;
-        private bool _isShown;
 
-        public RecipeCardPresenter(IEntityCardView view, IEntityCardViewPool pool)
+        public RecipeCardPresenter(IEntityCardView view, IEntityCardViewPool pool) : base(view)
         {
             _view = view;
             _pool = pool;
-            _isShown = false;
         }
 
         public void Show(DishRecipe recipe)
         {
-            if (_isShown) return;
-            
             _recipe = recipe;
-            
-            SetupView(recipe);
-
-            _view.Show();
-            _isShown = true;
+            Show();
         }
 
-        public void Hide()
+        protected override void OnShow()
         {
-            if (!_isShown) return;
-            
-            _view.OnCardClicked -= OnClicked;
+            SetupView(_recipe);
+        }
 
-            _view.Hide();
+        protected override void OnHide()
+        {
+            _view.OnCardClicked -= OnClicked;
             _pool.UnspawnEntityCardView(_view);
-            _isShown = false;
         }
 
         private void SetupView(DishRecipe recipe)
