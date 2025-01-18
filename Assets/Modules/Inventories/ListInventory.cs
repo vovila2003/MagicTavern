@@ -9,8 +9,7 @@ namespace Modules.Inventories
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;
-        public event Action<T, int> OnItemCountIncreased;
-        public event Action<T, int> OnItemCountDecreased;
+        public event Action<T, int> OnItemCountChanged;
 
         private List<T> _items;
         

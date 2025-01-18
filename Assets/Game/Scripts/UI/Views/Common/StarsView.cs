@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public class StarsView : MonoBehaviour
+    public sealed class StarsView : MonoBehaviour
     {
         private const float Threshold = 0.05f;
 

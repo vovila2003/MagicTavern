@@ -42,16 +42,14 @@ namespace Tavern.Common
         {
             _inventory.OnItemAdded += OnItemAdded;
             _inventory.OnItemRemoved += OnItemRemoved;
-            _inventory.OnItemCountIncreased += OnItemCountIncreased;
-            _inventory.OnItemCountDecreased += OnItemCountDecreased;
+            _inventory.OnItemCountChanged += OnItemCountChanged;
         }
 
         private void OnDisable()
         {
             _inventory.OnItemAdded -= OnItemAdded;
             _inventory.OnItemRemoved -= OnItemRemoved;
-            _inventory.OnItemCountIncreased -= OnItemCountIncreased;
-            _inventory.OnItemCountDecreased -= OnItemCountDecreased;
+            _inventory.OnItemCountChanged -= OnItemCountChanged;
         }
 
         [Button]
@@ -108,14 +106,9 @@ namespace Tavern.Common
             Debug.Log($"Item of name {item.ItemName} is removed from inventory");
         }
 
-        private void OnItemCountIncreased(T item, int value)
+        private void OnItemCountChanged(T item, int value)
         {
-            Debug.Log($"Count of item with name {item.ItemName} is increased to {value}");
-        }
-
-        private void OnItemCountDecreased(T item, int value)
-        {
-            Debug.Log($"Count of item with name {item.ItemName} is decreased to {value}");
+            Debug.Log($"Count of item with name {item.ItemName} is changed to {value}");
         }
     }
 }

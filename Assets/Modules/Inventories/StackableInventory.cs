@@ -9,10 +9,7 @@ namespace Modules.Inventories
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;
-        
-        public event Action<T, int> OnItemCountIncreased;
-        
-        public event Action<T, int> OnItemCountDecreased;
+        public event Action<T, int> OnItemCountChanged;
         
         private readonly ListInventory<T> _inventory;
 
@@ -145,7 +142,7 @@ namespace Modules.Inventories
             if (stackableComponent.IsFull) return false;
             
             stackableComponent.Value++;
-            OnItemCountIncreased?.Invoke(existsItem, stackableComponent.Value);
+            OnItemCountChanged?.Invoke(existsItem, stackableComponent.Value);
             
             return true;
         }
@@ -169,7 +166,7 @@ namespace Modules.Inventories
             if (stackableComponent.Value <= 1) return false;
             
             stackableComponent.Value--;
-            OnItemCountDecreased?.Invoke(item, stackableComponent.Value);
+            OnItemCountChanged?.Invoke(item, stackableComponent.Value);
             
             return true;
         }

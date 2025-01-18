@@ -32,22 +32,20 @@ namespace Tavern.UI.Presenters
         {
             SetupCards();
             
-            _productInventory.OnItemAdded += OnProductAdded;
+            _productInventory.OnItemCountChanged += OnProductCountChanged;
             _productInventory.OnItemRemoved += OnItemRemoved;
             
-            _lootInventory.OnItemAdded += OnLootAdded;
+            _lootInventory.OnItemCountChanged += OnLootCountChanged;
             _lootInventory.OnItemRemoved += OnItemRemoved;
-            
         }
 
         protected override void OnHide()
         {
-            _productInventory.OnItemAdded -= OnProductAdded;
+            _productInventory.OnItemCountChanged -= OnProductCountChanged;
             _productInventory.OnItemRemoved -= OnItemRemoved;
             
-            _lootInventory.OnItemAdded -= OnLootAdded;
+            _lootInventory.OnItemCountChanged += OnLootCountChanged;
             _lootInventory.OnItemRemoved -= OnItemRemoved;
-
 
             foreach (ItemCardPresenter presenter in _presenters.Values)
             {
@@ -77,16 +75,26 @@ namespace Tavern.UI.Presenters
             presenter.Show(item, itemCount);
         }
 
-        private void OnProductAdded(Item item)
+        private void OnProductCountChanged(Item item, int count)
         {
-            AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
+            if (!_presenters.ContainsKey(item))
+            {
+                AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
+            }
+            
+            _presenters[item].ChangeCount(count);
         }
 
-        private void OnLootAdded(LootItem item)
+        private void OnLootCountChanged(Item item, int count)
         {
-            AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
+            if (!_presenters.ContainsKey(item))
+            {
+                AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
+            }
+            
+            _presenters[item].ChangeCount(count);
         }
-
+        
         private void OnItemRemoved(Item item)
         {
             if (_presenters.Remove(item, out ItemCardPresenter presenter))

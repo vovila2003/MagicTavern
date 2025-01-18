@@ -23,6 +23,11 @@ namespace Tavern.UI.Presenters
             Show();
         }
 
+        public void ChangeCount(int count)
+        {
+            _view.SetCount($"{count}");
+        }
+
         protected override void OnShow()
         {
             SetupView(_item, _count);
@@ -38,7 +43,7 @@ namespace Tavern.UI.Presenters
         {
             ItemMetadata metadata = item.ItemMetadata;
             _view.SetIcon(metadata.Icon);
-            _view.SetCount($"{count}");
+            ChangeCount(count);
             _view.OnCardClicked += OnClicked;
         }
 
