@@ -15,9 +15,9 @@ namespace Tavern.UI.Views
         public ItemCardViewPool(UISettings settings, Transform itemCardViewPoolParent)
         {
             _cardPool = new Pool<ItemCardView>(
-                settings.ItemCardConfig.ItemCard, 
-                settings.ItemCardConfig.StartPoolLength, 
-                settings.ItemCardConfig.Limit, 
+                settings.CommonSettings.ItemCardConfig.ItemCard, 
+                settings.CommonSettings.ItemCardConfig.StartPoolLength, 
+                settings.CommonSettings.ItemCardConfig.Limit, 
                 itemCardViewPoolParent);
         }
 

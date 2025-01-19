@@ -92,5 +92,10 @@ namespace Tavern.UI.Presenters
                 _lootInventory,
                 this);
         }
+
+        public MatchRecipePresenter CreateMatchRecipePresenter(Transform viewContainer)
+        {
+            return new MatchRecipePresenter(_viewsFactory.CreateMatchRecipeView(viewContainer));
+        }
     }
 }

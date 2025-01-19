@@ -30,6 +30,7 @@ namespace Tavern.UI.Presenters
             _view.OnCloseClicked -= Hide;
             
             _leftGridRecipesPresenter.Hide();
+            _leftGridRecipesPresenter.OnMatchRecipe -= OnMatchRecipe;
             _cookingMiniGamePresenter.Hide();
             _cookingIngredientsPresenter.Hide();
         }
@@ -43,6 +44,7 @@ namespace Tavern.UI.Presenters
         private void SetupLeftPanel()
         {
             _leftGridRecipesPresenter ??= _presentersFactory.CreateLeftGridPresenter(_view.Container);
+            _leftGridRecipesPresenter.OnMatchRecipe += OnMatchRecipe;
             _leftGridRecipesPresenter.Show();
         }
 
@@ -56,6 +58,11 @@ namespace Tavern.UI.Presenters
         {
             _cookingIngredientsPresenter ??= _presentersFactory.CreateCookingIngredientsPresenter(_view.Container);
             _cookingIngredientsPresenter.Show();
+        }
+
+        private void OnMatchRecipe()
+        {
+            _cookingMiniGamePresenter.MatchNewRecipe();
         }
     }
 }

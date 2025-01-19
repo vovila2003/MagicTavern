@@ -5,12 +5,12 @@ using UnityEngine;
 namespace Tavern.Settings
 {
     [Serializable]
-    public class UISettings
+    public class CommonUISettings
     {
-        [SerializeField] 
+        [SerializeField]
         private EntityCardSettings EntityCardSettings;
-        
-        [SerializeField] 
+
+        [SerializeField]
         private ItemCardSettings ItemCardSettings;
 
         [SerializeField]
@@ -18,18 +18,10 @@ namespace Tavern.Settings
 
         [SerializeField]
         private ContainerView LeftGridPrefab;
-
-        [SerializeField]
-        private CookingMiniGameView CookingMiniGamePrefab;
-
-        [SerializeField]
-        private ContainerView CookingIngredientsPrefab;
-
+                
         public EntityCardSettings EntityCardConfig => EntityCardSettings;
         public ItemCardSettings ItemCardConfig => ItemCardSettings;
         public ContainerView ContainerView => LeftGridPrefab;
         public PanelView Panel => PanelPrefab;
-        public CookingMiniGameView CookingMiniGameView => CookingMiniGamePrefab;
-        public ContainerView CookingIngredientsView => CookingIngredientsPrefab;
     }
 }

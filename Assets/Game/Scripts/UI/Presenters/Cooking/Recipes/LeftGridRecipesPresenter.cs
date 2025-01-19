@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Modules.Crafting;
 using Tavern.Cooking;
@@ -7,9 +8,12 @@ namespace Tavern.UI.Presenters
 {
     public class LeftGridRecipesPresenter : BasePresenter
     {
+        public event Action OnMatchRecipe; 
+        
         private readonly Transform _parent;
         private readonly PresentersFactory _presentersFactory;
         private readonly DishCookbookContext _cookbook;
+        private MatchRecipePresenter _matchRecipePresenter;
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
 
         public LeftGridRecipesPresenter(
@@ -24,6 +28,7 @@ namespace Tavern.UI.Presenters
 
         protected override void OnShow()
         {
+            SetupMatchRecipe();
             SetupCards();
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
@@ -34,7 +39,9 @@ namespace Tavern.UI.Presenters
         {
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
-
+            
+            _matchRecipePresenter.Hide();
+            _matchRecipePresenter.OnPressed -= OnMatchRecipePressed;
             
             foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
             {
@@ -42,6 +49,13 @@ namespace Tavern.UI.Presenters
             }
             
             _recipeCardPresenters.Clear();
+        }
+
+        private void SetupMatchRecipe()
+        {
+            _matchRecipePresenter ??= _presentersFactory.CreateMatchRecipePresenter(_parent);
+            _matchRecipePresenter.OnPressed += OnMatchRecipePressed;
+            _matchRecipePresenter.Show();
         }
 
         private void SetupCards()
@@ -59,6 +73,11 @@ namespace Tavern.UI.Presenters
             RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_parent);
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
             recipePresenter.Show(dishRecipe);
+        }
+
+        private void OnMatchRecipePressed()
+        {
+            OnMatchRecipe?.Invoke();
         }
 
         private void OnRecipeAdded(ItemRecipe<DishItem> recipe)

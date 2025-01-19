@@ -15,9 +15,9 @@ namespace Tavern.UI.Views
         public EntityCardViewPool(UISettings settings, Transform entityCardViewPoolParent)
         {
             _cardPool = new Pool<EntityCardView>(
-                settings.EntityCardConfig.EntityCard, 
-                settings.EntityCardConfig.StartPoolLength, 
-                settings.EntityCardConfig.Limit, 
+                settings.CommonSettings.EntityCardConfig.EntityCard, 
+                settings.CommonSettings.EntityCardConfig.StartPoolLength, 
+                settings.CommonSettings.EntityCardConfig.Limit, 
                 entityCardViewPoolParent);
         }
 

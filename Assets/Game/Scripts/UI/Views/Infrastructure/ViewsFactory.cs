@@ -47,22 +47,27 @@ namespace Tavern.UI.Views
 
         public IPanelView CreatePanelView()
         {
-            return Object.Instantiate(_settings.Panel, _canvasTransform);
+            return Object.Instantiate(_settings.CommonSettings.Panel, _canvasTransform);
         }
 
         public IContainerView CreateLeftGridView(Transform viewContainer)
         {
-            return Object.Instantiate(_settings.ContainerView, viewContainer);
+            return Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
         }
 
         public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer)
         {
-            return Object.Instantiate(_settings.CookingMiniGameView, viewContainer);
+            return Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
         }
         
         public IContainerView CreateCookingIngredientsView(Transform viewContainer)
         {
-            return Object.Instantiate(_settings.CookingIngredientsView, viewContainer);
+            return Object.Instantiate(_settings.CookingSettings.CookingIngredientsView, viewContainer);
+        }
+
+        public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer)
+        {
+            return Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
         }
     }
 }

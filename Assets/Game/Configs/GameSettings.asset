@@ -20,15 +20,18 @@ MonoBehaviour:
     PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
   DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
   UIConfigs:
-    EntityCardSettings:
-      EntityCardPrefab: {fileID: 4258311151134655795, guid: 5273ba42baa781860a681d640fb81931, type: 3}
-      PoolLimit: 1
-      StartPoolSize: 5
-    ItemCardSettings:
-      ItemCardPrefab: {fileID: 2988087757594945704, guid: b1608fef586f1bdf08b83e5dd131c27c, type: 3}
-      PoolLimit: 1
-      StartPoolSize: 5
-    PanelPrefab: {fileID: 7738879138012533936, guid: 03a34b1d162fa087cb808aa0a56e0fdf, type: 3}
-    LeftGridPrefab: {fileID: 3514127635666266337, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
-    CookingMiniGamePrefab: {fileID: 6802189202206962366, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
-    CookingIngredientsPrefab: {fileID: 1332371814995094287, guid: 0bbbb944f225bdbddbc55fa0f27fcc7e, type: 3}
+    Common:
+      EntityCardSettings:
+        EntityCardPrefab: {fileID: 4258311151134655795, guid: 5273ba42baa781860a681d640fb81931, type: 3}
+        PoolLimit: 1
+        StartPoolSize: 5
+      ItemCardSettings:
+        ItemCardPrefab: {fileID: 2988087757594945704, guid: b1608fef586f1bdf08b83e5dd131c27c, type: 3}
+        PoolLimit: 1
+        StartPoolSize: 5
+      PanelPrefab: {fileID: 7738879138012533936, guid: 03a34b1d162fa087cb808aa0a56e0fdf, type: 3}
+      LeftGridPrefab: {fileID: 3514127635666266337, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
+    Cooking:
+      CookingMiniGamePrefab: {fileID: 6802189202206962366, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
+      CookingIngredientsPrefab: {fileID: 1332371814995094287, guid: 0bbbb944f225bdbddbc55fa0f27fcc7e, type: 3}
+      MatchRecipePrefab: {fileID: 7902620650078474784, guid: 0b108dfbd75574e8abf0b4470361757f, type: 3}
