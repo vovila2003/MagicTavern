@@ -1,6 +1,5 @@
 using System;
 using JetBrains.Annotations;
-using UnityEngine;
 
 namespace Tavern.Cooking.MiniGame.UI
 {
@@ -12,7 +11,6 @@ namespace Tavern.Cooking.MiniGame.UI
         private readonly IMiniGameView _view;
 
         private readonly MiniGame _game;
-        private DishRecipe _recipe;
 
         public MiniGamePresenter(IMiniGameView view, MiniGame game)
         {
@@ -28,8 +26,6 @@ namespace Tavern.Cooking.MiniGame.UI
 
         public void Show(int currentScore, DishRecipe recipe)
         {
-            _recipe = recipe;
-            
             UpdateScore(currentScore, recipe.StarsCount);
             _game.CreateGame(recipe.GameConfig);
 
@@ -40,7 +36,6 @@ namespace Tavern.Cooking.MiniGame.UI
 
         public void Hide()
         {
-            _recipe = null;
             _view.Hide();
         }
 

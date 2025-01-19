@@ -12,13 +12,13 @@ namespace Tavern.UI.Views
         
         private readonly Dictionary<IItemCardView, ItemCardView> _cardViews = new();
 
-        public ItemCardViewPool(UISettings settings, Transform itemCardViewPoolParent)
+        public ItemCardViewPool(UISettings settings, Transform pool)
         {
             _cardPool = new Pool<ItemCardView>(
                 settings.CommonSettings.ItemCardConfig.ItemCard, 
                 settings.CommonSettings.ItemCardConfig.StartPoolLength, 
                 settings.CommonSettings.ItemCardConfig.Limit, 
-                itemCardViewPoolParent);
+                pool);
         }
 
         public bool TrySpawnItemCardViewUnderTransform(Transform viewContentTransform, out IItemCardView view)

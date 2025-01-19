@@ -6,10 +6,10 @@ using UnityEngine;
 namespace Tavern.Settings
 {
     [Serializable]
-    public class EntityCardSettings
+    public class RecipeEffectSettings
     {
         [SerializeField] 
-        private EntityCardView EntityCardPrefab;
+        private RecipeEffectView RecipeEffectPrefab;
         
         [SerializeField]
         private PoolLimit PoolLimit = PoolLimit.Unlimited;
@@ -17,7 +17,7 @@ namespace Tavern.Settings
         [SerializeField] 
         private int StartPoolSize = 5;
         
-        public EntityCardView EntityCard => EntityCardPrefab;
+        public RecipeEffectView RecipeEffect => RecipeEffectPrefab;
         public int StartPoolLength => StartPoolSize;
         public PoolLimit Limit => PoolLimit;
     }

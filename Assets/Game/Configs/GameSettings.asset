@@ -35,3 +35,10 @@ MonoBehaviour:
       CookingMiniGamePrefab: {fileID: 6802189202206962366, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
       CookingIngredientsPrefab: {fileID: 1332371814995094287, guid: 0bbbb944f225bdbddbc55fa0f27fcc7e, type: 3}
       MatchRecipePrefab: {fileID: 7902620650078474784, guid: 0b108dfbd75574e8abf0b4470361757f, type: 3}
+      RecipeEffectSettings:
+        RecipeEffectPrefab: {fileID: 6797862594772926974, guid: 6190245376d08e9d58efc8901991d5d4, type: 3}
+        PoolLimit: 1
+        StartPoolSize: 5
+      DefaultIngredientSprite: {fileID: 21300000, guid: ff6f2bfde08e2a4448a09bc3fefa7e42, type: 3}
+      EmptyIngredientColor: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
+      FilledIngredientColor: {r: 1, g: 1, b: 1, a: 1}

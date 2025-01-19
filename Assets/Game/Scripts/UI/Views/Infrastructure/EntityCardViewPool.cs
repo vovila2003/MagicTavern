@@ -12,13 +12,13 @@ namespace Tavern.UI.Views
         
         private readonly Dictionary<IEntityCardView, EntityCardView> _cardViews = new();
 
-        public EntityCardViewPool(UISettings settings, Transform entityCardViewPoolParent)
+        public EntityCardViewPool(UISettings settings, Transform pool)
         {
             _cardPool = new Pool<EntityCardView>(
                 settings.CommonSettings.EntityCardConfig.EntityCard, 
                 settings.CommonSettings.EntityCardConfig.StartPoolLength, 
                 settings.CommonSettings.EntityCardConfig.Limit, 
-                entityCardViewPoolParent);
+                pool);
         }
 
         public bool TrySpawnEntityCardViewUnderTransform(Transform viewContentTransform, out IEntityCardView view)

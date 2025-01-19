@@ -10,7 +10,6 @@ namespace Tavern.UI.Views
     {
         public IEntityCardViewPool EntityCardViewPool => _entityCardViewPool;
         public IItemCardViewPool ItemCardViewPool => _itemCardViewPool;
-
         private readonly UISettings _settings;
         private readonly Transform _canvasTransform;
 
@@ -21,8 +20,8 @@ namespace Tavern.UI.Views
         {
             _settings = settings;
             _canvasTransform = sceneSettings.Canvas;
-            _entityCardViewPool = new EntityCardViewPool(settings, sceneSettings.EntityCardTransform);
-            _itemCardViewPool = new ItemCardViewPool(settings, sceneSettings.ItemCardTransform);
+            _entityCardViewPool = new EntityCardViewPool(settings, sceneSettings.Pool);
+            _itemCardViewPool = new ItemCardViewPool(settings, sceneSettings.Pool);
         }
 
         public IEntityCardView GetEntityCardView(Transform viewContentTransform)
@@ -44,30 +43,20 @@ namespace Tavern.UI.Views
             
             throw new System.Exception("Failed to get item card view");
         }
-
-        public IPanelView CreatePanelView()
-        {
-            return Object.Instantiate(_settings.CommonSettings.Panel, _canvasTransform);
-        }
-
-        public IContainerView CreateLeftGridView(Transform viewContainer)
-        {
-            return Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
-        }
-
-        public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer)
-        {
-            return Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
-        }
         
-        public IContainerView CreateCookingIngredientsView(Transform viewContainer)
-        {
-            return Object.Instantiate(_settings.CookingSettings.CookingIngredientsView, viewContainer);
-        }
+        public IPanelView CreatePanelView() => 
+            Object.Instantiate(_settings.CommonSettings.Panel, _canvasTransform);
 
-        public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer)
-        {
-            return Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
-        }
+        public IContainerView CreateLeftGridView(Transform viewContainer) => 
+            Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
+
+        public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer) => 
+            Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
+
+        public IContainerView CreateCookingIngredientsView(Transform viewContainer) => 
+            Object.Instantiate(_settings.CookingSettings.CookingIngredientsView, viewContainer);
+
+        public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer) => 
+            Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
     }
 }

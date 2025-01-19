@@ -4,6 +4,7 @@ using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.Infrastructure;
 using Tavern.Looting;
+using Tavern.Settings;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -18,6 +19,7 @@ namespace Tavern.UI.Presenters
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
+        private readonly UISettings _settings;
 
         public PresentersFactory(
             IViewsFactory viewsViewsFactory, 
@@ -26,7 +28,8 @@ namespace Tavern.UI.Presenters
             IInventory<LootItem> lootInventory,
             StartGameController startGameController,
             QuitGameController quitGameController,
-            PauseGameController pauseGameController)
+            PauseGameController pauseGameController, 
+            UISettings settings)
         {
             _viewsFactory = viewsViewsFactory;
             _dishCookbook = dishCookbook;
@@ -35,67 +38,43 @@ namespace Tavern.UI.Presenters
             _startGameController = startGameController;
             _quitGameController = quitGameController;
             _pauseGameController = pauseGameController;
+            _settings = settings;
         }
 
-        public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform)
-        {
-            return new RecipeCardPresenter(
-                _viewsFactory.GetEntityCardView(viewContentTransform), 
+        public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform) =>
+            new(_viewsFactory.GetEntityCardView(viewContentTransform), 
                 _viewsFactory.EntityCardViewPool);
-        }
-        
-        public ItemCardPresenter CreateItemCardPresenter(Transform viewContentTransform)
-        {
-            return new ItemCardPresenter(
-                _viewsFactory.GetItemCardView(viewContentTransform), 
-                _viewsFactory.ItemCardViewPool);
-        }
 
-        public LeftGridRecipesPresenter CreateLeftGridPresenter(Transform viewContainer)
-        {
-            return new LeftGridRecipesPresenter(
-                _viewsFactory.CreateLeftGridView(viewContainer), 
+        public ItemCardPresenter CreateItemCardPresenter(Transform viewContentTransform) =>
+            new(_viewsFactory.GetItemCardView(viewContentTransform), 
+                _viewsFactory.ItemCardViewPool);
+
+        public LeftGridRecipesPresenter CreateLeftGridPresenter(Transform viewContainer) =>
+            new(_viewsFactory.CreateLeftGridView(viewContainer), 
                 _dishCookbook,
                 this);
-        }
 
-        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView)
-        {
-            return new MainMenuPresenter(mainMenuView, _startGameController, _quitGameController);
-        }
+        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView) => 
+            new(mainMenuView, _startGameController, _quitGameController);
 
-        public HudPresenter CreateHudPresenter(IHudView hudView)
-        {
-            return new HudPresenter(hudView);
-        }
+        public HudPresenter CreateHudPresenter(IHudView hudView) => new(hudView);
 
-        public PausePresenter CreatePausePresenter(IPauseView pauseView)
-        {
-            return new PausePresenter(pauseView, _pauseGameController);
-        }
+        public PausePresenter CreatePausePresenter(IPauseView pauseView) => 
+            new(pauseView, _pauseGameController);
 
-        public CookingPanelPresenter CreateCookingPanelPresenter()
-        {
-            return new CookingPanelPresenter(_viewsFactory.CreatePanelView(), this);
-        }
+        public CookingPanelPresenter CreateCookingPanelPresenter() => 
+            new(_viewsFactory.CreatePanelView(), this);
 
-        public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform viewContainer)
-        {
-            return new CookingMiniGamePresenter(_viewsFactory.CreateCookingMiniGameView(viewContainer));
-        }
-        
-        public CookingIngredientsPresenter CreateCookingIngredientsPresenter(Transform viewContainer)
-        {
-            return new CookingIngredientsPresenter(
-                _viewsFactory.CreateCookingIngredientsView(viewContainer),
+        public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform viewContainer) => 
+            new(_viewsFactory.CreateCookingMiniGameView(viewContainer), _settings.CookingSettings);
+
+        public CookingIngredientsPresenter CreateCookingIngredientsPresenter(Transform viewContainer) =>
+            new(_viewsFactory.CreateCookingIngredientsView(viewContainer),
                 _productInventory,
                 _lootInventory,
                 this);
-        }
 
-        public MatchRecipePresenter CreateMatchRecipePresenter(Transform viewContainer)
-        {
-            return new MatchRecipePresenter(_viewsFactory.CreateMatchRecipeView(viewContainer));
-        }
+        public MatchRecipePresenter CreateMatchRecipePresenter(Transform viewContainer) => 
+            new(_viewsFactory.CreateMatchRecipeView(viewContainer));
     }
 }

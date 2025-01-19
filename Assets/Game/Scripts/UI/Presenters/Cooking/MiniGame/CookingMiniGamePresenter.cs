@@ -1,14 +1,18 @@
-using UnityEngine;
+using Tavern.Settings;
+using Tavern.UI.Views;
 
 namespace Tavern.UI.Presenters
 {
     public class CookingMiniGamePresenter : BasePresenter
     {
-        private ICookingMiniGameView _view;
-        
-        public CookingMiniGamePresenter(ICookingMiniGameView view) : base(view)
+        private const string ComponentName = "Название компонента";
+        private readonly ICookingMiniGameView _view;
+        private readonly CookingUISettings _settings;
+
+        public CookingMiniGamePresenter(ICookingMiniGameView view, CookingUISettings settings) : base(view)
         {
             _view = view;
+            _settings = settings;
         }
 
         protected override void OnShow()
@@ -21,8 +25,28 @@ namespace Tavern.UI.Presenters
 
         public void MatchNewRecipe()
         {
-            //TODO
-            Debug.Log("Match new recipe");
+            ResetIngredients();
+            ResetEffects();
+
+            //TODO clear recipe matcher
+        }
+
+        private void ResetIngredients()
+        {
+            foreach (IngredientView ingredientView in _view.RecipeIngredients)
+            {
+                ingredientView.SetTitle(ComponentName);
+                ingredientView.SetIcon(_settings.DefaultSprite);
+                ingredientView.SetBackgroundColor(_settings.EmptyColor);
+            }
+        }
+
+        private void ResetEffects()
+        {
+            foreach (RecipeEffectView effectView in _view.RecipeEffects)
+            {
+                effectView.SetIcon(_settings.DefaultSprite);
+            }
         }
     }
 }

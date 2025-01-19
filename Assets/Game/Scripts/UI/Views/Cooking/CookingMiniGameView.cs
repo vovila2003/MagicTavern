@@ -18,7 +18,7 @@ namespace Tavern.UI.Views
         private IngredientView[] Ingredients;
         
         [SerializeField]
-        private Transform EffectsContainer;
+        private RecipeEffectView[] Effects;
 
         [SerializeField] 
         private TMP_Text TimeText;
@@ -34,6 +34,9 @@ namespace Tavern.UI.Views
         
         [SerializeField]
         private Button StartButton;
+        
+        public IngredientView[] RecipeIngredients => Ingredients;
+        public RecipeEffectView[] RecipeEffects => Effects;
 
         public void SetTimerText(string text)
         {
