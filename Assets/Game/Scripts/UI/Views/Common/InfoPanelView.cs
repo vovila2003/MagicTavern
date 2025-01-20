@@ -45,7 +45,7 @@ namespace Tavern.UI.Views
         
         public void SetDescription(string title)
         {
-            Title.text = title;
+            Description.text = title;
         }
 
         public void SetIcon(Sprite icon)

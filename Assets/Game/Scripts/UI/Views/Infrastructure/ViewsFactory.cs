@@ -60,6 +60,6 @@ namespace Tavern.UI.Views
             Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
         
         public IInfoPanelView CreateInfoPanelView() => 
-            Object.Instantiate(_settings.CommonSettings.InfoPanel);
+            Object.Instantiate(_settings.CommonSettings.InfoPanel, _canvasTransform);
     }
 }

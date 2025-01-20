@@ -10,6 +10,7 @@ namespace Tavern.UI.Presenters
 {
     public class CookingIngredientsPresenter : BasePresenter
     {
+        private const string Add = "Добавить";
         public event Action<Item> OnTryAddItem;
         
         private readonly Transform _parent;
@@ -17,6 +18,7 @@ namespace Tavern.UI.Presenters
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly PresentersFactory _presentersFactory;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
+        private ItemInfoPresenter _itemInfoPresenter;
 
         public CookingIngredientsPresenter(
             IContainerView view,
@@ -74,8 +76,7 @@ namespace Tavern.UI.Presenters
 
             foreach (ItemCardPresenter presenter in _presenters.Values)
             {
-                presenter.OnRightClick -= OnIngredientRightClick;
-                presenter.OnLeftClick -= OnIngredientLeftClick;
+                UnsubscribeItemCard(presenter);
                 presenter.Hide();
             }
 
@@ -127,9 +128,8 @@ namespace Tavern.UI.Presenters
         private void OnItemRemoved(Item item)
         {
             if (!_presenters.Remove(item, out ItemCardPresenter presenter)) return;
-            
-            presenter.OnRightClick -= OnIngredientRightClick;
-            presenter.OnLeftClick -= OnIngredientLeftClick;
+
+            UnsubscribeItemCard(presenter);
             presenter.Hide();
         }
 
@@ -142,8 +142,34 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientLeftClick(Item item)
         {
-            //TODO
-            Debug.Log($"left click on {item.ItemName}");
+            _itemInfoPresenter ??= _presentersFactory.CreateItemInfoPresenter();
+            _itemInfoPresenter.OnAccepted += OnAddItem;
+            _itemInfoPresenter.OnRejected += OnCancelled;
+            
+            _itemInfoPresenter.Show(item, Add);
+        }
+
+        private void OnCancelled()
+        {
+            UnsubscribeItemInfo();
+        }
+
+        private void OnAddItem(Item item)
+        {
+            UnsubscribeItemInfo();
+            OnIngredientRightClick(item);
+        }
+
+        private void UnsubscribeItemInfo()
+        {
+            _itemInfoPresenter.OnAccepted -= OnAddItem;
+            _itemInfoPresenter.OnRejected -= OnCancelled;
+        }
+
+        private void UnsubscribeItemCard(ItemCardPresenter presenter)
+        {
+            presenter.OnRightClick -= OnIngredientRightClick;
+            presenter.OnLeftClick -= OnIngredientLeftClick;
         }
     }
 }

@@ -1,4 +1,5 @@
 using Modules.Items;
+using Sirenix.OdinInspector;
 
 namespace Modules.Inventories
 {
@@ -15,6 +16,12 @@ namespace Modules.Inventories
                 Value = 1
             });
             Item.SetFlags(ItemFlags.Stackable);
+        }
+
+        [Button]
+        private void Fix()
+        {
+            Item.Get<ComponentStackable>().Value = 1;
         }
     }
 }

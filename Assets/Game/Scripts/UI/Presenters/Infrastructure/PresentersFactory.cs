@@ -76,5 +76,8 @@ namespace Tavern.UI.Presenters
 
         public MatchRecipePresenter CreateMatchRecipePresenter(Transform viewContainer) => 
             new(_viewsFactory.CreateMatchRecipeView(viewContainer));
+
+        public ItemInfoPresenter CreateItemInfoPresenter() =>
+            new(_viewsFactory.CreateInfoPanelView());
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Tavern.UI.Presenters
 {
-    public interface IInfoPanelView
+    public interface IInfoPanelView : IView
     {
         event UnityAction OnAction;
         event UnityAction OnClose;

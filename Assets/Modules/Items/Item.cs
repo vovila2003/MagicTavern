@@ -84,13 +84,7 @@ namespace Modules.Items
 
             for (var i = 0; i < count; i++)
             {
-                IItemComponent component = Components[i];
-                if (component is IItemComponent cloneable)
-                {
-                    component = cloneable.Clone();
-                }
-
-                components[i] = component;
+                components[i] = Components[i].Clone();
             }
 
             return components;
