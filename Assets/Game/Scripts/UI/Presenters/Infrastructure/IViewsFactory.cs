@@ -1,3 +1,4 @@
+using Tavern.UI.Views;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -6,6 +7,7 @@ namespace Tavern.UI.Presenters
     {
         IEntityCardViewPool EntityCardViewPool { get; }
         IItemCardViewPool ItemCardViewPool { get; }
+        IInfoViewProvider InfoViewProvider { get; }
         IEntityCardView GetEntityCardView(Transform viewContentTransform);
         IItemCardView GetItemCardView(Transform viewContentTransform);
         IPanelView CreatePanelView();
@@ -13,6 +15,5 @@ namespace Tavern.UI.Presenters
         ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer);
         IContainerView CreateCookingIngredientsView(Transform viewContainer);
         IMatchRecipeView CreateMatchRecipeView(Transform viewContainer);
-        IInfoPanelView CreateInfoPanelView();
     }
 }

@@ -17,43 +17,30 @@ namespace Tavern.UI.Presenters
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly PresentersFactory _presentersFactory;
+        private readonly Transform _canvas;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
         private ItemInfoPresenter _itemInfoPresenter;
 
-        public CookingIngredientsPresenter(
-            IContainerView view,
+        public CookingIngredientsPresenter(IContainerView view,
             IStackableInventory<ProductItem> productInventory,
             IStackableInventory<LootItem> lootInventory,
-            PresentersFactory presentersFactory
-            ) : base(view)
+            PresentersFactory presentersFactory, 
+            Transform canvas) : base(view)
         {
             _parent = view.ContentTransform;
             _productInventory = productInventory;
             _lootInventory = lootInventory;
             _presentersFactory = presentersFactory;
+            _canvas = canvas;
         }
 
-        public void RemoveProduct(ProductItem product)
-        {
-            _productInventory.RemoveItem(product.ItemName);
-        }
+        public void RemoveProduct(ProductItem product) => _productInventory.RemoveItem(product.ItemName);
 
-        public void RemoveLoot(LootItem loot)
-        {
-            _lootInventory.RemoveItem(loot.ItemName);
-        }
+        public void RemoveLoot(LootItem loot) => _lootInventory.RemoveItem(loot.ItemName);
 
-        public void AddProduct(ProductItem productItem)
-        {
-            Debug.Log("Add product");
-            _productInventory.AddItem(productItem);
-        }
+        public void AddProduct(ProductItem productItem) => _productInventory.AddItem(productItem);
 
-        public void AddLoot(LootItem lootItem)
-        {
-            Debug.Log("Add loot");
-            _lootInventory.AddItem(lootItem);
-        }
+        public void AddLoot(LootItem lootItem) => _lootInventory.AddItem(lootItem);
 
         protected override void OnShow()
         {
@@ -142,17 +129,15 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientLeftClick(Item item)
         {
-            _itemInfoPresenter ??= _presentersFactory.CreateItemInfoPresenter();
+            _itemInfoPresenter ??= _presentersFactory.CreateItemInfoPresenter(_canvas);
+            
+            if (!_itemInfoPresenter.Show(item, Add)) return;
+            
             _itemInfoPresenter.OnAccepted += OnAddItem;
             _itemInfoPresenter.OnRejected += OnCancelled;
-            
-            _itemInfoPresenter.Show(item, Add);
         }
 
-        private void OnCancelled()
-        {
-            UnsubscribeItemInfo();
-        }
+        private void OnCancelled() => UnsubscribeItemInfo();
 
         private void OnAddItem(Item item)
         {

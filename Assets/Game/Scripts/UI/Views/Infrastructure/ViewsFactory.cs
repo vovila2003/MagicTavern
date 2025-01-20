@@ -10,11 +10,15 @@ namespace Tavern.UI.Views
     {
         public IEntityCardViewPool EntityCardViewPool => _entityCardViewPool;
         public IItemCardViewPool ItemCardViewPool => _itemCardViewPool;
+
+        public IInfoViewProvider InfoViewProvider => _infoPanelProvider;
+        
         private readonly UISettings _settings;
         private readonly Transform _canvasTransform;
 
         private readonly IEntityCardViewPool _entityCardViewPool;
         private readonly IItemCardViewPool _itemCardViewPool;
+        private readonly IInfoViewProvider _infoPanelProvider; 
 
         public ViewsFactory(UISettings settings, UISceneSettings sceneSettings)
         {
@@ -22,6 +26,9 @@ namespace Tavern.UI.Views
             _canvasTransform = sceneSettings.Canvas;
             _entityCardViewPool = new EntityCardViewPool(settings, sceneSettings.Pool);
             _itemCardViewPool = new ItemCardViewPool(settings, sceneSettings.Pool);
+            
+            _infoPanelProvider = new InfoViewProvider(
+                Object.Instantiate(_settings.CommonSettings.InfoPanel, sceneSettings.Pool), sceneSettings.Pool);
         }
 
         public IEntityCardView GetEntityCardView(Transform viewContentTransform)
@@ -58,8 +65,5 @@ namespace Tavern.UI.Views
 
         public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer) => 
             Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
-        
-        public IInfoPanelView CreateInfoPanelView() => 
-            Object.Instantiate(_settings.CommonSettings.InfoPanel, _canvasTransform);
     }
 }

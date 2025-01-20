@@ -14,12 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: BackingSheet
-    Flags: 0
+    Flags: 1
     Metadata:
       Title: 
       Description: 
       Icon: {fileID: 0}
-    Attributes: []
+    Components:
+    - rid: 2912130681912950789
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2912130681912950789
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0

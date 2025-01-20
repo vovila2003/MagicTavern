@@ -20,6 +20,7 @@ namespace Tavern.UI.Presenters
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
         private readonly UISettings _settings;
+        private readonly UISceneSettings _sceneSettings;
 
         public PresentersFactory(
             IViewsFactory viewsViewsFactory, 
@@ -29,7 +30,8 @@ namespace Tavern.UI.Presenters
             StartGameController startGameController,
             QuitGameController quitGameController,
             PauseGameController pauseGameController, 
-            UISettings settings)
+            UISettings settings,
+            UISceneSettings sceneSettings)
         {
             _viewsFactory = viewsViewsFactory;
             _dishCookbook = dishCookbook;
@@ -39,6 +41,7 @@ namespace Tavern.UI.Presenters
             _quitGameController = quitGameController;
             _pauseGameController = pauseGameController;
             _settings = settings;
+            _sceneSettings = sceneSettings;
         }
 
         public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform) =>
@@ -72,12 +75,13 @@ namespace Tavern.UI.Presenters
             new(_viewsFactory.CreateCookingIngredientsView(viewContainer),
                 _productInventory,
                 _lootInventory,
-                this);
+                this,
+                _sceneSettings.Canvas);
 
         public MatchRecipePresenter CreateMatchRecipePresenter(Transform viewContainer) => 
             new(_viewsFactory.CreateMatchRecipeView(viewContainer));
 
-        public ItemInfoPresenter CreateItemInfoPresenter() =>
-            new(_viewsFactory.CreateInfoPanelView());
+        public ItemInfoPresenter CreateItemInfoPresenter(Transform parent) =>
+            new(_viewsFactory.InfoViewProvider, parent);
     }
 }

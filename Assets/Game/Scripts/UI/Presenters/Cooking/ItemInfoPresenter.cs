@@ -1,46 +1,51 @@
 using System;
 using Modules.Items;
+using Tavern.UI.Views;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public sealed class ItemInfoPresenter : BasePresenter
+    public sealed class ItemInfoPresenter
     {
         public event Action<Item> OnAccepted;
         public event Action OnRejected;
         
-        private readonly IInfoPanelView _view;
+        private readonly IInfoViewProvider _provider;
+        private readonly Transform _parent;
         private Item _item;
-        private string _command;
+        private IInfoPanelView _view;
         
-        public ItemInfoPresenter(IInfoPanelView view) : base(view)
+        public ItemInfoPresenter(IInfoViewProvider provider, Transform parent)
         {
-            _view = view;
+            _provider = provider;
+            _parent = parent;
         }
 
-        public void Show(Item item, string command)
+        public bool Show(Item item, string command)
         {
+            if (item == null) return false;
+            
+            if (!_provider.TryGetView(_parent, out IInfoPanelView view)) return false;
+            
             _item = item;
-            _command = command;
-            Show();
+            _view = view;
+            SetupView(command);
+
+            _view.Show();
+            
+            return true;
         }
 
-        protected override void OnShow()
+        private void SetupView(string command)
         {
-            if (_item == null) return;
-
             ItemMetadata metadata = _item.ItemMetadata;
             _view.SetTitle(metadata.Title);
             _view.SetDescription(metadata.Description);
             _view.SetIcon(metadata.Icon);
-            _view.SetActionButtonText(_command);
+            _view.SetActionButtonText(command);
+            
             _view.OnAction += OnAction;
             _view.OnClose += OnClose;
-        }
-
-        protected override void OnHide()
-        {
-            _view.OnAction -= OnAction;
-            _view.OnClose -= OnClose;
         }
 
         private void OnAction()
@@ -53,6 +58,15 @@ namespace Tavern.UI.Presenters
         {
             OnRejected?.Invoke();
             Hide();
+        }
+
+        private void Hide()
+        {
+            _view.OnAction -= OnAction;
+            _view.OnClose -= OnClose;
+            _view.Hide();
+            
+            _provider.TryRelease(_view);
         }
     }
 }
