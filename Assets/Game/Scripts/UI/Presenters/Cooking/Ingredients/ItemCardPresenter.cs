@@ -1,10 +1,13 @@
+using System;
 using Modules.Items;
-using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
     public class ItemCardPresenter : BasePresenter
     {
+        public event Action<Item> OnRightClick;
+        public event Action<Item> OnLeftClick;
+        
         private readonly IItemCardView _view;
         private readonly IItemCardViewPool _pool;
         private Item _item;
@@ -30,26 +33,22 @@ namespace Tavern.UI.Presenters
 
         protected override void OnShow()
         {
-            SetupView(_item, _count);
+            ItemMetadata metadata = _item.ItemMetadata;
+            _view.SetIcon(metadata.Icon);
+            ChangeCount(_count);
+            _view.OnLeftClicked += OnLeftClicked;
+            _view.OnRightClicked += OnRightClicked;
         }
 
         protected override void OnHide()
         {
-            _view.OnCardClicked -= OnClicked;
+            _view.OnLeftClicked -= OnLeftClicked;
+            _view.OnRightClicked -= OnRightClicked;
             _pool.UnspawnItemCardView(_view);
         }
 
-        private void SetupView(Item item, int count)
-        {
-            ItemMetadata metadata = item.ItemMetadata;
-            _view.SetIcon(metadata.Icon);
-            ChangeCount(count);
-            _view.OnCardClicked += OnClicked;
-        }
+        private void OnLeftClicked() => OnLeftClick?.Invoke(_item);
 
-        private void OnClicked()
-        {
-            Debug.Log($"Item {_item.ItemName} clicked");
-        }
+        private void OnRightClicked() => OnRightClick?.Invoke(_item);
     }
 }

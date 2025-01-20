@@ -1,3 +1,7 @@
+using Modules.Items;
+using Tavern.Gardening;
+using Tavern.Looting;
+
 namespace Tavern.UI.Presenters
 {
     public class CookingPanelPresenter : BasePresenter
@@ -31,8 +35,11 @@ namespace Tavern.UI.Presenters
             
             _leftGridRecipesPresenter.Hide();
             _leftGridRecipesPresenter.OnMatchRecipe -= OnMatchRecipe;
+            
             _cookingMiniGamePresenter.Hide();
+            
             _cookingIngredientsPresenter.Hide();
+            _cookingIngredientsPresenter.OnTryAddItem += OnTryAddItemToRecipeIngredients;
         }
 
         private void SetupView()
@@ -57,12 +64,28 @@ namespace Tavern.UI.Presenters
         private void SetupIngredients()
         {
             _cookingIngredientsPresenter ??= _presentersFactory.CreateCookingIngredientsPresenter(_view.Container);
+            _cookingIngredientsPresenter.OnTryAddItem += OnTryAddItemToRecipeIngredients;
             _cookingIngredientsPresenter.Show();
         }
 
         private void OnMatchRecipe()
         {
             _cookingMiniGamePresenter.MatchNewRecipe();
+        }
+
+        private void OnTryAddItemToRecipeIngredients(Item item)
+        {
+            if (!_cookingMiniGamePresenter.TryAddIngredient(item)) return;
+
+            switch (item)
+            {
+                case ProductItem productItem:
+                    _cookingIngredientsPresenter.RemoveProduct(productItem);
+                    break;
+                case LootItem lootItem:
+                    _cookingIngredientsPresenter.RemoveLoot(lootItem);
+                    break;
+            }
         }
     }
 }

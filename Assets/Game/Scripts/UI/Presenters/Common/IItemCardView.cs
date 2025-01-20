@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Tavern.UI.Presenters
 {
     public interface IItemCardView : IView
     {
-        event UnityAction OnCardClicked;
+        event Action OnLeftClicked;
+        event Action OnRightClicked;
         void SetIcon(Sprite icon);
         void SetParent(Transform parent);
         void SetCount(string count);

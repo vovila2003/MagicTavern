@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
@@ -9,6 +10,8 @@ namespace Tavern.UI.Presenters
 {
     public class CookingIngredientsPresenter : BasePresenter
     {
+        public event Action<Item> OnTryAddItem;
+        
         private readonly Transform _parent;
         private readonly IInventory<ProductItem> _productInventory;
         private readonly IInventory<LootItem> _lootInventory;
@@ -26,6 +29,16 @@ namespace Tavern.UI.Presenters
             _productInventory = productInventory;
             _lootInventory = lootInventory;
             _presentersFactory = presentersFactory;
+        }
+
+        public void RemoveProduct(ProductItem product)
+        {
+            _productInventory.RemoveItem(product);
+        }
+
+        public void RemoveLoot(LootItem loot)
+        {
+            _lootInventory.RemoveItem(loot);
         }
 
         protected override void OnShow()
@@ -49,6 +62,8 @@ namespace Tavern.UI.Presenters
 
             foreach (ItemCardPresenter presenter in _presenters.Values)
             {
+                presenter.OnRightClick -= OnIngredientRightClick;
+                presenter.OnLeftClick -= OnIngredientLeftClick;
                 presenter.Hide();
             }
 
@@ -72,6 +87,8 @@ namespace Tavern.UI.Presenters
         {
             ItemCardPresenter presenter = _presentersFactory.CreateItemCardPresenter(_parent);
             _presenters.Add(item, presenter);
+            presenter.OnRightClick += OnIngredientRightClick;
+            presenter.OnLeftClick += OnIngredientLeftClick;
             presenter.Show(item, itemCount);
         }
 
@@ -94,13 +111,24 @@ namespace Tavern.UI.Presenters
             
             _presenters[item].ChangeCount(count);
         }
-        
+
         private void OnItemRemoved(Item item)
         {
-            if (_presenters.Remove(item, out ItemCardPresenter presenter))
-            {
-                presenter.Hide();
-            }
+            if (!_presenters.Remove(item, out ItemCardPresenter presenter)) return;
+            
+            presenter.OnRightClick -= OnIngredientRightClick;
+            presenter.Hide();
+        }
+
+        private void OnIngredientRightClick(Item item)
+        {
+            OnTryAddItem?.Invoke(item);
+        }
+
+        private void OnIngredientLeftClick(Item item)
+        {
+            //TODO
+            Debug.Log($"left click on {item.ItemName}");
         }
     }
 }

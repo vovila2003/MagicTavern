@@ -1,17 +1,15 @@
+using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class IngredientView : MonoBehaviour
+    public sealed class IngredientView : MonoBehaviour, IPointerClickHandler
     {
-        public event UnityAction OnIngredientClicked
-        {
-            add => Button.onClick.AddListener(value);
-            remove => Button.onClick.RemoveListener(value);
-        }
+        public event Action OnRightClicked;   
+        public event Action OnLeftClicked;   
         
         [SerializeField]
         private TMP_Text Title;
@@ -38,6 +36,23 @@ namespace Tavern.UI.Views
         public void SetIcon(Sprite icon)
         {
             Icon.sprite = icon;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            switch (eventData.button)
+            {
+                case PointerEventData.InputButton.Left:
+                    OnLeftClicked?.Invoke();
+                    break;
+                case PointerEventData.InputButton.Right:
+                    OnRightClicked?.Invoke();
+                    break;
+                case PointerEventData.InputButton.Middle:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
