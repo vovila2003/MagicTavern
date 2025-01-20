@@ -14,8 +14,8 @@ namespace Tavern.UI.Presenters
     {
         private readonly IViewsFactory _viewsFactory;
         private readonly DishCookbookContext _dishCookbook;
-        private readonly IInventory<ProductItem> _productInventory;
-        private readonly IInventory<LootItem> _lootInventory;
+        private readonly IStackableInventory<ProductItem> _productInventory;
+        private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
@@ -24,8 +24,8 @@ namespace Tavern.UI.Presenters
         public PresentersFactory(
             IViewsFactory viewsViewsFactory, 
             DishCookbookContext dishCookbook,
-            IInventory<ProductItem> productInventory,
-            IInventory<LootItem> lootInventory,
+            IStackableInventory<ProductItem> productInventory,
+            IStackableInventory<LootItem> lootInventory,
             StartGameController startGameController,
             QuitGameController quitGameController,
             PauseGameController pauseGameController, 

@@ -16,13 +16,13 @@ namespace Tavern.Common
         [SerializeField]
         private ItemsCatalog<T> ItemsCatalog;
         
-        private IInventory<T> _inventory;
+        private IStackableInventory<T> _inventory;
 
         [ShowInInspector, ReadOnly]
         private List<T> ItemsList => _inventory == null ? new List<T>() : _inventory.Items;
 
         [Inject]
-        private void Construct(IInventory<T> inventory)
+        private void Construct(IStackableInventory<T> inventory)
         {
             _inventory = inventory;
         }

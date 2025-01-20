@@ -9,7 +9,7 @@ namespace Tavern.Gardening
     {
         private void OnValidate()
         {
-            if (!Item.TryGetComponent(out ComponentPlant component)) return;
+            if (!Item.TryGet(out ComponentPlant component)) return;
             
             if (component.Config is null) return;
             

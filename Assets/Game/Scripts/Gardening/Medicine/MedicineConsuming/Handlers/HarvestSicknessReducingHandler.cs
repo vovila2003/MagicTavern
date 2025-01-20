@@ -20,9 +20,9 @@ namespace Tavern.Gardening.Medicine
                 return;
             }
 
-            if (!item.HasComponent<ComponentHarvestSicknessReducing>()) return;
+            if (!item.Has<ComponentHarvestSicknessReducing>()) return;
 
-            var attribute = item.GetComponent<ComponentHarvestSicknessReducing>();
+            var attribute = item.Get<ComponentHarvestSicknessReducing>();
             _target.ReduceHarvestSicknessProbability(attribute.Reducing);
         }
     }

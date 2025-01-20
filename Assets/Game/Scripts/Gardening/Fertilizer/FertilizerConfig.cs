@@ -15,17 +15,17 @@ namespace Tavern.Gardening.Fertilizer
             base.Awake();
             Item.SetFlags(ItemFlags.Consumable);
 
-            if (!Item.HasComponent<ComponentHarvestBooster>())
+            if (!Item.Has<ComponentHarvestBooster>())
             {
                 Item.Components?.Add(new ComponentHarvestBooster());    
             }
             
-            if (!Item.HasComponent<ComponentHarvestSicknessReducing>())
+            if (!Item.Has<ComponentHarvestSicknessReducing>())
             {
                 Item.Components?.Add(new ComponentHarvestSicknessReducing());    
             }
             
-            if (!Item.HasComponent<ComponentGrowthAcceleration>())
+            if (!Item.Has<ComponentGrowthAcceleration>())
             {
                 Item.Components?.Add(new ComponentGrowthAcceleration());    
             }

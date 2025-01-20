@@ -14,12 +14,12 @@ namespace Tavern.Gardening.Medicine
             base.Awake();
             Item.SetFlags(ItemFlags.Consumable);
 
-            if (!Item.HasComponent<ComponentHarvestHeal>())
+            if (!Item.Has<ComponentHarvestHeal>())
             {
                 Item.Components?.Add(new ComponentHarvestHeal());
             }
 
-            if (!Item.HasComponent<ComponentHarvestSicknessReducing>())
+            if (!Item.Has<ComponentHarvestSicknessReducing>())
             {
                 Item.Components?.Add(new ComponentHarvestSicknessReducing());
             }

@@ -37,9 +37,10 @@ namespace Tavern.UI.Presenters
             _leftGridRecipesPresenter.OnMatchRecipe -= OnMatchRecipe;
             
             _cookingMiniGamePresenter.Hide();
+            _cookingMiniGamePresenter.OnReturnItem -= OnReturnItem;
             
             _cookingIngredientsPresenter.Hide();
-            _cookingIngredientsPresenter.OnTryAddItem += OnTryAddItemToRecipeIngredients;
+            _cookingIngredientsPresenter.OnTryAddItem -= OnTryAddItemToRecipeIngredients;
         }
 
         private void SetupView()
@@ -58,6 +59,7 @@ namespace Tavern.UI.Presenters
         private void SetupMiniGame()
         {
             _cookingMiniGamePresenter ??= _presentersFactory.CreateCookingMiniGamePresenter(_view.Container);
+            _cookingMiniGamePresenter.OnReturnItem += OnReturnItem;
             _cookingMiniGamePresenter.Show();            
         }
 
@@ -84,6 +86,19 @@ namespace Tavern.UI.Presenters
                     break;
                 case LootItem lootItem:
                     _cookingIngredientsPresenter.RemoveLoot(lootItem);
+                    break;
+            }
+        }
+
+        private void OnReturnItem(Item item)
+        {
+            switch (item)
+            {
+                case ProductItem productItem:
+                    _cookingIngredientsPresenter.AddProduct(productItem);
+                    break;
+                case LootItem lootItem:
+                    _cookingIngredientsPresenter.AddLoot(lootItem);
                     break;
             }
         }

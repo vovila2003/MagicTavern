@@ -9,5 +9,6 @@ namespace Tavern.UI.Views
 
         [SerializeField] 
         private Transform Content;
+        
     }
 }

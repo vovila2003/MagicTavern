@@ -8,8 +8,6 @@ namespace Modules.Inventories
     {
         event Action<T> OnItemAdded;
         event Action<T> OnItemRemoved;
-        event Action<T, int> OnItemCountChanged;
-        
         List<T> Items { get; }
         void Setup(params T[] items);
         void AddItem(T item);

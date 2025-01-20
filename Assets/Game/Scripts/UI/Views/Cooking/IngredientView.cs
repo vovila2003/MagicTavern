@@ -8,8 +8,8 @@ namespace Tavern.UI.Views
 {
     public sealed class IngredientView : MonoBehaviour, IPointerClickHandler
     {
-        public event Action OnRightClicked;   
-        public event Action OnLeftClicked;   
+        public event Action<IngredientView> OnRightClicked;   
+        public event Action<IngredientView> OnLeftClicked;   
         
         [SerializeField]
         private TMP_Text Title;
@@ -19,9 +19,6 @@ namespace Tavern.UI.Views
         
         [SerializeField]
         private Image Background;
-
-        [SerializeField] 
-        private Button Button;
 
         public void SetTitle(string title)
         {
@@ -43,10 +40,10 @@ namespace Tavern.UI.Views
             switch (eventData.button)
             {
                 case PointerEventData.InputButton.Left:
-                    OnLeftClicked?.Invoke();
+                    OnLeftClicked?.Invoke(this);
                     break;
                 case PointerEventData.InputButton.Right:
-                    OnRightClicked?.Invoke();
+                    OnRightClicked?.Invoke(this);
                     break;
                 case PointerEventData.InputButton.Middle:
                     break;

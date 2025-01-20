@@ -1803,6 +1803,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftGrid
       objectReference: {fileID: 0}
+    - target: {fileID: 3494717177882537398, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -6.335083
+      objectReference: {fileID: 0}
     - target: {fileID: 5159207603247628090, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1

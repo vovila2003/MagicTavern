@@ -9,7 +9,6 @@ namespace Modules.Inventories
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;
-        public event Action<T, int> OnItemCountChanged;
 
         private readonly Dictionary<T,int> _counts = new();
         private List<T> _items;
@@ -34,7 +33,6 @@ namespace Modules.Inventories
             _counts.TryAdd(item, 0);
             _counts[item]++;
             OnItemAdded?.Invoke(item);
-            OnItemCountChanged?.Invoke(item, _counts[item]);
         }
         
         public void RemoveItem(T item)
@@ -44,13 +42,9 @@ namespace Modules.Inventories
             OnItemRemoved?.Invoke(item);
             
             _counts[item]--;
-            if (_counts[item] == 0)
-            {
-                _counts.Remove(item);
-                return;
-            }
+            if (_counts[item] != 0) return;
             
-            OnItemCountChanged?.Invoke(item, _counts[item]);
+            _counts.Remove(item);
         }
 
         public void RemoveItems(string name, int count)

@@ -8,7 +8,7 @@ namespace Tavern.Gardening
         protected override void Awake()
         {
             base.Awake();
-            if (Item.HasComponent<ComponentPlant>()) return;
+            if (Item.Has<ComponentPlant>()) return;
             
             Item.Components?.Add(new ComponentPlant());
         }

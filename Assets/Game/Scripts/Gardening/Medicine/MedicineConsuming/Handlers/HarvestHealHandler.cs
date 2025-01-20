@@ -20,7 +20,7 @@ namespace Tavern.Gardening.Medicine
                 return;
             }
 
-            if (!item.HasComponent<ComponentHarvestHeal>()) return;
+            if (!item.Has<ComponentHarvestHeal>()) return;
 
             _target.Heal();
         }

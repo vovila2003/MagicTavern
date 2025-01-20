@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Settings;
 using Tavern.UI.Views;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -14,6 +15,7 @@ namespace Tavern.UI.Presenters
         private readonly ICookingMiniGameView _view;
         private readonly CookingUISettings _settings;
         private readonly List<Item> _ingredients = new();
+        private readonly Dictionary<IngredientView, Item> _views = new();
 
         public CookingMiniGamePresenter(ICookingMiniGameView view, CookingUISettings settings) : base(view)
         {
@@ -31,16 +33,9 @@ namespace Tavern.UI.Presenters
 
         public void MatchNewRecipe()
         {
-            //view
             ResetIngredients();
             ResetEffects();
-
-            foreach (Item item in _ingredients)
-            {
-                    
-            }
-            
-            _ingredients.Clear();
+            ReturnAllItems();
             
             //TODO clear recipe matcher
         }
@@ -67,11 +62,8 @@ namespace Tavern.UI.Presenters
             {
                 Item item = _ingredients[i];
                 IngredientView ingredientView = _view.RecipeIngredients[i];
-                ItemMetadata metadata = item.ItemMetadata;
-                ingredientView.SetTitle(metadata.Title);
-                ingredientView.SetIcon(metadata.Icon);
-                ingredientView.SetBackgroundColor(_settings.FilledColor);
-                //TODO
+                SetupIngredientView(item, ingredientView);
+                _views.Add(ingredientView, item);
             }
         }
 
@@ -82,7 +74,10 @@ namespace Tavern.UI.Presenters
                 ingredientView.SetTitle(ComponentName);
                 ingredientView.SetIcon(_settings.DefaultSprite);
                 ingredientView.SetBackgroundColor(_settings.EmptyColor);
+                Unsubscribe(ingredientView);
             }
+            
+            _views.Clear();
         }
 
         private void ResetEffects()
@@ -91,6 +86,53 @@ namespace Tavern.UI.Presenters
             {
                 effectView.SetIcon(_settings.DefaultSprite);
             }
+        }
+
+        private void ReturnAllItems()
+        {
+            foreach (Item item in _ingredients)
+            {
+                OnReturnItem?.Invoke(item);        
+            }
+            
+            _ingredients.Clear();
+        }
+
+        private void OnIngredientLeftClicked(IngredientView view)
+        {
+            //TODO
+            Item item = _views[view];
+            Debug.Log($"Item {item.ItemName} clicked by left button");
+        }
+
+        private void OnIngredientRightClicked(IngredientView view)
+        {
+            Item item = _views[view];
+            _ingredients.Remove(item);
+            Unsubscribe(view);
+            OnReturnItem?.Invoke(item);
+            RepaintIngredients();
+        }
+
+        private void SetupIngredientView(Item item, IngredientView ingredientView)
+        {
+            ItemMetadata metadata = item.ItemMetadata;
+            ingredientView.SetTitle(metadata.Title);
+            ingredientView.SetIcon(metadata.Icon);
+            ingredientView.SetBackgroundColor(_settings.FilledColor);
+            Subscribe(ingredientView);
+        }
+
+        private void Subscribe(IngredientView view)
+        {
+            view.OnLeftClicked += OnIngredientLeftClicked;
+            view.OnRightClicked += OnIngredientRightClicked;
+        }
+
+        private void Unsubscribe(IngredientView view)
+        {
+            view.OnLeftClicked -= OnIngredientLeftClicked;
+            view.OnRightClicked -= OnIngredientRightClicked;
         }
     }
 }

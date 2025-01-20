@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -6.335083, y: 0}
+  m_AnchoredPosition: {x: -6.3350754, y: 0}
   m_SizeDelta: {x: -12.670114, y: -29.999996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9177172371007271643
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 90664597586583110}
   - component: {fileID: 5779732130701822914}
   - component: {fileID: 3630042642706108584}
-  - component: {fileID: 3514127635666266337}
+  - component: {fileID: 3386461340789652487}
   m_Layer: 5
   m_Name: LeftGrid
   m_TagString: Untagged
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.15
---- !u!114 &3514127635666266337
+--- !u!114 &3386461340789652487
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -448,7 +448,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 213.7077, y: 0}
   m_SizeDelta: {x: -474.35583, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8745697021917528266

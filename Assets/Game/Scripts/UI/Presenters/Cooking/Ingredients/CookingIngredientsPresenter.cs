@@ -13,15 +13,15 @@ namespace Tavern.UI.Presenters
         public event Action<Item> OnTryAddItem;
         
         private readonly Transform _parent;
-        private readonly IInventory<ProductItem> _productInventory;
-        private readonly IInventory<LootItem> _lootInventory;
+        private readonly IStackableInventory<ProductItem> _productInventory;
+        private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly PresentersFactory _presentersFactory;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
 
         public CookingIngredientsPresenter(
             IContainerView view,
-            IInventory<ProductItem> productInventory,
-            IInventory<LootItem> lootInventory,
+            IStackableInventory<ProductItem> productInventory,
+            IStackableInventory<LootItem> lootInventory,
             PresentersFactory presentersFactory
             ) : base(view)
         {
@@ -33,12 +33,24 @@ namespace Tavern.UI.Presenters
 
         public void RemoveProduct(ProductItem product)
         {
-            _productInventory.RemoveItem(product);
+            _productInventory.RemoveItem(product.ItemName);
         }
 
         public void RemoveLoot(LootItem loot)
         {
-            _lootInventory.RemoveItem(loot);
+            _lootInventory.RemoveItem(loot.ItemName);
+        }
+
+        public void AddProduct(ProductItem productItem)
+        {
+            Debug.Log("Add product");
+            _productInventory.AddItem(productItem);
+        }
+
+        public void AddLoot(LootItem lootItem)
+        {
+            Debug.Log("Add loot");
+            _lootInventory.AddItem(lootItem);
         }
 
         protected override void OnShow()
@@ -57,7 +69,7 @@ namespace Tavern.UI.Presenters
             _productInventory.OnItemCountChanged -= OnProductCountChanged;
             _productInventory.OnItemRemoved -= OnItemRemoved;
             
-            _lootInventory.OnItemCountChanged += OnLootCountChanged;
+            _lootInventory.OnItemCountChanged -= OnLootCountChanged;
             _lootInventory.OnItemRemoved -= OnItemRemoved;
 
             foreach (ItemCardPresenter presenter in _presenters.Values)
@@ -117,12 +129,15 @@ namespace Tavern.UI.Presenters
             if (!_presenters.Remove(item, out ItemCardPresenter presenter)) return;
             
             presenter.OnRightClick -= OnIngredientRightClick;
+            presenter.OnLeftClick -= OnIngredientLeftClick;
             presenter.Hide();
         }
 
         private void OnIngredientRightClick(Item item)
         {
-            OnTryAddItem?.Invoke(item);
+            Item clone = item.Clone();
+            clone.Get<ComponentStackable>().Value = 1;
+            OnTryAddItem?.Invoke(clone);
         }
 
         private void OnIngredientLeftClick(Item item)

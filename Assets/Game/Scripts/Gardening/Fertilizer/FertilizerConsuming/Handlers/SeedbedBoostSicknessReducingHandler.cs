@@ -21,9 +21,9 @@ namespace Tavern.Gardening.Fertilizer
                 return;
             }
 
-            if (!item.HasComponent<ComponentHarvestSicknessReducing>()) return;
+            if (!item.Has<ComponentHarvestSicknessReducing>()) return;
 
-            var component = item.GetComponent<ComponentHarvestSicknessReducing>();
+            var component = item.Get<ComponentHarvestSicknessReducing>();
             _target.Seedbed.ReduceHarvestSicknessProbability(component.Reducing);
         }
     }

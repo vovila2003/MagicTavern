@@ -41,7 +41,7 @@ namespace Modules.Items
         
         public void SetName(string name) => Name = name;
 
-        public bool TryGetComponent<T>(out T component)
+        public bool TryGet<T>(out T component)
         {
             foreach (IItemComponent attribute in Components)
             {
@@ -55,7 +55,7 @@ namespace Modules.Items
             return false;
         }
         
-        public T GetComponent<T>()
+        public T Get<T>()
         {
             foreach (IItemComponent attribute in Components)
             {
@@ -68,7 +68,7 @@ namespace Modules.Items
             throw new Exception($"Attribute of type {typeof(T).Name} is not found!");
         }
 
-        public bool HasComponent<T>() => Components.OfType<T>().Any();
+        public bool Has<T>() => Components.OfType<T>().Any();
 
         public virtual Item Clone()
         {
