@@ -13,5 +13,6 @@ namespace Tavern.UI.Presenters
         ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer);
         IContainerView CreateCookingIngredientsView(Transform viewContainer);
         IMatchRecipeView CreateMatchRecipeView(Transform viewContainer);
+        IInfoPanelView CreateInfoPanelView();
     }
 }

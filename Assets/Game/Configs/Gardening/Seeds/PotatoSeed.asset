@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PotatoSeed
   m_EditorClassIdentifier: 
   Item:
-    Name: Potato
+    Name: PotatoSeed
     Flags: 1
     Metadata:
       Title: 

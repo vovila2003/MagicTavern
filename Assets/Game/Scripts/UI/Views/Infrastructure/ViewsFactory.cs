@@ -58,5 +58,8 @@ namespace Tavern.UI.Views
 
         public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer) => 
             Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
+        
+        public IInfoPanelView CreateInfoPanelView() => 
+            Object.Instantiate(_settings.CommonSettings.InfoPanel);
     }
 }

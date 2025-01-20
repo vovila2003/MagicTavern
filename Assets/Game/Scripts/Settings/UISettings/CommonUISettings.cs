@@ -1,6 +1,7 @@
 using System;
 using Tavern.UI.Views;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Tavern.Settings
 {
@@ -18,10 +19,14 @@ namespace Tavern.Settings
 
         [SerializeField]
         private ContainerView LeftGridPrefab;
+        
+        [SerializeField]
+        private InfoPanelView InfoPanelPrefab;
                 
         public EntityCardSettings EntityCardConfig => EntityCardSettings;
         public ItemCardSettings ItemCardConfig => ItemCardSettings;
         public ContainerView ContainerView => LeftGridPrefab;
         public PanelView Panel => PanelPrefab;
+        public InfoPanelView InfoPanel => InfoPanelPrefab;
     }
 }
