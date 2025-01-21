@@ -17,11 +17,5 @@ namespace Modules.Inventories
             });
             Item.SetFlags(ItemFlags.Stackable);
         }
-
-        [Button]
-        private void Fix()
-        {
-            Item.Get<ComponentStackable>().Value = 1;
-        }
     }
 }

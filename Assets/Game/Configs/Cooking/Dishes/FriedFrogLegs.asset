@@ -21,11 +21,11 @@ MonoBehaviour:
       Description: 
       Icon: {fileID: -2094843947, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
-    - rid: 2912130500639850629
+    - rid: 2912130704922378317
   references:
     version: 2
     RefIds:
-    - rid: 2912130500639850629
+    - rid: 2912130704922378317
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0

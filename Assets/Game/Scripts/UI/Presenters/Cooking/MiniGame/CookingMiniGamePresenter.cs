@@ -9,18 +9,28 @@ namespace Tavern.UI.Presenters
 {
     public class CookingMiniGamePresenter : BasePresenter
     {
+        private const string Return = "Убрать";
         public event Action<Item> OnReturnItem;
         
         private const string ComponentName = "Название компонента";
         private readonly ICookingMiniGameView _view;
         private readonly CookingUISettings _settings;
+        private readonly PresentersFactory _presentersFactory;
+        private readonly Transform _canvas;
         private readonly List<Item> _ingredients = new();
         private readonly Dictionary<IngredientView, Item> _views = new();
+        private ItemInfoPresenter _itemInfoPresenter;
 
-        public CookingMiniGamePresenter(ICookingMiniGameView view, CookingUISettings settings) : base(view)
+        public CookingMiniGamePresenter(
+            ICookingMiniGameView view, 
+            CookingUISettings settings,
+            PresentersFactory presentersFactory, 
+            Transform canvas) : base(view)
         {
             _view = view;
             _settings = settings;
+            _presentersFactory = presentersFactory;
+            _canvas = canvas;
         }
 
         protected override void OnShow()
@@ -56,6 +66,19 @@ namespace Tavern.UI.Presenters
             SetupIngredients();
         }
 
+        private void ResetIngredients()
+        {
+            foreach (IngredientView ingredientView in _view.RecipeIngredients)
+            {
+                ingredientView.SetTitle(ComponentName);
+                ingredientView.SetIcon(_settings.DefaultSprite);
+                ingredientView.SetBackgroundColor(_settings.EmptyColor);
+                UnsubscribeIngredientView(ingredientView);
+            }
+            
+            _views.Clear();
+        }
+
         private void SetupIngredients()
         {
             for (int i = 0; i < _ingredients.Count; i++)
@@ -67,17 +90,19 @@ namespace Tavern.UI.Presenters
             }
         }
 
-        private void ResetIngredients()
+        private void SetupIngredientView(Item item, IngredientView ingredientView)
         {
-            foreach (IngredientView ingredientView in _view.RecipeIngredients)
-            {
-                ingredientView.SetTitle(ComponentName);
-                ingredientView.SetIcon(_settings.DefaultSprite);
-                ingredientView.SetBackgroundColor(_settings.EmptyColor);
-                Unsubscribe(ingredientView);
-            }
-            
-            _views.Clear();
+            ItemMetadata metadata = item.ItemMetadata;
+            ingredientView.SetTitle(metadata.Title);
+            ingredientView.SetIcon(metadata.Icon);
+            ingredientView.SetBackgroundColor(_settings.FilledColor);
+            SubscribeIngredientView(ingredientView);
+        }
+
+        private void SubscribeIngredientView(IngredientView view)
+        {
+            view.OnLeftClicked += OnIngredientLeftClicked;
+            view.OnRightClicked += OnIngredientRightClicked;
         }
 
         private void ResetEffects()
@@ -100,39 +125,43 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientLeftClicked(IngredientView view)
         {
-            //TODO
             Item item = _views[view];
-            Debug.Log($"Item {item.ItemName} clicked by left button");
+            _itemInfoPresenter ??= _presentersFactory.CreateItemInfoPresenter(_canvas);
+            
+            if (!_itemInfoPresenter.Show(item, Return)) return;
+            
+            _itemInfoPresenter.OnAccepted += OnItemReturned;
+            _itemInfoPresenter.OnRejected += OnCancelled;
         }
 
-        private void OnIngredientRightClicked(IngredientView view)
+        private void OnItemReturned(Item item)
         {
-            Item item = _views[view];
+            UnsubscribeItemInfo();
+            ReturnItem(item);
+        }
+
+        private void OnCancelled() => UnsubscribeItemInfo();
+
+        private void OnIngredientRightClicked(IngredientView view) => 
+            ReturnItem(_views[view]);
+
+        private void ReturnItem(Item item)
+        {
             _ingredients.Remove(item);
-            Unsubscribe(view);
             OnReturnItem?.Invoke(item);
             RepaintIngredients();
         }
 
-        private void SetupIngredientView(Item item, IngredientView ingredientView)
-        {
-            ItemMetadata metadata = item.ItemMetadata;
-            ingredientView.SetTitle(metadata.Title);
-            ingredientView.SetIcon(metadata.Icon);
-            ingredientView.SetBackgroundColor(_settings.FilledColor);
-            Subscribe(ingredientView);
-        }
-
-        private void Subscribe(IngredientView view)
-        {
-            view.OnLeftClicked += OnIngredientLeftClicked;
-            view.OnRightClicked += OnIngredientRightClicked;
-        }
-
-        private void Unsubscribe(IngredientView view)
+        private void UnsubscribeIngredientView(IngredientView view)
         {
             view.OnLeftClicked -= OnIngredientLeftClicked;
             view.OnRightClicked -= OnIngredientRightClicked;
+        }
+
+        private void UnsubscribeItemInfo()
+        {
+            _itemInfoPresenter.OnAccepted -= OnItemReturned;
+            _itemInfoPresenter.OnRejected -= OnCancelled;
         }
     }
 }

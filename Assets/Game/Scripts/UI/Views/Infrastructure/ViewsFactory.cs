@@ -8,32 +8,26 @@ namespace Tavern.UI.Views
     [UsedImplicitly]
     public class ViewsFactory : IViewsFactory
     {
-        public IEntityCardViewPool EntityCardViewPool => _entityCardViewPool;
-        public IItemCardViewPool ItemCardViewPool => _itemCardViewPool;
+        public IEntityCardViewPool EntityCardViewPool { get; }
+        public IItemCardViewPool ItemCardViewPool { get; }
+        public IInfoViewProvider InfoViewProvider { get; }
 
-        public IInfoViewProvider InfoViewProvider => _infoPanelProvider;
-        
         private readonly UISettings _settings;
-        private readonly Transform _canvasTransform;
-
-        private readonly IEntityCardViewPool _entityCardViewPool;
-        private readonly IItemCardViewPool _itemCardViewPool;
-        private readonly IInfoViewProvider _infoPanelProvider; 
+        private readonly UISceneSettings _sceneSettings;
 
         public ViewsFactory(UISettings settings, UISceneSettings sceneSettings)
         {
             _settings = settings;
-            _canvasTransform = sceneSettings.Canvas;
-            _entityCardViewPool = new EntityCardViewPool(settings, sceneSettings.Pool);
-            _itemCardViewPool = new ItemCardViewPool(settings, sceneSettings.Pool);
+            _sceneSettings = sceneSettings;
             
-            _infoPanelProvider = new InfoViewProvider(
-                Object.Instantiate(_settings.CommonSettings.InfoPanel, sceneSettings.Pool), sceneSettings.Pool);
+            EntityCardViewPool = new EntityCardViewPool(settings, _sceneSettings.Pool);
+            ItemCardViewPool = new ItemCardViewPool(settings, _sceneSettings.Pool);
+            InfoViewProvider = new InfoViewProvider(CreateInfoPanelView, _sceneSettings.Pool);
         }
 
         public IEntityCardView GetEntityCardView(Transform viewContentTransform)
         {
-            if (_entityCardViewPool.TrySpawnEntityCardViewUnderTransform(
+            if (EntityCardViewPool.TrySpawnEntityCardViewUnderTransform(
                     viewContentTransform,
                     out IEntityCardView view)) 
                 return view;
@@ -43,7 +37,7 @@ namespace Tavern.UI.Views
 
         public IItemCardView GetItemCardView(Transform viewContentTransform)
         {
-            if (_itemCardViewPool.TrySpawnItemCardViewUnderTransform(
+            if (ItemCardViewPool.TrySpawnItemCardViewUnderTransform(
                     viewContentTransform,
                     out IItemCardView view)) 
                 return view;
@@ -52,7 +46,7 @@ namespace Tavern.UI.Views
         }
         
         public IPanelView CreatePanelView() => 
-            Object.Instantiate(_settings.CommonSettings.Panel, _canvasTransform);
+            Object.Instantiate(_settings.CommonSettings.Panel, _sceneSettings.Canvas);
 
         public IContainerView CreateLeftGridView(Transform viewContainer) => 
             Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
@@ -65,5 +59,8 @@ namespace Tavern.UI.Views
 
         public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer) => 
             Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
+
+        private InfoPanelView CreateInfoPanelView() =>
+            Object.Instantiate(_settings.CommonSettings.InfoPanel, _sceneSettings.Pool);
     }
 }
