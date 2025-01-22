@@ -1,4 +1,5 @@
 using System;
+using Tavern.UI.Presenters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,10 +7,10 @@ using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class IngredientView : MonoBehaviour, IPointerClickHandler
+    public sealed class IngredientView : MonoBehaviour, IPointerClickHandler, IIngredientView
     {
-        public event Action<IngredientView> OnRightClicked;   
-        public event Action<IngredientView> OnLeftClicked;   
+        public event Action<IIngredientView> OnRightClicked;   
+        public event Action<IIngredientView> OnLeftClicked;   
         
         [SerializeField]
         private TMP_Text Title;

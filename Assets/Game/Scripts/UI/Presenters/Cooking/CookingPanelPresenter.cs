@@ -12,7 +12,7 @@ namespace Tavern.UI.Presenters
         private readonly PresentersFactory _presentersFactory;
         
         private LeftGridRecipesPresenter _leftGridRecipesPresenter;
-        private CookingMiniGamePresenter _cookingMiniGamePresenter;
+        private CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
         private CookingIngredientsPresenter _cookingIngredientsPresenter;
 
         public CookingPanelPresenter(IPanelView view, PresentersFactory presentersFactory) : base(view)
@@ -36,8 +36,8 @@ namespace Tavern.UI.Presenters
             _leftGridRecipesPresenter.Hide();
             _leftGridRecipesPresenter.OnMatchRecipe -= OnMatchRecipe;
             
-            _cookingMiniGamePresenter.Hide();
-            _cookingMiniGamePresenter.OnReturnItem -= OnReturnItem;
+            _cookingAndMatchRecipePresenter.Hide();
+            _cookingAndMatchRecipePresenter.OnReturnItem -= OnReturnItem;
             
             _cookingIngredientsPresenter.Hide();
             _cookingIngredientsPresenter.OnTryAddItem -= OnTryAddItemToRecipeIngredients;
@@ -58,9 +58,9 @@ namespace Tavern.UI.Presenters
 
         private void SetupMiniGame()
         {
-            _cookingMiniGamePresenter ??= _presentersFactory.CreateCookingMiniGamePresenter(_view.Container);
-            _cookingMiniGamePresenter.OnReturnItem += OnReturnItem;
-            _cookingMiniGamePresenter.Show();            
+            _cookingAndMatchRecipePresenter ??= _presentersFactory.CreateCookingAndMatchRecipePresenter(_view.Container);
+            _cookingAndMatchRecipePresenter.OnReturnItem += OnReturnItem;
+            _cookingAndMatchRecipePresenter.Show();            
         }
 
         private void SetupIngredients()
@@ -72,12 +72,12 @@ namespace Tavern.UI.Presenters
 
         private void OnMatchRecipe()
         {
-            _cookingMiniGamePresenter.MatchNewRecipe();
+            _cookingAndMatchRecipePresenter.MatchNewRecipe();
         }
 
         private void OnTryAddItemToRecipeIngredients(Item item)
         {
-            if (!_cookingMiniGamePresenter.TryAddIngredient(item)) return;
+            if (!_cookingAndMatchRecipePresenter.TryAddIngredient(item)) return;
 
             switch (item)
             {

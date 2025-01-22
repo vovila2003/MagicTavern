@@ -1,6 +1,5 @@
 using System;
 using Modules.Items;
-using Tavern.UI.Views;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters

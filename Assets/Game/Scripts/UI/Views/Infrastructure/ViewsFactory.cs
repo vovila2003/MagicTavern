@@ -60,6 +60,9 @@ namespace Tavern.UI.Views
         public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer) => 
             Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
 
+        public ICookingMiniGameView CreateMiniGameView(Transform viewContainer) => 
+            Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
+
         private InfoPanelView CreateInfoPanelView() =>
             Object.Instantiate(_settings.CommonSettings.InfoPanel, _sceneSettings.Pool);
     }

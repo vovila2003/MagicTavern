@@ -2,27 +2,26 @@ using System;
 using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Settings;
-using Tavern.UI.Views;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class CookingMiniGamePresenter : BasePresenter
+    public class RecipeIngredientsPresenter : BasePresenter
     {
         private const string Return = "Убрать";
         public event Action<Item> OnReturnItem;
         
         private const string ComponentName = "Название компонента";
-        private readonly ICookingMiniGameView _view;
+        private readonly IRecipeIngredientsView _view;
         private readonly CookingUISettings _settings;
         private readonly PresentersFactory _presentersFactory;
         private readonly Transform _canvas;
         private readonly List<Item> _ingredients = new();
-        private readonly Dictionary<IngredientView, Item> _views = new();
+        private readonly Dictionary<IIngredientView, Item> _views = new();
         private ItemInfoPresenter _itemInfoPresenter;
 
-        public CookingMiniGamePresenter(
-            ICookingMiniGameView view, 
+        public RecipeIngredientsPresenter(
+            IRecipeIngredientsView view, 
             CookingUISettings settings,
             PresentersFactory presentersFactory, 
             Transform canvas) : base(view)
@@ -52,7 +51,7 @@ namespace Tavern.UI.Presenters
 
         public bool TryAddIngredient(Item item)
         {
-            if (_ingredients.Count >= _view.RecipeIngredients.Length) return false;
+            if (_ingredients.Count >= _view.RecipeIngredients.Count) return false;
             
             _ingredients.Add(item);
             RepaintIngredients();
@@ -68,7 +67,7 @@ namespace Tavern.UI.Presenters
 
         private void ResetIngredients()
         {
-            foreach (IngredientView ingredientView in _view.RecipeIngredients)
+            foreach (IIngredientView ingredientView in _view.RecipeIngredients)
             {
                 ingredientView.SetTitle(ComponentName);
                 ingredientView.SetIcon(_settings.DefaultSprite);
@@ -84,13 +83,13 @@ namespace Tavern.UI.Presenters
             for (int i = 0; i < _ingredients.Count; i++)
             {
                 Item item = _ingredients[i];
-                IngredientView ingredientView = _view.RecipeIngredients[i];
+                IIngredientView ingredientView = _view.RecipeIngredients[i];
                 SetupIngredientView(item, ingredientView);
                 _views.Add(ingredientView, item);
             }
         }
 
-        private void SetupIngredientView(Item item, IngredientView ingredientView)
+        private void SetupIngredientView(Item item, IIngredientView ingredientView)
         {
             ItemMetadata metadata = item.ItemMetadata;
             ingredientView.SetTitle(metadata.Title);
@@ -99,7 +98,7 @@ namespace Tavern.UI.Presenters
             SubscribeIngredientView(ingredientView);
         }
 
-        private void SubscribeIngredientView(IngredientView view)
+        private void SubscribeIngredientView(IIngredientView view)
         {
             view.OnLeftClicked += OnIngredientLeftClicked;
             view.OnRightClicked += OnIngredientRightClicked;
@@ -107,7 +106,7 @@ namespace Tavern.UI.Presenters
 
         private void ResetEffects()
         {
-            foreach (RecipeEffectView effectView in _view.RecipeEffects)
+            foreach (IRecipeEffectView effectView in _view.RecipeEffects)
             {
                 effectView.SetIcon(_settings.DefaultSprite);
             }
@@ -123,7 +122,7 @@ namespace Tavern.UI.Presenters
             _ingredients.Clear();
         }
 
-        private void OnIngredientLeftClicked(IngredientView view)
+        private void OnIngredientLeftClicked(IIngredientView view)
         {
             Item item = _views[view];
             _itemInfoPresenter ??= _presentersFactory.CreateItemInfoPresenter(_canvas);
@@ -142,7 +141,7 @@ namespace Tavern.UI.Presenters
 
         private void OnCancelled() => UnsubscribeItemInfo();
 
-        private void OnIngredientRightClicked(IngredientView view) => 
+        private void OnIngredientRightClicked(IIngredientView view) => 
             ReturnItem(_views[view]);
 
         private void ReturnItem(Item item)
@@ -152,7 +151,7 @@ namespace Tavern.UI.Presenters
             RepaintIngredients();
         }
 
-        private void UnsubscribeIngredientView(IngredientView view)
+        private void UnsubscribeIngredientView(IIngredientView view)
         {
             view.OnLeftClicked -= OnIngredientLeftClicked;
             view.OnRightClicked -= OnIngredientRightClicked;

@@ -1,3 +1,4 @@
+using Tavern.Cooking.MiniGame.UI;
 using Tavern.UI.Views;
 using UnityEngine;
 
@@ -15,5 +16,6 @@ namespace Tavern.UI.Presenters
         ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer);
         IContainerView CreateCookingIngredientsView(Transform viewContainer);
         IMatchRecipeView CreateMatchRecipeView(Transform viewContainer);
+        ICookingMiniGameView CreateMiniGameView(Transform viewContentTransform);
     }
 }

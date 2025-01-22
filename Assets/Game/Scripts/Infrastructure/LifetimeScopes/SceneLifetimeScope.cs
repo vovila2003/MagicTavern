@@ -50,7 +50,7 @@ namespace Tavern.Infrastructure
             RegisterGardening(builder);
             RegisterLooting(builder);
             RegisterCooking(builder);
-            RegisterMiniGames(builder);
+            // RegisterMiniGames(builder);
             RegisterShopping(builder);
         }
 
@@ -185,18 +185,18 @@ namespace Tavern.Infrastructure
             builder.RegisterInstance(GameSettings.DishRecipes);
 
             builder.Register<RecipeMatcher>(Lifetime.Singleton);
-            builder.RegisterComponentInHierarchy<RecipeMatcherContext>();
+            // builder.RegisterComponentInHierarchy<RecipeMatcherContext>();
         }
 
-        private void RegisterMiniGames(IContainerBuilder builder)
-        {
-            builder.Register<MiniGameInputService>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<MiniGameView>().AsImplementedInterfaces();
-            
-            builder.RegisterEntryPoint<MiniGame>().AsSelf();
-            builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-            builder.Register<MiniGamePresenter>(Lifetime.Singleton).AsImplementedInterfaces();
-        }
+        // private void RegisterMiniGames(IContainerBuilder builder)
+        // {
+        //     builder.Register<MiniGameInputService>(Lifetime.Singleton).AsImplementedInterfaces();
+        //     builder.RegisterComponentInHierarchy<MiniGameView>().AsImplementedInterfaces();
+        //     
+        //     builder.RegisterEntryPoint<MiniGame>().AsSelf();
+        //     builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+        //     builder.Register<MiniGamePresenter>(Lifetime.Singleton).AsImplementedInterfaces();
+        // }
 
         private void RegisterShopping(IContainerBuilder builder)
         {
