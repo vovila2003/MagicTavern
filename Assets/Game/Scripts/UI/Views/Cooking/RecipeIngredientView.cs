@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class IngredientView : MonoBehaviour, IPointerClickHandler, IIngredientView
+    public sealed class RecipeIngredientView : MonoBehaviour, IPointerClickHandler, IRecipeIngredientView
     {
-        public event Action<IIngredientView> OnRightClicked;   
-        public event Action<IIngredientView> OnLeftClicked;   
+        public event Action<IRecipeIngredientView> OnRightClicked;   
+        public event Action<IRecipeIngredientView> OnLeftClicked;   
         
         [SerializeField]
         private TMP_Text Title;

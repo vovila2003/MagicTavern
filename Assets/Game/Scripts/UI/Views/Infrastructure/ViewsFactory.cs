@@ -51,18 +51,27 @@ namespace Tavern.UI.Views
         public IContainerView CreateLeftGridView(Transform viewContainer) => 
             Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
 
-        public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
+        public IMatchRecipeView CreateMatchNewRecipeView(Transform viewContainer) => 
+            Object.Instantiate(_settings.CookingSettings.MatchNewRecipeView, viewContainer);
 
         public IContainerView CreateCookingIngredientsView(Transform viewContainer) => 
             Object.Instantiate(_settings.CookingSettings.CookingIngredientsView, viewContainer);
 
-        public IMatchRecipeView CreateMatchRecipeView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.MatchRecipeView, viewContainer);
+        public ICookingAndMatchRecipeView CreateCookingAndMatchRecipeView(Transform viewContainer) =>
+            Object.Instantiate(_settings.CookingSettings.CookingAndMatchRecipeView, viewContainer);
 
-        public ICookingMiniGameView CreateMiniGameView(Transform viewContainer) => 
+        public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer) => 
             Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
 
+        public IRecipeIngredientsView CreateRecipeIngredientsView(Transform viewContainer) =>
+            Object.Instantiate(_settings.CookingSettings.RecipeIngredientsView, viewContainer);
+        
+        public IRecipeEffectsView CreateRecipeEffectsView(Transform viewContainer) =>
+            Object.Instantiate(_settings.CookingSettings.RecipeEffectsView, viewContainer);
+        
+        
+        
+        //private
         private InfoPanelView CreateInfoPanelView() =>
             Object.Instantiate(_settings.CommonSettings.InfoPanel, _sceneSettings.Pool);
     }

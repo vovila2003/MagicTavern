@@ -9,16 +9,22 @@ namespace Tavern.Settings
     public class CookingUISettings
     {
         [SerializeField]
-        private CookingMiniGameView CookingMiniGamePrefab;
+        private CookingAndMatchRecipeView CookingAndMatchRecipePrefab;
+
+        [SerializeField]
+        private MatchRecipeView MatchNewRecipePrefab;
 
         [SerializeField]
         private ContainerView CookingIngredientsPrefab;
-        
+
         [SerializeField]
-        private MatchRecipeView MatchRecipePrefab;
-        
+        private CookingMiniGameView CookingMiniGamePrefab;
+
         [SerializeField]
-        private RecipeEffectSettings RecipeEffectSettings;
+        private RecipeIngredientsView RecipeIngredientsPrefab;
+        
+        [SerializeField] 
+        private RecipeEffectsView RecipeEffectsPrefab;
         
         [SerializeField, PreviewField]
         private Sprite DefaultIngredientSprite;
@@ -31,10 +37,12 @@ namespace Tavern.Settings
         
         public CookingMiniGameView CookingMiniGameView => CookingMiniGamePrefab;
         public ContainerView CookingIngredientsView => CookingIngredientsPrefab;
-        public MatchRecipeView MatchRecipeView => MatchRecipePrefab;
+        public MatchRecipeView MatchNewRecipeView => MatchNewRecipePrefab;
         public Sprite DefaultSprite => DefaultIngredientSprite;
         public Color EmptyColor => EmptyIngredientColor;
         public Color FilledColor => FilledIngredientColor;
-        public RecipeEffectSettings RecipeEffectConfig => RecipeEffectSettings;
+        public CookingAndMatchRecipeView CookingAndMatchRecipeView => CookingAndMatchRecipePrefab;
+        public RecipeIngredientsView RecipeIngredientsView => RecipeIngredientsPrefab;
+        public RecipeEffectsView RecipeEffectsView => RecipeEffectsPrefab;
     }
 }

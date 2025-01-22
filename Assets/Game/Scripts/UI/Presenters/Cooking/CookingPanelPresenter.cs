@@ -9,16 +9,16 @@ namespace Tavern.UI.Presenters
         private const string Title = "Готовка";
         
         private readonly IPanelView _view;
-        private readonly PresentersFactory _presentersFactory;
-        
-        private LeftGridRecipesPresenter _leftGridRecipesPresenter;
-        private CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
-        private CookingIngredientsPresenter _cookingIngredientsPresenter;
+        private readonly LeftGridRecipesPresenter _leftGridRecipesPresenter;
+        private readonly CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
+        private readonly CookingIngredientsPresenter _cookingIngredientsPresenter;
 
         public CookingPanelPresenter(IPanelView view, PresentersFactory presentersFactory) : base(view)
         {
             _view = view;
-            _presentersFactory = presentersFactory;
+            _leftGridRecipesPresenter = presentersFactory.CreateLeftGridPresenter(_view.Container);
+            _cookingAndMatchRecipePresenter = presentersFactory.CreateCookingAndMatchRecipePresenter(_view.Container);
+            _cookingIngredientsPresenter = presentersFactory.CreateCookingIngredientsPresenter(_view.Container);
         }
 
         protected override void OnShow()
@@ -51,21 +51,18 @@ namespace Tavern.UI.Presenters
 
         private void SetupLeftPanel()
         {
-            _leftGridRecipesPresenter ??= _presentersFactory.CreateLeftGridPresenter(_view.Container);
             _leftGridRecipesPresenter.OnMatchRecipe += OnMatchRecipe;
             _leftGridRecipesPresenter.Show();
         }
 
         private void SetupMiniGame()
         {
-            _cookingAndMatchRecipePresenter ??= _presentersFactory.CreateCookingAndMatchRecipePresenter(_view.Container);
             _cookingAndMatchRecipePresenter.OnReturnItem += OnReturnItem;
             _cookingAndMatchRecipePresenter.Show();            
         }
 
         private void SetupIngredients()
         {
-            _cookingIngredientsPresenter ??= _presentersFactory.CreateCookingIngredientsPresenter(_view.Container);
             _cookingIngredientsPresenter.OnTryAddItem += OnTryAddItemToRecipeIngredients;
             _cookingIngredientsPresenter.Show();
         }
