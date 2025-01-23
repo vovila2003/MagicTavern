@@ -16,6 +16,7 @@ namespace Tavern.UI.Presenters
         private readonly DishCookbookContext _dishCookbook;
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
+        private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
@@ -27,6 +28,7 @@ namespace Tavern.UI.Presenters
             DishCookbookContext dishCookbook,
             IStackableInventory<ProductItem> productInventory,
             IStackableInventory<LootItem> lootInventory,
+            ActiveDishRecipe activeDishRecipe,
             StartGameController startGameController,
             QuitGameController quitGameController,
             PauseGameController pauseGameController, 
@@ -37,6 +39,7 @@ namespace Tavern.UI.Presenters
             _dishCookbook = dishCookbook;
             _productInventory = productInventory;
             _lootInventory = lootInventory;
+            _activeDishRecipe = activeDishRecipe;
             _startGameController = startGameController;
             _quitGameController = quitGameController;
             _pauseGameController = pauseGameController;
@@ -52,7 +55,7 @@ namespace Tavern.UI.Presenters
             new(_viewsFactory.GetItemCardView(viewContentTransform), 
                 _viewsFactory.ItemCardViewPool);
 
-        public LeftGridRecipesPresenter CreateLeftGridPresenter(Transform viewContainer) =>
+        public CookingRecipesPresenter CreateLeftGridPresenter(Transform viewContainer) =>
             new(_viewsFactory.CreateLeftGridView(viewContainer), 
                 _dishCookbook,
                 this);
@@ -66,7 +69,9 @@ namespace Tavern.UI.Presenters
             new(pauseView, _pauseGameController);
 
         public CookingPanelPresenter CreateCookingPanelPresenter() => 
-            new(_viewsFactory.CreatePanelView(), this);
+            new(_viewsFactory.CreatePanelView(),
+                this,
+                _activeDishRecipe);
 
         public CookingAndMatchRecipePresenter CreateCookingAndMatchRecipePresenter(Transform viewContainer) => 
             new(_viewsFactory.CreateCookingAndMatchRecipeView(viewContainer), 
@@ -79,7 +84,7 @@ namespace Tavern.UI.Presenters
                 this,
                 _sceneSettings.Canvas);
 
-        public MatchRecipePresenter CreateMatchRecipePresenter(Transform viewContainer) => 
+        public MatchNewRecipePresenter CreateMatchNewRecipePresenter(Transform viewContainer) => 
             new(_viewsFactory.CreateMatchNewRecipeView(viewContainer));
 
         public ItemInfoPresenter CreateItemInfoPresenter(Transform parent) =>

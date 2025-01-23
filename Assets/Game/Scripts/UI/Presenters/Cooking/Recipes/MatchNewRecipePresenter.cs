@@ -2,13 +2,13 @@ using System;
 
 namespace Tavern.UI.Presenters
 {
-    public sealed class MatchRecipePresenter : BasePresenter
+    public sealed class MatchNewRecipePresenter : BasePresenter
     {
         public event Action OnPressed;
         
-        private readonly IMatchRecipeView _view;
+        private readonly IMatchNewRecipeView _view;
         
-        public MatchRecipePresenter(IMatchRecipeView view) : base(view)
+        public MatchNewRecipePresenter(IMatchNewRecipeView view) : base(view)
         {
             _view = view;
         }

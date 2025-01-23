@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class MatchRecipeView : View, IMatchRecipeView
+    public sealed class MatchNewRecipeView : View, IMatchNewRecipeView
     {
         public event UnityAction OnPressed
         {

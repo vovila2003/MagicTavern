@@ -2,6 +2,7 @@ using System;
 using Sirenix.OdinInspector;
 using Tavern.UI.Views;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tavern.Settings
 {
@@ -11,8 +12,8 @@ namespace Tavern.Settings
         [SerializeField]
         private CookingAndMatchRecipeView CookingAndMatchRecipePrefab;
 
-        [SerializeField]
-        private MatchRecipeView MatchNewRecipePrefab;
+        [FormerlySerializedAs("MatchNewNewNewNewRecipePrefab")] [FormerlySerializedAs("MatchNewRecipePrefab")] [SerializeField]
+        private MatchNewRecipeView MatchNewNewRecipePrefab;
 
         [SerializeField]
         private ContainerView CookingIngredientsPrefab;
@@ -37,7 +38,7 @@ namespace Tavern.Settings
         
         public CookingMiniGameView CookingMiniGameView => CookingMiniGamePrefab;
         public ContainerView CookingIngredientsView => CookingIngredientsPrefab;
-        public MatchRecipeView MatchNewRecipeView => MatchNewRecipePrefab;
+        public MatchNewRecipeView MatchNewNewRecipeView => MatchNewNewRecipePrefab;
         public Sprite DefaultSprite => DefaultIngredientSprite;
         public Color EmptyColor => EmptyIngredientColor;
         public Color FilledColor => FilledIngredientColor;

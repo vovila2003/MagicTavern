@@ -42,14 +42,14 @@ namespace Tavern.UI.Presenters
             _recipeEffectsPresenter.Hide();
         }
 
-        public void MatchNewRecipe()
+        public void Reset()
         {
-            _recipeIngredientsPresenter.MatchNewRecipe();
-            _recipeEffectsPresenter.MatchNewRecipe();
+            _recipeIngredientsPresenter.Reset();
+            _recipeEffectsPresenter.Reset();
         }
 
-
         public bool TryAddIngredient(Item item) => _recipeIngredientsPresenter.TryAddIngredient(item);
+        
         private void OnReturn(Item item) => OnReturnItem?.Invoke(item);
     }
 }

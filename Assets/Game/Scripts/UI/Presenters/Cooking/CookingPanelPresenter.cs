@@ -1,4 +1,5 @@
 using Modules.Items;
+using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.Looting;
 
@@ -9,14 +10,20 @@ namespace Tavern.UI.Presenters
         private const string Title = "Готовка";
         
         private readonly IPanelView _view;
-        private readonly LeftGridRecipesPresenter _leftGridRecipesPresenter;
+        private readonly ActiveDishRecipe _activeRecipe;
+        private readonly CookingRecipesPresenter _cookingRecipesPresenter;
         private readonly CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
         private readonly CookingIngredientsPresenter _cookingIngredientsPresenter;
 
-        public CookingPanelPresenter(IPanelView view, PresentersFactory presentersFactory) : base(view)
+        public CookingPanelPresenter(
+            IPanelView view, 
+            PresentersFactory presentersFactory,
+            ActiveDishRecipe activeRecipe
+            ) : base(view)
         {
             _view = view;
-            _leftGridRecipesPresenter = presentersFactory.CreateLeftGridPresenter(_view.Container);
+            _activeRecipe = activeRecipe;
+            _cookingRecipesPresenter = presentersFactory.CreateLeftGridPresenter(_view.Container);
             _cookingAndMatchRecipePresenter = presentersFactory.CreateCookingAndMatchRecipePresenter(_view.Container);
             _cookingIngredientsPresenter = presentersFactory.CreateCookingIngredientsPresenter(_view.Container);
         }
@@ -33,8 +40,9 @@ namespace Tavern.UI.Presenters
         {
             _view.OnCloseClicked -= Hide;
             
-            _leftGridRecipesPresenter.Hide();
-            _leftGridRecipesPresenter.OnMatchRecipe -= OnMatchRecipe;
+            _cookingRecipesPresenter.Hide();
+            _cookingRecipesPresenter.OnMatchNewRecipe -= Reset;
+            _cookingRecipesPresenter.OnTryPrepareRecipe -= TryPrepareRecipe;
             
             _cookingAndMatchRecipePresenter.Hide();
             _cookingAndMatchRecipePresenter.OnReturnItem -= OnReturnItem;
@@ -51,8 +59,9 @@ namespace Tavern.UI.Presenters
 
         private void SetupLeftPanel()
         {
-            _leftGridRecipesPresenter.OnMatchRecipe += OnMatchRecipe;
-            _leftGridRecipesPresenter.Show();
+            _cookingRecipesPresenter.OnMatchNewRecipe += Reset;
+            _cookingRecipesPresenter.OnTryPrepareRecipe += TryPrepareRecipe;
+            _cookingRecipesPresenter.Show();
         }
 
         private void SetupMiniGame()
@@ -67,9 +76,9 @@ namespace Tavern.UI.Presenters
             _cookingIngredientsPresenter.Show();
         }
 
-        private void OnMatchRecipe()
+        private void Reset()
         {
-            _cookingAndMatchRecipePresenter.MatchNewRecipe();
+            _cookingAndMatchRecipePresenter.Reset();
         }
 
         private void OnTryAddItemToRecipeIngredients(Item item)
@@ -98,6 +107,12 @@ namespace Tavern.UI.Presenters
                     _cookingIngredientsPresenter.AddLoot(lootItem);
                     break;
             }
+        }
+
+        private void TryPrepareRecipe(DishRecipe recipe)
+        {
+            Reset();
+            _activeRecipe.Setup(recipe);
         }
     }
 }

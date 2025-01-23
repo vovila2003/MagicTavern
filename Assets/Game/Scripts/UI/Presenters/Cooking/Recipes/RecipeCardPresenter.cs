@@ -1,16 +1,20 @@
+using System;
 using Modules.Items;
 using Tavern.Cooking;
-using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
     public class RecipeCardPresenter : BasePresenter
     {
+        public event Action<DishRecipe> OnRecipeClicked;
+        
         private readonly IEntityCardView _view;
         private readonly IEntityCardViewPool _pool;
         private DishRecipe _recipe;
 
-        public RecipeCardPresenter(IEntityCardView view, IEntityCardViewPool pool) : base(view)
+        public RecipeCardPresenter(
+            IEntityCardView view, 
+            IEntityCardViewPool pool) : base(view)
         {
             _view = view;
             _pool = pool;
@@ -43,9 +47,6 @@ namespace Tavern.UI.Presenters
             _view.OnCardClicked += OnClicked;
         }
 
-        private void OnClicked()
-        {
-            Debug.Log($"Recipe {_recipe.Name} clicked");
-        }
+        private void OnClicked() => OnRecipeClicked?.Invoke(_recipe);
     }
 }

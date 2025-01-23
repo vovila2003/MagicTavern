@@ -23,7 +23,7 @@ namespace Tavern.UI.Presenters
         {
         }
 
-        public void MatchNewRecipe()
+        public void Reset()
         {
             ResetEffects();
         }

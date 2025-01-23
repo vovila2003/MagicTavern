@@ -6,17 +6,18 @@ using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class LeftGridRecipesPresenter : BasePresenter
+    public class CookingRecipesPresenter : BasePresenter
     {
-        public event Action OnMatchRecipe; 
+        public event Action OnMatchNewRecipe; 
+        public event Action<DishRecipe> OnTryPrepareRecipe; 
         
         private readonly Transform _parent;
         private readonly PresentersFactory _presentersFactory;
         private readonly DishCookbookContext _cookbook;
-        private MatchRecipePresenter _matchRecipePresenter;
+        private MatchNewRecipePresenter _matchNewRecipePresenter;
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
 
-        public LeftGridRecipesPresenter(
+        public CookingRecipesPresenter(
             IContainerView view, 
             DishCookbookContext cookbook,
             PresentersFactory presentersFactory) : base(view)
@@ -40,12 +41,13 @@ namespace Tavern.UI.Presenters
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
             
-            _matchRecipePresenter.Hide();
-            _matchRecipePresenter.OnPressed -= OnMatchRecipePressed;
+            _matchNewRecipePresenter.Hide();
+            _matchNewRecipePresenter.OnPressed -= MatchNewRecipePressed;
             
             foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
             {
                 cardPresenter.Hide();
+                cardPresenter.OnRecipeClicked -= OnRecipeClicked;
             }
             
             _recipeCardPresenters.Clear();
@@ -53,9 +55,9 @@ namespace Tavern.UI.Presenters
 
         private void SetupMatchRecipe()
         {
-            _matchRecipePresenter ??= _presentersFactory.CreateMatchRecipePresenter(_parent);
-            _matchRecipePresenter.OnPressed += OnMatchRecipePressed;
-            _matchRecipePresenter.Show();
+            _matchNewRecipePresenter ??= _presentersFactory.CreateMatchNewRecipePresenter(_parent);
+            _matchNewRecipePresenter.OnPressed += MatchNewRecipePressed;
+            _matchNewRecipePresenter.Show();
         }
 
         private void SetupCards()
@@ -71,13 +73,9 @@ namespace Tavern.UI.Presenters
         private void AddPresenter(DishRecipe dishRecipe)
         {
             RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_parent);
+            recipePresenter.OnRecipeClicked += OnRecipeClicked;
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
             recipePresenter.Show(dishRecipe);
-        }
-
-        private void OnMatchRecipePressed()
-        {
-            OnMatchRecipe?.Invoke();
         }
 
         private void OnRecipeAdded(ItemRecipe<DishItem> recipe)
@@ -96,5 +94,9 @@ namespace Tavern.UI.Presenters
                 presenter.Hide();
             }
         }
+
+        private void MatchNewRecipePressed() => OnMatchNewRecipe?.Invoke();
+        
+        private void OnRecipeClicked(DishRecipe recipe) => OnTryPrepareRecipe?.Invoke(recipe);
     }
 }

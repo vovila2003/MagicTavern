@@ -34,6 +34,32 @@ namespace Tavern.UI.Presenters
             _canvas = canvas;
         }
 
+        public bool TryRemoveProduct(string productName, out ProductItem product)
+        {
+            if (_productInventory.GetItemCount(productName) <= 0)
+            {
+                product = null;
+                return false;
+            }
+
+            product = _productInventory.RemoveItem(productName);
+
+            return true;
+        }
+        
+        public bool TryRemoveLoot(string lootName, out LootItem loot)
+        {
+            if (_lootInventory.GetItemCount(lootName) <= 0)
+            {
+                loot = null;
+                return false;
+            }
+            
+            loot = _lootInventory.RemoveItem(lootName);
+            
+            return true;
+        }
+        
         public void RemoveProduct(ProductItem product) => _productInventory.RemoveItem(product.ItemName);
 
         public void RemoveLoot(LootItem loot) => _lootInventory.RemoveItem(loot.ItemName);

@@ -9,9 +9,9 @@ namespace Tavern.UI.Presenters
     public class RecipeIngredientsPresenter : BasePresenter
     {
         private const string Return = "Убрать";
+        private const string ComponentName = "Название компонента";
         public event Action<Item> OnReturnItem;
         
-        private const string ComponentName = "Название компонента";
         private readonly IRecipeIngredientsView _view;
         private readonly CookingUISettings _settings;
         private readonly Func<Transform, ItemInfoPresenter> _infoPresenterFactory;
@@ -40,12 +40,10 @@ namespace Tavern.UI.Presenters
         {
         }
 
-        public void MatchNewRecipe()
+        public void Reset()
         {
             ResetIngredients();
             ReturnAllItems();
-            
-            //TODO clear recipe matcher
         }
 
         public bool TryAddIngredient(Item item)

@@ -51,8 +51,8 @@ namespace Tavern.UI.Views
         public IContainerView CreateLeftGridView(Transform viewContainer) => 
             Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
 
-        public IMatchRecipeView CreateMatchNewRecipeView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.MatchNewRecipeView, viewContainer);
+        public IMatchNewRecipeView CreateMatchNewRecipeView(Transform viewContainer) => 
+            Object.Instantiate(_settings.CookingSettings.MatchNewNewRecipeView, viewContainer);
 
         public IContainerView CreateCookingIngredientsView(Transform viewContainer) => 
             Object.Instantiate(_settings.CookingSettings.CookingIngredientsView, viewContainer);
@@ -68,8 +68,6 @@ namespace Tavern.UI.Views
         
         public IRecipeEffectsView CreateRecipeEffectsView(Transform viewContainer) =>
             Object.Instantiate(_settings.CookingSettings.RecipeEffectsView, viewContainer);
-        
-        
         
         //private
         private InfoPanelView CreateInfoPanelView() =>
