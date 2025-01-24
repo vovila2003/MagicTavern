@@ -80,12 +80,14 @@ namespace Tavern.UI.Presenters
             Transform viewContainer, ActiveDishRecipe recipe) => 
             new(_viewsFactory.CreateCookingAndMatchRecipeView(viewContainer), this, recipe);
 
-        public CookingIngredientsPresenter CreateCookingIngredientsPresenter(Transform viewContainer) =>
+        public CookingIngredientsPresenter CreateCookingIngredientsPresenter(
+            Transform viewContainer, ActiveDishRecipe recipe) =>
             new(_viewsFactory.CreateCookingIngredientsView(viewContainer),
                 _productInventory,
                 _lootInventory,
                 this,
-                _sceneSettings.Canvas);
+                _sceneSettings.Canvas, 
+                recipe);
 
         public MatchNewRecipePresenter CreateMatchNewRecipePresenter(Transform viewContainer) => 
             new(_viewsFactory.CreateMatchNewRecipeView(viewContainer));

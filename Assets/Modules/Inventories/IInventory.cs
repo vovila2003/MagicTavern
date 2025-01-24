@@ -19,5 +19,6 @@ namespace Modules.Inventories
         int GetItemCount(string name);
         bool FindAllItems(string name, out List<T> items);
         bool IsItemExists(T item);
+        bool IsItemExists(string name);
     }
 }

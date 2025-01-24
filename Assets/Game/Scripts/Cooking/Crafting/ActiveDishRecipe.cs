@@ -19,20 +19,21 @@ namespace Tavern.Cooking
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
 
-        private readonly List<ProductItem> _products = new();
-        private readonly List<ProductItem> _fakeProducts = new();
-        private readonly List<LootItem> _loots = new();
-        private readonly List<LootItem> _fakeLoots = new();
+        private readonly HashSet<ProductItem> _products = new();
+        private readonly HashSet<ProductItem> _fakeProducts = new();
+        private readonly HashSet<LootItem> _loots = new();
+        private readonly HashSet<LootItem> _fakeLoots = new();
+        private readonly HashSet<string> _items = new();
 
         private DishRecipe _recipe;
 
-        public IReadOnlyList<Item> Products => _products;
+        public IReadOnlyCollection<Item> Products => _products;
 
-        public IReadOnlyList<Item> FakeProducts => _fakeProducts;
+        public IReadOnlyCollection<Item> FakeProducts => _fakeProducts;
 
-        public IReadOnlyList<Item> Loots => _loots;
+        public IReadOnlyCollection<Item> Loots => _loots;
 
-        public IReadOnlyList<Item> FakeLoots => _fakeLoots;
+        public IReadOnlyCollection<Item> FakeLoots => _fakeLoots;
 
         private bool CanAddIngredient => _products.Count + _loots.Count < MaxIngredientsCount;
 
@@ -43,6 +44,8 @@ namespace Tavern.Cooking
             _productInventory = productInventory;
             _lootInventory = lootInventory;
         }
+        
+        public bool HasItem(string item) => _items.Contains(item);
 
         public bool CanTryCraft()
         {
@@ -78,6 +81,7 @@ namespace Tavern.Cooking
         {
             _fakeProducts.Clear();
             _fakeLoots.Clear();
+            _items.Clear();
             SetRecipe(null);
             ReturnProducts();
             ReturnLoots();
@@ -87,21 +91,25 @@ namespace Tavern.Cooking
 
         public void SetRecipe(DishRecipe recipe) => _recipe = recipe;
 
-        private void AddItem<T>(T item, IStackableInventory<T> inventory, List<T> collection) where T : Item
+        private void AddItem<T>(T item, IStackableInventory<T> inventory, HashSet<T> collection) where T : Item
         {
             if (!CanAddIngredient) return;
+
+            if (_items.Contains(item.ItemName)) return;
             
             collection.Add(item);
+            _items.Add(item.ItemName);
             inventory.RemoveItem(item.ItemName);
             
             OnChanged?.Invoke();
         }
 
         private void RemoveItem<T>(T item, IStackableInventory<T> inventory, 
-            List<T> collection, List<T> fakeCollection) where T : Item
+            HashSet<T> collection, HashSet<T> fakeCollection) where T : Item
         {
             if (collection.Remove(item))
             {
+                _items.Remove(item.ItemName);
                 inventory.AddItem(item);
             }
             
@@ -113,9 +121,11 @@ namespace Tavern.Cooking
         {
             foreach (ProductItemConfig productConfig in recipe.Products)
             {
-                ProductItem product = _productInventory.RemoveItem(productConfig.Item.ItemName);
-                if (product != null)
+                string productName = productConfig.Item.ItemName;
+                if (_productInventory.IsItemExists(productName))
                 {
+                    _items.Add(productName);
+                    ProductItem product = _productInventory.RemoveItem(productName);
                     _products.Add(product);
                 }
                 else
@@ -130,9 +140,11 @@ namespace Tavern.Cooking
         {
             foreach (LootItemConfig lootConfig in recipe.Loots)
             {
-                LootItem loot = _lootInventory.RemoveItem(lootConfig.Item.ItemName);
-                if (loot != null)
+                string lootName = lootConfig.Item.ItemName;
+                if (_lootInventory.IsItemExists(lootName))
                 {
+                    _items.Add(lootName);
+                    LootItem loot = _lootInventory.RemoveItem(lootName);
                     _loots.Add(loot);
                 }
                 else

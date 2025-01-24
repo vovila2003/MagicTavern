@@ -114,6 +114,8 @@ namespace Modules.Inventories
         public bool IsItemExists(T item) => 
             IsStackable(item) ? FindItem(item.ItemName, out T _) : _listInventory.IsItemExists(item);
 
+        public bool IsItemExists(string name) => FindItem(name, out T _);
+
         private bool IsStackable(T item) => item.ItemFlags.HasFlag(ItemFlags.Stackable);
 
         private void AddSingle(T item)

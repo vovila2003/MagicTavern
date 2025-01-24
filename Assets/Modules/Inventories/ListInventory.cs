@@ -107,5 +107,7 @@ namespace Modules.Inventories
         {
             return _items.Contains(item);
         }
+
+        public bool IsItemExists(string name) => FindItem(name, out _);
     }
 }

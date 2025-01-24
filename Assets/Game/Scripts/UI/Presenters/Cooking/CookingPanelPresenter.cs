@@ -27,7 +27,7 @@ namespace Tavern.UI.Presenters
             _recipesPresenter = factory.CreateLeftGridPresenter(_view.Container);
             _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(
                 _view.Container, activeRecipe);
-            _ingredientsPresenter = factory.CreateCookingIngredientsPresenter(_view.Container);
+            _ingredientsPresenter = factory.CreateCookingIngredientsPresenter(_view.Container, activeRecipe);
         }
 
         protected override void OnShow()
@@ -51,6 +51,8 @@ namespace Tavern.UI.Presenters
             
             _ingredientsPresenter.Hide();
             _ingredientsPresenter.OnTryAddItem -= OnTryAddItemToActiveRecipe;
+            
+            _activeRecipe.Reset();
         }
 
         private void SetupView()

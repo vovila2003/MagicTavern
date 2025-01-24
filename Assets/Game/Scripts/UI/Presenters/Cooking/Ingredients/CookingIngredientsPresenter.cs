@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
+using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.Looting;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Tavern.UI.Presenters
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly PresentersFactory _presentersFactory;
         private readonly Transform _canvas;
+        private readonly ActiveDishRecipe _recipe;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
         private ItemInfoPresenter _itemInfoPresenter;
 
@@ -25,13 +27,15 @@ namespace Tavern.UI.Presenters
             IStackableInventory<ProductItem> productInventory,
             IStackableInventory<LootItem> lootInventory,
             PresentersFactory presentersFactory, 
-            Transform canvas) : base(view)
+            Transform canvas,
+            ActiveDishRecipe recipe) : base(view)
         {
             _parent = view.ContentTransform;
             _productInventory = productInventory;
             _lootInventory = lootInventory;
             _presentersFactory = presentersFactory;
             _canvas = canvas;
+            _recipe = recipe;
         }
 
         protected override void OnShow()
@@ -84,21 +88,21 @@ namespace Tavern.UI.Presenters
             presenter.Show(item, itemCount);
         }
 
-        private void OnProductCountChanged(Item item, int count)
+        private void OnProductCountChanged(Item item, int count) => OnItemCountChanged(item, count, _productInventory);
+
+        private void OnLootCountChanged(Item item, int count) => OnItemCountChanged(item, count, _lootInventory);
+
+        private void OnItemCountChanged<T>(Item item, int count, IStackableInventory<T> inventory) where T : Item
         {
-            if (!_presenters.ContainsKey(item))
+            if (_recipe.HasItem(item.ItemName))
             {
-                AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
+                OnItemRemoved(item);
+                return;
             }
             
-            _presenters[item].ChangeCount(count);
-        }
-
-        private void OnLootCountChanged(Item item, int count)
-        {
             if (!_presenters.ContainsKey(item))
             {
-                AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
+                AddPresenter(item, inventory.GetItemCount(item.ItemName));
             }
             
             _presenters[item].ChangeCount(count);

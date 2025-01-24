@@ -17,12 +17,18 @@ namespace Tavern.UI.Presenters
         
         protected override void OnShow()
         {
+            SetupView();
             _crafter.OnStateChanged += OnCraftStateChanged;
         }
 
         protected override void OnHide()
         {
             _crafter.OnStateChanged -= OnCraftStateChanged;
+        }
+
+        private void SetupView()
+        {
+            _view.SetStartButtonActive(false);
         }
 
         private void OnCraftStateChanged(bool state)

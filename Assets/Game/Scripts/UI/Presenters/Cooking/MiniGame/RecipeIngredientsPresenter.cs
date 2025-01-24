@@ -21,7 +21,7 @@ namespace Tavern.UI.Presenters
         private readonly ActiveDishRecipe _recipe;
         private readonly Dictionary<IRecipeIngredientView, Item> _views = new();
         
-        private ItemInfoPresenter _itemInfoPresenter;
+        private ItemInfoPresenter _infoPresenter;
 
         public RecipeIngredientsPresenter(
             IRecipeIngredientsView view, 
@@ -39,6 +39,7 @@ namespace Tavern.UI.Presenters
 
         protected override void OnShow()
         {
+            ResetIngredients();
             _recipe.OnChanged += SetupRecipe;
         }
 
@@ -72,12 +73,12 @@ namespace Tavern.UI.Presenters
             _views.Clear();
         }
 
-        private void SetupIngredients(ref int offset, IReadOnlyList<Item> collection, bool isFake)
+        private void SetupIngredients(ref int offset, IReadOnlyCollection<Item> collection, bool isFake)
         {
             int count = collection.Count;
-            for (int i = 0; i < count; ++i)
+            int i = 0;
+            foreach (Item item in collection)
             {
-                Item item = collection[i];
                 if (i + offset >= _view.RecipeIngredients.Count) break;
                 
                 IRecipeIngredientView recipeIngredientView = _view.RecipeIngredients[i + offset];
@@ -86,9 +87,12 @@ namespace Tavern.UI.Presenters
                 recipeIngredientView.SetIcon(metadata.Icon);
                 recipeIngredientView.SetBackgroundColor(_settings.FilledColor);
                 recipeIngredientView.SetFake(isFake);
+                
                 recipeIngredientView.OnLeftClicked += OnIngredientLeftClicked;
                 recipeIngredientView.OnRightClicked += OnIngredientRightClicked;
+                
                 _views.Add(recipeIngredientView, item);
+                i++;
             }
             
             offset += count;
@@ -97,17 +101,17 @@ namespace Tavern.UI.Presenters
         private void OnIngredientLeftClicked(IRecipeIngredientView view)
         {
             Item item = _views[view];
-            _itemInfoPresenter ??= _infoPresenterFactory(_canvas);
+            _infoPresenter ??= _infoPresenterFactory(_canvas);
             
-            if (!_itemInfoPresenter.Show(item, Return)) return;
+            if (!_infoPresenter.Show(item, Return)) return;
             
-            _itemInfoPresenter.OnAccepted += OnItemReturned;
-            _itemInfoPresenter.OnRejected += OnCancelled;
+            _infoPresenter.OnAccepted += Returned;
+            _infoPresenter.OnRejected += OnCancelled;
         }
 
-        private void OnItemReturned(Item item)
+        private void Returned(Item item)
         {
-            UnsubscribeItemInfo();
+            UnsubscribeInfo();
             ReturnItem(item);
         }
 
@@ -124,7 +128,7 @@ namespace Tavern.UI.Presenters
             }
         }
 
-        private void OnCancelled() => UnsubscribeItemInfo();
+        private void OnCancelled() => UnsubscribeInfo();
 
         private void OnIngredientRightClicked(IRecipeIngredientView view) => ReturnItem(_views[view]);
 
@@ -134,10 +138,10 @@ namespace Tavern.UI.Presenters
             view.OnRightClicked -= OnIngredientRightClicked;
         }
 
-        private void UnsubscribeItemInfo()
+        private void UnsubscribeInfo()
         {
-            _itemInfoPresenter.OnAccepted -= OnItemReturned;
-            _itemInfoPresenter.OnRejected -= OnCancelled;
+            _infoPresenter.OnAccepted -= Returned;
+            _infoPresenter.OnRejected -= OnCancelled;
         }
     }
 }

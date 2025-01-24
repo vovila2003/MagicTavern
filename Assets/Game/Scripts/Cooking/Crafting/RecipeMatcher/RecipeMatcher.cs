@@ -95,7 +95,7 @@ namespace Tavern.Cooking
             OnRecipeMatched?.Invoke(matchResult);
         }
 
-        private void AddNames(IReadOnlyList<Item> collection)
+        private void AddNames(IReadOnlyCollection<Item> collection)
         {
             foreach (Item item in collection)
             {
