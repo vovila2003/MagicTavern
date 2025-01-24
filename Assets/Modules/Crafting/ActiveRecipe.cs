@@ -1,4 +1,3 @@
-using System;
 using Modules.Inventories;
 using Modules.Items;
 using Modules.Timers;
@@ -7,9 +6,7 @@ namespace Modules.Crafting
 {
     public abstract class ActiveRecipe<T> where T : Item
     {
-        public abstract bool HaveAllIngredients { get; protected set; }
-        public abstract bool CanCraft { get; }
-        public bool Filled { get; private set; }
+        public abstract bool CanCraft { get; protected set; }
 
         private readonly IInventory<T> _outputInventory;
         private ItemRecipe<T> _recipe;
@@ -19,7 +16,6 @@ namespace Modules.Crafting
         {
             _outputInventory = outputInventory;
             Timer = new Countdown();
-            Filled = false;
         }
 
         public void Setup(ItemRecipe<T> recipe)
@@ -28,13 +24,11 @@ namespace Modules.Crafting
             
             Reset();
             _recipe = recipe;
-            Filled = true;
             OnSetup();
         }
 
         public void Reset()
         {
-            Filled = false;
             OnReset();
         }
 
@@ -87,6 +81,3 @@ namespace Modules.Crafting
         }
     }
 }
-
-
-

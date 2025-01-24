@@ -70,14 +70,8 @@ namespace Tavern.Common
             }
         }
 
-        private void OnAdded(ItemRecipe<T> recipe)
-        {
-            OnRecipeAdded?.Invoke(recipe);
-        }
+        private void OnAdded(ItemRecipe<T> recipe) => OnRecipeAdded?.Invoke(recipe);
 
-        private void OnRemoved(ItemRecipe<T> recipe)
-        {
-            OnRecipeRemoved?.Invoke(recipe);
-        }
+        private void OnRemoved(ItemRecipe<T> recipe) => OnRecipeRemoved?.Invoke(recipe);
     }
 }

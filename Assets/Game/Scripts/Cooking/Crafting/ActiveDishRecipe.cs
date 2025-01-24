@@ -25,10 +25,7 @@ namespace Tavern.Cooking
         private const int MaxIngredientsCount = 7;
 
         public event Action OnChanged;
-
-        //TODO
-        public event Action<DishRecipe> OnMatched;
-        public event Action<DishRecipe> OnPrepared;
+        public event Action<DishItem> OnPrepared;
 
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
@@ -41,11 +38,8 @@ namespace Tavern.Cooking
 
         private DishRecipe _recipe;
         
-        public override bool HaveAllIngredients { get; protected set; }
-        public bool HaveAllKitchenItems { get; private set; }
-        
         //TODO
-        public override bool CanCraft => HaveAllIngredients && HaveAllKitchenItems;
+        public override bool CanCraft { get; protected set; }
         public IReadOnlyList<Item> Products => _products;
         public IReadOnlyList<Item> FakeProducts => _fakeProducts;
         public IReadOnlyList<Item> Loots => _loots;
@@ -80,11 +74,6 @@ namespace Tavern.Cooking
             GetProducts(_recipe);
             GetLoots(_recipe);
             
-            //TODO
-            HaveAllIngredients = Filled && _fakeProducts.Count == 0 && _fakeLoots.Count == 0;
-            
-            HaveAllKitchenItems = CheckKitchenItems(_recipe);
-            
             OnChanged?.Invoke();
         }
 
@@ -113,13 +102,12 @@ namespace Tavern.Cooking
         private void AddItem<T>(T item, IStackableInventory<T> inventory, List<T> collection) where T : Item
         {
             if (!CanAddIngredient) return;
-
+            
             collection.Add(item);
             inventory.RemoveItem(item.ItemName);
             OnChanged?.Invoke();
-            CheckMatch();
         }
-        
+
         private void RemoveItem<T>(T item, IStackableInventory<T> inventory, 
             List<T> collection, List<T> fakeCollection) where T : Item
         {
@@ -127,10 +115,9 @@ namespace Tavern.Cooking
             {
                 inventory.AddItem(item);
             }
-
+            
             fakeCollection.Remove(item);
             OnChanged?.Invoke();
-            CheckMatch();
         }
 
         private void GetProducts(DishRecipe recipe)
@@ -167,11 +154,6 @@ namespace Tavern.Cooking
             }
         }
 
-        private void CheckMatch()
-        {
-            //TODO    
-        }
-
         private void ReturnProducts()
         {
             foreach (ProductItem product in _products)
@@ -192,6 +174,7 @@ namespace Tavern.Cooking
             _loots.Clear();
         }
 
+        //TODO
         private bool CheckKitchenItems(DishRecipe recipe) => 
             recipe.KitchenItems.All(
                 kitchenItemConfig => _kitchenInventory.GetItemCount(kitchenItemConfig.Item.ItemName) > 0);

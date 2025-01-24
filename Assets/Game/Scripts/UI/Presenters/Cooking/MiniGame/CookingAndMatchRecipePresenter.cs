@@ -1,5 +1,3 @@
-using System;
-using Modules.Items;
 using Tavern.Cooking;
 using Tavern.Settings;
 
@@ -7,8 +5,6 @@ namespace Tavern.UI.Presenters
 {
     public class CookingAndMatchRecipePresenter : BasePresenter
     {
-        public event Action<Item> OnReturnItem;
-        
         private readonly CookingUISettings _settings;
         private readonly CookingMiniGamePresenter _cookingMiniGamePresenter;
         private readonly RecipeIngredientsPresenter _recipeIngredientsPresenter;
@@ -30,7 +26,6 @@ namespace Tavern.UI.Presenters
             _cookingMiniGamePresenter.Show();
             
             _recipeIngredientsPresenter.Show();
-            _recipeIngredientsPresenter.OnReturnItem += OnReturn;
             
             _recipeEffectsPresenter.Show();
         }
@@ -40,11 +35,8 @@ namespace Tavern.UI.Presenters
             _cookingMiniGamePresenter.Hide();
             
             _recipeIngredientsPresenter.Hide();
-            _recipeIngredientsPresenter.OnReturnItem -= OnReturn;
             
             _recipeEffectsPresenter.Hide();
         }
-
-        private void OnReturn(Item item) => OnReturnItem?.Invoke(item);
     }
 }

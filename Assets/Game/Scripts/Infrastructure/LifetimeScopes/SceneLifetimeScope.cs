@@ -173,8 +173,6 @@ namespace Tavern.Infrastructure
             builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
 
-            builder.RegisterEntryPoint<DishCrafter>().AsSelf();
-            builder.RegisterComponentInHierarchy<DishCrafterContext>();
             builder.RegisterEntryPoint<ActiveDishRecipe>().AsSelf();
             
             builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
@@ -184,7 +182,7 @@ namespace Tavern.Infrastructure
             
             builder.RegisterInstance(GameSettings.DishRecipes);
 
-            builder.Register<RecipeMatcher>(Lifetime.Singleton);
+            builder.Register<RecipeMatcher>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }
 
         private void RegisterShopping(IContainerBuilder builder)

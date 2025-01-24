@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Cooking;
+using Tavern.Gardening;
+using Tavern.Looting;
 using Tavern.Settings;
 using UnityEngine;
 
@@ -11,8 +13,7 @@ namespace Tavern.UI.Presenters
     {
         private const string Return = "Убрать";
         private const string ComponentName = "Название компонента";
-        public event Action<Item> OnReturnItem;
-        
+
         private readonly IRecipeIngredientsView _view;
         private readonly CookingUISettings _settings;
         private readonly Func<Transform, ItemInfoPresenter> _infoPresenterFactory;
@@ -107,14 +108,25 @@ namespace Tavern.UI.Presenters
         private void OnItemReturned(Item item)
         {
             UnsubscribeItemInfo();
-            
-            OnReturnItem?.Invoke(item);
+            ReturnItem(item);
+        }
+
+        private void ReturnItem(Item item)
+        {
+            switch (item)
+            {
+                case ProductItem productItem:
+                    _recipe.RemoveProduct(productItem);
+                    break;
+                case LootItem lootItem:
+                    _recipe.RemoveLoot(lootItem);
+                    break;
+            }
         }
 
         private void OnCancelled() => UnsubscribeItemInfo();
 
-        private void OnIngredientRightClicked(IRecipeIngredientView view) => 
-            OnReturnItem?.Invoke(_views[view]);
+        private void OnIngredientRightClicked(IRecipeIngredientView view) => ReturnItem(_views[view]);
 
         private void UnsubscribeIngredientView(IRecipeIngredientView view)
         {

@@ -48,7 +48,6 @@ namespace Tavern.UI.Presenters
             _recipesPresenter.OnTryPrepareRecipe -= TryPrepareRecipe;
             
             _cookingAndMatchRecipePresenter.Hide();
-            _cookingAndMatchRecipePresenter.OnReturnItem -= OnReturnItem;
             
             _ingredientsPresenter.Hide();
             _ingredientsPresenter.OnTryAddItem -= OnTryAddItemToActiveRecipe;
@@ -69,7 +68,6 @@ namespace Tavern.UI.Presenters
 
         private void SetupMiniGame()
         {
-            _cookingAndMatchRecipePresenter.OnReturnItem += OnReturnItem;
             _cookingAndMatchRecipePresenter.Show();            
         }
 
@@ -90,19 +88,6 @@ namespace Tavern.UI.Presenters
                     break;
                 case LootItem lootItem:
                     _activeRecipe.AddLoot(lootItem);
-                    break;
-            }
-        }
-
-        private void OnReturnItem(Item item)
-        {
-            switch (item)
-            {
-                case ProductItem productItem:
-                    _activeRecipe.RemoveProduct(productItem);
-                    break;
-                case LootItem lootItem:
-                    _activeRecipe.RemoveLoot(lootItem);
                     break;
             }
         }
