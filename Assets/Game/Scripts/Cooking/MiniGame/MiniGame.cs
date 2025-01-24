@@ -4,7 +4,6 @@ using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
 using VContainer.Unity;
-using Random = UnityEngine.Random;
 
 namespace Tavern.Cooking.MiniGame
 {

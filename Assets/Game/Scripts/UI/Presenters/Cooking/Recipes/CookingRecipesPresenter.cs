@@ -9,7 +9,7 @@ namespace Tavern.UI.Presenters
     public class CookingRecipesPresenter : BasePresenter
     {
         public event Action OnMatchNewRecipe; 
-        public event Action<DishRecipe> OnTryPrepareRecipe; 
+        public event Action<DishRecipe> OnSetRecipe; 
         
         private readonly Transform _parent;
         private readonly PresentersFactory _presentersFactory;
@@ -97,6 +97,6 @@ namespace Tavern.UI.Presenters
 
         private void MatchNewRecipePressed() => OnMatchNewRecipe?.Invoke();
         
-        private void OnRecipeClicked(DishRecipe recipe) => OnTryPrepareRecipe?.Invoke(recipe);
+        private void OnRecipeClicked(DishRecipe recipe) => OnSetRecipe?.Invoke(recipe);
     }
 }

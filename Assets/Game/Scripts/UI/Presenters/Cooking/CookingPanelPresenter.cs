@@ -45,7 +45,7 @@ namespace Tavern.UI.Presenters
             
             _recipesPresenter.Hide();
             _recipesPresenter.OnMatchNewRecipe -= Reset;
-            _recipesPresenter.OnTryPrepareRecipe -= TryPrepareRecipe;
+            _recipesPresenter.OnSetRecipe -= SetRecipe;
             
             _cookingAndMatchRecipePresenter.Hide();
             
@@ -62,7 +62,7 @@ namespace Tavern.UI.Presenters
         private void SetupLeftPanel()
         {
             _recipesPresenter.OnMatchNewRecipe += Reset;
-            _recipesPresenter.OnTryPrepareRecipe += TryPrepareRecipe;
+            _recipesPresenter.OnSetRecipe += SetRecipe;
             _recipesPresenter.Show();
         }
 
@@ -92,6 +92,6 @@ namespace Tavern.UI.Presenters
             }
         }
 
-        private void TryPrepareRecipe(DishRecipe recipe) => _activeRecipe.Setup(recipe);
+        private void SetRecipe(DishRecipe recipe) => _activeRecipe.Setup(recipe);
     }
 }

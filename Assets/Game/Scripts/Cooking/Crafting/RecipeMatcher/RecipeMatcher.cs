@@ -12,7 +12,7 @@ namespace Tavern.Cooking
     [UsedImplicitly]
     public class RecipeMatcher : IInitGameListener, IExitGameListener
     {
-        public event Action<DishRecipe> OnRecipeMatched;
+        public event Action<bool> OnRecipeMatched;
         
         private class DictionaryComparer : EqualityComparer<Dictionary<string, int>>
         {
@@ -84,10 +84,15 @@ namespace Tavern.Cooking
             AddNames(_recipe.FakeProducts);
             AddNames(_recipe.Loots);
             AddNames(_recipe.FakeLoots);
-            if (!MatchRecipe(out DishRecipe recipe)) return;
             
-            OnRecipeMatched?.Invoke(recipe);
-            _cookbook.AddRecipe(recipe);
+            bool matchResult = MatchRecipe(out DishRecipe recipe);
+            if (matchResult)
+            {
+                _recipe.SetRecipe(recipe);
+                _cookbook.AddRecipe(recipe);
+            }
+
+            OnRecipeMatched?.Invoke(matchResult);
         }
 
         private void AddNames(IReadOnlyList<Item> collection)

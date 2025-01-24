@@ -17,6 +17,7 @@ namespace Tavern.UI.Presenters
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly ActiveDishRecipe _activeDishRecipe;
+        private readonly DishCrafter _dishCrafter;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
@@ -29,6 +30,7 @@ namespace Tavern.UI.Presenters
             IStackableInventory<ProductItem> productInventory,
             IStackableInventory<LootItem> lootInventory,
             ActiveDishRecipe activeDishRecipe,
+            DishCrafter dishCrafter,
             StartGameController startGameController,
             QuitGameController quitGameController,
             PauseGameController pauseGameController, 
@@ -40,6 +42,7 @@ namespace Tavern.UI.Presenters
             _productInventory = productInventory;
             _lootInventory = lootInventory;
             _activeDishRecipe = activeDishRecipe;
+            _dishCrafter = dishCrafter;
             _startGameController = startGameController;
             _quitGameController = quitGameController;
             _pauseGameController = pauseGameController;
@@ -91,7 +94,7 @@ namespace Tavern.UI.Presenters
             new(_viewsFactory.InfoViewProvider, parent);
 
         public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform parent) =>
-            new(_viewsFactory.CreateCookingMiniGameView(parent));
+            new(_viewsFactory.CreateCookingMiniGameView(parent), _dishCrafter);
 
         public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent, ActiveDishRecipe recipe) => 
             new(_viewsFactory.CreateRecipeIngredientsView(parent), 

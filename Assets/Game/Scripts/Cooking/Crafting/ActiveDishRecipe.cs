@@ -1,35 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
-using Modules.Crafting;
-using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
-using UnityEngine;
-using VContainer.Unity;
+
 
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
-    public sealed class ActiveDishRecipe : 
-        ActiveRecipe<DishItem>,
-        IExitGameListener,
-        IFinishGameListener,
-        IPauseGameListener,
-        IResumeGameListener,
-        ITickable
+    public sealed class ActiveDishRecipe  
     {
         private const int MaxIngredientsCount = 7;
 
         public event Action OnChanged;
-        public event Action<DishItem> OnPrepared;
-
+        
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
-        private readonly IStackableInventory<KitchenItem> _kitchenInventory;
 
         private readonly List<ProductItem> _products = new();
         private readonly List<ProductItem> _fakeProducts = new();
@@ -37,26 +25,33 @@ namespace Tavern.Cooking
         private readonly List<LootItem> _fakeLoots = new();
 
         private DishRecipe _recipe;
-        
-        //TODO
-        public override bool CanCraft { get; protected set; }
+
         public IReadOnlyList<Item> Products => _products;
+
         public IReadOnlyList<Item> FakeProducts => _fakeProducts;
+
         public IReadOnlyList<Item> Loots => _loots;
+
         public IReadOnlyList<Item> FakeLoots => _fakeLoots;
-        
+
         private bool CanAddIngredient => _products.Count + _loots.Count < MaxIngredientsCount;
 
         public ActiveDishRecipe(
-            IInventory<DishItem> outputInventory,
             IStackableInventory<ProductItem> productInventory,
-            IStackableInventory<LootItem> lootInventory,
-            IStackableInventory<KitchenItem> kitchenInventory
-            ) : base(outputInventory)
+            IStackableInventory<LootItem> lootInventory)
         {
             _productInventory = productInventory;
             _lootInventory = lootInventory;
-            _kitchenInventory = kitchenInventory;
+        }
+
+        public bool CanTryCraft()
+        {
+            if (_recipe == null) return false;
+            
+            return _recipe.Products.Length == Products.Count
+                   && _recipe.Loots.Length == Loots.Count
+                   && FakeLoots.Count == 0
+                   && FakeProducts.Count == 0;
         }
 
         public void AddProduct(ProductItem product) => AddItem(product, _productInventory, _products);
@@ -69,35 +64,28 @@ namespace Tavern.Cooking
         public void RemoveLoot(LootItem loot) => 
             RemoveItem(loot, _lootInventory, _loots, _fakeLoots);
 
-        protected override void OnSetup()
+        public void Setup(DishRecipe recipe)
         {
+            Reset();
+            SetRecipe(recipe);
             GetProducts(_recipe);
             GetLoots(_recipe);
             
             OnChanged?.Invoke();
         }
 
-        protected override bool OnSetupCheckRecipeType(ItemRecipe<DishItem> recipe)
-        {
-            _recipe = recipe as DishRecipe;
-            return recipe is DishRecipe;
-        }
-
-        protected override void OnReset()
+        public void Reset()
         {
             _fakeProducts.Clear();
             _fakeLoots.Clear();
+            SetRecipe(null);
             ReturnProducts();
             ReturnLoots();
-            
+
             OnChanged?.Invoke();
         }
 
-        protected override void OnCreateResult(DishItem item)
-        {
-            //TODO
-            Debug.Log($"{item.ItemName} created");
-        }
+        public void SetRecipe(DishRecipe recipe) => _recipe = recipe;
 
         private void AddItem<T>(T item, IStackableInventory<T> inventory, List<T> collection) where T : Item
         {
@@ -105,6 +93,7 @@ namespace Tavern.Cooking
             
             collection.Add(item);
             inventory.RemoveItem(item.ItemName);
+            
             OnChanged?.Invoke();
         }
 
@@ -173,20 +162,5 @@ namespace Tavern.Cooking
             
             _loots.Clear();
         }
-
-        //TODO
-        private bool CheckKitchenItems(DishRecipe recipe) => 
-            recipe.KitchenItems.All(
-                kitchenItemConfig => _kitchenInventory.GetItemCount(kitchenItemConfig.Item.ItemName) > 0);
-
-        void IExitGameListener.OnExit() => Timer.Stop();
-
-        void IFinishGameListener.OnFinish() => Timer.Stop();
-
-        void IPauseGameListener.OnPause() => Timer.Pause();
-
-        void IResumeGameListener.OnResume() => Timer.Resume();
-
-        void ITickable.Tick() => Tick(Time.deltaTime);
     }
 }
