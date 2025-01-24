@@ -7,13 +7,12 @@ namespace Modules.Crafting
 {
     public abstract class ActiveRecipe<T> where T : Item
     {
-        public event Action<T> OnPrepared;
         public abstract bool HaveAllIngredients { get; protected set; }
         public abstract bool CanCraft { get; }
         public bool Filled { get; private set; }
 
         private readonly IInventory<T> _outputInventory;
-        protected ItemRecipe<T> Recipe;
+        private ItemRecipe<T> _recipe;
         protected readonly Countdown Timer;
 
         protected ActiveRecipe(IInventory<T> outputInventory)
@@ -25,18 +24,18 @@ namespace Modules.Crafting
 
         public void Setup(ItemRecipe<T> recipe)
         {
-            if (!CheckRecipeType(recipe)) return;
+            if (!OnSetupCheckRecipeType(recipe)) return;
             
-            Dispose();
-            GetIngredients();
-            SetProperties();
+            Reset();
+            _recipe = recipe;
             Filled = true;
+            OnSetup();
         }
 
-        public void Dispose()
+        public void Reset()
         {
-            OnDispose();
             Filled = false;
+            OnReset();
         }
 
         public void Prepare()
@@ -45,7 +44,7 @@ namespace Modules.Crafting
                      
              if (!CanCraft) return;
 
-             int time = Recipe.CraftingTimeInSeconds;
+             int time = _recipe.CraftingTimeInSeconds;
              if (time <= 0)
              {
                  CreateResult();
@@ -57,20 +56,20 @@ namespace Modules.Crafting
              Timer.OnEnded += OnTimerEnded;
         }
 
-        protected abstract bool CheckRecipeType(ItemRecipe<T> recipe);
+        protected abstract void OnSetup();
 
-        protected abstract void GetIngredients();
-        
-        protected abstract void SetProperties();
+        protected abstract bool OnSetupCheckRecipeType(ItemRecipe<T> recipe);
 
-        protected abstract void OnDispose();
+        protected abstract void OnReset();
 
         protected void Tick(float deltaTime) => Timer.Tick(deltaTime);
 
+        protected abstract void OnCreateResult(T item);
+
         private void CreateResult()
         {
-            T item = AddResultToInventory(Recipe);
-            OnPrepared?.Invoke(item);
+            T item = AddResultToInventory(_recipe);
+            OnCreateResult(item);
         }
 
         private T AddResultToInventory(ItemRecipe<T> recipe)

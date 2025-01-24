@@ -16,9 +16,9 @@ MonoBehaviour:
     Name: Solt
     Flags: 1
     Metadata:
-      Title: 
-      Description: 
-      Icon: {fileID: 0}
+      Title: "\u0421\u043E\u043B\u044C"
+      Description: "\u041C\u043E\u0440\u0441\u043A\u0430\u044F \u0441\u043E\u043B\u044C"
+      Icon: {fileID: -205430985, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 1692307354129530889
   references:

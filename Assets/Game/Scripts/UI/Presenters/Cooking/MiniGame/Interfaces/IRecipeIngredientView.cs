@@ -10,5 +10,6 @@ namespace Tavern.UI.Presenters
         void SetTitle(string title);
         void SetBackgroundColor(Color color);
         void SetIcon(Sprite icon);
+        void SetFake(bool fake);
     }
 }

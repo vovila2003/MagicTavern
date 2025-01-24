@@ -20,6 +20,9 @@ namespace Tavern.UI.Views
         
         [SerializeField]
         private Image Background;
+        
+        [SerializeField]
+        private Image Fake;
 
         public void SetTitle(string title)
         {
@@ -34,6 +37,11 @@ namespace Tavern.UI.Views
         public void SetIcon(Sprite icon)
         {
             Icon.sprite = icon;
+        }
+
+        public void SetFake(bool fake)
+        {
+            Fake.gameObject.SetActive(fake);
         }
 
         public void OnPointerClick(PointerEventData eventData)

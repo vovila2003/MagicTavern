@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Modules.Items;
+using Tavern.Cooking;
 using Tavern.Settings;
 using UnityEngine;
 
@@ -16,50 +17,44 @@ namespace Tavern.UI.Presenters
         private readonly CookingUISettings _settings;
         private readonly Func<Transform, ItemInfoPresenter> _infoPresenterFactory;
         private readonly Transform _canvas;
-        private readonly List<Item> _ingredients = new();
+        private readonly ActiveDishRecipe _recipe;
         private readonly Dictionary<IRecipeIngredientView, Item> _views = new();
+        
         private ItemInfoPresenter _itemInfoPresenter;
 
         public RecipeIngredientsPresenter(
             IRecipeIngredientsView view, 
             CookingUISettings settings,
             Func<Transform, ItemInfoPresenter> infoPresenterFactory, 
-            Transform canvas) : base(view)
+            Transform canvas,
+            ActiveDishRecipe recipe) : base(view)
         {
             _view = view;
             _settings = settings;
             _infoPresenterFactory = infoPresenterFactory;
             _canvas = canvas;
+            _recipe = recipe;
         }
 
         protected override void OnShow()
         {
+            _recipe.OnChanged += SetupRecipe;
         }
 
         protected override void OnHide()
         {
+            _recipe.OnChanged -= SetupRecipe;
         }
 
-        public void Reset()
+        private void SetupRecipe()
         {
             ResetIngredients();
-            ReturnAllItems();
-        }
-
-        public bool TryAddIngredient(Item item)
-        {
-            if (_ingredients.Count >= _view.RecipeIngredients.Count) return false;
             
-            _ingredients.Add(item);
-            RepaintIngredients();
-
-            return true;
-        }
-
-        private void RepaintIngredients()
-        {
-            ResetIngredients();
-            SetupIngredients();
+            int offset = 0;
+            SetupIngredients(ref offset, _recipe.Products, false);
+            SetupIngredients(ref offset, _recipe.Loots, false);
+            SetupIngredients(ref offset, _recipe.FakeProducts, true);
+            SetupIngredients(ref offset, _recipe.FakeLoots, true);
         }
 
         private void ResetIngredients()
@@ -69,46 +64,33 @@ namespace Tavern.UI.Presenters
                 ingredientView.SetTitle(ComponentName);
                 ingredientView.SetIcon(_settings.DefaultSprite);
                 ingredientView.SetBackgroundColor(_settings.EmptyColor);
+                ingredientView.SetFake(false);
                 UnsubscribeIngredientView(ingredientView);
             }
             
             _views.Clear();
         }
 
-        private void SetupIngredients()
+        private void SetupIngredients(ref int offset, IReadOnlyList<Item> collection, bool isFake)
         {
-            for (int i = 0; i < _ingredients.Count; i++)
+            int count = collection.Count;
+            for (int i = 0; i < count; ++i)
             {
-                Item item = _ingredients[i];
-                IRecipeIngredientView recipeIngredientView = _view.RecipeIngredients[i];
-                SetupIngredientView(item, recipeIngredientView);
+                Item item = collection[i];
+                if (i + offset >= _view.RecipeIngredients.Count) break;
+                
+                IRecipeIngredientView recipeIngredientView = _view.RecipeIngredients[i + offset];
+                ItemMetadata metadata = item.ItemMetadata;
+                recipeIngredientView.SetTitle(metadata.Title);
+                recipeIngredientView.SetIcon(metadata.Icon);
+                recipeIngredientView.SetBackgroundColor(_settings.FilledColor);
+                recipeIngredientView.SetFake(isFake);
+                recipeIngredientView.OnLeftClicked += OnIngredientLeftClicked;
+                recipeIngredientView.OnRightClicked += OnIngredientRightClicked;
                 _views.Add(recipeIngredientView, item);
             }
-        }
-
-        private void SetupIngredientView(Item item, IRecipeIngredientView recipeIngredientView)
-        {
-            ItemMetadata metadata = item.ItemMetadata;
-            recipeIngredientView.SetTitle(metadata.Title);
-            recipeIngredientView.SetIcon(metadata.Icon);
-            recipeIngredientView.SetBackgroundColor(_settings.FilledColor);
-            SubscribeIngredientView(recipeIngredientView);
-        }
-
-        private void SubscribeIngredientView(IRecipeIngredientView view)
-        {
-            view.OnLeftClicked += OnIngredientLeftClicked;
-            view.OnRightClicked += OnIngredientRightClicked;
-        }
-
-        private void ReturnAllItems()
-        {
-            foreach (Item item in _ingredients)
-            {
-                OnReturnItem?.Invoke(item);        
-            }
             
-            _ingredients.Clear();
+            offset += count;
         }
 
         private void OnIngredientLeftClicked(IRecipeIngredientView view)
@@ -125,20 +107,14 @@ namespace Tavern.UI.Presenters
         private void OnItemReturned(Item item)
         {
             UnsubscribeItemInfo();
-            ReturnItem(item);
+            
+            OnReturnItem?.Invoke(item);
         }
 
         private void OnCancelled() => UnsubscribeItemInfo();
 
         private void OnIngredientRightClicked(IRecipeIngredientView view) => 
-            ReturnItem(_views[view]);
-
-        private void ReturnItem(Item item)
-        {
-            _ingredients.Remove(item);
-            OnReturnItem?.Invoke(item);
-            RepaintIngredients();
-        }
+            OnReturnItem?.Invoke(_views[view]);
 
         private void UnsubscribeIngredientView(IRecipeIngredientView view)
         {

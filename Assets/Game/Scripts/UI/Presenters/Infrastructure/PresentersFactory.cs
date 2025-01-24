@@ -73,9 +73,9 @@ namespace Tavern.UI.Presenters
                 this,
                 _activeDishRecipe);
 
-        public CookingAndMatchRecipePresenter CreateCookingAndMatchRecipePresenter(Transform viewContainer) => 
-            new(_viewsFactory.CreateCookingAndMatchRecipeView(viewContainer), 
-                this);
+        public CookingAndMatchRecipePresenter CreateCookingAndMatchRecipePresenter(
+            Transform viewContainer, ActiveDishRecipe recipe) => 
+            new(_viewsFactory.CreateCookingAndMatchRecipeView(viewContainer), this, recipe);
 
         public CookingIngredientsPresenter CreateCookingIngredientsPresenter(Transform viewContainer) =>
             new(_viewsFactory.CreateCookingIngredientsView(viewContainer),
@@ -93,11 +93,12 @@ namespace Tavern.UI.Presenters
         public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform parent) =>
             new(_viewsFactory.CreateCookingMiniGameView(parent));
 
-        public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent) => 
+        public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent, ActiveDishRecipe recipe) => 
             new(_viewsFactory.CreateRecipeIngredientsView(parent), 
                 _settings.CookingSettings, 
                 CreateItemInfoPresenter,
-                _sceneSettings.Canvas);
+                _sceneSettings.Canvas,
+                recipe);
 
         public RecipeEffectsPresenter CreateRecipeEffectsPresenter(Transform parent) => 
             new(_viewsFactory.CreateRecipeEffectsView(parent), _settings.CookingSettings);

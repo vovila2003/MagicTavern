@@ -1,5 +1,6 @@
 using System;
 using Modules.Items;
+using Tavern.Cooking;
 using Tavern.Settings;
 
 namespace Tavern.UI.Presenters
@@ -14,11 +15,13 @@ namespace Tavern.UI.Presenters
         private readonly RecipeEffectsPresenter _recipeEffectsPresenter;
 
         public CookingAndMatchRecipePresenter(
-            ICookingAndMatchRecipeView view, 
-            PresentersFactory factory) : base(view)
+            ICookingAndMatchRecipeView view,
+            PresentersFactory factory,
+            ActiveDishRecipe recipe
+            ) : base(view)
         {
             _cookingMiniGamePresenter = factory.CreateCookingMiniGamePresenter(view.Transform);
-            _recipeIngredientsPresenter = factory.CreateRecipeIngredientsPresenter(view.Transform);
+            _recipeIngredientsPresenter = factory.CreateRecipeIngredientsPresenter(view.Transform, recipe);
             _recipeEffectsPresenter = factory.CreateRecipeEffectsPresenter(view.Transform);
         }
 
@@ -42,14 +45,6 @@ namespace Tavern.UI.Presenters
             _recipeEffectsPresenter.Hide();
         }
 
-        public void Reset()
-        {
-            _recipeIngredientsPresenter.Reset();
-            _recipeEffectsPresenter.Reset();
-        }
-
-        public bool TryAddIngredient(Item item) => _recipeIngredientsPresenter.TryAddIngredient(item);
-        
         private void OnReturn(Item item) => OnReturnItem?.Invoke(item);
     }
 }

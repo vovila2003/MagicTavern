@@ -11,25 +11,28 @@ namespace Tavern.UI.Presenters
         
         private readonly IPanelView _view;
         private readonly ActiveDishRecipe _activeRecipe;
-        private readonly CookingRecipesPresenter _cookingRecipesPresenter;
+        
+        private readonly CookingRecipesPresenter _recipesPresenter;
         private readonly CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
-        private readonly CookingIngredientsPresenter _cookingIngredientsPresenter;
+        private readonly CookingIngredientsPresenter _ingredientsPresenter;
 
         public CookingPanelPresenter(
             IPanelView view, 
-            PresentersFactory presentersFactory,
+            PresentersFactory factory,
             ActiveDishRecipe activeRecipe
             ) : base(view)
         {
             _view = view;
             _activeRecipe = activeRecipe;
-            _cookingRecipesPresenter = presentersFactory.CreateLeftGridPresenter(_view.Container);
-            _cookingAndMatchRecipePresenter = presentersFactory.CreateCookingAndMatchRecipePresenter(_view.Container);
-            _cookingIngredientsPresenter = presentersFactory.CreateCookingIngredientsPresenter(_view.Container);
+            _recipesPresenter = factory.CreateLeftGridPresenter(_view.Container);
+            _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(
+                _view.Container, activeRecipe);
+            _ingredientsPresenter = factory.CreateCookingIngredientsPresenter(_view.Container);
         }
 
         protected override void OnShow()
         {
+            _activeRecipe.Reset();
             SetupView();
             SetupLeftPanel();
             SetupMiniGame();
@@ -40,15 +43,15 @@ namespace Tavern.UI.Presenters
         {
             _view.OnCloseClicked -= Hide;
             
-            _cookingRecipesPresenter.Hide();
-            _cookingRecipesPresenter.OnMatchNewRecipe -= Reset;
-            _cookingRecipesPresenter.OnTryPrepareRecipe -= TryPrepareRecipe;
+            _recipesPresenter.Hide();
+            _recipesPresenter.OnMatchNewRecipe -= Reset;
+            _recipesPresenter.OnTryPrepareRecipe -= TryPrepareRecipe;
             
             _cookingAndMatchRecipePresenter.Hide();
             _cookingAndMatchRecipePresenter.OnReturnItem -= OnReturnItem;
             
-            _cookingIngredientsPresenter.Hide();
-            _cookingIngredientsPresenter.OnTryAddItem -= OnTryAddItemToRecipeIngredients;
+            _ingredientsPresenter.Hide();
+            _ingredientsPresenter.OnTryAddItem -= OnTryAddItemToActiveRecipe;
         }
 
         private void SetupView()
@@ -59,9 +62,9 @@ namespace Tavern.UI.Presenters
 
         private void SetupLeftPanel()
         {
-            _cookingRecipesPresenter.OnMatchNewRecipe += Reset;
-            _cookingRecipesPresenter.OnTryPrepareRecipe += TryPrepareRecipe;
-            _cookingRecipesPresenter.Show();
+            _recipesPresenter.OnMatchNewRecipe += Reset;
+            _recipesPresenter.OnTryPrepareRecipe += TryPrepareRecipe;
+            _recipesPresenter.Show();
         }
 
         private void SetupMiniGame()
@@ -72,26 +75,21 @@ namespace Tavern.UI.Presenters
 
         private void SetupIngredients()
         {
-            _cookingIngredientsPresenter.OnTryAddItem += OnTryAddItemToRecipeIngredients;
-            _cookingIngredientsPresenter.Show();
+            _ingredientsPresenter.OnTryAddItem += OnTryAddItemToActiveRecipe;
+            _ingredientsPresenter.Show();
         }
 
-        private void Reset()
-        {
-            _cookingAndMatchRecipePresenter.Reset();
-        }
+        private void Reset() => _activeRecipe.Reset();
 
-        private void OnTryAddItemToRecipeIngredients(Item item)
+        private void OnTryAddItemToActiveRecipe(Item item)
         {
-            if (!_cookingAndMatchRecipePresenter.TryAddIngredient(item)) return;
-
             switch (item)
             {
                 case ProductItem productItem:
-                    _cookingIngredientsPresenter.RemoveProduct(productItem);
+                    _activeRecipe.AddProduct(productItem);
                     break;
                 case LootItem lootItem:
-                    _cookingIngredientsPresenter.RemoveLoot(lootItem);
+                    _activeRecipe.AddLoot(lootItem);
                     break;
             }
         }
@@ -101,18 +99,14 @@ namespace Tavern.UI.Presenters
             switch (item)
             {
                 case ProductItem productItem:
-                    _cookingIngredientsPresenter.AddProduct(productItem);
+                    _activeRecipe.RemoveProduct(productItem);
                     break;
                 case LootItem lootItem:
-                    _cookingIngredientsPresenter.AddLoot(lootItem);
+                    _activeRecipe.RemoveLoot(lootItem);
                     break;
             }
         }
 
-        private void TryPrepareRecipe(DishRecipe recipe)
-        {
-            Reset();
-            _activeRecipe.Setup(recipe);
-        }
+        private void TryPrepareRecipe(DishRecipe recipe) => _activeRecipe.Setup(recipe);
     }
 }

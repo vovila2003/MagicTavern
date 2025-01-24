@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
+using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
 using UnityEngine;
@@ -20,9 +22,13 @@ namespace Tavern.Cooking
         IResumeGameListener,
         ITickable
     {
-        public override bool HaveAllIngredients { get; protected set; }
-        public bool HaveAllKitchenItems { get; private set; }
-        public override bool CanCraft => HaveAllIngredients && HaveAllKitchenItems;
+        private const int MaxIngredientsCount = 7;
+
+        public event Action OnChanged;
+
+        //TODO
+        public event Action<DishRecipe> OnMatched;
+        public event Action<DishRecipe> OnPrepared;
 
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
@@ -32,8 +38,20 @@ namespace Tavern.Cooking
         private readonly List<ProductItem> _fakeProducts = new();
         private readonly List<LootItem> _loots = new();
         private readonly List<LootItem> _fakeLoots = new();
-        
+
         private DishRecipe _recipe;
+        
+        public override bool HaveAllIngredients { get; protected set; }
+        public bool HaveAllKitchenItems { get; private set; }
+        
+        //TODO
+        public override bool CanCraft => HaveAllIngredients && HaveAllKitchenItems;
+        public IReadOnlyList<Item> Products => _products;
+        public IReadOnlyList<Item> FakeProducts => _fakeProducts;
+        public IReadOnlyList<Item> Loots => _loots;
+        public IReadOnlyList<Item> FakeLoots => _fakeLoots;
+        
+        private bool CanAddIngredient => _products.Count + _loots.Count < MaxIngredientsCount;
 
         public ActiveDishRecipe(
             IInventory<DishItem> outputInventory,
@@ -47,30 +65,111 @@ namespace Tavern.Cooking
             _kitchenInventory = kitchenInventory;
         }
 
-        protected override bool CheckRecipeType(ItemRecipe<DishItem> recipe)
+        public void AddProduct(ProductItem product) => AddItem(product, _productInventory, _products);
+
+        public void AddLoot(LootItem loot) => AddItem(loot, _lootInventory, _loots);
+
+        public void RemoveProduct(ProductItem product) => 
+            RemoveItem(product, _productInventory, _products, _fakeProducts);
+
+        public void RemoveLoot(LootItem loot) => 
+            RemoveItem(loot, _lootInventory, _loots, _fakeLoots);
+
+        protected override void OnSetup()
+        {
+            GetProducts(_recipe);
+            GetLoots(_recipe);
+            
+            //TODO
+            HaveAllIngredients = Filled && _fakeProducts.Count == 0 && _fakeLoots.Count == 0;
+            
+            HaveAllKitchenItems = CheckKitchenItems(_recipe);
+            
+            OnChanged?.Invoke();
+        }
+
+        protected override bool OnSetupCheckRecipeType(ItemRecipe<DishItem> recipe)
         {
             _recipe = recipe as DishRecipe;
             return recipe is DishRecipe;
         }
 
-        protected override void GetIngredients()
-        {
-            GetProducts(_recipe);
-            GetLoots(_recipe);
-        }
-
-        protected override void SetProperties()
-        {
-            HaveAllIngredients = Filled && _fakeProducts.Count == 0 && _fakeLoots.Count == 0;
-            HaveAllKitchenItems = CheckKitchenItems(_recipe);
-        }
-
-        protected override void OnDispose()
+        protected override void OnReset()
         {
             _fakeProducts.Clear();
             _fakeLoots.Clear();
             ReturnProducts();
             ReturnLoots();
+            
+            OnChanged?.Invoke();
+        }
+
+        protected override void OnCreateResult(DishItem item)
+        {
+            //TODO
+            Debug.Log($"{item.ItemName} created");
+        }
+
+        private void AddItem<T>(T item, IStackableInventory<T> inventory, List<T> collection) where T : Item
+        {
+            if (!CanAddIngredient) return;
+
+            collection.Add(item);
+            inventory.RemoveItem(item.ItemName);
+            OnChanged?.Invoke();
+            CheckMatch();
+        }
+        
+        private void RemoveItem<T>(T item, IStackableInventory<T> inventory, 
+            List<T> collection, List<T> fakeCollection) where T : Item
+        {
+            if (collection.Remove(item))
+            {
+                inventory.AddItem(item);
+            }
+
+            fakeCollection.Remove(item);
+            OnChanged?.Invoke();
+            CheckMatch();
+        }
+
+        private void GetProducts(DishRecipe recipe)
+        {
+            foreach (ProductItemConfig productConfig in recipe.Products)
+            {
+                ProductItem product = _productInventory.RemoveItem(productConfig.Item.ItemName);
+                if (product != null)
+                {
+                    _products.Add(product);
+                }
+                else
+                {
+                    var fakeProduct = productConfig.Item.Clone() as ProductItem;
+                    _fakeProducts.Add(fakeProduct);
+                }
+            }
+        }
+
+        private void GetLoots(DishRecipe recipe)
+        {
+            foreach (LootItemConfig lootConfig in recipe.Loots)
+            {
+                LootItem loot = _lootInventory.RemoveItem(lootConfig.Item.ItemName);
+                if (loot != null)
+                {
+                    _loots.Add(loot);
+                }
+                else
+                {
+                    var fakeLoot = lootConfig.Item.Clone() as LootItem;
+                    _fakeLoots.Add(fakeLoot);
+                }
+            }
+        }
+
+        private void CheckMatch()
+        {
+            //TODO    
         }
 
         private void ReturnProducts()
@@ -91,38 +190,6 @@ namespace Tavern.Cooking
             }
             
             _loots.Clear();
-        }
-
-        private void GetProducts(DishRecipe recipe)
-        {
-            foreach (ProductItemConfig productConfig in recipe.Products)
-            {
-                ProductItem item = _productInventory.RemoveItem(productConfig.Item.ItemName);
-                if (item != null)
-                {
-                    _products.Add(item);
-                }
-                else
-                {
-                    _fakeProducts.Add(productConfig.Item.Clone() as ProductItem);
-                }
-            }
-        }
-
-        private void GetLoots(DishRecipe recipe)
-        {
-            foreach (LootItemConfig lootConfig in recipe.Loots)
-            {
-                LootItem item = _lootInventory.RemoveItem(lootConfig.Item.ItemName);
-                if (item != null)
-                {
-                    _loots.Add(item);
-                }
-                else
-                {
-                    _fakeLoots.Add(lootConfig.Item.Clone() as LootItem);
-                }
-            }
         }
 
         private bool CheckKitchenItems(DishRecipe recipe) => 
