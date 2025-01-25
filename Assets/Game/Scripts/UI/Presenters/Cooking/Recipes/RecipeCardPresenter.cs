@@ -12,6 +12,7 @@ namespace Tavern.UI.Presenters
         private readonly IEntityCardView _view;
         private readonly IEntityCardViewPool _pool;
         private DishRecipe _recipe;
+        private int _stars;
 
         public RecipeCardPresenter(
             IEntityCardView view, 
@@ -21,15 +22,22 @@ namespace Tavern.UI.Presenters
             _pool = pool;
         }
 
-        public void Show(DishRecipe recipe)
+        public void Show(DishRecipe recipe, int recipeStars)
         {
             _recipe = recipe;
+            _stars = recipeStars;
             Show();
+        }
+
+        public void SetStars(int value)
+        {
+            _stars = value;
+            _view.SetStars(value / 2.0f);
         }
 
         protected override void OnShow()
         {
-            SetupView(_recipe);
+            SetupView(_recipe, _stars);
         }
 
         protected override void OnHide()
@@ -38,15 +46,14 @@ namespace Tavern.UI.Presenters
             _pool.UnspawnEntityCardView(_view);
         }
 
-        private void SetupView(DishRecipe recipe)
+        private void SetupView(DishRecipe recipe, int stars)
         {
             ItemMetadata metadata = recipe.ResultItem.Item.ItemMetadata;
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
             _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");
             _view.SetMaxStart(recipe.StarsCount);
-            //TODO
-            _view.SetStars(0);
+            _view.SetStars(stars / 2.0f);
             _view.OnCardClicked += OnClicked;
         }
 

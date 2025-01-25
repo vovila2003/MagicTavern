@@ -23,7 +23,10 @@ namespace Tavern.Common
         private void Awake()
         {
             _cookbook = new Cookbook<T>(ItemRecipes);
+            OnAwake();
         }
+
+        protected virtual void OnAwake() { }
 
         private void OnEnable()
         {

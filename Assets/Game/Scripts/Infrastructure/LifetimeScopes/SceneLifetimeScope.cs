@@ -187,7 +187,7 @@ namespace Tavern.Infrastructure
 
             builder.RegisterEntryPoint<MiniGameInputService>();
             builder.RegisterEntryPoint<MiniGame>().AsSelf();
-            builder.Register<MiniGamePlayer>(Lifetime.Singleton);
+            builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }
 
         private void RegisterShopping(IContainerBuilder builder)

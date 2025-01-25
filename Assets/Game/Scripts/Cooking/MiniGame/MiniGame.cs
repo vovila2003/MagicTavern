@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using UnityEngine;
 using VContainer.Unity;
+using Random = UnityEngine.Random;
 
 namespace Tavern.Cooking.MiniGame
 {
@@ -23,7 +24,7 @@ namespace Tavern.Cooking.MiniGame
 
         public Regions CreateGame(MiniGameConfig config)
         {
-            _speed = config.SpeedValue;
+            _speed = Random.Range(config.MinSpeedValue, config.MaxSpeedValue);
             return SetZones(config);
         } 
 

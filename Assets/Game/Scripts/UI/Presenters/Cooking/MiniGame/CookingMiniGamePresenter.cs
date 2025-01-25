@@ -1,5 +1,5 @@
-using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
+using Tavern.InputServices.Interfaces;
 
 namespace Tavern.UI.Presenters
 {
@@ -9,34 +9,37 @@ namespace Tavern.UI.Presenters
         private const string Stop = "Стоп";
         
         private readonly ICookingMiniGameView _view;
-        private readonly DishCrafter _crafter;
         private readonly MiniGamePlayer _player;
+        private readonly ISpaceInput _inputService;
 
         public CookingMiniGamePresenter(
             ICookingMiniGameView view,
-            DishCrafter crafter,
-            MiniGamePlayer player) : base(view)
+            MiniGamePlayer player,
+            ISpaceInput input) : base(view)
         {
             _view = view;
-            _crafter = crafter;
             _player = player;
+            _inputService = input;
         }
         
         protected override void OnShow()
         {
             SetupView();
-            _crafter.OnStateChanged += OnCraftStateChanged;
             _view.OnButtonClicked += OnButtonClicked;
             _player.OnGameStarted += OnGameStarted;
             _player.OnGameStopped += OnGameStopped;
+            _player.OnGameAvailableChange += OnGameAvailableChanged;
+            _inputService.OnSpace += OnButtonClicked;
         }
 
         protected override void OnHide()
         {
-            _crafter.OnStateChanged -= OnCraftStateChanged;
             _view.OnButtonClicked -= OnButtonClicked;
             _player.OnGameStarted -= OnGameStarted;
             _player.OnGameStopped -= OnGameStopped;
+            _player.OnGameAvailableChange -= OnGameAvailableChanged;
+            _inputService.OnSpace -= OnButtonClicked;
+            _player.StopGame();
         }
 
         private void SetupView()
@@ -45,13 +48,13 @@ namespace Tavern.UI.Presenters
             _view.SetButtonText(Start);
         }
 
-        private void OnCraftStateChanged(bool state)
+        private void OnGameAvailableChanged(bool state)
         {
             _view.SetStartButtonActive(state);
-            if (state)
-            {
-                SetRegions(_player.GetRegions());
-            }
+            _view.SetSliderValue(0);
+            if (!state) return;
+            
+            SetRegions(_player.GetRegions());
         }
 
         private void SetRegions(Regions regions)

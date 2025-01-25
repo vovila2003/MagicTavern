@@ -4,6 +4,7 @@ using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
 using Tavern.Infrastructure;
+using Tavern.InputServices.Interfaces;
 using Tavern.Looting;
 using Tavern.Settings;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Tavern.UI.Presenters
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly ActiveDishRecipe _activeDishRecipe;
-        private readonly DishCrafter _dishCrafter;
+        private readonly ISpaceInput _spaceInput;
         private readonly MiniGamePlayer _player;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
@@ -32,7 +33,7 @@ namespace Tavern.UI.Presenters
             IStackableInventory<ProductItem> productInventory,
             IStackableInventory<LootItem> lootInventory,
             ActiveDishRecipe activeDishRecipe,
-            DishCrafter dishCrafter,
+            ISpaceInput spaceInput,
             MiniGamePlayer player,
             StartGameController startGameController,
             QuitGameController quitGameController,
@@ -45,7 +46,7 @@ namespace Tavern.UI.Presenters
             _productInventory = productInventory;
             _lootInventory = lootInventory;
             _activeDishRecipe = activeDishRecipe;
-            _dishCrafter = dishCrafter;
+            _spaceInput = spaceInput;
             _player = player;
             _startGameController = startGameController;
             _quitGameController = quitGameController;
@@ -101,8 +102,8 @@ namespace Tavern.UI.Presenters
 
         public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform parent) =>
             new(_viewsFactory.CreateCookingMiniGameView(parent), 
-                _dishCrafter,
-                _player);
+                _player,
+                _spaceInput);
 
         public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent, ActiveDishRecipe recipe) => 
             new(_viewsFactory.CreateRecipeIngredientsView(parent), 

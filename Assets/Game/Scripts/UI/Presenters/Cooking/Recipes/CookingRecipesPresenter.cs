@@ -34,12 +34,14 @@ namespace Tavern.UI.Presenters
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
             _cookbook.OnRecipeRemoved += OnRecipeRemoved;
+            _cookbook.OnStarsChanged += OnRecipeStarsChanged;
         }
 
         protected override void OnHide()
         {
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
+            _cookbook.OnStarsChanged -= OnRecipeStarsChanged;
             
             _matchNewRecipePresenter.Hide();
             _matchNewRecipePresenter.OnPressed -= MatchNewRecipePressed;
@@ -51,6 +53,13 @@ namespace Tavern.UI.Presenters
             }
             
             _recipeCardPresenters.Clear();
+        }
+
+        private void OnRecipeStarsChanged(DishRecipe recipe, int value)
+        {
+            if (!_recipeCardPresenters.TryGetValue(recipe, out RecipeCardPresenter presenter)) return;
+            
+            presenter.SetStars(value);
         }
 
         private void SetupMatchRecipe()
@@ -75,7 +84,7 @@ namespace Tavern.UI.Presenters
             RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_parent);
             recipePresenter.OnRecipeClicked += OnRecipeClicked;
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
-            recipePresenter.Show(dishRecipe);
+            recipePresenter.Show(dishRecipe, _cookbook.GetRecipeStars(dishRecipe));
         }
 
         private void OnRecipeAdded(ItemRecipe<DishItem> recipe)
