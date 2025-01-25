@@ -9,6 +9,7 @@ namespace Tavern.UI.Presenters
         void SetTitle(string title);
         void SetIcon(Sprite icon);
         void SetTime(string time);
+        void SetMaxStart(int count);
         void SetStars(float stars);
         void SetParent(Transform parent);
     }

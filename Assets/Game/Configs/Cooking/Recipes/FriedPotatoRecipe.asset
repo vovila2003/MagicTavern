@@ -16,7 +16,6 @@ MonoBehaviour:
   TimeInSeconds: 10
   ProductIngredients:
   - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
-  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
   LootIngredients:
   - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
   RequiredKitchenItems:

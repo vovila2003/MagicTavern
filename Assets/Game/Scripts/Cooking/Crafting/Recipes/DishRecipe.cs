@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Modules.Crafting;
 using Sirenix.OdinInspector;
 using Tavern.Cooking.MiniGame;
@@ -33,5 +34,32 @@ namespace Tavern.Cooking
         public KitchenItemConfig[] KitchenItems => RequiredKitchenItems;
         public int StarsCount => Stars;
         public MiniGameConfig GameConfig => MiniGameConfig;
+
+        private void OnValidate()
+        {
+            var items = new HashSet<string>();
+            foreach (ProductItemConfig itemConfig in ProductIngredients)
+            {
+                CheckDuplicates(items, itemConfig.Item.ItemName);
+            }
+            
+            foreach (LootItemConfig itemConfig in LootIngredients)
+            {
+                CheckDuplicates(items, itemConfig.Item.ItemName);
+            }
+            
+            foreach (KitchenItemConfig itemConfig in RequiredKitchenItems)
+            {
+                CheckDuplicates(items, itemConfig.Item.ItemName);
+            }
+        }
+
+        private void CheckDuplicates(HashSet<string> items, string itemName)
+        {
+            if (!items.Add(itemName))
+            {
+                throw new UnityException($"Duplicate item named {itemName} in DishRecipe {Name}");
+            }
+        }
     }
 }

@@ -10,11 +10,25 @@ namespace Tavern.UI.Views
 
         [SerializeField]
         private Image[] Stars;
+        
+        [SerializeField]
+        private Image[] ShadowStars;
 
+        [Button]
+        public void SetStarsMaxCount(int count)
+        {
+            Clear(ShadowStars);
+            int total = Mathf.Min(count, ShadowStars.Length);
+            for (var i = 0; i < total; i++)
+            {
+                ShadowStars[i].fillAmount = 1;
+            }
+        }
+        
         [Button]
         public void SetStars(float stars)
         {
-            Clear();
+            Clear(Stars);
             stars = Mathf.Min(stars, Stars.Length);
             
             var fullStars = (int) stars;
@@ -28,12 +42,12 @@ namespace Tavern.UI.Views
             
             Stars[fullStars].fillAmount = fractional;
         }
-
-        private void Clear()
+        
+        private static void Clear(Image[] stars)
         {
-            for (var i = 0; i < Stars.Length; i++)
+            foreach (Image star in stars)
             {
-                Stars[i].fillAmount = 0;
+                star.fillAmount = 0;
             }
         }
     }

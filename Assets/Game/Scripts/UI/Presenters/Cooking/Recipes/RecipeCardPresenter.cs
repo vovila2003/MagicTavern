@@ -1,6 +1,7 @@
 using System;
 using Modules.Items;
 using Tavern.Cooking;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -43,7 +44,9 @@ namespace Tavern.UI.Presenters
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
             _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");
-            _view.SetStars(recipe.StarsCount);
+            _view.SetMaxStart(recipe.StarsCount);
+            //TODO
+            _view.SetStars(0);
             _view.OnCardClicked += OnClicked;
         }
 

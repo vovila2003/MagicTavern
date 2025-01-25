@@ -17,6 +17,7 @@ namespace Tavern.UI.Presenters
         
         protected override void OnShow()
         {
+            Reset();
         }
         
         protected override void OnHide()

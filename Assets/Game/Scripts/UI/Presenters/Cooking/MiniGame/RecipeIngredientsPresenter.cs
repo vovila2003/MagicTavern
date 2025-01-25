@@ -53,10 +53,10 @@ namespace Tavern.UI.Presenters
             ResetIngredients();
             
             int offset = 0;
-            SetupIngredients(ref offset, _recipe.Products, false);
-            SetupIngredients(ref offset, _recipe.Loots, false);
-            SetupIngredients(ref offset, _recipe.FakeProducts, true);
-            SetupIngredients(ref offset, _recipe.FakeLoots, true);
+            SetupIngredients(ref offset, _recipe.Products, isFake: false);
+            SetupIngredients(ref offset, _recipe.Loots, isFake: false);
+            SetupIngredients(ref offset, _recipe.FakeProducts, isFake: true);
+            SetupIngredients(ref offset, _recipe.FakeLoots, isFake: true);
         }
 
         private void ResetIngredients()
