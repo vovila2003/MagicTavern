@@ -8,10 +8,10 @@ namespace Tavern.UI.Views
 {
     public sealed class CookingMiniGameView : View, ICookingMiniGameView
     {
-        public event UnityAction OnStartGame
+        public event UnityAction OnButtonClicked
         {
-            add => StartButton.onClick.AddListener(value);
-            remove => StartButton.onClick.RemoveListener(value);
+            add => Button.onClick.AddListener(value);
+            remove => Button.onClick.RemoveListener(value);
         } 
         
         [SerializeField] 
@@ -27,7 +27,10 @@ namespace Tavern.UI.Views
         private Slider Slider;
         
         [SerializeField]
-        private Button StartButton;
+        private Button Button;
+        
+        [SerializeField]
+        private TMP_Text ButtonText;
         
         public void SetTimerText(string text)
         {
@@ -53,7 +56,12 @@ namespace Tavern.UI.Views
 
         public void SetStartButtonActive(bool value)
         {
-            StartButton.interactable = value;
+            Button.interactable = value;
+        }
+
+        public void SetButtonText(string text)
+        {
+            ButtonText.text = text;
         }
     }
 }

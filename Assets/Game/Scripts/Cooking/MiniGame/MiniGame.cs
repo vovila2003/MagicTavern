@@ -1,7 +1,6 @@
 using System;
 using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
-using Tavern.InputServices.Interfaces;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -13,50 +12,37 @@ namespace Tavern.Cooking.MiniGame
         IResumeGameListener,
         ITickable
     {
-        public event Action<Regions> OnRegionsChanged;
         public event Action<float> OnValueChanged;
-        public event Action<int> OnResult;
         
-        private readonly ISpaceInput _spaceInput;
-        private bool _isEnable;
         private float _value;
         private int _factor;
         private float _speed;
         private Regions _regions;
 
-        public MiniGame(ISpaceInput inputService)
-        {
-            _spaceInput = inputService;
-            _isEnable = false;
-        }
+        public bool IsPlaying { get; private set; }
 
-        public void CreateGame(MiniGameConfig config)
+        public Regions CreateGame(MiniGameConfig config)
         {
-            SetZones(config);
             _speed = config.SpeedValue;
+            return SetZones(config);
         } 
 
         public void StartGame()
         {
-            _isEnable = true;
+            IsPlaying = true;
             _factor = 1;
             _value = 0;
-            
-            _spaceInput.OnSpace += OnStop;
         }
 
-        private void OnStop()
+        public int StopGame()
         {
-            _isEnable = false;
-            _spaceInput.OnSpace -= OnStop;
-
-            int result = GetResult();
-            OnResult?.Invoke(result);
+            IsPlaying = false;
+            return GetResult();
         }
 
         void ITickable.Tick()
         {
-            if (!_isEnable) return;
+            if (!IsPlaying) return;
             
             _value += _factor * Time.deltaTime * _speed;
             _factor = _value switch
@@ -69,11 +55,11 @@ namespace Tavern.Cooking.MiniGame
             OnValueChanged?.Invoke(_value);
         }
 
-        void IPauseGameListener.OnPause() => _isEnable = false;
+        void IPauseGameListener.OnPause() => IsPlaying = false;
 
-        void IResumeGameListener.OnResume() => _isEnable = true;
+        void IResumeGameListener.OnResume() => IsPlaying = true;
 
-        private void SetZones(MiniGameConfig config)
+        private Regions SetZones(MiniGameConfig config)
         {
             float deltaGreen = config.Green / 2.0f;
             float deltaYellow = config.Yellow / 2.0f;
@@ -82,7 +68,7 @@ namespace Tavern.Cooking.MiniGame
             _regions.GreenYellow = 0.5f + deltaGreen;
             _regions.YellowRed = 0.5f + deltaGreen + deltaYellow;
             
-            OnRegionsChanged?.Invoke(_regions);
+            return  _regions;
         }
 
         private int GetResult()

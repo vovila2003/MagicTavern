@@ -6,11 +6,11 @@ using Tavern.Character.Visual;
 using Tavern.Components;
 using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
-using Tavern.Cooking.MiniGame.UI;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
 using Tavern.InputServices;
+using Tavern.InputServices.Interfaces;
 using Tavern.Looting;
 using Tavern.Settings;
 using Tavern.Storages;
@@ -184,6 +184,10 @@ namespace Tavern.Infrastructure
             builder.RegisterInstance(GameSettings.DishRecipes);
 
             builder.Register<RecipeMatcher>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+
+            builder.RegisterEntryPoint<MiniGameInputService>();
+            builder.RegisterEntryPoint<MiniGame>().AsSelf();
+            builder.Register<MiniGamePlayer>(Lifetime.Singleton);
         }
 
         private void RegisterShopping(IContainerBuilder builder)

@@ -39,6 +39,12 @@ namespace Tavern.Common
 
         public bool HasRecipe(ItemRecipe<T> recipe) => 
             _cookbook?.Recipes.ContainsKey(recipe.Name) ?? false;
+        
+        public bool TryGetRecipeByConfig(ItemConfig<T> itemConfig, out ItemRecipe<T> recipe) => 
+            _cookbook.TryGetRecipeByConfig(itemConfig, out recipe);
+
+        public bool TryGetRecipeByName(string recipeName, out ItemRecipe<T> recipe) => 
+            _cookbook.TryGetRecipeByName(recipeName, out recipe);
 
         [Button]
         public void AddRecipe(ItemRecipe<T> recipe)
@@ -70,8 +76,19 @@ namespace Tavern.Common
             }
         }
 
-        private void OnAdded(ItemRecipe<T> recipe) => OnRecipeAdded?.Invoke(recipe);
+        private void OnAdded(ItemRecipe<T> recipe)
+        {
+            OnAddRecipe(recipe);
+            OnRecipeAdded?.Invoke(recipe);
+        }
 
-        private void OnRemoved(ItemRecipe<T> recipe) => OnRecipeRemoved?.Invoke(recipe);
+        private void OnRemoved(ItemRecipe<T> recipe)
+        {
+            OnRemoveRecipe(recipe);
+            OnRecipeRemoved?.Invoke(recipe);
+        }
+
+        protected virtual void OnAddRecipe(ItemRecipe<T> _) { }
+        protected virtual void OnRemoveRecipe(ItemRecipe<T> _) { }
     }
 }

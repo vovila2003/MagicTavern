@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using Modules.Inventories;
 using Tavern.Cooking;
+using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
 using Tavern.Infrastructure;
 using Tavern.Looting;
@@ -18,6 +19,7 @@ namespace Tavern.UI.Presenters
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly DishCrafter _dishCrafter;
+        private readonly MiniGamePlayer _player;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
@@ -31,6 +33,7 @@ namespace Tavern.UI.Presenters
             IStackableInventory<LootItem> lootInventory,
             ActiveDishRecipe activeDishRecipe,
             DishCrafter dishCrafter,
+            MiniGamePlayer player,
             StartGameController startGameController,
             QuitGameController quitGameController,
             PauseGameController pauseGameController, 
@@ -43,6 +46,7 @@ namespace Tavern.UI.Presenters
             _lootInventory = lootInventory;
             _activeDishRecipe = activeDishRecipe;
             _dishCrafter = dishCrafter;
+            _player = player;
             _startGameController = startGameController;
             _quitGameController = quitGameController;
             _pauseGameController = pauseGameController;
@@ -96,7 +100,9 @@ namespace Tavern.UI.Presenters
             new(_viewsFactory.InfoViewProvider, parent);
 
         public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform parent) =>
-            new(_viewsFactory.CreateCookingMiniGameView(parent), _dishCrafter);
+            new(_viewsFactory.CreateCookingMiniGameView(parent), 
+                _dishCrafter,
+                _player);
 
         public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent, ActiveDishRecipe recipe) => 
             new(_viewsFactory.CreateRecipeIngredientsView(parent), 

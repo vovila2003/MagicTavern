@@ -25,7 +25,7 @@ namespace Tavern.Cooking
         private readonly HashSet<LootItem> _fakeLoots = new();
         private readonly HashSet<string> _items = new();
 
-        private DishRecipe _recipe;
+        public DishRecipe Recipe { get; private set; }
 
         public IReadOnlyCollection<Item> Products => _products;
 
@@ -49,10 +49,10 @@ namespace Tavern.Cooking
 
         public bool CanTryCraft()
         {
-            if (_recipe == null) return false;
+            if (Recipe == null) return false;
             
-            return _recipe.Products.Length == Products.Count
-                   && _recipe.Loots.Length == Loots.Count
+            return Recipe.Products.Length == Products.Count
+                   && Recipe.Loots.Length == Loots.Count
                    && FakeLoots.Count == 0
                    && FakeProducts.Count == 0;
         }
@@ -71,8 +71,8 @@ namespace Tavern.Cooking
         {
             Reset();
             SetRecipe(recipe);
-            GetProducts(_recipe);
-            GetLoots(_recipe);
+            GetProducts(Recipe);
+            GetLoots(Recipe);
             
             OnChanged?.Invoke();
         }
@@ -89,7 +89,7 @@ namespace Tavern.Cooking
             OnChanged?.Invoke();
         }
 
-        public void SetRecipe(DishRecipe recipe) => _recipe = recipe;
+        public void SetRecipe(DishRecipe recipe) => Recipe = recipe;
 
         private void AddItem<T>(T item, IStackableInventory<T> inventory, HashSet<T> collection) where T : Item
         {
