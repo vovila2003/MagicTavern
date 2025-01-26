@@ -4,6 +4,6 @@ namespace Tavern.UI.Presenters
 {
     public interface IRecipeEffectsView : IView
     {
-        IReadOnlyList<IRecipeEffectView> RecipeEffects { get; }
+        IReadOnlyList<IEffectView> RecipeEffects { get; }
     }
 }

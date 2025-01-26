@@ -2,8 +2,9 @@ using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public interface IRecipeEffectView
+    public interface IEffectView
     {
         void SetIcon(Sprite icon);
+        void SetActive(bool active);
     }
 }

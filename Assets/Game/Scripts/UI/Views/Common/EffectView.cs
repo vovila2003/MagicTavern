@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
-    public sealed class RecipeEffectView : MonoBehaviour, IRecipeEffectView
+    public sealed class EffectView : MonoBehaviour, IEffectView
     {
         [SerializeField]
         private Image Icon;
@@ -12,6 +12,11 @@ namespace Tavern.UI.Views
         public void SetIcon(Sprite icon)
         {
             Icon.sprite = icon;
+        }
+
+        public void SetActive(bool active)
+        {
+            gameObject.SetActive(active);
         }
     }
 }

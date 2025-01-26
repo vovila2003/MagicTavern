@@ -51,7 +51,6 @@ namespace Tavern.UI.Presenters
         private void OnGameAvailableChanged(bool state)
         {
             _view.SetStartButtonActive(state);
-            _view.SetSliderValue(0);
             if (!state) return;
             
             SetRegions(_player.GetRegions());

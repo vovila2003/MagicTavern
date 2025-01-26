@@ -16,17 +16,17 @@ namespace Tavern.UI.Presenters
 
         private readonly IRecipeIngredientsView _view;
         private readonly CookingUISettings _settings;
-        private readonly Func<Transform, ItemInfoPresenter> _infoPresenterFactory;
+        private readonly Func<Transform, InfoPresenter> _infoPresenterFactory;
         private readonly Transform _canvas;
         private readonly ActiveDishRecipe _recipe;
         private readonly Dictionary<IRecipeIngredientView, Item> _views = new();
         
-        private ItemInfoPresenter _infoPresenter;
+        private InfoPresenter _infoPresenter;
 
         public RecipeIngredientsPresenter(
             IRecipeIngredientsView view, 
             CookingUISettings settings,
-            Func<Transform, ItemInfoPresenter> infoPresenterFactory, 
+            Func<Transform, InfoPresenter> infoPresenterFactory, 
             Transform canvas,
             ActiveDishRecipe recipe) : base(view)
         {

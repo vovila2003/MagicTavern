@@ -68,6 +68,20 @@ namespace Modules.Items
             throw new Exception($"Attribute of type {typeof(T).Name} is not found!");
         }
 
+        public List<T> GetAll<T>()
+        {
+            var result = new List<T>();
+            foreach (IItemComponent attribute in Components)
+            {
+                if (attribute is T tAttribute)
+                {
+                    result.Add(tAttribute);
+                }
+            }
+            
+            return result;
+        }
+
         public bool Has<T>() => Components.OfType<T>().Any();
 
         public virtual Item Clone()

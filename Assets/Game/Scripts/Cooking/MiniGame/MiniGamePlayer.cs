@@ -15,6 +15,7 @@ namespace Tavern.Cooking.MiniGame
         public event Action<bool> OnGameAvailableChange;
         
         private readonly DishCookbookContext _cookbook;
+        private readonly DishAutoCookbookContext _autoCookbook;
         private readonly MiniGame _game;
         private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly DishCrafter _dishCrafter;
@@ -22,6 +23,7 @@ namespace Tavern.Cooking.MiniGame
 
         public MiniGamePlayer(
             DishCookbookContext cookbook, 
+            DishAutoCookbookContext autoCookbook, 
             MiniGame game,
             ActiveDishRecipe activeDishRecipe,
             DishCrafter dishCrafter,
@@ -96,32 +98,26 @@ namespace Tavern.Cooking.MiniGame
             int stars = _cookbook.GetRecipeStars(recipe);
             int maxScore = recipe.StarsCount * 2;
             int score = Mathf.Clamp(stars + result, 0, maxScore);
-            _cookbook.SetRecipeStars(recipe, score);
             
-            //TODO
+            _cookbook.SetRecipeStars(recipe, score);
+
+            if (score >= maxScore && !_autoCookbook.HasRecipe(recipe))
+            {
+                _autoCookbook.AddRecipe(recipe);
+            }
+
+            if (score > 0)
+            {
+                _dishCrafter.CraftDish();
+            }
+            else
+            {
+                _dishCrafter.MakeSlops();
+            }    
         }
 
         private void OnValueChanged(float value) => OnGameValueChanged?.Invoke(value);
 
-        private void Unsubscribe()
-        {
-            _game.OnValueChanged -= OnValueChanged;
-        }
-
-        private void GameOver(int value)
-        {
-            // if (_currentRecipe is null) return;
-            //
-            // _recipes.TryAdd(_currentRecipe, 0);
-            // int maxScore = _currentRecipe.StarsCount * 2;
-            // int score = Mathf.Clamp(_recipes[_currentRecipe] + value, 0, maxScore);
-            // _recipes[_currentRecipe] = score;
-            //
-            // if (_recipes[_currentRecipe] < maxScore) return;
-            //
-            // _cookbook.AddRecipe(_currentRecipe);
-            // _recipes.Remove(_currentRecipe);
-            // Debug.Log($"Recipe {_currentRecipe.Name} added to cookbook");
-        }
+        private void Unsubscribe() => _game.OnValueChanged -= OnValueChanged;
     }
 }

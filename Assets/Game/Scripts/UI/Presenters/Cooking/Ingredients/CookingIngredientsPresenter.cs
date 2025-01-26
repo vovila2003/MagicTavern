@@ -21,7 +21,7 @@ namespace Tavern.UI.Presenters
         private readonly Transform _canvas;
         private readonly ActiveDishRecipe _recipe;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
-        private ItemInfoPresenter _itemInfoPresenter;
+        private InfoPresenter _infoPresenter;
 
         public CookingIngredientsPresenter(IContainerView view,
             IStackableInventory<ProductItem> productInventory,
@@ -125,17 +125,17 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientLeftClick(Item item)
         {
-            _itemInfoPresenter ??= _presentersFactory.CreateItemInfoPresenter(_canvas);
+            _infoPresenter ??= _presentersFactory.CreateInfoPresenter(_canvas);
             
-            if (!_itemInfoPresenter.Show(item, Add)) return;
+            if (!_infoPresenter.Show(item, Add)) return;
             
-            _itemInfoPresenter.OnAccepted += OnAddItem;
-            _itemInfoPresenter.OnRejected += OnCancelled;
+            _infoPresenter.OnAccepted += AddItem;
+            _infoPresenter.OnRejected += OnCancelled;
         }
 
         private void OnCancelled() => UnsubscribeItemInfo();
 
-        private void OnAddItem(Item item)
+        private void AddItem(Item item)
         {
             UnsubscribeItemInfo();
             OnIngredientRightClick(item);
@@ -143,8 +143,8 @@ namespace Tavern.UI.Presenters
 
         private void UnsubscribeItemInfo()
         {
-            _itemInfoPresenter.OnAccepted -= OnAddItem;
-            _itemInfoPresenter.OnRejected -= OnCancelled;
+            _infoPresenter.OnAccepted -= AddItem;
+            _infoPresenter.OnRejected -= OnCancelled;
         }
 
         private void UnsubscribeItemCard(ItemCardPresenter presenter)

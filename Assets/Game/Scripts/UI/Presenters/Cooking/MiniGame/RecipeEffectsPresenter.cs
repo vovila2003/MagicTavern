@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using Tavern.Cooking;
 using Tavern.Settings;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -6,34 +9,65 @@ namespace Tavern.UI.Presenters
     {
         private readonly IRecipeEffectsView _view;
         private readonly CookingUISettings _settings;
+        private readonly ActiveDishRecipe _recipe;
+        private readonly RecipeMatcher _matcher;
 
         public RecipeEffectsPresenter(
             IRecipeEffectsView view,
-            CookingUISettings settings) : base(view)
+            CookingUISettings settings,
+            ActiveDishRecipe recipe,
+            RecipeMatcher matcher) : base(view)
         {
             _view = view;
             _settings = settings;
+            _recipe = recipe;
+            _matcher = matcher;
         }
         
         protected override void OnShow()
         {
             Reset();
+            _matcher.OnRecipeMatched += OnRecipeMatched;
         }
-        
+
         protected override void OnHide()
         {
+            _matcher.OnRecipeMatched -= OnRecipeMatched;
         }
 
         public void Reset()
         {
             ResetEffects();
         }
-        
+
         private void ResetEffects()
         {
-            foreach (IRecipeEffectView effectView in _view.RecipeEffects)
+            foreach (IEffectView effectView in _view.RecipeEffects)
             {
                 effectView.SetIcon(_settings.DefaultSprite);
+            }
+        }
+
+        private void OnRecipeMatched(bool state)
+        {
+            if (state)
+            {
+                SetEffects();
+                return;
+            }
+            
+            ResetEffects();
+        }
+
+        private void SetEffects()
+        {
+            List<IEffectComponent> effects = _recipe.Recipe.ResultItem.Item.GetAll<IEffectComponent>();
+            
+            int count = Mathf.Min(effects.Count, _view.RecipeEffects.Count);
+            for (var i = 0; i < count; i++)
+            {
+                IEffectView viewEffect = _view.RecipeEffects[i];
+                viewEffect.SetIcon(effects[i].Config.Icon);
             }
         }
     }

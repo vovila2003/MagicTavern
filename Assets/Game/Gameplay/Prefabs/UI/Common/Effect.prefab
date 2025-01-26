@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2437253196411696823}
   - component: {fileID: 6797862594772926974}
   m_Layer: 5
-  m_Name: RecipeEffect
+  m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

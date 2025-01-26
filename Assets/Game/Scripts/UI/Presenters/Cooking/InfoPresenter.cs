@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Modules.Items;
+using Tavern.Cooking;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public sealed class ItemInfoPresenter
+    public sealed class InfoPresenter
     {
         public event Action<Item> OnAccepted;
         public event Action OnRejected;
@@ -14,7 +16,7 @@ namespace Tavern.UI.Presenters
         private Item _item;
         private IInfoPanelView _view;
         
-        public ItemInfoPresenter(IInfoViewProvider provider, Transform parent)
+        public InfoPresenter(IInfoViewProvider provider, Transform parent)
         {
             _provider = provider;
             _parent = parent;
@@ -42,9 +44,25 @@ namespace Tavern.UI.Presenters
             _view.SetDescription(metadata.Description);
             _view.SetIcon(metadata.Icon);
             _view.SetActionButtonText(command);
+
+            SetupEffects();
             
             _view.OnAction += OnAction;
             _view.OnClose += OnClose;
+        }
+
+        private void SetupEffects()
+        {
+            _view.HideAllEffects();
+            
+            List<IEffectComponent> effects = _item.GetAll<IEffectComponent>();
+            int count = Mathf.Min(effects.Count, _view.Effects.Length);
+            for (var i = 0; i < count; i++)
+            {
+                IEffectView viewEffect = _view.Effects[i];
+                viewEffect.SetActive(true);
+                viewEffect.SetIcon(effects[i].Config.Icon);
+            }
         }
 
         private void OnAction()

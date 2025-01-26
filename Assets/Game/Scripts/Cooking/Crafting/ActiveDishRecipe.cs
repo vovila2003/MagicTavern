@@ -89,6 +89,18 @@ namespace Tavern.Cooking
             OnChanged?.Invoke();
         }
 
+        public void SpendIngredients()
+        {
+            _fakeProducts.Clear();
+            _fakeLoots.Clear();
+            _items.Clear();
+            SetRecipe(null);
+            _products.Clear();
+            _loots.Clear();
+
+            OnChanged?.Invoke();
+        }
+
         public void SetRecipe(DishRecipe recipe) => Recipe = recipe;
 
         private void AddItem<T>(T item, IStackableInventory<T> inventory, HashSet<T> collection) where T : Item

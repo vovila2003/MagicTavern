@@ -12,12 +12,11 @@ namespace Tavern.UI.Presenters
 
         public CookingAndMatchRecipePresenter(
             ICookingAndMatchRecipeView view,
-            PresentersFactory factory,
-            ActiveDishRecipe recipe
+            PresentersFactory factory
             ) : base(view)
         {
             _cookingMiniGamePresenter = factory.CreateCookingMiniGamePresenter(view.Transform);
-            _recipeIngredientsPresenter = factory.CreateRecipeIngredientsPresenter(view.Transform, recipe);
+            _recipeIngredientsPresenter = factory.CreateRecipeIngredientsPresenter(view.Transform);
             _recipeEffectsPresenter = factory.CreateRecipeEffectsPresenter(view.Transform);
         }
 

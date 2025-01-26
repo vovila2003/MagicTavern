@@ -38,6 +38,20 @@ namespace Tavern.UI.Views
         [SerializeField] 
         private Button CloseButton;
 
+        [SerializeField] 
+        private EffectView[] EffectViews; 
+        
+        public IEffectView[] Effects { get; private set; }
+
+        private void Awake()
+        {
+            Effects = new IEffectView[EffectViews.Length];
+            for (var i = 0; i < EffectViews.Length; i++)
+            {
+                Effects[i] = EffectViews[i];
+            }
+        }
+
         public void SetTitle(string title)
         {
             Title.text = title;
@@ -56,6 +70,14 @@ namespace Tavern.UI.Views
         public void SetActionButtonText(string text)
         {
             ActionButtonText.text = text;
+        }
+
+        public void HideAllEffects()
+        {
+            foreach (EffectView view in EffectViews)
+            {
+                view.SetActive(false);
+            }
         }
     }
 }

@@ -180,6 +180,7 @@ namespace Tavern.Infrastructure
             builder.RegisterComponentInHierarchy<DishInventoryContext>();
 
             builder.RegisterComponentInHierarchy<DishCookbookContext>();
+            builder.RegisterComponentInHierarchy<DishAutoCookbookContext>();
             
             builder.RegisterInstance(GameSettings.DishRecipes);
 

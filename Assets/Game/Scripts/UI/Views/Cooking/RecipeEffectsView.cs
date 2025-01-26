@@ -7,13 +7,13 @@ namespace Tavern.UI.Views
     public sealed class RecipeEffectsView : View, IRecipeEffectsView
     {
         [SerializeField]
-        private RecipeEffectView[] Effects;
+        private EffectView[] Effects;
 
-        public IReadOnlyList<IRecipeEffectView> RecipeEffects { get; private set; }
+        public IReadOnlyList<IEffectView> RecipeEffects { get; private set; }
 
         private void Awake()
         {
-            RecipeEffects = new List<IRecipeEffectView>(Effects);
+            RecipeEffects = new List<IEffectView>(Effects);
         }
     }
 }
