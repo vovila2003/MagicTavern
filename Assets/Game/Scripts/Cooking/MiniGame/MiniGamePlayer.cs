@@ -30,6 +30,7 @@ namespace Tavern.Cooking.MiniGame
             ISpaceInput inputService)
         {
             _cookbook = cookbook;
+            _autoCookbook = autoCookbook;
             _game = game;
             _activeDishRecipe = activeDishRecipe;
             _dishCrafter = dishCrafter;
