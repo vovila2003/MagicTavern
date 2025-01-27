@@ -11,37 +11,42 @@ namespace Tavern.Cooking
     {
         public event Action<bool> OnStateChanged;
         public event Action<DishRecipe> OnDishCrafted;
+        public event Action<DishRecipe> OnSlopCrafted;
         
         private readonly IStackableInventory<DishItem> _dishInventory;
         private readonly ISlopsStorage _slopsStorage;
         private readonly RecipeMatcher _matcher;
-        private readonly ActiveDishRecipe _recipe;
+        private readonly ActiveDishRecipe _activeRecipe;
 
         public DishCrafter(
             IStackableInventory<DishItem> dishInventory,
             ISlopsStorage slopsStorage,
             RecipeMatcher matcher, 
-            ActiveDishRecipe recipe)
+            ActiveDishRecipe activeRecipe)
         {
             _dishInventory = dishInventory;
             _slopsStorage = slopsStorage;
             _matcher = matcher;
-            _recipe = recipe;
+            _activeRecipe = activeRecipe;
         }
 
         public void CraftDish()
         {
-            DishRecipe recipe = _recipe.Recipe;
+            DishRecipe recipe = _activeRecipe.Recipe;
             var result = recipe.ResultItem.Item.Clone() as DishItem;
-            _recipe.SpendIngredients();
+            _activeRecipe.SpendIngredients();
             _dishInventory.AddItem(result);
+            
             OnDishCrafted?.Invoke(recipe);
         }
 
         public void MakeSlops()
         {
-            _recipe.SpendIngredients();
+            DishRecipe recipe = _activeRecipe.Recipe;
+            _activeRecipe.SpendIngredients();
             _slopsStorage.AddOneSlop();
+            
+            OnSlopCrafted?.Invoke(recipe);
         }
 
         void IInitGameListener.OnInit()
@@ -56,7 +61,7 @@ namespace Tavern.Cooking
 
         private void OnRecipeMatched(bool matched)
         {
-            OnStateChanged?.Invoke(matched && _recipe.CanTryCraft());
+            OnStateChanged?.Invoke(matched && _activeRecipe.CanTryCraft());
         }
     }
 }

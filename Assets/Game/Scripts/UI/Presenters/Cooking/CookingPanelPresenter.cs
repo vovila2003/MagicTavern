@@ -2,6 +2,7 @@ using Modules.Items;
 using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.Storages;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -16,6 +17,7 @@ namespace Tavern.UI.Presenters
         private readonly PresentersFactory _factory;
         private readonly ActiveDishRecipe _activeRecipe;
         private readonly Transform _canvas;
+        private readonly ResourceItemConfig _slopConfig;
 
         private readonly CookingRecipesPresenter _recipesPresenter;
         private readonly CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
@@ -29,7 +31,8 @@ namespace Tavern.UI.Presenters
             DishCrafter crafter,
             PresentersFactory factory,
             ActiveDishRecipe activeRecipe,
-            Transform canvas
+            Transform canvas,
+            ResourceItemConfig slopConfig
             ) : base(view)
         {
             _view = view;
@@ -37,6 +40,7 @@ namespace Tavern.UI.Presenters
             _factory = factory;
             _activeRecipe = activeRecipe;
             _canvas = canvas;
+            _slopConfig = slopConfig;
             _recipesPresenter = factory.CreateLeftGridPresenter(_view.Container);
             _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(
                 _view.Container, activeRecipe);
@@ -52,6 +56,7 @@ namespace Tavern.UI.Presenters
             SetupIngredients();
 
             _crafter.OnDishCrafted += OnDishCrafted;
+            _crafter.OnSlopCrafted += OnSlopCrafted;
         }
 
         protected override void OnHide()
@@ -70,6 +75,7 @@ namespace Tavern.UI.Presenters
             _activeRecipe.Reset();
             
             _crafter.OnDishCrafted -= OnDishCrafted;
+            _crafter.OnSlopCrafted -= OnSlopCrafted;
         }
 
         private void SetupView()
@@ -113,11 +119,15 @@ namespace Tavern.UI.Presenters
 
         private void SetRecipe(DishRecipe recipe) => _activeRecipe.Setup(recipe);
 
-        private void OnDishCrafted(DishRecipe recipe)
+        private void OnDishCrafted(DishRecipe recipe) => ShowInfo(recipe, recipe.ResultItem.Item);
+
+        private void OnSlopCrafted(DishRecipe recipe) => ShowInfo(recipe, _slopConfig.Item);
+
+        private void ShowInfo(DishRecipe recipe, Item item)
         {
             _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
 
-            if (!_infoPresenter.Show(recipe.ResultItem.Item, Repeat)) return;
+            if (!_infoPresenter.Show(item, Repeat)) return;
             _recipe = recipe;
             
             _infoPresenter.OnAccepted += RepeatDish;

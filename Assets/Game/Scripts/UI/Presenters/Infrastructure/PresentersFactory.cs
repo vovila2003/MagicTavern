@@ -90,7 +90,8 @@ namespace Tavern.UI.Presenters
                 _dishCrafter,
                 this,
                 _activeDishRecipe,
-                _sceneSettings.Canvas);
+                _sceneSettings.Canvas,
+                _settings.CommonSettings.SlopsSettings);
 
         public CookingAndMatchRecipePresenter CreateCookingAndMatchRecipePresenter(
             Transform viewContainer, ActiveDishRecipe recipe) => 
