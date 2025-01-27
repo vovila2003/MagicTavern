@@ -23,6 +23,7 @@ namespace Tavern.UI.Presenters
         private readonly RecipeMatcher _matcher;
         private readonly ISpaceInput _spaceInput;
         private readonly MiniGamePlayer _player;
+        private readonly IMouseClickInput _mouseClickInput;
         private readonly StartGameController _startGameController;
         private readonly QuitGameController _quitGameController;
         private readonly PauseGameController _pauseGameController;
@@ -39,6 +40,7 @@ namespace Tavern.UI.Presenters
             RecipeMatcher matcher,
             ISpaceInput spaceInput,
             MiniGamePlayer player,
+            IMouseClickInput mouseClickInput,
             StartGameController startGameController,
             QuitGameController quitGameController,
             PauseGameController pauseGameController, 
@@ -54,6 +56,7 @@ namespace Tavern.UI.Presenters
             _matcher = matcher;
             _spaceInput = spaceInput;
             _player = player;
+            _mouseClickInput = mouseClickInput;
             _startGameController = startGameController;
             _quitGameController = quitGameController;
             _pauseGameController = pauseGameController;
@@ -106,7 +109,7 @@ namespace Tavern.UI.Presenters
             new(_viewsFactory.CreateMatchNewRecipeView(viewContainer));
 
         public InfoPresenter CreateInfoPresenter(Transform parent) =>
-            new(_viewsFactory.InfoViewProvider, parent);
+            new(_viewsFactory.InfoViewProvider, parent, this);
 
         public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform parent) =>
             new(_viewsFactory.CreateCookingMiniGameView(parent), 
@@ -125,5 +128,7 @@ namespace Tavern.UI.Presenters
                 _settings.CookingSettings,
                 _activeDishRecipe,
                 _matcher);
+
+        public AutoClosePresenter CreateAutoClosePresenter() => new(_mouseClickInput);
     }
 }

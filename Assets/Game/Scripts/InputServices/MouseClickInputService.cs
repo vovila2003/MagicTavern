@@ -7,17 +7,17 @@ using VContainer.Unity;
 namespace Tavern.InputServices
 {
     [UsedImplicitly]
-    public sealed class MiniGameInputService :
-        ISpaceInput,
+    public sealed class MouseClickInputService :
+        IMouseClickInput,
         ITickable
     {
-        public event Action OnSpace;
-        
+        public event Action<Vector2> OnMouseClicked;
+
         void ITickable.Tick()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
             {
-                OnSpace?.Invoke();
+                OnMouseClicked?.Invoke(Input.mousePosition);
             }
         }
     }

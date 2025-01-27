@@ -28,7 +28,8 @@ namespace Tavern.UI.Presenters
             IStackableInventory<LootItem> lootInventory,
             PresentersFactory presentersFactory, 
             Transform canvas,
-            ActiveDishRecipe recipe) : base(view)
+            ActiveDishRecipe recipe
+            ) : base(view)
         {
             _parent = view.ContentTransform;
             _productInventory = productInventory;

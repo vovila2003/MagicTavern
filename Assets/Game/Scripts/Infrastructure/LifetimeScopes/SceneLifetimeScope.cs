@@ -10,7 +10,6 @@ using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
 using Tavern.InputServices;
-using Tavern.InputServices.Interfaces;
 using Tavern.Looting;
 using Tavern.Settings;
 using Tavern.Storages;
@@ -97,12 +96,13 @@ namespace Tavern.Infrastructure
         {
             builder.RegisterInstance(UISceneSettings);
             builder.RegisterInstance(GameSettings.UISettings);
-            
+
             builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
-            
+            builder.Register<MouseClickInputService>(Lifetime.Singleton).AsImplementedInterfaces();
+
             builder.Register<ViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PresentersFactory>(Lifetime.Singleton);
-            
+
             builder.RegisterComponentInHierarchy<Tester>(); //TODO for test -> remove
         }
 

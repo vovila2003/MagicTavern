@@ -26,18 +26,13 @@ namespace Tavern.UI.Presenters
         
         protected override void OnShow()
         {
-            Reset();
+            ResetEffects();
             _matcher.OnRecipeMatched += OnRecipeMatched;
         }
 
         protected override void OnHide()
         {
             _matcher.OnRecipeMatched -= OnRecipeMatched;
-        }
-
-        public void Reset()
-        {
-            ResetEffects();
         }
 
         private void ResetEffects()

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b6842c43d84d35be263cce927821e0, type: 3}
   m_Name: EffectOneConfig
   m_EditorClassIdentifier: 
-  EffectIcon: {fileID: 0}
+  EffectIcon: {fileID: -1131168810, guid: e37a9c5a47293414cb6126a4ffa0ebea, type: 3}

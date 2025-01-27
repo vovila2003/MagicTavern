@@ -13,13 +13,16 @@ namespace Tavern.UI.Presenters
         
         private readonly IInfoViewProvider _provider;
         private readonly Transform _parent;
+        private readonly AutoClosePresenter _autoClosePresenter;
+        
         private Item _item;
         private IInfoPanelView _view;
-        
-        public InfoPresenter(IInfoViewProvider provider, Transform parent)
+
+        public InfoPresenter(IInfoViewProvider provider, Transform parent, PresentersFactory factory)
         {
             _provider = provider;
             _parent = parent;
+            _autoClosePresenter = factory.CreateAutoClosePresenter();
         }
 
         public bool Show(Item item, string command)
@@ -31,6 +34,9 @@ namespace Tavern.UI.Presenters
             _item = item;
             _view = view;
             SetupView(command);
+            
+            _autoClosePresenter.Enable(view);
+            _autoClosePresenter.OnClickOutside += OnClose;
 
             _view.Show();
             
@@ -81,9 +87,14 @@ namespace Tavern.UI.Presenters
         {
             _view.OnAction -= OnAction;
             _view.OnClose -= OnClose;
+            
+            _autoClosePresenter.OnClickOutside -= OnClose;
+            _autoClosePresenter.Disable();
+            
             _view.Hide();
             
             _provider.TryRelease(_view);
+            _view = null;
         }
     }
 }

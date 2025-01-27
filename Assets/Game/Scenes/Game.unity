@@ -490,8 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772c614b96ddaeb5dabbc693aa277546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemRecipes:
-  - {fileID: 11400000, guid: 84a8fe6173e81aa5c85a212992dc888c, type: 2}
+  ItemRecipes: []
 --- !u!114 &361997369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,6 +549,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Items:
+  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
+  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
+  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
+  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
   - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
   ItemsCatalog: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
 --- !u!1 &483100650
@@ -1339,6 +1342,7 @@ MonoBehaviour:
     MainMenuView: {fileID: 886014759}
     PauseView: {fileID: 1896812131}
     HudView: {fileID: 483100652}
+  Camera: {fileID: 519420031}
 --- !u!1 &615366036
 GameObject:
   m_ObjectHideFlags: 0
@@ -3735,11 +3739,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items:
   - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
+  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
   - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
   - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
   - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
   - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
   - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
+  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
+  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
+  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
+  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
   ItemsCatalog: {fileID: 11400000, guid: d57b60e06fa20ab0988e7c4b81964ccf, type: 2}
 --- !u!1 &2028241251
 GameObject:

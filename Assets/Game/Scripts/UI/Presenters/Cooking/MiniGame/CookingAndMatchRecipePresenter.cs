@@ -1,4 +1,3 @@
-using Tavern.Cooking;
 using Tavern.Settings;
 
 namespace Tavern.UI.Presenters
