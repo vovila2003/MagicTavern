@@ -30,19 +30,22 @@ namespace Tavern.UI.Views
         private Image Icon;
 
         [SerializeField] 
+        private Image Extra;
+
+        [SerializeField] 
         private TMP_Text ActionButtonText;
-        
+
         [SerializeField] 
         private Button ActionButton;
-        
+
         [SerializeField] 
         private Button CloseButton;
 
         [SerializeField] 
-        private EffectView[] EffectViews; 
-        
-        public IEffectView[] Effects { get; private set; }
+        private EffectView[] EffectViews;
 
+        public IEffectView[] Effects { get; private set; }
+        
         private void Awake()
         {
             Effects = new IEffectView[EffectViews.Length];
@@ -78,6 +81,11 @@ namespace Tavern.UI.Views
             {
                 view.SetActive(false);
             }
+        }
+
+        public void SetExtra(bool isExtra)
+        {
+            Extra.gameObject.SetActive(isExtra);
         }
     }
 }

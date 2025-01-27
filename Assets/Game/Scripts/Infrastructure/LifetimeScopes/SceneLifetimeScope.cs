@@ -182,7 +182,7 @@ namespace Tavern.Infrastructure
             builder.RegisterComponentInHierarchy<DishCookbookContext>();
             builder.RegisterComponentInHierarchy<DishAutoCookbookContext>();
             
-            builder.RegisterInstance(GameSettings.DishRecipes);
+            builder.RegisterInstance(GameSettings.CookingSettings);
 
             builder.Register<RecipeMatcher>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 

@@ -7,7 +7,7 @@ using VContainer;
 
 namespace Tavern.Common
 {
-    public abstract class InventoryContext<T> : MonoBehaviour
+    public abstract class StackableInventoryContext<T> : MonoBehaviour
         where T : Item
     {
         [SerializeField] 
@@ -16,13 +16,13 @@ namespace Tavern.Common
         [SerializeField]
         private ItemsCatalog<T> ItemsCatalog;
         
-        private IInventory<T> _inventory;
+        private IStackableInventory<T> _inventory;
 
         [ShowInInspector, ReadOnly]
         private List<T> ItemsList => _inventory == null ? new List<T>() : _inventory.Items;
 
         [Inject]
-        private void Construct(IInventory<T> inventory)
+        private void Construct(IStackableInventory<T> inventory)
         {
             _inventory = inventory;
         }
@@ -42,12 +42,14 @@ namespace Tavern.Common
         {
             _inventory.OnItemAdded += OnItemAdded;
             _inventory.OnItemRemoved += OnItemRemoved;
+            _inventory.OnItemCountChanged += OnItemCountChanged;
         }
 
         private void OnDisable()
         {
             _inventory.OnItemAdded -= OnItemAdded;
             _inventory.OnItemRemoved -= OnItemRemoved;
+            _inventory.OnItemCountChanged -= OnItemCountChanged;
         }
 
         [Button]
@@ -102,6 +104,11 @@ namespace Tavern.Common
         private void OnItemRemoved(T item)
         {
             Debug.Log($"Item of name {item.ItemName} is removed from inventory");
+        }
+
+        private void OnItemCountChanged(T item, int value)
+        {
+            Debug.Log($"Count of item with name {item.ItemName} is changed to {value}");
         }
     }
 }

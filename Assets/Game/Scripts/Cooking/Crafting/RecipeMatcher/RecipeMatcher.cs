@@ -5,6 +5,7 @@ using Modules.GameCycle.Interfaces;
 using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.Settings;
 using UnityEngine;
 
 namespace Tavern.Cooking
@@ -57,11 +58,11 @@ namespace Tavern.Cooking
         private readonly List<string> _recipeNames = new();
 
         public RecipeMatcher(
-            DishRecipeCatalog recipeCatalog, 
+            CookingSettings settings, 
             ActiveDishRecipe recipe, 
             DishCookbookContext cookbook)
         {
-            _recipeCatalog = recipeCatalog;
+            _recipeCatalog = settings.DishRecipes;
             _recipe = recipe;
             _cookbook = cookbook;
             _comparer = new DictionaryComparer();

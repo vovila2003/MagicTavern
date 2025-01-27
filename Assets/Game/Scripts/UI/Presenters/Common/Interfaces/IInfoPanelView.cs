@@ -13,5 +13,6 @@ namespace Tavern.UI.Presenters
         void SetIcon(Sprite icon);
         void SetActionButtonText(string text);
         void HideAllEffects();
+        void SetExtra(bool isExtra);
     }
 }

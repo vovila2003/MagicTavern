@@ -119,7 +119,7 @@ namespace Tavern.UI.Presenters
 
         private void SetRecipe(DishRecipe recipe) => _activeRecipe.Setup(recipe);
 
-        private void OnDishCrafted(DishRecipe recipe) => ShowInfo(recipe, recipe.ResultItem.Item);
+        private void OnDishCrafted(DishRecipe recipe, DishItem dishItem) => ShowInfo(recipe, dishItem);
 
         private void OnSlopCrafted(DishRecipe recipe) => ShowInfo(recipe, _slopConfig.Item);
 

@@ -98,18 +98,19 @@ namespace Tavern.Cooking.MiniGame
             DishRecipe recipe = _activeDishRecipe.Recipe;
             int stars = _cookbook.GetRecipeStars(recipe);
             int maxScore = recipe.StarsCount * 2;
-            int score = Mathf.Clamp(stars + result, 0, maxScore);
+            int newScore = Mathf.Clamp(stars + result, 0, maxScore);
+            bool isExtra = stars == maxScore && newScore == maxScore;
             
-            _cookbook.SetRecipeStars(recipe, score);
+            _cookbook.SetRecipeStars(recipe, newScore);
 
-            if (score >= maxScore && !_autoCookbook.HasRecipe(recipe))
+            if (newScore >= maxScore && !_autoCookbook.HasRecipe(recipe))
             {
                 _autoCookbook.AddRecipe(recipe);
             }
 
-            if (score > 0)
+            if (newScore > 0)
             {
-                _dishCrafter.CraftDish();
+                _dishCrafter.CraftDish(isExtra);
             }
             else
             {

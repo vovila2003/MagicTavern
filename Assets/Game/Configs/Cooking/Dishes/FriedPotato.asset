@@ -22,7 +22,8 @@ MonoBehaviour:
       Icon: {fileID: -1171785395, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 1692307354129530888
-    - rid: 2912130813685661811
+    - rid: 2912130831930097835
+    - rid: 2912130831930097836
   references:
     version: 2
     RefIds:
@@ -31,8 +32,13 @@ MonoBehaviour:
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 2912130813685661811
-      type: {class: ComponentEffectOne, ns: Tavern.Cooking, asm: Game}
+    - rid: 2912130831930097835
+      type: {class: ComponentEffect, ns: Tavern.Cooking, asm: Game}
       data:
         EffectValue: 1
         EffectConfig: {fileID: 11400000, guid: 285a5fa5467b43541a0cf691391d11cf, type: 2}
+    - rid: 2912130831930097836
+      type: {class: ComponentEffect, ns: Tavern.Cooking, asm: Game}
+      data:
+        EffectValue: 1
+        EffectConfig: {fileID: 11400000, guid: 84022dcf1c2e98b0a8c0d1fe0d11e5eb, type: 2}

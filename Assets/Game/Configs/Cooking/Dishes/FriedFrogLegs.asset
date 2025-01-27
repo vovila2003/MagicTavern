@@ -22,6 +22,7 @@ MonoBehaviour:
       Icon: {fileID: -2094843947, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 2912130704922378317
+    - rid: 2912130831930097838
   references:
     version: 2
     RefIds:
@@ -30,3 +31,8 @@ MonoBehaviour:
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 2912130831930097838
+      type: {class: ComponentEffect, ns: Tavern.Cooking, asm: Game}
+      data:
+        EffectValue: 1
+        EffectConfig: {fileID: 11400000, guid: 84022dcf1c2e98b0a8c0d1fe0d11e5eb, type: 2}

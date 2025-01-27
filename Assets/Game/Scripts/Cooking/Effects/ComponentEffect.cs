@@ -5,23 +5,23 @@ using UnityEngine;
 namespace Tavern.Cooking
 {
     [Serializable]
-    public class ComponentEffectOne : IEffectComponent
+    public class ComponentEffect : IEffectComponent
     {
         [SerializeField] 
         private int EffectValue;
 
         [SerializeField] 
-        private EffectOneConfig EffectConfig;
+        private EffectConfig EffectConfig;
         
         public int Value => EffectValue;
         
         public IEffectConfig Config => EffectConfig;
 
-        public ComponentEffectOne()
+        public ComponentEffect()
         {
         }
 
-        public ComponentEffectOne(EffectOneConfig config, int value)
+        public ComponentEffect(EffectConfig config, int value)
         {
             EffectConfig = config;
             EffectValue = value;
@@ -29,7 +29,7 @@ namespace Tavern.Cooking
 
         public IItemComponent Clone()
         {
-            return new ComponentEffectOne(EffectConfig, EffectValue);
+            return new ComponentEffect(EffectConfig, EffectValue);
         }
     }
 }

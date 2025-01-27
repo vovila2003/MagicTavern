@@ -2,7 +2,7 @@ using Tavern.Common;
 
 namespace Tavern.Gardening
 {
-    public class SeedInventoryContext : InventoryContext<SeedItem>
+    public class SeedInventoryContext : StackableInventoryContext<SeedItem>
     {
     }
 }

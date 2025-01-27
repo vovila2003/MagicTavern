@@ -2,42 +2,72 @@ using System;
 using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
+using Tavern.Settings;
 using Tavern.Storages;
+using UnityEngine;
 
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
     public class DishCrafter : IInitGameListener, IExitGameListener
     {
+        private const int EffectValue = 1;
         public event Action<bool> OnStateChanged;
-        public event Action<DishRecipe> OnDishCrafted;
+        public event Action<DishRecipe, DishItem> OnDishCrafted;
         public event Action<DishRecipe> OnSlopCrafted;
         
-        private readonly IStackableInventory<DishItem> _dishInventory;
+        private readonly IInventory<DishItem> _dishInventory;
         private readonly ISlopsStorage _slopsStorage;
         private readonly RecipeMatcher _matcher;
         private readonly ActiveDishRecipe _activeRecipe;
+        private readonly EffectsCatalog _effectsCatalog;
 
         public DishCrafter(
-            IStackableInventory<DishItem> dishInventory,
+            IInventory<DishItem> dishInventory,
             ISlopsStorage slopsStorage,
             RecipeMatcher matcher, 
-            ActiveDishRecipe activeRecipe)
+            ActiveDishRecipe activeRecipe,
+            CookingSettings settings)
         {
             _dishInventory = dishInventory;
             _slopsStorage = slopsStorage;
             _matcher = matcher;
             _activeRecipe = activeRecipe;
+            _effectsCatalog = settings.Effects;
         }
 
-        public void CraftDish()
+        public void CraftDish(bool isExtra)
         {
             DishRecipe recipe = _activeRecipe.Recipe;
-            var result = recipe.ResultItem.Item.Clone() as DishItem;
+            if (recipe.ResultItem.Item.Clone() is not DishItem result) return;
+            
+            result.IsExtra = isExtra;
+            Debug.Log($"Is Extra : {isExtra}");
+
+            if (isExtra)
+            {
+                ProcessExtra(result);
+            }
+            
             _activeRecipe.SpendIngredients();
             _dishInventory.AddItem(result);
             
-            OnDishCrafted?.Invoke(recipe);
+            OnDishCrafted?.Invoke(recipe, result);
+        }
+
+        private void ProcessExtra(DishItem result)
+        {
+            EffectConfig newEffect = _effectsCatalog.GetRandomEffect();
+            // List<ComponentEffect> effects = result.GetAll<ComponentEffect>();
+            // foreach (ComponentEffect effect in effects)
+            // {
+            //     if (effect.Config.EffectName == newEffect.EffectName)
+            //     {
+            //         effect.Value += EffectValue;
+            //     }
+            // }
+            
+            result.Components.Add(new ComponentEffect(newEffect, EffectValue));
         }
 
         public void MakeSlops()

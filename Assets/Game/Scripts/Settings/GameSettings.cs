@@ -23,7 +23,7 @@ namespace Tavern.Settings
         private GardeningSettings GardeningConfigs;
 
         [SerializeField]
-        private DishRecipeCatalog DishRecipeCatalog;
+        private CookingSettings CookingConfigs;
         
         [SerializeField]
         private UISettings UIConfigs;
@@ -38,7 +38,7 @@ namespace Tavern.Settings
         
         public CameraSettings CameraSettings => CameraConfigs;
         
-        public DishRecipeCatalog DishRecipes => DishRecipeCatalog;
+        public CookingSettings CookingSettings => CookingConfigs;
         public UISettings UISettings => UIConfigs;
     }
 }

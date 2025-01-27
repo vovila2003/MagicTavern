@@ -8,6 +8,8 @@ namespace Tavern.UI.Presenters
 {
     public sealed class InfoPresenter
     {
+        
+        private const string FromChef = "От Шефа!";
         public event Action<Item> OnAccepted;
         public event Action OnRejected;
         
@@ -47,12 +49,23 @@ namespace Tavern.UI.Presenters
         {
             ItemMetadata metadata = _item.ItemMetadata;
             _view.SetTitle(metadata.Title);
-            _view.SetDescription(metadata.Description);
             _view.SetIcon(metadata.Icon);
             _view.SetActionButtonText(command);
+            string description = metadata.Description;
 
             SetupEffects();
-            
+
+            if (_item is IExtraItem dishItem)
+            {
+                _view.SetExtra(dishItem.IsExtra);
+                if (dishItem.IsExtra)
+                {
+                    description = $"{FromChef} {description}";
+                }
+            }
+
+            _view.SetDescription(description);
+
             _view.OnAction += OnAction;
             _view.OnClose += OnClose;
         }
