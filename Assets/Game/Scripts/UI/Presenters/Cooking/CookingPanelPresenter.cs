@@ -127,7 +127,8 @@ namespace Tavern.UI.Presenters
         private void RepeatDish(Item dish)
         {
             UnsubscribeInfo();
-            SetRecipe(_recipe);
+            Reset();
+            _activeRecipe.Setup(_recipe);
             _recipe = null;
         }
 

@@ -19,8 +19,8 @@ namespace Tavern.UI.Presenters
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly PresentersFactory _presentersFactory;
         private readonly Transform _canvas;
-        private readonly ActiveDishRecipe _recipe;
-        private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
+        private readonly IActiveDishRecipeReader _recipe;
+        private readonly Dictionary<string, ItemCardPresenter> _presenters = new();
         private InfoPresenter _infoPresenter;
 
         public CookingIngredientsPresenter(IContainerView view,
@@ -28,7 +28,7 @@ namespace Tavern.UI.Presenters
             IStackableInventory<LootItem> lootInventory,
             PresentersFactory presentersFactory, 
             Transform canvas,
-            ActiveDishRecipe recipe
+            IActiveDishRecipeReader recipe
             ) : base(view)
         {
             _parent = view.ContentTransform;
@@ -48,6 +48,8 @@ namespace Tavern.UI.Presenters
             
             _lootInventory.OnItemCountChanged += OnLootCountChanged;
             _lootInventory.OnItemRemoved += OnItemRemoved;
+
+            _recipe.OnSpent += OnSpendIngredients;
         }
 
         protected override void OnHide()
@@ -57,6 +59,8 @@ namespace Tavern.UI.Presenters
             
             _lootInventory.OnItemCountChanged -= OnLootCountChanged;
             _lootInventory.OnItemRemoved -= OnItemRemoved;
+            
+            _recipe.OnSpent -= OnSpendIngredients;
 
             foreach (ItemCardPresenter presenter in _presenters.Values)
             {
@@ -69,21 +73,38 @@ namespace Tavern.UI.Presenters
 
         private void SetupCards()
         {
-            foreach (ProductItem item in _productInventory.Items)
-            {
-                AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
-            }
-            
-            foreach (LootItem item in _lootInventory.Items)
+            AddProductPresenters(_productInventory.Items);
+            AddLootPresenters(_lootInventory.Items);
+        }
+
+        private void AddLootPresenters(List<LootItem> items)
+        {
+            foreach (LootItem item in items)
             {
                 AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
             }
         }
 
+        private void AddProductPresenters(List<ProductItem> items)
+        {
+            foreach (ProductItem item in items)
+            {
+                AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
+            }
+        }
+
         private void AddPresenter(Item item, int itemCount)
         {
-            ItemCardPresenter presenter = _presentersFactory.CreateItemCardPresenter(_parent);
-            _presenters.Add(item, presenter);
+            if (itemCount <= 0) return;
+            
+            if (_presenters.TryGetValue(item.ItemName, out ItemCardPresenter presenter))
+            {
+                presenter.ChangeCount(itemCount);
+                return;
+            }
+            
+            presenter = _presentersFactory.CreateItemCardPresenter(_parent);
+            _presenters.Add(item.ItemName, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
             presenter.Show(item, itemCount);
@@ -101,20 +122,26 @@ namespace Tavern.UI.Presenters
                 return;
             }
             
-            if (!_presenters.ContainsKey(item))
+            if (!_presenters.ContainsKey(item.ItemName))
             {
                 AddPresenter(item, inventory.GetItemCount(item.ItemName));
             }
             
-            _presenters[item].ChangeCount(count);
+            _presenters[item.ItemName].ChangeCount(count);
         }
 
         private void OnItemRemoved(Item item)
         {
-            if (!_presenters.Remove(item, out ItemCardPresenter presenter)) return;
+            if (!_presenters.Remove(item.ItemName, out ItemCardPresenter presenter)) return;
 
             UnsubscribeItemCard(presenter);
             presenter.Hide();
+        }
+
+        private void OnSpendIngredients(List<ProductItem> products, List<LootItem> loots)
+        {
+            AddProductPresenters(products);
+            AddLootPresenters(loots);
         }
 
         private void OnIngredientRightClick(Item item)

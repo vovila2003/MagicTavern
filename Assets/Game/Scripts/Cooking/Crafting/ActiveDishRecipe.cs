@@ -5,16 +5,18 @@ using Modules.Inventories;
 using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
+using UnityEngine;
 
 
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
-    public sealed class ActiveDishRecipe  
+    public sealed class ActiveDishRecipe : IActiveDishRecipeReader
     {
         private const int MaxIngredientsCount = 7;
 
         public event Action OnChanged;
+        public event Action<List<ProductItem>, List<LootItem>> OnSpent;
         
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
@@ -24,6 +26,8 @@ namespace Tavern.Cooking
         private readonly HashSet<LootItem> _loots = new();
         private readonly HashSet<LootItem> _fakeLoots = new();
         private readonly HashSet<string> _items = new();
+        private readonly List<ProductItem> _spentProducts = new();
+        private readonly List<LootItem> _spentLoots = new();
 
         public DishRecipe Recipe { get; private set; }
 
@@ -69,22 +73,18 @@ namespace Tavern.Cooking
 
         public void Setup(DishRecipe recipe)
         {
-            Reset();
+            ResetRecipe();
             SetRecipe(recipe);
             GetProducts(Recipe);
             GetLoots(Recipe);
             
             OnChanged?.Invoke();
+            Debug.Log("Setup ActiveRecipe");
         }
 
         public void Reset()
         {
-            _fakeProducts.Clear();
-            _fakeLoots.Clear();
-            _items.Clear();
-            SetRecipe(null);
-            ReturnProducts();
-            ReturnLoots();
+            ResetRecipe();
 
             OnChanged?.Invoke();
         }
@@ -95,13 +95,31 @@ namespace Tavern.Cooking
             _fakeLoots.Clear();
             _items.Clear();
             SetRecipe(null);
+            
+            _spentProducts.Clear();
+            _spentProducts.AddRange(_products);
+            
+            _spentLoots.Clear();
+            _spentLoots.AddRange(_loots);
+            
             _products.Clear();
             _loots.Clear();
 
+            OnSpent?.Invoke(_spentProducts, _spentLoots);
             OnChanged?.Invoke();
         }
 
         public void SetRecipe(DishRecipe recipe) => Recipe = recipe;
+
+        private void ResetRecipe()
+        {
+            _fakeProducts.Clear();
+            _fakeLoots.Clear();
+            _items.Clear();
+            SetRecipe(null);
+            ReturnProducts();
+            ReturnLoots();
+        }
 
         private void AddItem<T>(T item, IStackableInventory<T> inventory, HashSet<T> collection) where T : Item
         {
