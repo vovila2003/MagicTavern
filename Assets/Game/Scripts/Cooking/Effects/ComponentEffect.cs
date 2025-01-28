@@ -8,12 +8,7 @@ namespace Tavern.Cooking
     public class ComponentEffect : IEffectComponent
     {
         [SerializeField] 
-        private int EffectValue;
-
-        [SerializeField] 
         private EffectConfig EffectConfig;
-        
-        public int Value => EffectValue;
         
         public IEffectConfig Config => EffectConfig;
 
@@ -21,15 +16,14 @@ namespace Tavern.Cooking
         {
         }
 
-        public ComponentEffect(EffectConfig config, int value)
+        public ComponentEffect(EffectConfig config)
         {
             EffectConfig = config;
-            EffectValue = value;
         }
 
         public IItemComponent Clone()
         {
-            return new ComponentEffect(EffectConfig, EffectValue);
+            return new ComponentEffect(EffectConfig);
         }
     }
 }

@@ -5,7 +5,6 @@ using Modules.Inventories;
 using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
-using UnityEngine;
 
 
 namespace Tavern.Cooking
@@ -79,7 +78,6 @@ namespace Tavern.Cooking
             GetLoots(Recipe);
             
             OnChanged?.Invoke();
-            Debug.Log("Setup ActiveRecipe");
         }
 
         public void Reset()

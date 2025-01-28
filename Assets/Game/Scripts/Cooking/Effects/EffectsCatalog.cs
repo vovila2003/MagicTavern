@@ -21,6 +21,25 @@ namespace Tavern.Cooking
 
         public EffectConfig GetRandomEffect() => 
             _effectsDict.ElementAt(Random.Range(0, _effectsDict.Count)).Value;
+        
+        public bool TryGetRandomEffectExpect(List<ComponentEffect> existed, out EffectConfig effect)
+        {
+            if (existed.Count == Effects.Length)
+            {
+                effect = null;
+                return false;
+            }
+            
+            var pool = new Dictionary<string, EffectConfig>(_effectsDict);
+            foreach (ComponentEffect component in existed)
+            {
+                pool.Remove(component.Config.EffectName);
+            }
+            
+            effect = pool.ElementAt(Random.Range(0, pool.Count)).Value;
+                        
+            return true;
+        }
 
         private void OnValidate()
         {

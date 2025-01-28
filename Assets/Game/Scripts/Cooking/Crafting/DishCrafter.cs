@@ -1,17 +1,16 @@
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
 using Tavern.Settings;
 using Tavern.Storages;
-using UnityEngine;
 
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
     public class DishCrafter : IInitGameListener, IExitGameListener
     {
-        private const int EffectValue = 1;
         public event Action<bool> OnStateChanged;
         public event Action<DishRecipe, DishItem> OnDishCrafted;
         public event Action<DishRecipe> OnSlopCrafted;
@@ -56,17 +55,10 @@ namespace Tavern.Cooking
 
         private void ProcessExtra(DishItem result)
         {
-            EffectConfig newEffect = _effectsCatalog.GetRandomEffect();
-            // List<ComponentEffect> effects = result.GetAll<ComponentEffect>();
-            // foreach (ComponentEffect effect in effects)
-            // {
-            //     if (effect.Config.EffectName == newEffect.EffectName)
-            //     {
-            //         effect.Value += EffectValue;
-            //     }
-            // }
+            List<ComponentEffect> existed = result.GetAll<ComponentEffect>();
+            if (!_effectsCatalog.TryGetRandomEffectExpect(existed, out EffectConfig newEffect)) return;
             
-            result.Components.Add(new ComponentEffect(newEffect, EffectValue));
+            result.Components.Add(new ComponentEffect(newEffect));
         }
 
         public void MakeSlops()
