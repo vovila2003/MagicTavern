@@ -14,31 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: FriedPotato
-    Flags: 1
+    Flags: 0
     Metadata:
       Title: "\u0416\u0430\u0440\u0435\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"
       Description: "\u0425\u0440\u0443\u0441\u0442\u044F\u0449\u0430\u044F, \u043F\u0430\u043B\u044C\u0447\u0438\u043A\u0438
         \u043E\u0431\u043B\u0438\u0436\u0435\u0448\u044C"
       Icon: {fileID: -1171785395, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
-    Components:
-    - rid: 1692307354129530888
-    - rid: 2912130831930097835
-    - rid: 2912130831930097836
+    Components: []
   references:
     version: 2
-    RefIds:
-    - rid: 1692307354129530888
-      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
-      data:
-        IsLimited: 0
-        MaxSize: 0
-    - rid: 2912130831930097835
-      type: {class: ComponentEffect, ns: Tavern.Cooking, asm: Game}
-      data:
-        EffectValue: 1
-        EffectConfig: {fileID: 11400000, guid: 285a5fa5467b43541a0cf691391d11cf, type: 2}
-    - rid: 2912130831930097836
-      type: {class: ComponentEffect, ns: Tavern.Cooking, asm: Game}
-      data:
-        EffectValue: 1
-        EffectConfig: {fileID: 11400000, guid: 84022dcf1c2e98b0a8c0d1fe0d11e5eb, type: 2}
+    RefIds: []

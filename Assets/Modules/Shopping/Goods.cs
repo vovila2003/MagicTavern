@@ -1,4 +1,5 @@
 using System;
+using Modules.Items;
 using UnityEngine;
 
 namespace Modules.Shopping
@@ -16,7 +17,7 @@ namespace Modules.Shopping
         
         public IGoodComponent GoodsComponent => Component;
         
-        public GoodsMetadata GoodsMetadata => Component.GoodsMetadata;
+        public ItemMetadata Metadata => Component.Metadata;
         
         public int GoodsPrice => Price;
     }

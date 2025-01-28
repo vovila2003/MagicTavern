@@ -7,10 +7,19 @@ namespace Modules.Items
     {
         [SerializeField]
         public T Item;
+        
+        [SerializeField]
+        public ItemMetadata Metadata;
 
         protected virtual void Awake()
         {
             Item.Components ??= new List<IItemComponent>();
+            Item.Metadata = Metadata;
+        }
+
+        protected virtual void OnValidate()
+        {
+            Item.Metadata = Metadata;
         }
     }
 }

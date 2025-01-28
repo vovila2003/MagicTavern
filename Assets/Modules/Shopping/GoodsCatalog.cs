@@ -10,21 +10,11 @@ namespace Modules.Shopping
         menuName = "Settings/Shopping/Goods Catalog")]
     public class GoodsCatalog : ScriptableObject 
     {
-        [SerializeField]
-        private string CatalogName;
-
         [SerializeField] 
         private GoodsConfig[] GoodsConfigs;
 
-        [SerializeField] 
-        private GoodsMetadata CatalogMetadata;
-
         private readonly Dictionary<string, GoodsConfig> _goodsDict = new();
         
-        public string Name => CatalogName;
-        
-        public GoodsMetadata Metadata => CatalogMetadata;
-
         public bool TryGetGoods(string goodsName, out GoodsConfig goodsConfig) => 
             _goodsDict.TryGetValue(goodsName, out goodsConfig);
 

@@ -82,7 +82,7 @@ namespace Tavern.UI.Presenters
                 if (i + offset >= _view.RecipeIngredients.Count) break;
                 
                 IRecipeIngredientView recipeIngredientView = _view.RecipeIngredients[i + offset];
-                ItemMetadata metadata = item.ItemMetadata;
+                ItemMetadata metadata = item.Metadata;
                 recipeIngredientView.SetTitle(metadata.Title);
                 recipeIngredientView.SetIcon(metadata.Icon);
                 recipeIngredientView.SetBackgroundColor(_settings.FilledColor);

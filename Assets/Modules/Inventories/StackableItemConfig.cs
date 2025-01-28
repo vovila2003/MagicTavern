@@ -1,5 +1,4 @@
 using Modules.Items;
-using Sirenix.OdinInspector;
 
 namespace Modules.Inventories
 {

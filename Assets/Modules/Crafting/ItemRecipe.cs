@@ -21,9 +21,9 @@ namespace Modules.Crafting
         
         
         [ShowInInspector, ReadOnly, PreviewField(50, ObjectFieldAlignment.Right)] 
-        private Sprite Icon => ResultItemConfig?.Item.ItemMetadata.Icon;
+        private Sprite Icon => ResultItemConfig?.Item.Metadata.Icon;
         
         [ShowInInspector, ReadOnly]
-        private string RecipeName => ResultItemConfig?.Item.ItemMetadata.Title;
+        private string RecipeName => ResultItemConfig?.Item.Metadata.Title;
     }
 }

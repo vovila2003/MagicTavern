@@ -33,7 +33,7 @@ namespace Tavern.UI.Presenters
 
         protected override void OnShow()
         {
-            ItemMetadata metadata = _item.ItemMetadata;
+            ItemMetadata metadata = _item.Metadata;
             _view.SetIcon(metadata.Icon);
             ChangeCount(_count);
             _view.OnLeftClicked += OnLeftClicked;

@@ -47,10 +47,11 @@ namespace Tavern.UI.Presenters
 
         private void SetupView(string command)
         {
-            ItemMetadata metadata = _item.ItemMetadata;
+            ItemMetadata metadata = _item.Metadata;
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
             _view.SetActionButtonText(command);
+            _view.SetExtra(false);
             string description = metadata.Description;
 
             SetupEffects();

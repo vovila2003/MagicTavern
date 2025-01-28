@@ -14,15 +14,15 @@ namespace Modules.Items
         [SerializeField]
         protected ItemFlags Flags;
         
-        [SerializeField] 
-        protected ItemMetadata Metadata;
+        // [SerializeField] 
+        // protected ItemMetadata Metadata;
         
         [SerializeReference] 
         public List<IItemComponent> Components;
         
         public string ItemName => Name;
         public ItemFlags ItemFlags => Flags;
-        public ItemMetadata ItemMetadata => Metadata;
+        public ItemMetadata Metadata {get; set; }
 
         public Item(
             string name,
@@ -40,7 +40,7 @@ namespace Modules.Items
         public void ResetFlags(ItemFlags flags) => Flags &= ~flags;
         
         public void SetName(string name) => Name = name;
-
+        
         public bool TryGet<T>(out T component)
         {
             foreach (IItemComponent attribute in Components)

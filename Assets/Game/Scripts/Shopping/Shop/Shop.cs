@@ -23,8 +23,8 @@ namespace Tavern.Shop
         public void ShowGoodsInfo(GoodsConfig goodsConfig)
         {
             Debug.Log($"Name {goodsConfig.Name}");
-            Debug.Log($"Title {goodsConfig.Goods.GoodsMetadata.Title}");
-            Debug.Log($"Description {goodsConfig.Goods.GoodsMetadata.Description}");
+            Debug.Log($"Title {goodsConfig.Goods.Metadata.Title}");
+            Debug.Log($"Description {goodsConfig.Goods.Metadata.Description}");
             Debug.Log($"Price {goodsConfig.Goods.GoodsPrice}");
         }
 

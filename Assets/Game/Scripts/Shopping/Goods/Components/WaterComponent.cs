@@ -1,4 +1,5 @@
 using System;
+using Modules.Items;
 using Modules.Shopping;
 using UnityEngine;
 
@@ -8,9 +9,9 @@ namespace Tavern.Goods
     public class WaterComponent : IGoodComponent
     {
         [SerializeField]
-        private GoodsMetadata Metadata;
+        private ItemMetadata WaterMetadata;
         
         public string Name => "Water";
-        public GoodsMetadata GoodsMetadata => Metadata;
+        public ItemMetadata Metadata => WaterMetadata;
     }
 }
