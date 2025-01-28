@@ -15,18 +15,17 @@ MonoBehaviour:
   Item:
     Name: FriedFrogLegs
     Flags: 0
-    Metadata:
-      Title: "\u0416\u0430\u0440\u0435\u043D\u044B\u0435 \u043B\u0435\u0433\u0443\u0448\u0430\u0447\u044C\u0438 
-        \u043B\u0430\u043F\u043A\u0438"
-      Description: 
-      Icon: {fileID: -2094843947, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 2912130831930097838
+  Metadata:
+    Title: "\u0416\u0430\u0440\u0435\u043D\u044B\u0435 \u043B\u0435\u0433\u0443\u0448\u0430\u0447\u044C\u0438
+      \u043D\u043E\u0436\u043A\u0438"
+    Description: "\u041F\u0438\u0442\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0435"
+    Icon: {fileID: -2094843947, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
   references:
     version: 2
     RefIds:
     - rid: 2912130831930097838
       type: {class: ComponentEffect, ns: Tavern.Cooking, asm: Game}
       data:
-        EffectValue: 1
-        EffectConfig: {fileID: 11400000, guid: 84022dcf1c2e98b0a8c0d1fe0d11e5eb, type: 2}
+        EffectConfig: {fileID: 11400000, guid: 285a5fa5467b43541a0cf691391d11cf, type: 2}

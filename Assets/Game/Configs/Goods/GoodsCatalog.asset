@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e36afb0791f8ae5ac584a315416e57, type: 3}
   m_Name: GoodsCatalog
   m_EditorClassIdentifier: 
-  CatalogName: CommonCatalog
   GoodsConfigs:
   - {fileID: 11400000, guid: d1fd3271032f101239077f7fdae61c83, type: 2}
   - {fileID: 11400000, guid: 0e5a7966662c0c510be467fd358f40f2, type: 2}
@@ -22,7 +21,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c5d6e20f3063c29638568577de803c69, type: 2}
   - {fileID: 11400000, guid: d77a02864c63fd891b844d308c607998, type: 2}
   - {fileID: 11400000, guid: d9a4a562ef31b40c9a2e827ff4adb85b, type: 2}
-  CatalogMetadata:
-    Title: "\u041E\u0431\u0449\u0438\u0439 \u043A\u0430\u0442\u0430\u043B\u043E\u0433"
-    Description: "\u041A\u0430\u0442\u0430\u043B\u043E\u0433 \u0442\u043E\u0432\u0430\u0440\u043E\u0432"
-    Icon: {fileID: 0}

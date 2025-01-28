@@ -15,12 +15,17 @@ MonoBehaviour:
   Item:
     Name: FriedPotato
     Flags: 0
-    Metadata:
-      Title: "\u0416\u0430\u0440\u0435\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"
-      Description: "\u0425\u0440\u0443\u0441\u0442\u044F\u0449\u0430\u044F, \u043F\u0430\u043B\u044C\u0447\u0438\u043A\u0438
-        \u043E\u0431\u043B\u0438\u0436\u0435\u0448\u044C"
-      Icon: {fileID: -1171785395, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
-    Components: []
+    Components:
+    - rid: 2912130855080296545
+  Metadata:
+    Title: "\u0416\u0430\u0440\u0435\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0448\u043A\u0430"
+    Description: "\u043A\u0430\u043A \u0438\u0437 \"\u0412\u043A\u0443\u0441\u043D\u043E
+      \u0438 \u0442\u043E\u0447\u043A\u0430\""
+    Icon: {fileID: 1569985481, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2912130855080296545
+      type: {class: ComponentEffect, ns: Tavern.Cooking, asm: Game}
+      data:
+        EffectConfig: {fileID: 11400000, guid: 84022dcf1c2e98b0a8c0d1fe0d11e5eb, type: 2}

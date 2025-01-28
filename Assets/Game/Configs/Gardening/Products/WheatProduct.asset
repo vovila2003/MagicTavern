@@ -15,13 +15,14 @@ MonoBehaviour:
   Item:
     Name: WheatProduct
     Flags: 1
-    Metadata:
-      Title: "\u041C\u0443\u043A\u0430"
-      Description: 
-      Icon: {fileID: -1885639332, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
     Components:
     - rid: 1692307273784492044
     - rid: 1692307273784492045
+  Metadata:
+    Title: "\u041C\u0443\u043A\u0430"
+    Description: "\u043F\u0448\u0435\u043D\u0438\u0447\u043D\u0430\u044F. \u0412\u044B\u0441\u0448\u0438\u0439
+      \u0441\u043E\u0440\u0442"
+    Icon: {fileID: -1885639332, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
   references:
     version: 2
     RefIds:

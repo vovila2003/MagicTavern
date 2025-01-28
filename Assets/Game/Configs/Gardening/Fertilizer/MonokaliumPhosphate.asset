@@ -15,16 +15,16 @@ MonoBehaviour:
   Item:
     Name: MonokaliumPhosphate
     Flags: 3
-    Metadata:
-      Title: "\u041C\u043E\u043D\u043E\u043A\u0430\u043B\u0438\u0439\u0444\u043E\u0441\u0444\u0430\u0442"
-      Description: 
-      Icon: {fileID: 0}
     Components:
     - rid: 835742636863127567
     - rid: 835742636863127568
     - rid: 835742636863127569
     - rid: 835742636863127572
     - rid: 835742758902956041
+  Metadata:
+    Title: "\u041C\u043E\u043D\u043E\u0444\u043E\u0441\u0444\u0430\u0442 \u043A\u0430\u043B\u0438\u044F"
+    Description: "\u0443\u0434\u043E\u0431\u0440\u0435\u043D\u0438\u0435"
+    Icon: {fileID: 0}
   references:
     version: 2
     RefIds:

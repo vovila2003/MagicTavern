@@ -29,6 +29,7 @@ namespace Tavern.UI.Presenters
             _player.OnGameStarted += OnGameStarted;
             _player.OnGameStopped += OnGameStopped;
             _player.OnGameAvailableChange += OnGameAvailableChanged;
+            _player.OnTimeChanged += SetTimer;
             _inputService.OnSpace += OnButtonClicked;
         }
 
@@ -38,6 +39,7 @@ namespace Tavern.UI.Presenters
             _player.OnGameStarted -= OnGameStarted;
             _player.OnGameStopped -= OnGameStopped;
             _player.OnGameAvailableChange -= OnGameAvailableChanged;
+            _player.OnTimeChanged -= SetTimer;
             _inputService.OnSpace -= OnButtonClicked;
             _player.StopGame();
         }
@@ -51,15 +53,30 @@ namespace Tavern.UI.Presenters
         private void OnGameAvailableChanged(bool state)
         {
             _view.SetStartButtonActive(state);
-            if (!state) return;
+            if (!state)
+            {
+                SetTimer(0);
+                return;
+            }
             
-            SetRegions(_player.GetRegions());
+            GameParams gameParams = _player.GetGameParams();
+            SetRegions(gameParams.Regions);
+            SetTimer(gameParams.TimeInSeconds);
         }
 
         private void SetRegions(Regions regions)
         {
             _view.SetYellowZone(regions.RedYellow, regions.YellowRed);
             _view.SetGreenZone(regions.YellowGreen, regions.GreenYellow);
+        }
+
+        private void SetTimer(float timeInSeconds)
+        {
+            var minutes = (int)(timeInSeconds / 60);
+            var remainingSeconds = (int)(timeInSeconds % 60);
+            var milliseconds = (int)((timeInSeconds - (int)timeInSeconds) * 1000);
+
+            _view.SetTimerText($"{minutes:D2}:{remainingSeconds:D2}:{milliseconds:D3}");
         }
 
         private void OnButtonClicked()
