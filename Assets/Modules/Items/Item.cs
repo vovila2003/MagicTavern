@@ -14,9 +14,6 @@ namespace Modules.Items
         [SerializeField]
         protected ItemFlags Flags;
         
-        // [SerializeField] 
-        // protected ItemMetadata Metadata;
-        
         [SerializeReference] 
         public List<IItemComponent> Components;
         

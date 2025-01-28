@@ -14,7 +14,7 @@ namespace Tavern.Goods
         private ItemMetadata _metadata;
         private bool _initialized;
 
-        public virtual string Name => ItemConfig.Item.ItemName;
+        public virtual string Name => ItemConfig.GetItem().ItemName;
         public ItemMetadata Metadata => ItemConfig.Metadata;
         public ItemConfig<T> Config => ItemConfig;
     }

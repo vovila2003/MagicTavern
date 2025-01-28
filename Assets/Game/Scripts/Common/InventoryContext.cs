@@ -32,7 +32,7 @@ namespace Tavern.Common
             var items = new T[Items.Length];
             for (var i = 0; i < Items.Length; i++)
             {
-                items[i] = Items[i].Item.Clone() as T;
+                items[i] = Items[i].GetItem().Clone() as T;
             }
             
             _inventory.Setup(items);
@@ -59,7 +59,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.AddItem(itemConfig.Item.Clone() as T);
+            _inventory.AddItem(itemConfig.GetItem().Clone() as T);
         }
 
         [Button]
@@ -71,7 +71,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.AddItem(itemConfig.Item.Clone() as T);
+            _inventory.AddItem(itemConfig.GetItem().Clone() as T);
         }
 
         [Button]
@@ -79,7 +79,7 @@ namespace Tavern.Common
         {
             if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<T> itemConfig)) return;
             
-            _inventory.RemoveItem(itemConfig.Item.ItemName);
+            _inventory.RemoveItem(itemConfig.GetItem().ItemName);
         }
 
         [Button]
@@ -91,7 +91,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.RemoveItem(itemConfig.Item.ItemName);
+            _inventory.RemoveItem(itemConfig.GetItem().ItemName);
         }
 
         private void OnItemAdded(T item)

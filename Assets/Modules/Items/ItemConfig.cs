@@ -5,21 +5,21 @@ namespace Modules.Items
 {
     public abstract class ItemConfig<T> : ScriptableObject where T : Item
     {
-        [SerializeField]
-        public T Item;
+        [SerializeField] 
+        private T Item;
         
         [SerializeField]
         public ItemMetadata Metadata;
 
+        public T GetItem()
+        {
+            Item.Metadata = Metadata;
+            return Item;
+        }
+
         protected virtual void Awake()
         {
             Item.Components ??= new List<IItemComponent>();
-            Item.Metadata = Metadata;
-        }
-
-        protected virtual void OnValidate()
-        {
-            Item.Metadata = Metadata;
         }
     }
 }

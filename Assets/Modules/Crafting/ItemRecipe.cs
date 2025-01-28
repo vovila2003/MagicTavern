@@ -13,7 +13,7 @@ namespace Modules.Crafting
         [SerializeField]
         private int TimeInSeconds;
 
-        public string Name => ResultItem.Item.ItemName;
+        public string Name => ResultItem.GetItem().ItemName;
 
         public ItemConfig<T> ResultItem => ResultItemConfig;
 
@@ -21,9 +21,9 @@ namespace Modules.Crafting
         
         
         [ShowInInspector, ReadOnly, PreviewField(50, ObjectFieldAlignment.Right)] 
-        private Sprite Icon => ResultItemConfig?.Item.Metadata.Icon;
+        private Sprite Icon => ResultItemConfig?.GetItem().Metadata.Icon;
         
         [ShowInInspector, ReadOnly]
-        private string RecipeName => ResultItemConfig?.Item.Metadata.Title;
+        private string RecipeName => ResultItemConfig?.GetItem().Metadata.Title;
     }
 }

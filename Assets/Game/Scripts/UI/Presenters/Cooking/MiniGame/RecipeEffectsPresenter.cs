@@ -9,18 +9,18 @@ namespace Tavern.UI.Presenters
     {
         private readonly IRecipeEffectsView _view;
         private readonly CookingUISettings _settings;
-        private readonly IActiveDishRecipeReader _recipe;
+        private readonly IActiveDishRecipeReader _activeRecipe;
         private readonly RecipeMatcher _matcher;
 
         public RecipeEffectsPresenter(
             IRecipeEffectsView view,
             CookingUISettings settings,
-            IActiveDishRecipeReader recipe,
+            IActiveDishRecipeReader activeRecipe,
             RecipeMatcher matcher) : base(view)
         {
             _view = view;
             _settings = settings;
-            _recipe = recipe;
+            _activeRecipe = activeRecipe;
             _matcher = matcher;
         }
         
@@ -55,7 +55,7 @@ namespace Tavern.UI.Presenters
 
         private void SetEffects()
         {
-            List<IEffectComponent> effects = _recipe.Recipe.ResultItem.Item.GetAll<IEffectComponent>();
+            List<IEffectComponent> effects = _activeRecipe.Recipe.ResultItem.GetItem().GetAll<IEffectComponent>();
             
             int count = Mathf.Min(effects.Count, _view.RecipeEffects.Count);
             for (var i = 0; i < count; i++)

@@ -40,17 +40,17 @@ namespace Tavern.Cooking
             var items = new HashSet<string>();
             foreach (ProductItemConfig itemConfig in ProductIngredients)
             {
-                CheckDuplicates(items, itemConfig.Item.ItemName);
+                CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
             
             foreach (LootItemConfig itemConfig in LootIngredients)
             {
-                CheckDuplicates(items, itemConfig.Item.ItemName);
+                CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
             
             foreach (KitchenItemConfig itemConfig in RequiredKitchenItems)
             {
-                CheckDuplicates(items, itemConfig.Item.ItemName);
+                CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
         }
 

@@ -56,13 +56,10 @@ namespace Tavern.UI.Presenters
 
             SetupEffects();
 
-            if (_item is IExtraItem dishItem)
+            if (_item is IExtraItem { IsExtra: true })
             {
-                _view.SetExtra(dishItem.IsExtra);
-                if (dishItem.IsExtra)
-                {
-                    description = $"{FromChef} {description}";
-                }
+                _view.SetExtra(true);
+                description = $"{FromChef} {description}";
             }
 
             _view.SetDescription(description);

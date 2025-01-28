@@ -19,7 +19,7 @@ namespace Modules.Items
             var collection = new Dictionary<string, bool>();
             foreach (ItemConfig<T> settings in Items)
             {
-                string itemName = settings.Item.ItemName;
+                string itemName = settings.GetItem().ItemName;
                 _itemsDict[itemName] = settings;
                 if (collection.TryAdd(itemName, true))
                 {

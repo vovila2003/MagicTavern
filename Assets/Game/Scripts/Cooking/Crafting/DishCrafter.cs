@@ -39,10 +39,9 @@ namespace Tavern.Cooking
         public void CraftDish(bool isExtra)
         {
             DishRecipe recipe = _activeRecipe.Recipe;
-            if (recipe.ResultItem.Item.Clone() is not DishItem result) return;
+            if (recipe.ResultItem.GetItem().Clone() is not DishItem result) return;
             
             result.IsExtra = isExtra;
-            Debug.Log($"Is Extra : {isExtra}");
 
             if (isExtra)
             {

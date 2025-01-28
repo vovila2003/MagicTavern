@@ -8,13 +8,14 @@ namespace Modules.Inventories
         {
             base.Awake();
 
-            if (Item.Has<ComponentStackable>()) return;
+            T item = GetItem();
+            if (item.Has<ComponentStackable>()) return;
 
-            Item.Components?.Add(new ComponentStackable
+            item.Components?.Add(new ComponentStackable
             {
                 Value = 1
             });
-            Item.SetFlags(ItemFlags.Stackable);
+            item.SetFlags(ItemFlags.Stackable);
         }
     }
 }

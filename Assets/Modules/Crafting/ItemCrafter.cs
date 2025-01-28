@@ -55,7 +55,7 @@ namespace Modules.Crafting
 
         private T AddResultToInventory(ItemRecipe<T> recipe)
         {
-            var item = recipe.ResultItem.Item.Clone() as T;
+            var item = recipe.ResultItem.GetItem().Clone() as T;
             _outputInventory.AddItem(item);
             return item;
         }

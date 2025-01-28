@@ -132,12 +132,12 @@ namespace Tavern.Cooking
                 var recipeDict = new Dictionary<string, int>();
                 foreach (ProductItemConfig product in recipe.Products)
                 {
-                    AddToDictionary(recipeDict, product.Item.ItemName);
+                    AddToDictionary(recipeDict, product.GetItem().ItemName);
                 }
 
                 foreach (LootItemConfig loot in recipe.Loots)
                 {
-                    AddToDictionary(recipeDict, loot.Item.ItemName);
+                    AddToDictionary(recipeDict, loot.GetItem().ItemName);
                 }
 
                 if (!_recipes.TryAdd(recipeDict, recipe))
