@@ -32,7 +32,7 @@ namespace Tavern.Common
             var items = new T[Items.Length];
             for (var i = 0; i < Items.Length; i++)
             {
-                items[i] = Items[i].Item.Clone() as T;
+                items[i] = Items[i].GetItem().Clone() as T;
             }
             
             _inventory.Setup(items);
@@ -42,16 +42,12 @@ namespace Tavern.Common
         {
             _inventory.OnItemAdded += OnItemAdded;
             _inventory.OnItemRemoved += OnItemRemoved;
-            _inventory.OnItemCountIncreased += OnItemCountIncreased;
-            _inventory.OnItemCountDecreased += OnItemCountDecreased;
         }
 
         private void OnDisable()
         {
             _inventory.OnItemAdded -= OnItemAdded;
             _inventory.OnItemRemoved -= OnItemRemoved;
-            _inventory.OnItemCountIncreased -= OnItemCountIncreased;
-            _inventory.OnItemCountDecreased -= OnItemCountDecreased;
         }
 
         [Button]
@@ -63,7 +59,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.AddItem(itemConfig.Item.Clone() as T);
+            _inventory.AddItem(itemConfig.GetItem().Clone() as T);
         }
 
         [Button]
@@ -75,7 +71,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.AddItem(itemConfig.Item.Clone() as T);
+            _inventory.AddItem(itemConfig.GetItem().Clone() as T);
         }
 
         [Button]
@@ -83,7 +79,7 @@ namespace Tavern.Common
         {
             if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<T> itemConfig)) return;
             
-            _inventory.RemoveItem(itemConfig.Item.ItemName);
+            _inventory.RemoveItem(itemConfig.GetItem().ItemName);
         }
 
         [Button]
@@ -95,7 +91,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.RemoveItem(itemConfig.Item.ItemName);
+            _inventory.RemoveItem(itemConfig.GetItem().ItemName);
         }
 
         private void OnItemAdded(T item)
@@ -106,16 +102,6 @@ namespace Tavern.Common
         private void OnItemRemoved(T item)
         {
             Debug.Log($"Item of name {item.ItemName} is removed from inventory");
-        }
-
-        private void OnItemCountIncreased(T item, int value)
-        {
-            Debug.Log($"Count of item with name {item.ItemName} is increased to {value}");
-        }
-
-        private void OnItemCountDecreased(T item, int value)
-        {
-            Debug.Log($"Count of item with name {item.ItemName} is decreased to {value}");
         }
     }
 }

@@ -14,15 +14,12 @@ namespace Modules.Items
         [SerializeField]
         protected ItemFlags Flags;
         
-        [SerializeField] 
-        protected ItemMetadata Metadata;
-        
         [SerializeReference] 
         public List<IItemComponent> Components;
         
         public string ItemName => Name;
         public ItemFlags ItemFlags => Flags;
-        public ItemMetadata ItemMetadata => Metadata;
+        public ItemMetadata Metadata {get; set; }
 
         public Item(
             string name,
@@ -40,8 +37,8 @@ namespace Modules.Items
         public void ResetFlags(ItemFlags flags) => Flags &= ~flags;
         
         public void SetName(string name) => Name = name;
-
-        public bool TryGetComponent<T>(out T component)
+        
+        public bool TryGet<T>(out T component)
         {
             foreach (IItemComponent attribute in Components)
             {
@@ -55,7 +52,7 @@ namespace Modules.Items
             return false;
         }
         
-        public T GetComponent<T>()
+        public T Get<T>()
         {
             foreach (IItemComponent attribute in Components)
             {
@@ -68,7 +65,21 @@ namespace Modules.Items
             throw new Exception($"Attribute of type {typeof(T).Name} is not found!");
         }
 
-        public bool HasComponent<T>() => Components.OfType<T>().Any();
+        public List<T> GetAll<T>()
+        {
+            var result = new List<T>();
+            foreach (IItemComponent attribute in Components)
+            {
+                if (attribute is T tAttribute)
+                {
+                    result.Add(tAttribute);
+                }
+            }
+            
+            return result;
+        }
+
+        public bool Has<T>() => Components.OfType<T>().Any();
 
         public virtual Item Clone()
         {
@@ -84,13 +95,7 @@ namespace Modules.Items
 
             for (var i = 0; i < count; i++)
             {
-                IItemComponent component = Components[i];
-                if (component is IItemComponent cloneable)
-                {
-                    component = cloneable.Clone();
-                }
-
-                components[i] = component;
+                components[i] = Components[i].Clone();
             }
 
             return components;

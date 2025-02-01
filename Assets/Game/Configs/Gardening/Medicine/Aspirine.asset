@@ -15,14 +15,14 @@ MonoBehaviour:
   Item:
     Name: Aspirin
     Flags: 3
-    Metadata:
-      Title: 
-      Description: 
-      Icon: {fileID: 0}
     Components:
     - rid: 835742624321896482
     - rid: 835742636863127578
     - rid: 835742636863127566
+  Metadata:
+    Title: "\u0410\u0441\u043F\u0438\u0440\u0438\u043D"
+    Description: "\u0442\u0438\u043F\u0430 \u043B\u0435\u043A\u0430\u0440\u0441\u0442\u0432\u043E"
+    Icon: {fileID: 0}
   references:
     version: 2
     RefIds:

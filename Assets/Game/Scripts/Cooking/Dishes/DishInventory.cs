@@ -4,7 +4,7 @@ using Modules.Inventories;
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
-    public class DishInventory : StackableInventory<DishItem>
+    public class DishInventory : ListInventory<DishItem>
     {
     }
 }

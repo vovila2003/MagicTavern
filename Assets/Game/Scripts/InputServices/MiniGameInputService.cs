@@ -11,7 +11,6 @@ namespace Tavern.InputServices
         ISpaceInput,
         ITickable
     {
-        
         public event Action OnSpace;
         
         void ITickable.Tick()

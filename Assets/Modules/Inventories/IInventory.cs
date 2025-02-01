@@ -8,9 +8,6 @@ namespace Modules.Inventories
     {
         event Action<T> OnItemAdded;
         event Action<T> OnItemRemoved;
-        event Action<T, int> OnItemCountIncreased;
-        event Action<T, int> OnItemCountDecreased;
-        
         List<T> Items { get; }
         void Setup(params T[] items);
         void AddItem(T item);
@@ -22,5 +19,6 @@ namespace Modules.Inventories
         int GetItemCount(string name);
         bool FindAllItems(string name, out List<T> items);
         bool IsItemExists(T item);
+        bool IsItemExists(string name);
     }
 }

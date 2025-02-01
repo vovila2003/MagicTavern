@@ -17,7 +17,7 @@ namespace Tavern.Buying
         {
             if (goods.GoodsComponent is not ItemComponent<T> itemComponent) return;
 
-            var item = itemComponent.Config.Item.Clone() as T;
+            var item = itemComponent.Config.GetItem().Clone() as T;
             _inventory.AddItem(item);
         }
     }

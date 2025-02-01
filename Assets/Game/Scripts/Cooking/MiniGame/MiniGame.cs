@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
-using Tavern.InputServices.Interfaces;
+using Modules.Timers;
 using UnityEngine;
-using VContainer.Unity;
+using ITickable = VContainer.Unity.ITickable;
 using Random = UnityEngine.Random;
 
 namespace Tavern.Cooking.MiniGame
@@ -14,52 +15,55 @@ namespace Tavern.Cooking.MiniGame
         IResumeGameListener,
         ITickable
     {
-        public event Action<Regions> OnRegionsChanged;
+        public static readonly Dictionary<Result, int> Results = new()
+        {
+            { Result.Red , -2},
+            { Result.Yellow , -1},
+            { Result.Green , 2},
+        };
+
         public event Action<float> OnValueChanged;
-        public event Action<int> OnResult;
+        public event Action OnTimeUp;
+        public event Action<float> OnTimeChanged;
         
-        private readonly ISpaceInput _spaceInput;
-        private bool _isEnable;
         private float _value;
         private int _factor;
         private float _speed;
         private Regions _regions;
+        private readonly Countdown _timer = new();
 
-        public MiniGame(ISpaceInput inputService)
-        {
-            _spaceInput = inputService;
-            _isEnable = false;
-        }
+        public bool IsPlaying { get; private set; }
 
-        public void CreateGame(MiniGameConfig config)
+        public Regions CreateGame(MiniGameConfig config, int time)
         {
-            SetZones(config);
-            _speed = config.SpeedValue;
+            _speed = Random.Range(config.MinSpeedValue, config.MaxSpeedValue);
+            _timer.Duration = time;
+            return SetZones(config);
         } 
 
         public void StartGame()
         {
-            _isEnable = true;
+            StartTimer();
+
+            IsPlaying = true;
             _factor = 1;
             _value = 0;
-            
-            _spaceInput.OnSpace += OnStop;
         }
 
-        private void OnStop()
+        public int StopGame()
         {
-            _isEnable = false;
-            _spaceInput.OnSpace -= OnStop;
+            StopTimer();
 
-            int result = GetResult();
-            OnResult?.Invoke(result);
+            IsPlaying = false;
+            return GetResult();
         }
 
         void ITickable.Tick()
         {
-            if (!_isEnable) return;
-            
-            _value += _factor * Time.deltaTime * _speed;
+            if (!IsPlaying) return;
+
+            float deltaTime = Time.deltaTime;
+            _value += _factor * deltaTime * _speed;
             _factor = _value switch
             {
                 > 1 => -1,
@@ -67,14 +71,28 @@ namespace Tavern.Cooking.MiniGame
                 _ => _factor
             };
             _value = Mathf.Clamp01(_value);
+            _timer.Tick(deltaTime);
+            
             OnValueChanged?.Invoke(_value);
         }
 
-        void IPauseGameListener.OnPause() => _isEnable = false;
+        private void OnCurrentTimeChanged(float value) => OnTimeChanged?.Invoke(value);
 
-        void IResumeGameListener.OnResume() => _isEnable = true;
+        private void OnTimerEnded() => OnTimeUp?.Invoke();
 
-        private void SetZones(MiniGameConfig config)
+        void IPauseGameListener.OnPause()
+        {
+            IsPlaying = false;
+            _timer.Pause();
+        }
+
+        void IResumeGameListener.OnResume()
+        {
+            IsPlaying = true;
+            _timer.Resume();
+        }
+
+        private Regions SetZones(MiniGameConfig config)
         {
             float deltaGreen = config.Green / 2.0f;
             float deltaYellow = config.Yellow / 2.0f;
@@ -83,22 +101,36 @@ namespace Tavern.Cooking.MiniGame
             _regions.GreenYellow = 0.5f + deltaGreen;
             _regions.YellowRed = 0.5f + deltaGreen + deltaYellow;
             
-            OnRegionsChanged?.Invoke(_regions);
+            return  _regions;
         }
 
         private int GetResult()
         {
-            var result = 2;
+            int result = Results[Result.Green];
             if (_value < _regions.RedYellow || _value > _regions.YellowRed)
             {
-                result = -2;
+                result = Results[Result.Red];
             }
             else if (_value < _regions.YellowGreen || _value > _regions.GreenYellow)
             {
-                result = -1;
+                result = Results[Result.Yellow];
             }
 
             return result;
+        }
+
+        private void StartTimer()
+        {
+            _timer.OnCurrentTimeChanged += OnCurrentTimeChanged;
+            _timer.OnEnded += OnTimerEnded;
+            _timer.Start();
+        }
+
+        private void StopTimer()
+        {
+            _timer.Stop();
+            _timer.OnCurrentTimeChanged -= OnCurrentTimeChanged;
+            _timer.OnEnded -= OnTimerEnded;
         }
     }
 }

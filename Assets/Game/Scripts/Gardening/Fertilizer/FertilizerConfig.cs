@@ -13,21 +13,22 @@ namespace Tavern.Gardening.Fertilizer
         protected override void Awake()
         {
             base.Awake();
-            Item.SetFlags(ItemFlags.Consumable);
+            FertilizerItem fertilizerItem = GetItem();
+            fertilizerItem.SetFlags(ItemFlags.Consumable);
 
-            if (!Item.HasComponent<ComponentHarvestBooster>())
+            if (!fertilizerItem.Has<ComponentHarvestBooster>())
             {
-                Item.Components?.Add(new ComponentHarvestBooster());    
+                fertilizerItem.Components?.Add(new ComponentHarvestBooster());    
             }
             
-            if (!Item.HasComponent<ComponentHarvestSicknessReducing>())
+            if (!fertilizerItem.Has<ComponentHarvestSicknessReducing>())
             {
-                Item.Components?.Add(new ComponentHarvestSicknessReducing());    
+                fertilizerItem.Components?.Add(new ComponentHarvestSicknessReducing());    
             }
             
-            if (!Item.HasComponent<ComponentGrowthAcceleration>())
+            if (!fertilizerItem.Has<ComponentGrowthAcceleration>())
             {
-                Item.Components?.Add(new ComponentGrowthAcceleration());    
+                fertilizerItem.Components?.Add(new ComponentGrowthAcceleration());    
             }
         }
     }

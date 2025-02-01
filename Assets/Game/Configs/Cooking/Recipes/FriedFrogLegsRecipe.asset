@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FriedFrogLegsRecipe
   m_EditorClassIdentifier: 
   ResultItemConfig: {fileID: 11400000, guid: c133a02f16a7ce09eadbfe95b4109590, type: 2}
-  TimeInSeconds: 10
+  TimeInSeconds: 8
   ProductIngredients:
   - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
   LootIngredients:
@@ -25,6 +25,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8d9e88a69face9a178b4aa3d71555136, type: 2}
   Stars: 5
   MiniGameConfig:
-    GreenZone: 10
-    YellowZone: 30
-    Speed: 1.1
+    GreenZone: 20
+    YellowZone: 50
+    MinSpeed: 1
+    MaxSpeed: 2

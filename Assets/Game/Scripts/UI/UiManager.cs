@@ -1,4 +1,6 @@
 using Modules.GameCycle.Interfaces;
+using Tavern.Settings;
+using Tavern.UI.Presenters;
 using Tavern.UI.Views;
 using UnityEngine;
 using VContainer;
@@ -13,54 +15,54 @@ namespace Tavern.UI
         IResumeGameListener,
         IFinishGameListener
     {
-        [SerializeField] 
-        private MainMenuView MainMenuView;
+        private UISceneSettings _settings;
+        private PresentersFactory _factory;
+        private MainMenuPresenter _mainMenuPresenter;
+        private PausePresenter _pausePresenter;
+        private HudPresenter _hudPresenter;
         
-        [SerializeField] 
-        private PauseView PauseView;
-
-        [SerializeField] 
-        private HudView HudView;
-
-        private IViewModelFactory _factory;
-
         [Inject]
-        private void Construct(IViewModelFactory factory)
+        private void Construct(PresentersFactory factory, UISceneSettings settings)
         {
             _factory = factory;
+            _settings = settings;
         }
 
         void IInitGameListener.OnInit()
         {
-            MainMenuView.Show(_factory.CreateMainMenuViewModel());
+            _mainMenuPresenter = _factory.CreateMainMenuPresenter(_settings.MainMenu);
+            _pausePresenter = _factory.CreatePausePresenter(_settings.Pause);
+            _hudPresenter = _factory.CreateHudPresenter(_settings.Hud);
+            
+            _mainMenuPresenter.Show();
         }
 
         void IPrepareGameListener.OnPrepare()
         {
-            MainMenuView.Hide();
+            _mainMenuPresenter.Hide();
         }
 
         void IStartGameListener.OnStart()
         {
-            HudView.Show(_factory.CreateHudViewModel());
+            _hudPresenter.Show();
         }
 
         void IPauseGameListener.OnPause()
         {
-            HudView.Hide();
-            PauseView.Show(_factory.CreatePauseViewModel());
+            _hudPresenter.Hide();
+            _pausePresenter.Show();            
         }
 
         void IResumeGameListener.OnResume()
         {
-            PauseView.Hide();
-            HudView.Show(_factory.CreateHudViewModel());
+            _pausePresenter.Hide();
+            _hudPresenter.Show();
         }
 
         void IFinishGameListener.OnFinish()
         {
-            HudView.Hide();
-            MainMenuView.Show(_factory.CreateMainMenuViewModel());
+            _hudPresenter.Hide();
+            _mainMenuPresenter.Show();
         }
     }
 }

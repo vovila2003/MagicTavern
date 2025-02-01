@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
+  m_Name: FriedPotatoWIthOnion
+  m_EditorClassIdentifier: 
+  Item:
+    Name: FriedPotatoWithOnion
+    Flags: 0
+    Components: []
+  Metadata:
+    Title: "\u0416\u0430\u0440\u0435\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0448\u043A\u0430
+      \u0441 \u043B\u0443\u043A\u043E\u043C"
+    Description: "\u043A\u0430\u043A \u0443 \u0431\u0443\u0431\u0430\u0448\u043A\u0438"
+    Icon: {fileID: -96464806, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
+  references:
+    version: 2
+    RefIds: []

@@ -1,27 +1,8 @@
-using System.IO;
-using Tavern.UI.ViewModels.Interfaces;
-using UnityEngine;
+using Tavern.UI.Presenters;
 
 namespace Tavern.UI.Views
 {
-    public sealed class HudView : MonoBehaviour, IView
+    public sealed class HudView : View, IHudView
     {
-        private IHudViewModel _viewModel;
-
-        public void Show(IViewModel viewModel)
-        {
-            if (viewModel is not IHudViewModel hudViewModel)
-            {
-                throw new InvalidDataException($"{nameof(viewModel)} must be {nameof(IHudViewModel)}");
-            }
-
-            _viewModel = hudViewModel;
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

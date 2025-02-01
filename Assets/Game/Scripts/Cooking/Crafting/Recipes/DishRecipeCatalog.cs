@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Tavern.Cooking
@@ -19,8 +20,10 @@ namespace Tavern.Cooking
         public bool TryGetRecipe(string recipeName, out DishRecipe recipe) => 
             _recipes.TryGetValue(recipeName, out recipe);
         
+        [Button]
         private void OnValidate()
         {
+            _recipes.Clear();
             var collection = new Dictionary<DishRecipe, bool>();
             foreach (DishRecipe recipe in Recipes)
             {

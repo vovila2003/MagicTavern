@@ -9,13 +9,12 @@ namespace Modules.Inventories
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;
-        public event Action<T, int> OnItemCountIncreased;
-        public event Action<T, int> OnItemCountDecreased;
 
+        private readonly Dictionary<T,int> _counts = new();
         private List<T> _items;
         
         public List<T> Items => _items;
-
+        
         public ListInventory(params T[] items)
         {
             _items = new List<T>(items);
@@ -31,15 +30,21 @@ namespace Modules.Inventories
             if (_items.Contains(item)) return;
             
             _items.Add(item);
+            _counts.TryAdd(item, 0);
+            _counts[item]++;
             OnItemAdded?.Invoke(item);
         }
         
         public void RemoveItem(T item)
         {
-            if (_items.Remove(item))
-            {
-                OnItemRemoved?.Invoke(item);
-            }
+            if (!_items.Remove(item)) return;
+            
+            OnItemRemoved?.Invoke(item);
+            
+            _counts[item]--;
+            if (_counts[item] != 0) return;
+            
+            _counts.Remove(item);
         }
 
         public void RemoveItems(string name, int count)
@@ -102,5 +107,7 @@ namespace Modules.Inventories
         {
             return _items.Contains(item);
         }
+
+        public bool IsItemExists(string name) => FindItem(name, out _);
     }
 }

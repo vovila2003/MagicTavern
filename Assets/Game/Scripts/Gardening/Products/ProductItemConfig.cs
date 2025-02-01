@@ -7,13 +7,14 @@ namespace Tavern.Gardening
         menuName = "Settings/Gardening/Products/Product Config")]
     public class ProductItemConfig : PlantItemConfig<ProductItem>
     {
-        private void OnValidate()
+        protected void OnValidate()
         {
-            if (!Item.TryGetComponent(out ComponentPlant component)) return;
+            ProductItem productItem = GetItem();
+            if (!productItem.TryGet(out ComponentPlant component)) return;
             
             if (component.Config is null) return;
             
-            Item.SetName(ProductNameProvider.GetName(component.Config.Name));
+            productItem.SetName(ProductNameProvider.GetName(component.Config.Name));
         }
     }
 }

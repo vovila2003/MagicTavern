@@ -18,5 +18,37 @@ MonoBehaviour:
   GardeningConfigs:
     SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}
     PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
-  MiniGameConfig: {fileID: 11400000, guid: a9fc13967d3f73189b46fb3446501003, type: 2}
-  DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
+  CookingConfigs:
+    DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
+    EffectsCatalog: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
+    DefaultMiniGameSettings:
+      GreenZone: 30
+      YellowZone: 30
+      MinSpeed: 1
+      MaxSpeed: 2
+    MinDefaultMiniGameTimeInSeconds: 5
+    MaxDefaultMiniGameTimeInSeconds: 10
+  UIConfigs:
+    Common:
+      EntityCardSettings:
+        EntityCardPrefab: {fileID: 4258311151134655795, guid: 5273ba42baa781860a681d640fb81931, type: 3}
+        PoolLimit: 1
+        StartPoolSize: 5
+      ItemCardSettings:
+        ItemCardPrefab: {fileID: 2988087757594945704, guid: b1608fef586f1bdf08b83e5dd131c27c, type: 3}
+        PoolLimit: 1
+        StartPoolSize: 5
+      PanelPrefab: {fileID: 7738879138012533936, guid: 03a34b1d162fa087cb808aa0a56e0fdf, type: 3}
+      LeftGridPrefab: {fileID: 3386461340789652487, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
+      InfoPanelPrefab: {fileID: 8513231856921733487, guid: fb36013887e059069ad268297cd00daa, type: 3}
+      SlopsConfig: {fileID: 11400000, guid: 60731536d559c1ba58fb0595e8a3d86f, type: 2}
+    Cooking:
+      CookingAndMatchRecipePrefab: {fileID: 2803324742170462957, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
+      MatchNewNewRecipePrefab: {fileID: 7902620650078474784, guid: 0b108dfbd75574e8abf0b4470361757f, type: 3}
+      CookingIngredientsPrefab: {fileID: 1332371814995094287, guid: 0bbbb944f225bdbddbc55fa0f27fcc7e, type: 3}
+      CookingMiniGamePrefab: {fileID: 4004957328818308239, guid: 917ad0a9e3f08c6baa77f1104d2b5233, type: 3}
+      RecipeIngredientsPrefab: {fileID: 4115492123923424489, guid: 60e59764b7084ddf5997a2b12de30583, type: 3}
+      RecipeEffectsPrefab: {fileID: 8825190404942469699, guid: 5228834acb91b290b80931b1b0775c88, type: 3}
+      DefaultIngredientSprite: {fileID: 21300000, guid: ff6f2bfde08e2a4448a09bc3fefa7e42, type: 3}
+      EmptyIngredientColor: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
+      FilledIngredientColor: {r: 1, g: 1, b: 1, a: 1}

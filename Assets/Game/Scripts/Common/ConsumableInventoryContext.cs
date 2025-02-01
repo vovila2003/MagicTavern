@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 
 namespace Tavern.Common
 {
-    public abstract class ConsumableInventoryContext<T> : InventoryContext<T> where T : Item
+    public abstract class ConsumableInventoryContext<T> : StackableInventoryContext<T> where T : Item
     {
         protected ItemConsumer<T> Consumer;
 

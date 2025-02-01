@@ -22,12 +22,14 @@ namespace Modules.Inventories
 
         public ComponentStackable()
         {
+            Value = 1;
         }
 
         private ComponentStackable(bool isLimited = false, int maxSize = 0)
         {
             IsLimited = isLimited;
             MaxSize = maxSize;
+            Value = 1;
         }
 
         [ShowInInspector, ReadOnly]

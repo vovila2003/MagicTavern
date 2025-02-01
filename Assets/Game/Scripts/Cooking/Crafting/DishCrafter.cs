@@ -1,113 +1,66 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using JetBrains.Annotations;
-using Modules.Crafting;
-using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
-using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
-using UnityEngine;
-using VContainer.Unity;
+using Tavern.Settings;
+using Tavern.Storages;
 
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
-    public class DishCrafter : 
-        ItemCrafter<DishItem>,
-        IExitGameListener,
-        IFinishGameListener,
-        IPauseGameListener,
-        IResumeGameListener,
-        ITickable
+    public class DishCrafter
     {
-        private readonly IInventory<LootItem> _lootInventory;
-        private readonly IInventory<ProductItem> _productsStorage;
-        private readonly IInventory<KitchenItem> _kitchenInventory;
+        public event Action<DishRecipe, DishItem> OnDishCrafted;
+        public event Action<List<ProductItem> , List<LootItem>> OnSlopCrafted;
         
-        public float TimerCurrentTime => Timer.CurrentTime;
-        public bool InProgress => Timer.IsPlaying();
+        private readonly IInventory<DishItem> _dishInventory;
+        private readonly ISlopsStorage _slopsStorage;
+        private readonly EffectsCatalog _effectsCatalog;
 
         public DishCrafter(
-            IInventory<DishItem> dishInventory, 
-            IInventory<LootItem> lootInventory,
-            IInventory<ProductItem> productsStorage,
-            IInventory<KitchenItem> kitchenInventory) 
-            : base(dishInventory)
+            IInventory<DishItem> dishInventory,
+            ISlopsStorage slopsStorage,
+            CookingSettings settings)
         {
-            _lootInventory = lootInventory;
-            _productsStorage = productsStorage;
-            _kitchenInventory = kitchenInventory;
+            _dishInventory = dishInventory;
+            _slopsStorage = slopsStorage;
+            _effectsCatalog = settings.Effects;
         }
 
-        public override bool CanCraft(ItemRecipe<DishItem> recipe)
+        public void CraftDish(ActiveDishRecipe activeDishRecipe, bool isExtra)
         {
-            if (recipe is DishRecipe dishRecipe)
+            DishRecipe recipe = activeDishRecipe.Recipe;
+            if (recipe.ResultItem.GetItem().Clone() is not DishItem result) return;
+            
+            result.IsExtra = isExtra;
+            
+            if (isExtra)
             {
-                return CheckProducts(dishRecipe.Products) &&
-                       CheckLoots(dishRecipe.Loots) &&
-                       CheckKitchens(dishRecipe.KitchenItems);
+                ProcessExtra(result);
             }
-
-            Debug.Log($"Recipe's type is not {nameof(DishRecipe)}!");
-            return false;
+            
+            activeDishRecipe.SpendIngredients();
+            _dishInventory.AddItem(result);
+            
+            OnDishCrafted?.Invoke(recipe, result);
         }
-        
-        private bool CheckProducts(ProductItemConfig[] configs) => 
-            configs.All(config => CheckItem(_productsStorage, config));
 
-        private bool CheckLoots(LootItemConfig[] configs) => 
-            configs.All(config => CheckItem(_lootInventory, config));
-
-        private bool CheckKitchens(KitchenItemConfig[] configs) => 
-            configs.All(config => CheckItem(_kitchenInventory, config));
-
-        private static bool CheckItem<T>(IInventory<T> storage, ItemConfig<T> config) where T : Item
+        private void ProcessExtra(DishItem result)
         {
-            string itemName = config.Item.ItemName;
-            int itemCount = storage.GetItemCount(itemName);
-            if (itemCount > 0) return true;    
-                
-            Debug.Log($"There is not enough {itemName}!");
-                
-            return false;
+            List<ComponentEffect> existed = result.GetAll<ComponentEffect>();
+            if (!_effectsCatalog.TryGetRandomEffectExpect(existed, out EffectConfig newEffect)) return;
+            
+            result.Components.Add(new ComponentEffect(newEffect));
         }
 
-        protected override void RemoveIngredientsFromInventories(ItemRecipe<DishItem> recipe)
+        public void MakeSlops(ActiveDishRecipe activeDishRecipe)
         {
-            if (recipe is not DishRecipe dishRecipe)
-            {
-                throw new ArgumentException($"Recipe's type is not {nameof(DishRecipe)}!");
-            }
-
-            RemoveProducts(dishRecipe);
-            RemoveLoots(dishRecipe);
+            (List<ProductItem> spentProducts, List<LootItem> spentLoots) = activeDishRecipe.SpendIngredients();
+            _slopsStorage.AddOneSlop();
+            
+            OnSlopCrafted?.Invoke(spentProducts, spentLoots);
         }
-
-        private void RemoveProducts(DishRecipe dishRecipe)
-        {
-            foreach (ProductItemConfig productIngredient in dishRecipe.Products)
-            {
-                _productsStorage.RemoveItem(productIngredient.Item.ItemName);
-            }
-        }
-
-        private void RemoveLoots(DishRecipe dishRecipe)
-        {
-            foreach (LootItemConfig lootIngredient in dishRecipe.Loots)
-            {
-                _lootInventory.RemoveItem(lootIngredient.Item.ItemName);    
-            }
-        }
-
-        void IExitGameListener.OnExit() => Timer.Stop();
-
-        void IFinishGameListener.OnFinish() => Timer.Stop();
-
-        void IPauseGameListener.OnPause() => Timer.Pause();
-
-        void IResumeGameListener.OnResume() => Timer.Resume();
-
-        void ITickable.Tick() => Tick(Time.deltaTime);
     }
 }

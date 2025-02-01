@@ -7,13 +7,14 @@ namespace Tavern.Gardening
         menuName = "Settings/Gardening/Seeds/Seed Config")]
     public class SeedItemConfig : PlantItemConfig<SeedItem>
     {
-        private void OnValidate()
+        protected void OnValidate()
         {
-            if (!Item.TryGetComponent(out ComponentPlant component)) return;
+            SeedItem seedItem = GetItem();
+            if (!seedItem.TryGet(out ComponentPlant component)) return;
             
             if (component.Config is null) return;
             
-            Item.SetName(SeedNameProvider.GetName(component.Config.Name));
+            seedItem.SetName(SeedNameProvider.GetName(component.Config.Name));
         }
     }
 }

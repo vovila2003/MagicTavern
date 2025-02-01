@@ -56,22 +56,22 @@ namespace Tavern.Storages
 
         private void ValueChanged(int value)
         {
-        Debug.Log($"{Name} storage value changed to {value}");
+            Debug.Log($"{Name} storage value changed to {value}");
         }
 
         private void OnSpent(int value)
         {
-        Debug.Log($"{Name} storage spent by {value}");
+            Debug.Log($"{Name} storage spent by {value}");
         }
 
         private void OnFull()
         {
-        Debug.Log($"{Name} storage is full");
+            Debug.Log($"{Name} storage is full");
         }
 
         private void OnEmpty()
         {
-        Debug.Log($"{Name} storage is empty");
+            Debug.Log($"{Name} storage is empty");
         }
 
         [Button]

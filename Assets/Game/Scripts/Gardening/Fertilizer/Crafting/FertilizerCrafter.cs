@@ -55,7 +55,7 @@ namespace Tavern.Gardening.Fertilizer
         {
             foreach (LootItemConfig lootItemConfig in fertilizerRecipe.Loots)
             {
-                string lootName = lootItemConfig.Item.ItemName;
+                string lootName = lootItemConfig.GetItem().ItemName;
                 int itemCount = _lootInventory.GetItemCount(lootName);
                 if (itemCount > 0) continue;    
 
@@ -87,7 +87,7 @@ namespace Tavern.Gardening.Fertilizer
         {
             foreach (LootItemConfig lootItemConfig in fertilizerRecipe.Loots)
             {
-                _lootInventory.RemoveItem(lootItemConfig.Item.ItemName);    
+                _lootInventory.RemoveItem(lootItemConfig.GetItem().ItemName);    
             }
         }
 

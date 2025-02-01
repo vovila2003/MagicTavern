@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.Settings;
 using UnityEngine;
 
 namespace Tavern.Cooking
@@ -48,27 +50,44 @@ namespace Tavern.Cooking
         private readonly DictionaryComparer _comparer;
         private Dictionary<Dictionary<string, int>, DishRecipe> _recipes;
 
-        public RecipeMatcher(DishRecipeCatalog recipeCatalog)
+        public RecipeMatcher(CookingSettings settings)
         {
-            _recipeCatalog = recipeCatalog;
+            _recipeCatalog = settings.DishRecipes;
             _comparer = new DictionaryComparer();
         }
 
-        public (bool, DishRecipe) MatchRecipe(IReadOnlyList<string> items)
+        public bool MatchRecipe(ActiveDishRecipe activeRecipe, out DishRecipe resultRecipe)
         {
             if (_recipes is null) Init();
+            
+            resultRecipe = null;
+            if (_recipes is null) return false;
 
+            if (activeRecipe is null) return false;
+            
+            if (activeRecipe.FakeProducts.Count != 0 || activeRecipe.FakeLoots.Count != 0) return false;
+
+            Dictionary<string, int> key = GetKey(activeRecipe);
+
+            bool result = _recipes.TryGetValue(key, out resultRecipe);
+            
+            return result;
+        }
+
+        private static Dictionary<string, int> GetKey(ActiveDishRecipe activeRecipe)
+        {
             var key = new Dictionary<string, int>();
-            foreach (string item in items)
+            foreach (Item item in activeRecipe.Products)
             {
-                AddToDictionary(key, item);
+                AddToDictionary(key, item.ItemName);
+            }
+            
+            foreach (Item item in activeRecipe.Loots)
+            {
+                AddToDictionary(key, item.ItemName);
             }
 
-            if (_recipes is null) return (false, null);
-            
-            bool result = _recipes.TryGetValue(key, out DishRecipe recipe);
-
-            return (result, recipe);
+            return key;
         }
 
         private void Init()
@@ -80,12 +99,12 @@ namespace Tavern.Cooking
                 var recipeDict = new Dictionary<string, int>();
                 foreach (ProductItemConfig product in recipe.Products)
                 {
-                    AddToDictionary(recipeDict, product.Item.ItemName);
+                    AddToDictionary(recipeDict, product.GetItem().ItemName);
                 }
 
                 foreach (LootItemConfig loot in recipe.Loots)
                 {
-                    AddToDictionary(recipeDict, loot.Item.ItemName);
+                    AddToDictionary(recipeDict, loot.GetItem().ItemName);
                 }
 
                 if (!_recipes.TryAdd(recipeDict, recipe))

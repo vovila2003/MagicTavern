@@ -1,4 +1,5 @@
 using Modules.Items;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Crafting
@@ -10,10 +11,19 @@ namespace Modules.Crafting
         private ItemConfig<T> ResultItemConfig;
 
         [SerializeField]
-        private int TimeInSeconds;
+        private int TimeInSeconds = 5;
 
-        public string Name => ResultItem.Item.ItemName;
+        public string Name => ResultItem.GetItem().ItemName;
+
         public ItemConfig<T> ResultItem => ResultItemConfig;
+
         public int CraftingTimeInSeconds => TimeInSeconds;
+        
+        
+        [ShowInInspector, ReadOnly, PreviewField(50, ObjectFieldAlignment.Right)] 
+        private Sprite Icon => ResultItemConfig?.GetItem().Metadata.Icon;
+        
+        [ShowInInspector, ReadOnly]
+        private string RecipeName => ResultItemConfig?.GetItem().Metadata.Title;
     }
 }

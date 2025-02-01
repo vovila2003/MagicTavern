@@ -32,7 +32,7 @@ namespace Tavern.Cooking
                 float price = menuItem.Price;
                 if (price <= 0)
                 {
-                    Debug.LogWarning($"Price of dish {dish.Item.ItemName} must be greater than zero!");
+                    Debug.LogWarning($"Price of dish {dish.GetItem().ItemName} must be greater than zero!");
                 } 
                 
                 _prices[dish] = price;
@@ -41,7 +41,7 @@ namespace Tavern.Cooking
                     continue;
                 }
 
-                throw new Exception($"Duplicate dish of name {dish.Item.ItemName} in menu");
+                throw new Exception($"Duplicate dish of name {dish.GetItem().ItemName} in menu");
             }
         }
     }

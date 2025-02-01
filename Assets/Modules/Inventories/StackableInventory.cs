@@ -5,27 +5,24 @@ using Modules.Items;
 
 namespace Modules.Inventories
 {
-    public class StackableInventory<T> : IInventory<T> where T : Item
+    public class StackableInventory<T> : IStackableInventory<T> where T : Item
     {
         public event Action<T> OnItemAdded;
         public event Action<T> OnItemRemoved;
+        public event Action<T, int> OnItemCountChanged;
         
-        public event Action<T, int> OnItemCountIncreased;
-        
-        public event Action<T, int> OnItemCountDecreased;
-        
-        private readonly ListInventory<T> _inventory;
+        private readonly ListInventory<T> _listInventory;
 
-        public List<T> Items => _inventory.Items;
+        public List<T> Items => _listInventory.Items;
 
         protected StackableInventory()
         {
-            _inventory = new ListInventory<T>();
+            _listInventory = new ListInventory<T>();
         }
 
-        protected StackableInventory(ListInventory<T> inventory)
+        protected StackableInventory(ListInventory<T> listInventory)
         {
-            _inventory = inventory;
+            _listInventory = listInventory;
         }
 
         public void Setup(params T[] items)
@@ -73,7 +70,7 @@ namespace Modules.Inventories
                 return item;
             }
 
-            _inventory.RemoveItem(lastItem);
+            _listInventory.RemoveItem(lastItem);
             OnItemRemoved?.Invoke(lastItem);
             
             return lastItem;
@@ -87,20 +84,20 @@ namespace Modules.Inventories
             }
         }
 
-        public IReadOnlyList<T> GetItems() => _inventory.GetItems();
+        public IReadOnlyList<T> GetItems() => _listInventory.GetItems();
 
         public int GetItemCount(string name)
         {
             if (!FindAllItems(name, out List<T> items)) return 0;
 
             return IsStackable(items.First())
-                ? items.Sum(item => item.GetComponent<ComponentStackable>().Value)
+                ? items.Sum(item => item.Get<ComponentStackable>().Value)
                 : items.Count;
         }
 
         public bool FindItem(string name, out T item)
         {
-            bool result = _inventory.FindItem(name, out T inventoryItem);
+            bool result = _listInventory.FindItem(name, out T inventoryItem);
             item = inventoryItem;
             
             return result;
@@ -108,14 +105,16 @@ namespace Modules.Inventories
 
         public bool FindAllItems(string name, out List<T> items)
         {
-            bool result = _inventory.FindAllItems(name, out List<T> inventoryItems);
+            bool result = _listInventory.FindAllItems(name, out List<T> inventoryItems);
             items = inventoryItems;
             
             return result;
         }
 
         public bool IsItemExists(T item) => 
-            IsStackable(item) ? FindItem(item.ItemName, out T _) : _inventory.IsItemExists(item);
+            IsStackable(item) ? FindItem(item.ItemName, out T _) : _listInventory.IsItemExists(item);
+
+        public bool IsItemExists(string name) => FindItem(name, out T _);
 
         private bool IsStackable(T item) => item.ItemFlags.HasFlag(ItemFlags.Stackable);
 
@@ -123,7 +122,7 @@ namespace Modules.Inventories
         {
             if (IsItemExists(item)) return;
             
-            _inventory.AddItem(item);
+            _listInventory.AddItem(item);
             OnItemAdded?.Invoke(item);
         }
 
@@ -134,18 +133,18 @@ namespace Modules.Inventories
                 if (existsItems.Any(TryIncrementStackable)) return;
             }
             
-            _inventory.AddItem(item);
-            TryIncrementStackable(item);
+            _listInventory.AddItem(item);
             OnItemAdded?.Invoke(item);
+            OnItemCountChanged?.Invoke(item, item.Get<ComponentStackable>().Value);
         }
 
         private bool TryIncrementStackable(T existsItem)
         {
-            var stackableComponent = existsItem.GetComponent<ComponentStackable>();
+            var stackableComponent = existsItem.Get<ComponentStackable>();
             if (stackableComponent.IsFull) return false;
             
             stackableComponent.Value++;
-            OnItemCountIncreased?.Invoke(existsItem, stackableComponent.Value);
+            OnItemCountChanged?.Invoke(existsItem, stackableComponent.Value);
             
             return true;
         }
@@ -159,17 +158,17 @@ namespace Modules.Inventories
 
         private void RemoveSingle(T item)
         {
-            _inventory.RemoveItem(item);
+            _listInventory.RemoveItem(item);
             OnItemRemoved?.Invoke(item);
         }
 
         private bool TryDecrementStackable(T item)
         {
-            var stackableComponent = item.GetComponent<ComponentStackable>();
+            var stackableComponent = item.Get<ComponentStackable>();
             if (stackableComponent.Value <= 1) return false;
             
             stackableComponent.Value--;
-            OnItemCountDecreased?.Invoke(item, stackableComponent.Value);
+            OnItemCountChanged?.Invoke(item, stackableComponent.Value);
             
             return true;
         }
@@ -177,11 +176,11 @@ namespace Modules.Inventories
         private T RemoveItemWithMinValue(IReadOnlyList<T> items)
         {
             T itemWithMinValue = items[0];
-            int minValue = itemWithMinValue.GetComponent<ComponentStackable>().Value;
+            int minValue = itemWithMinValue.Get<ComponentStackable>().Value;
             for (var i = 1; i < items.Count; i++)
             {
                 T item = items[i];
-                int value = item.GetComponent<ComponentStackable>().Value;
+                int value = item.Get<ComponentStackable>().Value;
                 if (value > minValue) continue;
                 
                 minValue = value;

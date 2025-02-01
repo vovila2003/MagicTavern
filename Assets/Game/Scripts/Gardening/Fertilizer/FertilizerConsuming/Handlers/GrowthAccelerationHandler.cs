@@ -20,9 +20,9 @@ namespace Tavern.Gardening.Fertilizer
                 return;
             }
 
-            if (!item.HasComponent<ComponentGrowthAcceleration>()) return;
+            if (!item.Has<ComponentGrowthAcceleration>()) return;
 
-            var component = item.GetComponent<ComponentGrowthAcceleration>();
+            var component = item.Get<ComponentGrowthAcceleration>();
             _target.Seedbed.AccelerateGrowth(component.Acceleration);
         }
     }
