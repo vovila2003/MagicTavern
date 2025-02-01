@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Items
@@ -14,6 +15,7 @@ namespace Modules.Items
         public bool TryGetItem(string itemName, out ItemConfig<T> itemConfig) => 
             _itemsDict.TryGetValue(itemName, out itemConfig);
 
+        [Button]
         private void OnValidate()
         {
             var collection = new Dictionary<string, bool>();
@@ -27,7 +29,7 @@ namespace Modules.Items
                 }
 
                 throw new Exception($"Duplicate item of name {itemName} in catalog");
-            }            
+            }
         }
     }
 }

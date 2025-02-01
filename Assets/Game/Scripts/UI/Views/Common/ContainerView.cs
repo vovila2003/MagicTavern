@@ -1,14 +1,22 @@
 using Tavern.UI.Presenters;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
     public class ContainerView : View, IContainerView
     {
-        public Transform ContentTransform => Content;
-
+        [SerializeField]
+        private ScrollRect ScrollRect; 
+        
         [SerializeField] 
         private Transform Content;
         
+        public Transform ContentTransform => Content;
+        
+        public void Up()
+        {
+            ScrollRect.verticalNormalizedPosition = 1;    
+        }
     }
 }

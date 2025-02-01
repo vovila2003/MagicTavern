@@ -75,7 +75,8 @@ namespace Tavern.UI.Presenters
         public CookingRecipesPresenter CreateLeftGridPresenter(Transform viewContainer) =>
             new(_viewsFactory.CreateLeftGridView(viewContainer), 
                 _dishCookbook,
-                this);
+                this, 
+                _activeDishRecipe);
 
         public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView) => 
             new(mainMenuView, _startGameController, _quitGameController);
@@ -127,8 +128,7 @@ namespace Tavern.UI.Presenters
         public RecipeEffectsPresenter CreateRecipeEffectsPresenter(Transform parent) => 
             new(_viewsFactory.CreateRecipeEffectsView(parent), 
                 _settings.CookingSettings,
-                _activeDishRecipe,
-                _matcher);
+                _activeDishRecipe);
 
         public AutoClosePresenter CreateAutoClosePresenter() => new(_mouseClickInput);
     }

@@ -1,7 +1,6 @@
 using System;
 using Modules.Items;
 using Tavern.Cooking;
-using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -33,6 +32,16 @@ namespace Tavern.UI.Presenters
         {
             _stars = value;
             _view.SetStars(value / 2.0f);
+        }
+
+        public void SetSelected(bool selected)
+        {
+            _view.SetSelected(selected);
+        }
+
+        public void Up()
+        {
+            _view.Transform.SetSiblingIndex(1);
         }
 
         protected override void OnShow()

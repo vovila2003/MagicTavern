@@ -18,7 +18,7 @@ MonoBehaviour:
     Components:
     - rid: 2912130831930097838
   Metadata:
-    Title: "\u0416\u0430\u0440\u0435\u043D\u044B\u0435 \u043B\u0435\u0433\u0443\u0448\u0430\u0447\u044C\u0438
+    Title: "\u0416\u0430\u0440\u0435\u043D\u044B\u0435 \u043B\u044F\u0433\u0443\u0448\u0430\u0447\u044C\u0438
       \u043D\u043E\u0436\u043A\u0438"
     Description: "\u041F\u0438\u0442\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0435"
     Icon: {fileID: -2094843947, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}

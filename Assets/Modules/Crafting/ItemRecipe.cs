@@ -11,7 +11,7 @@ namespace Modules.Crafting
         private ItemConfig<T> ResultItemConfig;
 
         [SerializeField]
-        private int TimeInSeconds;
+        private int TimeInSeconds = 5;
 
         public string Name => ResultItem.GetItem().ItemName;
 

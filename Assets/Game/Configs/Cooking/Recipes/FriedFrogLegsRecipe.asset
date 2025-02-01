@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FriedFrogLegsRecipe
   m_EditorClassIdentifier: 
   ResultItemConfig: {fileID: 11400000, guid: c133a02f16a7ce09eadbfe95b4109590, type: 2}
-  TimeInSeconds: 10
+  TimeInSeconds: 8
   ProductIngredients:
   - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
   LootIngredients:

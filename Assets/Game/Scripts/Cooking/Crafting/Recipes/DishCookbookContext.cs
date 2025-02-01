@@ -7,9 +7,12 @@ namespace Tavern.Cooking
 {
     public class DishCookbookContext : CookbookContext<DishItem>
     {
+        private const int StartStarsCount = 1;
+        private const int ValueInStar = 2;
+        
         public event Action<DishRecipe, int> OnStarsChanged;
         
-        private readonly Dictionary<DishRecipe, int> _recipes = new();
+        private readonly Dictionary<DishRecipe, int> _recipeStars = new();
 
         protected override void OnAwake()
         {
@@ -22,12 +25,12 @@ namespace Tavern.Cooking
 
         public int GetRecipeStars(DishRecipe recipe)
         {
-            return _recipes[recipe];
+            return _recipeStars[recipe];
         }
 
         public void SetRecipeStars(DishRecipe recipe, int count)
         {
-            _recipes[recipe] = count;
+            _recipeStars[recipe] = count;
             OnStarsChanged?.Invoke(recipe, count);
         }
 
@@ -39,7 +42,7 @@ namespace Tavern.Cooking
         protected override void OnRemoveRecipe(ItemRecipe<DishItem> recipe)
         {
             if (recipe is not DishRecipe dishRecipe) return;
-            _recipes.Remove(dishRecipe);
+            _recipeStars.Remove(dishRecipe);
         }
 
         private void AddNewRecipe(ItemRecipe<DishItem> recipe)
@@ -47,7 +50,7 @@ namespace Tavern.Cooking
             if (recipe is not DishRecipe dishRecipe)
                 throw new ArgumentException($"Recipe {recipe.Name} is not a DishRecipe");
             
-            _recipes.TryAdd(dishRecipe, 0);
+            _recipeStars.TryAdd(dishRecipe, StartStarsCount * ValueInStar);
         }
     }
 }

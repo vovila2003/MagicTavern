@@ -21,6 +21,13 @@ MonoBehaviour:
   CookingConfigs:
     DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
     EffectsCatalog: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
+    DefaultMiniGameSettings:
+      GreenZone: 30
+      YellowZone: 30
+      MinSpeed: 1
+      MaxSpeed: 2
+    MinDefaultMiniGameTimeInSeconds: 5
+    MaxDefaultMiniGameTimeInSeconds: 10
   UIConfigs:
     Common:
       EntityCardSettings:

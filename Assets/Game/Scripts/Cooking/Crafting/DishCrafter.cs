@@ -1,53 +1,47 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
+using Tavern.Gardening;
+using Tavern.Looting;
 using Tavern.Settings;
 using Tavern.Storages;
 
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
-    public class DishCrafter : IInitGameListener, IExitGameListener
+    public class DishCrafter
     {
-        public event Action<bool> OnStateChanged;
         public event Action<DishRecipe, DishItem> OnDishCrafted;
-        public event Action<DishRecipe> OnSlopCrafted;
+        public event Action<List<ProductItem> , List<LootItem>> OnSlopCrafted;
         
         private readonly IInventory<DishItem> _dishInventory;
         private readonly ISlopsStorage _slopsStorage;
-        private readonly RecipeMatcher _matcher;
-        private readonly ActiveDishRecipe _activeRecipe;
         private readonly EffectsCatalog _effectsCatalog;
 
         public DishCrafter(
             IInventory<DishItem> dishInventory,
             ISlopsStorage slopsStorage,
-            RecipeMatcher matcher, 
-            ActiveDishRecipe activeRecipe,
             CookingSettings settings)
         {
             _dishInventory = dishInventory;
             _slopsStorage = slopsStorage;
-            _matcher = matcher;
-            _activeRecipe = activeRecipe;
             _effectsCatalog = settings.Effects;
         }
 
-        public void CraftDish(bool isExtra)
+        public void CraftDish(ActiveDishRecipe activeDishRecipe, bool isExtra)
         {
-            DishRecipe recipe = _activeRecipe.Recipe;
+            DishRecipe recipe = activeDishRecipe.Recipe;
             if (recipe.ResultItem.GetItem().Clone() is not DishItem result) return;
             
             result.IsExtra = isExtra;
-
+            
             if (isExtra)
             {
                 ProcessExtra(result);
             }
             
-            _activeRecipe.SpendIngredients();
+            activeDishRecipe.SpendIngredients();
             _dishInventory.AddItem(result);
             
             OnDishCrafted?.Invoke(recipe, result);
@@ -61,28 +55,12 @@ namespace Tavern.Cooking
             result.Components.Add(new ComponentEffect(newEffect));
         }
 
-        public void MakeSlops()
+        public void MakeSlops(ActiveDishRecipe activeDishRecipe)
         {
-            DishRecipe recipe = _activeRecipe.Recipe;
-            _activeRecipe.SpendIngredients();
+            (List<ProductItem> spentProducts, List<LootItem> spentLoots) = activeDishRecipe.SpendIngredients();
             _slopsStorage.AddOneSlop();
             
-            OnSlopCrafted?.Invoke(recipe);
-        }
-
-        void IInitGameListener.OnInit()
-        {
-            _matcher.OnRecipeMatched += OnRecipeMatched;
-        }
-
-        void IExitGameListener.OnExit()
-        {
-            _matcher.OnRecipeMatched -= OnRecipeMatched;
-        }
-
-        private void OnRecipeMatched(bool matched)
-        {
-            OnStateChanged?.Invoke(matched && _activeRecipe.CanTryCraft());
+            OnSlopCrafted?.Invoke(spentProducts, spentLoots);
         }
     }
 }

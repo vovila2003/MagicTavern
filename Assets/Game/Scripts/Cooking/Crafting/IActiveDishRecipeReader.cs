@@ -11,5 +11,6 @@ namespace Tavern.Cooking
         event Action<List<ProductItem>, List<LootItem>> OnSpent;
         DishRecipe Recipe { get; }
         bool HasItem(string item);
+        bool IsEmpty { get; }
     }
 }

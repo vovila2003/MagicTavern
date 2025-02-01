@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Cooking;
 using Tavern.Gardening;
@@ -24,7 +25,9 @@ namespace Tavern.UI.Presenters
         private readonly CookingIngredientsPresenter _ingredientsPresenter;
         
         private InfoPresenter _infoPresenter;
-        private DishRecipe _recipe;
+        private DishRecipe _dishRecipe;
+        private List<ProductItem> _productItems;
+        private List<LootItem> _lootItems;
 
         public CookingPanelPresenter(
             IPanelView view, 
@@ -121,37 +124,83 @@ namespace Tavern.UI.Presenters
 
         private void OnDishCrafted(DishRecipe recipe, DishItem dishItem) => ShowInfo(recipe, dishItem);
 
-        private void OnSlopCrafted(DishRecipe recipe) => ShowInfo(recipe, _slopConfig.GetItem());
+        private void OnSlopCrafted(List<ProductItem> productItems, List<LootItem> lootItems)
+        {
+            ShowInfo(productItems, lootItems, _slopConfig.GetItem());
+        }
 
         private void ShowInfo(DishRecipe recipe, Item item)
         {
             _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
 
             if (!_infoPresenter.Show(item, Repeat)) return;
-            _recipe = recipe;
+            
+            _dishRecipe = recipe;
             
             _infoPresenter.OnAccepted += RepeatDish;
             _infoPresenter.OnRejected += OnCancelled;
         }
 
-        private void RepeatDish(Item dish)
+        private void ShowInfo(List<ProductItem> productItems, List<LootItem> lootItems, Item item)
         {
-            UnsubscribeInfo();
-            Reset();
-            _activeRecipe.Setup(_recipe);
-            _recipe = null;
+            _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
+
+            if (!_infoPresenter.Show(item, Repeat)) return;
+            
+            _productItems = productItems;
+            _lootItems = lootItems;
+            
+            _infoPresenter.OnAccepted += RepeatIngredients;
+            _infoPresenter.OnRejected += OnCancelledIngredients;
+        }
+
+        private void RepeatDish(Item _)
+        {
+            UnsubscribeInfoDish();
+
+            _activeRecipe.Setup(_dishRecipe);
+            _dishRecipe = null;
         }
 
         private void OnCancelled()
         {
-            UnsubscribeInfo();
-            _recipe = null;
+            UnsubscribeInfoDish();
         }
 
-        private void UnsubscribeInfo()
+        private void RepeatIngredients(Item _)
+        {
+            UnsubscribeInfoIngredients();
+            
+            foreach (ProductItem item in _productItems)
+            {
+                _activeRecipe.AddProduct(item);
+            }
+
+            foreach (LootItem item in _lootItems)
+            {
+                _activeRecipe.AddLoot(item);
+            }
+
+            _productItems = null;
+            _lootItems = null;
+            
+        }
+
+        private void OnCancelledIngredients()
+        {
+            UnsubscribeInfoIngredients();
+        }
+
+        private void UnsubscribeInfoDish()
         {
             _infoPresenter.OnAccepted -= RepeatDish;
             _infoPresenter.OnRejected -= OnCancelled;
+        }
+
+        private void UnsubscribeInfoIngredients()
+        {
+            _infoPresenter.OnAccepted -= RepeatIngredients;
+            _infoPresenter.OnRejected -= OnCancelledIngredients;
         }
     }
 }

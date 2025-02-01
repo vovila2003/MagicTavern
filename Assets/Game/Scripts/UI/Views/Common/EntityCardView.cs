@@ -13,6 +13,15 @@ namespace Tavern.UI.Views
             add => Button.onClick.AddListener(value);
             remove => Button.onClick.RemoveListener(value);
         }
+
+        [SerializeField] 
+        private Image Background;
+        
+        [SerializeField]
+        private Color DefaultColor = Color.white;
+        
+        [SerializeField]
+        private Color SelectedColor;
         
         [SerializeField] 
         private TMP_Text Title;
@@ -29,6 +38,8 @@ namespace Tavern.UI.Views
         [SerializeField] 
         private Button Button;
 
+        public Transform Transform => transform;
+        
         public void SetTitle(string title)
         {
             Title.text = title;
@@ -57,6 +68,11 @@ namespace Tavern.UI.Views
         public void SetParent(Transform parent)
         {
             transform.SetParent(parent);
+        }
+
+        public void SetSelected(bool selected)
+        {
+            Background.color = selected ? SelectedColor : DefaultColor;
         }
     }
 }

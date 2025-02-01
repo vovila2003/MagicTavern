@@ -41,6 +41,7 @@ namespace Tavern.UI.Presenters
             _player.OnGameAvailableChange -= OnGameAvailableChanged;
             _player.OnTimeChanged -= SetTimer;
             _inputService.OnSpace -= OnButtonClicked;
+            
             _player.StopGame();
         }
 

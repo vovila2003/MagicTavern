@@ -1,8 +1,9 @@
 using System;
 using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
-using Tavern.InputServices.Interfaces;
+using Tavern.Settings;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Tavern.Cooking.MiniGame
 {
@@ -21,31 +22,55 @@ namespace Tavern.Cooking.MiniGame
         private readonly MiniGame _game;
         private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly DishCrafter _dishCrafter;
+        private readonly RecipeMatcher _matcher;
+        private readonly MiniGameConfig _defaultConfig;
+        private readonly int _minDefaultTime;
+        private readonly int _maxDefaultTime;
         private bool _canPlay;
-
+        
         public MiniGamePlayer(
             DishCookbookContext cookbook, 
             DishAutoCookbookContext autoCookbook, 
             MiniGame game,
             ActiveDishRecipe activeDishRecipe,
             DishCrafter dishCrafter,
-            ISpaceInput inputService)
+            RecipeMatcher matcher,
+            CookingSettings settings)
         {
             _cookbook = cookbook;
             _autoCookbook = autoCookbook;
             _game = game;
             _activeDishRecipe = activeDishRecipe;
             _dishCrafter = dishCrafter;
+            _matcher = matcher;
+            _defaultConfig = settings.DefaultMiniGameConfig;
+            _minDefaultTime = settings.MinDefaultTime;
+            _maxDefaultTime = settings.MaxDefaultTime;
         }
 
         public GameParams GetGameParams()
         {
-            DishRecipe dishRecipe = _activeDishRecipe.Recipe;
-            int time = dishRecipe.CraftingTimeInSeconds;
+            DishRecipe recipe = _activeDishRecipe.Recipe;
+            
+            if (_activeDishRecipe.IsEmpty)
+            {
+                if (!_matcher.MatchRecipe(_activeDishRecipe, out DishRecipe matchedRecipe))
+                {
+                    int time = Random.Range(_minDefaultTime, _maxDefaultTime);
+                    return new GameParams
+                    {
+                        Regions = _game.CreateGame(_defaultConfig, time),
+                        TimeInSeconds = time
+                    };
+                }
+                
+                recipe = matchedRecipe;
+            }
+
             return new GameParams
             {
-                Regions = _game.CreateGame(dishRecipe.GameConfig, time),
-                TimeInSeconds = time
+                Regions = _game.CreateGame(recipe.GameConfig, recipe.CraftingTimeInSeconds),
+                TimeInSeconds = recipe.CraftingTimeInSeconds
             };
         }
 
@@ -57,6 +82,15 @@ namespace Tavern.Cooking.MiniGame
             {
                 Stop();
                 return;
+            }
+
+            if (_activeDishRecipe.IsEmpty)
+            {
+                bool isExists = _matcher.MatchRecipe(_activeDishRecipe, out DishRecipe recipe);
+                if (isExists && _cookbook.HasRecipe(recipe))
+                {
+                    _activeDishRecipe.Setup(recipe);
+                }
             }
 
             Start();
@@ -73,12 +107,12 @@ namespace Tavern.Cooking.MiniGame
 
         void IInitGameListener.OnInit()
         {
-            _dishCrafter.OnStateChanged += OnCrafterStateChanged;
+            _activeDishRecipe.OnCanCraftStateChanged += OnCanCraftStateChanged;
         }
 
         void IExitGameListener.OnExit()
         {
-            _dishCrafter.OnStateChanged -= OnCrafterStateChanged;
+            _activeDishRecipe.OnCanCraftStateChanged -= OnCanCraftStateChanged;
         }
 
         private void Start()
@@ -90,10 +124,9 @@ namespace Tavern.Cooking.MiniGame
             OnGameStarted?.Invoke();
         }
 
-        private void OnCrafterStateChanged(bool state)
+        private void OnCanCraftStateChanged(bool state)
         {
             _canPlay = state;
-            StopGame();
             OnGameAvailableChange?.Invoke(state);
         }
 
@@ -105,42 +138,47 @@ namespace Tavern.Cooking.MiniGame
 
         private void ProcessGameResult(int result)
         {
-            DishRecipe recipe = _activeDishRecipe.Recipe;
-            int newScore = ProcessRecipeStars(recipe, result, out int maxScore, out bool isExtra);
-            ProcessAutoCookbook(recipe, newScore, maxScore);
-            ProcessCrafting(newScore, isExtra);    
-        }
-
-        private int ProcessRecipeStars(DishRecipe recipe, int result, out int maxScore, out bool isExtra)
-        {
-            int stars = _cookbook.GetRecipeStars(recipe);
-            maxScore = recipe.StarsCount * 2;
-            int newScore = Mathf.Clamp(stars + result, 0, maxScore);
-            isExtra = stars == maxScore && newScore == maxScore;
-            _cookbook.SetRecipeStars(recipe, newScore);
+            if (_activeDishRecipe.IsEmpty)
+            {
+                ProcessNewRecipe(result);
+                return;
+            }
             
-            return newScore;
-        }
+            DishRecipe recipe = _activeDishRecipe.Recipe;
+            int stars = _cookbook.GetRecipeStars(recipe);
+            int maxScore = recipe.StarsCount * 2;
+            int newScore = Mathf.Clamp(stars + result, 0, maxScore);
+            _cookbook.SetRecipeStars(recipe, newScore);
 
-        private void ProcessAutoCookbook(DishRecipe recipe, int newScore, int maxScore)
-        {
+            if (newScore <= 0)
+            {
+                _dishCrafter.MakeSlops(_activeDishRecipe);
+                return;
+            }
+            
             if (newScore >= maxScore && !_autoCookbook.HasRecipe(recipe))
             {
                 _autoCookbook.AddRecipe(recipe);
             }
+            
+            bool isExtra = stars == maxScore && newScore == maxScore;
+            _dishCrafter.CraftDish(_activeDishRecipe, isExtra);
         }
 
-        private void ProcessCrafting(int newScore, bool isExtra)
+        private void ProcessNewRecipe(int result)
         {
-            if (newScore > 0)
+            if (!_matcher.MatchRecipe(_activeDishRecipe, out DishRecipe newRecipe) 
+                || result != MiniGame.Results[Result.Green])
             {
-                _dishCrafter.CraftDish(isExtra);
+                _dishCrafter.MakeSlops(_activeDishRecipe);
+                return;
             }
-            else
-            {
-                _dishCrafter.MakeSlops();
-            }
+
+            _cookbook.AddRecipe(newRecipe);
+            _activeDishRecipe.Setup(newRecipe);
+            _dishCrafter.CraftDish(_activeDishRecipe, isExtra: false);
         }
+        
 
         private void OnValueChanged(float value) => OnGameValueChanged?.Invoke(value);
 
@@ -156,9 +194,17 @@ namespace Tavern.Cooking.MiniGame
         private void OnTimeUp()
         {
             StopGame();
+            if (_activeDishRecipe.IsEmpty)
+            {
+                _dishCrafter.MakeSlops(_activeDishRecipe);
+                return;
+            }
+            
             DishRecipe recipe = _activeDishRecipe.Recipe;
-            ProcessRecipeStars(recipe, MiniGame.Results[Result.Red], out int _, out bool _);
-            _dishCrafter.MakeSlops();
+            int stars = _cookbook.GetRecipeStars(recipe);
+            int newScore = Mathf.Max(stars + MiniGame.Results[Result.Red], 0);
+            _cookbook.SetRecipeStars(recipe, newScore);
+            _dishCrafter.MakeSlops(_activeDishRecipe);
         }
     }
 }

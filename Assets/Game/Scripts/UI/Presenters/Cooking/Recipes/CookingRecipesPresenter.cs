@@ -12,7 +12,9 @@ namespace Tavern.UI.Presenters
         public event Action<DishRecipe> OnSetRecipe; 
         
         private readonly Transform _parent;
+        private readonly IContainerView _view;
         private readonly PresentersFactory _presentersFactory;
+        private readonly ActiveDishRecipe _activeRecipe;
         private readonly DishCookbookContext _cookbook;
         private MatchNewRecipePresenter _matchNewRecipePresenter;
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
@@ -20,10 +22,14 @@ namespace Tavern.UI.Presenters
         public CookingRecipesPresenter(
             IContainerView view, 
             DishCookbookContext cookbook,
-            PresentersFactory presentersFactory) : base(view)
+            PresentersFactory presentersFactory,
+            ActiveDishRecipe activeRecipe
+            ) : base(view)
         {
             _parent = view.ContentTransform;
+            _view = view;
             _presentersFactory = presentersFactory;
+            _activeRecipe = activeRecipe;
             _cookbook = cookbook;
         }
 
@@ -35,6 +41,8 @@ namespace Tavern.UI.Presenters
             _cookbook.OnRecipeAdded += OnRecipeAdded;
             _cookbook.OnRecipeRemoved += OnRecipeRemoved;
             _cookbook.OnStarsChanged += OnRecipeStarsChanged;
+
+            _activeRecipe.OnChanged += OnRecipeChanged;
         }
 
         protected override void OnHide()
@@ -42,6 +50,8 @@ namespace Tavern.UI.Presenters
             _cookbook.OnRecipeAdded -= OnRecipeAdded;
             _cookbook.OnRecipeRemoved -= OnRecipeRemoved;
             _cookbook.OnStarsChanged -= OnRecipeStarsChanged;
+            
+            _activeRecipe.OnChanged -= OnRecipeChanged;
             
             _matchNewRecipePresenter.Hide();
             _matchNewRecipePresenter.OnPressed -= MatchNewRecipePressed;
@@ -104,8 +114,39 @@ namespace Tavern.UI.Presenters
             }
         }
 
-        private void MatchNewRecipePressed() => OnMatchNewRecipe?.Invoke();
-        
-        private void OnRecipeClicked(DishRecipe recipe) => OnSetRecipe?.Invoke(recipe);
+        private void MatchNewRecipePressed()
+        {
+            SetUnselectedAllPresenters();
+            OnMatchNewRecipe?.Invoke();
+        }
+
+        private void OnRecipeClicked(DishRecipe recipe)
+        {
+            SetUnselectedAllPresenters();
+            OnSetRecipe?.Invoke(recipe);
+        }
+
+        private void OnRecipeChanged()
+        {
+            SetUnselectedAllPresenters();
+            
+            if (_activeRecipe.IsEmpty) return;
+
+            DishRecipe recipe = _activeRecipe.Recipe;
+            if (!_recipeCardPresenters.TryGetValue(recipe, out RecipeCardPresenter presenter)) return;
+            
+            presenter.SetSelected(true);
+            presenter.Up();
+            _view.Up();
+
+        }
+
+        private void SetUnselectedAllPresenters()
+        {
+            foreach (RecipeCardPresenter presenter in _recipeCardPresenters.Values)
+            {
+                presenter.SetSelected(false);
+            }
+        }
     }
 }

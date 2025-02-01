@@ -10,30 +10,35 @@ namespace Tavern.UI.Presenters
         private readonly IRecipeEffectsView _view;
         private readonly CookingUISettings _settings;
         private readonly IActiveDishRecipeReader _activeRecipe;
-        private readonly RecipeMatcher _matcher;
 
         public RecipeEffectsPresenter(
             IRecipeEffectsView view,
             CookingUISettings settings,
-            IActiveDishRecipeReader activeRecipe,
-            RecipeMatcher matcher) : base(view)
+            IActiveDishRecipeReader activeRecipe
+            ) : base(view)
         {
             _view = view;
             _settings = settings;
             _activeRecipe = activeRecipe;
-            _matcher = matcher;
         }
         
         protected override void OnShow()
         {
             ResetEffects();
-            _matcher.OnRecipeMatched += OnRecipeMatched;
-            
+            _activeRecipe.OnChanged += OnRecipeChanged;
         }
 
         protected override void OnHide()
         {
-            _matcher.OnRecipeMatched -= OnRecipeMatched;
+            _activeRecipe.OnChanged -= OnRecipeChanged;
+        }
+
+        private void OnRecipeChanged()
+        {
+            ResetEffects();
+            if (_activeRecipe.IsEmpty) return;
+            
+            SetEffects();
         }
 
         private void ResetEffects()
@@ -42,15 +47,6 @@ namespace Tavern.UI.Presenters
             {
                 effectView.SetIcon(_settings.DefaultSprite);
             }
-        }
-
-        private void OnRecipeMatched(bool state)
-        {
-            ResetEffects();
-
-            if (!state) return;
-            
-            SetEffects();
         }
 
         private void SetEffects()

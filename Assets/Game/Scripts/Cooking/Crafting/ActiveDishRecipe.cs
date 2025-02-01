@@ -6,16 +6,17 @@ using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
 
-
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
     public sealed class ActiveDishRecipe : IActiveDishRecipeReader
     {
+        private const int MinIngredientsCount = 3;
         private const int MaxIngredientsCount = 7;
 
         public event Action OnChanged;
         public event Action<List<ProductItem>, List<LootItem>> OnSpent;
+        public event Action<bool> OnCanCraftStateChanged;
         
         private readonly IStackableInventory<ProductItem> _productInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
@@ -29,6 +30,7 @@ namespace Tavern.Cooking
         private readonly List<LootItem> _spentLoots = new();
 
         public DishRecipe Recipe { get; private set; }
+        public bool IsEmpty => Recipe == null;
 
         public IReadOnlyCollection<Item> Products => _products;
 
@@ -50,16 +52,6 @@ namespace Tavern.Cooking
         
         public bool HasItem(string item) => _items.Contains(item);
 
-        public bool CanTryCraft()
-        {
-            if (Recipe == null) return false;
-            
-            return Recipe.Products.Length == Products.Count
-                   && Recipe.Loots.Length == Loots.Count
-                   && FakeLoots.Count == 0
-                   && FakeProducts.Count == 0;
-        }
-
         public void AddProduct(ProductItem product) => AddItem(product, _productInventory, _products);
 
         public void AddLoot(LootItem loot) => AddItem(loot, _lootInventory, _loots);
@@ -73,9 +65,10 @@ namespace Tavern.Cooking
         public void Setup(DishRecipe recipe)
         {
             ResetRecipe();
-            SetRecipe(recipe);
+            Recipe = recipe;
             GetProducts(Recipe);
             GetLoots(Recipe);
+            CheckCanCraft();
             
             OnChanged?.Invoke();
         }
@@ -83,16 +76,17 @@ namespace Tavern.Cooking
         public void Reset()
         {
             ResetRecipe();
+            CheckCanCraft();
 
             OnChanged?.Invoke();
         }
 
-        public void SpendIngredients()
+        public (List<ProductItem>, List<LootItem>) SpendIngredients()
         {
             _fakeProducts.Clear();
             _fakeLoots.Clear();
             _items.Clear();
-            SetRecipe(null);
+            Recipe = null;
             
             _spentProducts.Clear();
             _spentProducts.AddRange(_products);
@@ -102,19 +96,20 @@ namespace Tavern.Cooking
             
             _products.Clear();
             _loots.Clear();
+            CheckCanCraft();
 
             OnSpent?.Invoke(_spentProducts, _spentLoots);
             OnChanged?.Invoke();
+            
+            return (_spentProducts, _spentLoots);
         }
-
-        public void SetRecipe(DishRecipe recipe) => Recipe = recipe;
 
         private void ResetRecipe()
         {
             _fakeProducts.Clear();
             _fakeLoots.Clear();
             _items.Clear();
-            SetRecipe(null);
+            Recipe = null;
             ReturnProducts();
             ReturnLoots();
         }
@@ -128,6 +123,8 @@ namespace Tavern.Cooking
             collection.Add(item);
             _items.Add(item.ItemName);
             inventory.RemoveItem(item.ItemName);
+            CheckCanCraft();
+            Recipe = null;
             
             OnChanged?.Invoke();
         }
@@ -142,6 +139,9 @@ namespace Tavern.Cooking
             }
             
             fakeCollection.Remove(item);
+            CheckCanCraft();
+            Recipe = null;
+            
             OnChanged?.Invoke();
         }
 
@@ -201,6 +201,15 @@ namespace Tavern.Cooking
             }
             
             _loots.Clear();
+        }
+
+        private void CheckCanCraft()
+        {
+            bool canCraft = Products.Count +  Loots.Count >= MinIngredientsCount 
+               && FakeLoots.Count == 0
+                && FakeProducts.Count == 0;
+            
+            OnCanCraftStateChanged?.Invoke(canCraft);
         }
     }
 }

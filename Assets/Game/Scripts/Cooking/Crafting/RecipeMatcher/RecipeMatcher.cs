@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Modules.GameCycle.Interfaces;
 using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Looting;
@@ -11,10 +9,8 @@ using UnityEngine;
 namespace Tavern.Cooking
 {
     [UsedImplicitly]
-    public class RecipeMatcher : IInitGameListener, IExitGameListener
+    public class RecipeMatcher
     {
-        public event Action<bool> OnRecipeMatched;
-        
         private class DictionaryComparer : EqualityComparer<Dictionary<string, int>>
         {
             public override bool Equals(Dictionary<string, int> x, Dictionary<string, int> y)
@@ -51,76 +47,47 @@ namespace Tavern.Cooking
         }
 
         private readonly DishRecipeCatalog _recipeCatalog;
-        private readonly ActiveDishRecipe _recipe;
-        private readonly DishCookbookContext _cookbook;
         private readonly DictionaryComparer _comparer;
         private Dictionary<Dictionary<string, int>, DishRecipe> _recipes;
-        private readonly List<string> _recipeNames = new();
 
-        public RecipeMatcher(
-            CookingSettings settings, 
-            ActiveDishRecipe recipe, 
-            DishCookbookContext cookbook)
+        public RecipeMatcher(CookingSettings settings)
         {
             _recipeCatalog = settings.DishRecipes;
-            _recipe = recipe;
-            _cookbook = cookbook;
             _comparer = new DictionaryComparer();
         }
 
-        void IInitGameListener.OnInit()
-        {
-            _recipe.OnChanged += OnRecipeChanged;
-        }
-
-        void IExitGameListener.OnExit()
-        {
-            _recipe.OnChanged -= OnRecipeChanged;
-        }
-
-        private void OnRecipeChanged()
-        {
-            _recipeNames.Clear();
-            AddNames(_recipe.Products);
-            AddNames(_recipe.FakeProducts);
-            AddNames(_recipe.Loots);
-            AddNames(_recipe.FakeLoots);
-            
-            bool matchResult = MatchRecipe(out DishRecipe recipe);
-            if (matchResult)
-            {
-                _recipe.SetRecipe(recipe);
-                _cookbook.AddRecipe(recipe);
-            }
-
-            OnRecipeMatched?.Invoke(matchResult);
-        }
-
-        private void AddNames(IReadOnlyCollection<Item> collection)
-        {
-            foreach (Item item in collection)
-            {
-                _recipeNames.Add(item.ItemName);
-            }
-        }
-
-        private bool MatchRecipe(out DishRecipe resultRecipe)
+        public bool MatchRecipe(ActiveDishRecipe activeRecipe, out DishRecipe resultRecipe)
         {
             if (_recipes is null) Init();
-
-            var key = new Dictionary<string, int>();
-            foreach (string item in _recipeNames)
-            {
-                AddToDictionary(key, item);
-            }
-
+            
             resultRecipe = null;
             if (_recipes is null) return false;
+
+            if (activeRecipe is null) return false;
             
-            bool result = _recipes.TryGetValue(key, out DishRecipe recipe);
-            resultRecipe = recipe;
+            if (activeRecipe.FakeProducts.Count != 0 || activeRecipe.FakeLoots.Count != 0) return false;
+
+            Dictionary<string, int> key = GetKey(activeRecipe);
+
+            bool result = _recipes.TryGetValue(key, out resultRecipe);
             
             return result;
+        }
+
+        private static Dictionary<string, int> GetKey(ActiveDishRecipe activeRecipe)
+        {
+            var key = new Dictionary<string, int>();
+            foreach (Item item in activeRecipe.Products)
+            {
+                AddToDictionary(key, item.ItemName);
+            }
+            
+            foreach (Item item in activeRecipe.Loots)
+            {
+                AddToDictionary(key, item.ItemName);
+            }
+
+            return key;
         }
 
         private void Init()
