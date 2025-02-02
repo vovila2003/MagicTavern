@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
-  m_Name: OnionProduct
+  m_Name: CarrotProduct
   m_EditorClassIdentifier: 
   Item:
-    Name: OnionProduct
+    Name: CarrotProduct
     Flags: 1
     Components:
-    - rid: 1692307273784492042
-    - rid: 1692307273784492043
+    - rid: 909695298399633410
+    - rid: 909695298399633411
   Metadata:
-    Title: "\u041B\u0443\u043A"
-    Description: "\u0420\u0435\u043F\u0447\u0430\u0442\u044B\u0439"
-    Icon: {fileID: -1518409378, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Title: "\u041C\u043E\u0440\u043A\u043E\u0432\u044C"
+    Description: "\u0421\u043E\u0447\u043D\u0430\u044F"
+    Icon: {fileID: 1288369884, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 1692307273784492042
+    - rid: 909695298399633410
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 1692307273784492043
+    - rid: 909695298399633411
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
-        PlantConfig: {fileID: 11400000, guid: 73c3e7bd97df8cd1e9ec65c73a716e46, type: 2}
+        PlantConfig: {fileID: 11400000, guid: 74f5d983b4f134ce886b75d09448bb2f, type: 2}

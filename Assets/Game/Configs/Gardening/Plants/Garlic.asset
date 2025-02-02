@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba5fe8b746749ad801ea143a329080b, type: 3}
+  m_Name: Garlic
+  m_EditorClassIdentifier: 
+  Plant:
+    Name: Garlic
+    GrowthDurationInSeconds: 20
+    WateringCount: 2
+    BaseProbabilityOfSickness: 80
+    PenaltyProbabilityOfSickness: 10
+    HarvestValue: 5
+    CanHarvestHaveSeed: 1
+  Metadata:
+    Healthy:
+    - {fileID: -739947447, guid: eba578407643c18cabb84806af2e679b, type: 3}
+    - {fileID: -1793514715, guid: eba578407643c18cabb84806af2e679b, type: 3}
+    - {fileID: -1793514715, guid: eba578407643c18cabb84806af2e679b, type: 3}
+    Drying:
+    - {fileID: 2019941692, guid: 515770866ef5d44c49caa23fcaca4b93, type: 3}
+    - {fileID: 938241444, guid: 515770866ef5d44c49caa23fcaca4b93, type: 3}
+    - {fileID: 938241444, guid: 515770866ef5d44c49caa23fcaca4b93, type: 3}
+    Sick:
+    - {fileID: 426249902, guid: 259d84a62990454c0835cb267b241fef, type: 3}
+    - {fileID: 1440270410, guid: 259d84a62990454c0835cb267b241fef, type: 3}
+    - {fileID: 1440270410, guid: 259d84a62990454c0835cb267b241fef, type: 3}

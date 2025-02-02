@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: DishesCatalog
   m_EditorClassIdentifier: 
   Items:
-  - {fileID: 11400000, guid: c133a02f16a7ce09eadbfe95b4109590, type: 2}
-  - {fileID: 11400000, guid: 79851bf1a15d87c7586b477426e4ce57, type: 2}
-  - {fileID: 11400000, guid: 80ad5d897362d3ba299529fb5bc43b7b, type: 2}
-  - {fileID: 11400000, guid: 20693c5f9c51289028a65a66fcfa1d45, type: 2}
-  - {fileID: 11400000, guid: 25d15a4ecdf12cb4b85c34a3f24df1af, type: 2}
-  - {fileID: 11400000, guid: 89e85b50f29ce9e64b1b77cfd2f80364, type: 2}
-  - {fileID: 11400000, guid: 15872d6e7856c2a9ca02bca6d09b2209, type: 2}
+  - {fileID: 11400000, guid: 6ef3544dab8b2ba87b60dd1380256f80, type: 2}
+  - {fileID: 11400000, guid: b7b5670fe014bad1da2892a3b8c07498, type: 2}
+  - {fileID: 11400000, guid: 00aadb87051b07015a05478c0374a4f6, type: 2}
+  - {fileID: 11400000, guid: da79f6da19f1c6c13a31779affb291cd, type: 2}
+  - {fileID: 11400000, guid: a4fa40c300f7db295a827f7df79e7dbe, type: 2}

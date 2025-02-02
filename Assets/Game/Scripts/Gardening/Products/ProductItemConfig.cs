@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Tavern.Gardening
 {
     [CreateAssetMenu(
-        fileName = "ProductConfig",
+        fileName = "Product",
         menuName = "Settings/Gardening/Products/Product Config")]
     public class ProductItemConfig : PlantItemConfig<ProductItem>
     {
