@@ -1,7 +1,6 @@
 using Modules.GameCycle.Interfaces;
 using Tavern.Settings;
 using Tavern.UI.Presenters;
-using Tavern.UI.Views;
 using UnityEngine;
 using VContainer;
 
@@ -16,13 +15,13 @@ namespace Tavern.UI
         IFinishGameListener
     {
         private UISceneSettings _settings;
-        private PresentersFactory _factory;
+        private CommonPresentersFactory _factory;
         private MainMenuPresenter _mainMenuPresenter;
         private PausePresenter _pausePresenter;
         private HudPresenter _hudPresenter;
         
         [Inject]
-        private void Construct(PresentersFactory factory, UISceneSettings settings)
+        private void Construct(CommonPresentersFactory factory, UISceneSettings settings)
         {
             _factory = factory;
             _settings = settings;

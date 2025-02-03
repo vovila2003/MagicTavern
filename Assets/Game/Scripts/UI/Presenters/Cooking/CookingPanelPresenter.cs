@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Storages;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ namespace Tavern.UI.Presenters
 
         private readonly IPanelView _view;
         private readonly DishCrafter _crafter;
-        private readonly PresentersFactory _factory;
+        private readonly CookingPresentersFactory _factory;
         private readonly ActiveDishRecipe _activeRecipe;
         private readonly Transform _canvas;
         private readonly ResourceItemConfig _slopConfig;
@@ -26,13 +26,13 @@ namespace Tavern.UI.Presenters
         
         private InfoPresenter _infoPresenter;
         private DishRecipe _dishRecipe;
-        private List<ProductItem> _productItems;
+        private List<PlantProductItem> _plantProductItems;
         private List<LootItem> _lootItems;
 
         public CookingPanelPresenter(
             IPanelView view, 
             DishCrafter crafter,
-            PresentersFactory factory,
+            CookingPresentersFactory factory,
             ActiveDishRecipe activeRecipe,
             Transform canvas,
             ResourceItemConfig slopConfig
@@ -111,8 +111,8 @@ namespace Tavern.UI.Presenters
         {
             switch (item)
             {
-                case ProductItem productItem:
-                    _activeRecipe.AddProduct(productItem);
+                case PlantProductItem productItem:
+                    _activeRecipe.AddPlantProduct(productItem);
                     break;
                 case LootItem lootItem:
                     _activeRecipe.AddLoot(lootItem);
@@ -124,9 +124,9 @@ namespace Tavern.UI.Presenters
 
         private void OnDishCrafted(DishRecipe recipe, DishItem dishItem) => ShowInfo(recipe, dishItem);
 
-        private void OnSlopCrafted(List<ProductItem> productItems, List<LootItem> lootItems)
+        private void OnSlopCrafted(List<PlantProductItem> plantProductItems, List<LootItem> lootItems)
         {
-            ShowInfo(productItems, lootItems, _slopConfig.GetItem());
+            ShowInfo(plantProductItems, lootItems, _slopConfig.GetItem());
         }
 
         private void ShowInfo(DishRecipe recipe, Item item)
@@ -141,13 +141,13 @@ namespace Tavern.UI.Presenters
             _infoPresenter.OnRejected += OnCancelled;
         }
 
-        private void ShowInfo(List<ProductItem> productItems, List<LootItem> lootItems, Item item)
+        private void ShowInfo(List<PlantProductItem> plantProductItems, List<LootItem> lootItems, Item item)
         {
             _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
 
             if (!_infoPresenter.Show(item, Repeat)) return;
             
-            _productItems = productItems;
+            _plantProductItems = plantProductItems;
             _lootItems = lootItems;
             
             _infoPresenter.OnAccepted += RepeatIngredients;
@@ -171,9 +171,9 @@ namespace Tavern.UI.Presenters
         {
             UnsubscribeInfoIngredients();
             
-            foreach (ProductItem item in _productItems)
+            foreach (PlantProductItem item in _plantProductItems)
             {
-                _activeRecipe.AddProduct(item);
+                _activeRecipe.AddPlantProduct(item);
             }
 
             foreach (LootItem item in _lootItems)
@@ -181,7 +181,7 @@ namespace Tavern.UI.Presenters
                 _activeRecipe.AddLoot(item);
             }
 
-            _productItems = null;
+            _plantProductItems = null;
             _lootItems = null;
             
         }

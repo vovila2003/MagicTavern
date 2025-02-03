@@ -23,7 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a4c621c21f032acbc8ee3e90d6edb2a8, type: 2}
   Stars: 2
   MiniGameConfig:
-    GreenZone: 10
-    YellowZone: 10
+    GreenZone: 30
+    YellowZone: 30
     MinSpeed: 1
-    MaxSpeed: 2
+    MaxSpeed: 1.2

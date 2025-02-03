@@ -1,4 +1,5 @@
 using Modules.Gardening;
+using Tavern.ProductsAndIngredients;
 using Tavern.Storages;
 
 namespace Tavern.Gardening
@@ -6,18 +7,18 @@ namespace Tavern.Gardening
     public sealed class PotHarvestController
     {
         private readonly Pot _pot;
-        private readonly ProductInventoryContext _productsStorage;
+        private readonly PlantProductInventoryContext _plantProductsStorage;
         private readonly ISlopsStorage _slopeStorage;
         private readonly SeedInventoryContext _seedsStorage;
 
        public PotHarvestController(
             Pot pot, 
-            ProductInventoryContext productsStorage, 
+            PlantProductInventoryContext plantProductsStorage, 
             ISlopsStorage slopeStorage, 
             SeedInventoryContext seedsStorage)
         {
             _pot = pot;
-            _productsStorage = productsStorage;
+            _plantProductsStorage = plantProductsStorage;
             _slopeStorage = slopeStorage;
             _seedsStorage = seedsStorage;
             _pot.OnHarvestReceived += OnHarvestReceived;
@@ -44,7 +45,7 @@ namespace Tavern.Gardening
         {
             for (var i = 0; i < value; i++)
             {
-                _productsStorage.AddItemByName(ProductNameProvider.GetName(config.Name));
+                _plantProductsStorage.AddItemByName(ProductNameProvider.GetName(config.Name));
             }
         }
 

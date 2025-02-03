@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Modules.Gardening;
 using Modules.Inventories;
 using Sirenix.OdinInspector;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
 using VContainer;
@@ -10,14 +11,14 @@ namespace Tavern.Gardening
 {
     public class SeedMaker : MonoBehaviour
     {
-        private IInventory<ProductItem> _productsStorage;
+        private IInventory<PlantProductItem> _productsStorage;
         private SeedInventoryContext _seedsStorage;
         private SeedMakerSettings _settings;
         private readonly Dictionary<string, int> _seeds = new ();
         
         [Inject]
         private void Construct(
-            IInventory<ProductItem> productsStorage, 
+            IInventory<PlantProductItem> productsStorage, 
             SeedInventoryContext seedsStorage, 
             SeedMakerSettings settings)
         {

@@ -11,6 +11,7 @@ using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
 using Tavern.InputServices;
 using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using Tavern.Storages;
 using Tavern.Storages.CurrencyStorages;
@@ -101,7 +102,8 @@ namespace Tavern.Infrastructure
             builder.Register<MouseClickInputService>(Lifetime.Singleton).AsImplementedInterfaces();
 
             builder.Register<ViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<PresentersFactory>(Lifetime.Singleton);
+            builder.Register<CommonPresentersFactory>(Lifetime.Singleton);
+            builder.Register<CookingPresentersFactory>(Lifetime.Singleton);
 
             builder.RegisterComponentInHierarchy<Tester>(); //TODO for test -> remove
         }
@@ -120,8 +122,8 @@ namespace Tavern.Infrastructure
 
         private void RegisterStorages(IContainerBuilder builder)
         {
-            builder.Register<ProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<ProductInventoryContext>();
+            builder.Register<PlantProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<PlantProductInventoryContext>();
             
             builder.Register<SeedInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedInventoryContext>();

@@ -13,7 +13,7 @@ namespace Tavern.UI.Presenters
         
         private readonly Transform _parent;
         private readonly IContainerView _view;
-        private readonly PresentersFactory _presentersFactory;
+        private readonly CookingPresentersFactory _cookingPresentersFactory;
         private readonly ActiveDishRecipe _activeRecipe;
         private readonly DishCookbookContext _cookbook;
         private MatchNewRecipePresenter _matchNewRecipePresenter;
@@ -22,13 +22,13 @@ namespace Tavern.UI.Presenters
         public CookingRecipesPresenter(
             IContainerView view, 
             DishCookbookContext cookbook,
-            PresentersFactory presentersFactory,
+            CookingPresentersFactory cookingPresentersFactory,
             ActiveDishRecipe activeRecipe
             ) : base(view)
         {
             _parent = view.ContentTransform;
             _view = view;
-            _presentersFactory = presentersFactory;
+            _cookingPresentersFactory = cookingPresentersFactory;
             _activeRecipe = activeRecipe;
             _cookbook = cookbook;
         }
@@ -74,7 +74,7 @@ namespace Tavern.UI.Presenters
 
         private void SetupMatchRecipe()
         {
-            _matchNewRecipePresenter ??= _presentersFactory.CreateMatchNewRecipePresenter(_parent);
+            _matchNewRecipePresenter ??= _cookingPresentersFactory.CreateMatchNewRecipePresenter(_parent);
             _matchNewRecipePresenter.OnPressed += MatchNewRecipePressed;
             _matchNewRecipePresenter.Show();
         }
@@ -91,7 +91,7 @@ namespace Tavern.UI.Presenters
 
         private void AddPresenter(DishRecipe dishRecipe)
         {
-            RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_parent);
+            RecipeCardPresenter recipePresenter = _cookingPresentersFactory.CreateRecipeCardPresenter(_parent);
             recipePresenter.OnRecipeClicked += OnRecipeClicked;
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
             recipePresenter.Show(dishRecipe, _cookbook.GetRecipeStars(dishRecipe));

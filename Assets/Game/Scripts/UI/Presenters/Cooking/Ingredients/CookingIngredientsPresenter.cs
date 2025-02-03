@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -15,26 +15,26 @@ namespace Tavern.UI.Presenters
         public event Action<Item> OnTryAddItem;
         
         private readonly Transform _parent;
-        private readonly IStackableInventory<ProductItem> _productInventory;
+        private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
-        private readonly PresentersFactory _presentersFactory;
+        private readonly CookingPresentersFactory _cookingPresentersFactory;
         private readonly Transform _canvas;
         private readonly IActiveDishRecipeReader _recipe;
         private readonly Dictionary<string, ItemCardPresenter> _presenters = new();
         private InfoPresenter _infoPresenter;
 
         public CookingIngredientsPresenter(IContainerView view,
-            IStackableInventory<ProductItem> productInventory,
+            IStackableInventory<PlantProductItem> plantProductInventory,
             IStackableInventory<LootItem> lootInventory,
-            PresentersFactory presentersFactory, 
+            CookingPresentersFactory cookingPresentersFactory, 
             Transform canvas,
             IActiveDishRecipeReader recipe
             ) : base(view)
         {
             _parent = view.ContentTransform;
-            _productInventory = productInventory;
+            _plantProductInventory = plantProductInventory;
             _lootInventory = lootInventory;
-            _presentersFactory = presentersFactory;
+            _cookingPresentersFactory = cookingPresentersFactory;
             _canvas = canvas;
             _recipe = recipe;
         }
@@ -43,8 +43,8 @@ namespace Tavern.UI.Presenters
         {
             SetupCards();
             
-            _productInventory.OnItemCountChanged += OnProductCountChanged;
-            _productInventory.OnItemRemoved += OnItemRemoved;
+            _plantProductInventory.OnItemCountChanged += OnPlantProductCountChanged;
+            _plantProductInventory.OnItemRemoved += OnItemRemoved;
             
             _lootInventory.OnItemCountChanged += OnLootCountChanged;
             _lootInventory.OnItemRemoved += OnItemRemoved;
@@ -54,8 +54,8 @@ namespace Tavern.UI.Presenters
 
         protected override void OnHide()
         {
-            _productInventory.OnItemCountChanged -= OnProductCountChanged;
-            _productInventory.OnItemRemoved -= OnItemRemoved;
+            _plantProductInventory.OnItemCountChanged -= OnPlantProductCountChanged;
+            _plantProductInventory.OnItemRemoved -= OnItemRemoved;
             
             _lootInventory.OnItemCountChanged -= OnLootCountChanged;
             _lootInventory.OnItemRemoved -= OnItemRemoved;
@@ -73,7 +73,7 @@ namespace Tavern.UI.Presenters
 
         private void SetupCards()
         {
-            AddProductPresenters(_productInventory.Items);
+            AddPlantProductPresenters(_plantProductInventory.Items);
             AddLootPresenters(_lootInventory.Items);
         }
 
@@ -85,11 +85,11 @@ namespace Tavern.UI.Presenters
             }
         }
 
-        private void AddProductPresenters(List<ProductItem> items)
+        private void AddPlantProductPresenters(List<PlantProductItem> items)
         {
-            foreach (ProductItem item in items)
+            foreach (PlantProductItem item in items)
             {
-                AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
+                AddPresenter(item, _plantProductInventory.GetItemCount(item.ItemName));
             }
         }
 
@@ -103,16 +103,18 @@ namespace Tavern.UI.Presenters
                 return;
             }
             
-            presenter = _presentersFactory.CreateItemCardPresenter(_parent);
+            presenter = _cookingPresentersFactory.CreateItemCardPresenter(_parent);
             _presenters.Add(item.ItemName, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
             presenter.Show(item, itemCount);
         }
 
-        private void OnProductCountChanged(Item item, int count) => OnItemCountChanged(item, count, _productInventory);
+        private void OnPlantProductCountChanged(Item item, int count) => 
+            OnItemCountChanged(item, count, _plantProductInventory);
 
-        private void OnLootCountChanged(Item item, int count) => OnItemCountChanged(item, count, _lootInventory);
+        private void OnLootCountChanged(Item item, int count) => 
+            OnItemCountChanged(item, count, _lootInventory);
 
         private void OnItemCountChanged<T>(Item item, int count, IStackableInventory<T> inventory) where T : Item
         {
@@ -138,9 +140,9 @@ namespace Tavern.UI.Presenters
             presenter.Hide();
         }
 
-        private void OnSpendIngredients(List<ProductItem> products, List<LootItem> loots)
+        private void OnSpendIngredients(List<PlantProductItem> products, List<LootItem> loots)
         {
-            AddProductPresenters(products);
+            AddPlantProductPresenters(products);
             AddLootPresenters(loots);
         }
 
@@ -153,7 +155,7 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientLeftClick(Item item)
         {
-            _infoPresenter ??= _presentersFactory.CreateInfoPresenter(_canvas);
+            _infoPresenter ??= _cookingPresentersFactory.CreateInfoPresenter(_canvas);
             
             if (!_infoPresenter.Show(item, Add)) return;
             

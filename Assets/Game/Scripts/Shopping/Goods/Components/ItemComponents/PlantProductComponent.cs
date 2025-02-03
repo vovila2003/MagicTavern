@@ -1,10 +1,10 @@
 using JetBrains.Annotations;
-using Tavern.Gardening;
+using Tavern.ProductsAndIngredients;
 
 namespace Tavern.Goods
 {
     [UsedImplicitly]
-    public sealed class ProductComponent : ItemComponent<ProductItem>
+    public sealed class PlantProductComponent : ItemComponent<PlantProductItem>
     {
         public override string Name => ProductNameProvider.GetName(base.Name);
     }

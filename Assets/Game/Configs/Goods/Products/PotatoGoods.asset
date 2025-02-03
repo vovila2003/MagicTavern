@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Goods:
     Component:
-      rid: 1692307190500032525
+      rid: 909695323664547912
     Price: 1
   references:
     version: 2
     RefIds:
-    - rid: 1692307190500032525
-      type: {class: ProductComponent, ns: Tavern.Goods, asm: Game}
+    - rid: 909695323664547912
+      type: {class: PlantProductComponent, ns: Tavern.Goods, asm: Game}
       data:
         ItemConfig: {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
-        Amount: 20

@@ -10,11 +10,11 @@ namespace Tavern.UI
         [SerializeField] 
         private Button OpenButton;
         
-        private PresentersFactory _factory;
+        private CookingPresentersFactory _factory;
         private CookingPanelPresenter _presenter;
 
         [Inject]
-        private void Construct(PresentersFactory factory)
+        private void Construct(CookingPresentersFactory factory)
         {
             _factory = factory;
         }

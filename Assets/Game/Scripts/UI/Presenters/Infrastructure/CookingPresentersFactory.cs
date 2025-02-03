@@ -2,64 +2,51 @@ using JetBrains.Annotations;
 using Modules.Inventories;
 using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
-using Tavern.Gardening;
-using Tavern.Infrastructure;
 using Tavern.InputServices.Interfaces;
 using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
     [UsedImplicitly]
-    public class PresentersFactory
+    public class CookingPresentersFactory
     {
         private readonly IViewsFactory _viewsFactory;
         private readonly DishCookbookContext _dishCookbook;
-        private readonly IStackableInventory<ProductItem> _productInventory;
+        private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
         private readonly IStackableInventory<LootItem> _lootInventory;
         private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly DishCrafter _dishCrafter;
-        private readonly RecipeMatcher _matcher;
         private readonly ISpaceInput _spaceInput;
         private readonly MiniGamePlayer _player;
         private readonly IMouseClickInput _mouseClickInput;
-        private readonly StartGameController _startGameController;
-        private readonly QuitGameController _quitGameController;
-        private readonly PauseGameController _pauseGameController;
         private readonly UISettings _settings;
         private readonly UISceneSettings _sceneSettings;
 
-        public PresentersFactory(
+        public CookingPresentersFactory(
             IViewsFactory viewsViewsFactory, 
             DishCookbookContext dishCookbook,
-            IStackableInventory<ProductItem> productInventory,
+            IStackableInventory<PlantProductItem> plantProductInventory,
             IStackableInventory<LootItem> lootInventory,
             ActiveDishRecipe activeDishRecipe,
             DishCrafter dishCrafter,
-            RecipeMatcher matcher,
             ISpaceInput spaceInput,
             MiniGamePlayer player,
             IMouseClickInput mouseClickInput,
-            StartGameController startGameController,
-            QuitGameController quitGameController,
-            PauseGameController pauseGameController, 
             UISettings settings,
             UISceneSettings sceneSettings)
         {
             _viewsFactory = viewsViewsFactory;
             _dishCookbook = dishCookbook;
-            _productInventory = productInventory;
+            _plantProductInventory = plantProductInventory;
             _lootInventory = lootInventory;
             _activeDishRecipe = activeDishRecipe;
             _dishCrafter = dishCrafter;
-            _matcher = matcher;
             _spaceInput = spaceInput;
             _player = player;
             _mouseClickInput = mouseClickInput;
-            _startGameController = startGameController;
-            _quitGameController = quitGameController;
-            _pauseGameController = pauseGameController;
             _settings = settings;
             _sceneSettings = sceneSettings;
         }
@@ -78,14 +65,6 @@ namespace Tavern.UI.Presenters
                 this, 
                 _activeDishRecipe);
 
-        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView) => 
-            new(mainMenuView, _startGameController, _quitGameController);
-
-        public HudPresenter CreateHudPresenter(IHudView hudView) => new(hudView);
-
-        public PausePresenter CreatePausePresenter(IPauseView pauseView) => 
-            new(pauseView, _pauseGameController);
-
         public CookingPanelPresenter CreateCookingPanelPresenter() => 
             new(_viewsFactory.CreatePanelView(),
                 _dishCrafter,
@@ -101,7 +80,7 @@ namespace Tavern.UI.Presenters
         public CookingIngredientsPresenter CreateCookingIngredientsPresenter(
             Transform viewContainer, ActiveDishRecipe recipe) =>
             new(_viewsFactory.CreateCookingIngredientsView(viewContainer),
-                _productInventory,
+                _plantProductInventory,
                 _lootInventory,
                 this,
                 _sceneSettings.Canvas, 

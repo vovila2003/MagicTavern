@@ -1,4 +1,4 @@
-namespace Tavern.Gardening
+namespace Tavern.ProductsAndIngredients
 {
     public static class ProductNameProvider
     {

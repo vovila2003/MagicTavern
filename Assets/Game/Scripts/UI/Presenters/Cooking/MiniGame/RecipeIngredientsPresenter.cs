@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
 
@@ -53,9 +53,9 @@ namespace Tavern.UI.Presenters
             ResetIngredients();
             
             int offset = 0;
-            SetupIngredients(ref offset, _recipe.Products, isFake: false);
+            SetupIngredients(ref offset, _recipe.PlantProducts, isFake: false);
             SetupIngredients(ref offset, _recipe.Loots, isFake: false);
-            SetupIngredients(ref offset, _recipe.FakeProducts, isFake: true);
+            SetupIngredients(ref offset, _recipe.FakePlantProducts, isFake: true);
             SetupIngredients(ref offset, _recipe.FakeLoots, isFake: true);
         }
 
@@ -119,8 +119,8 @@ namespace Tavern.UI.Presenters
         {
             switch (item)
             {
-                case ProductItem productItem:
-                    _recipe.RemoveProduct(productItem);
+                case PlantProductItem plantProductItem:
+                    _recipe.RemovePlantProduct(plantProductItem);
                     break;
                 case LootItem lootItem:
                     _recipe.RemoveLoot(lootItem);

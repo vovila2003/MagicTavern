@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Items;
-using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
 
@@ -65,7 +65,7 @@ namespace Tavern.Cooking
 
             if (activeRecipe is null) return false;
             
-            if (activeRecipe.FakeProducts.Count != 0 || activeRecipe.FakeLoots.Count != 0) return false;
+            if (activeRecipe.FakePlantProducts.Count != 0 || activeRecipe.FakeLoots.Count != 0) return false;
 
             Dictionary<string, int> key = GetKey(activeRecipe);
 
@@ -77,7 +77,7 @@ namespace Tavern.Cooking
         private static Dictionary<string, int> GetKey(ActiveDishRecipe activeRecipe)
         {
             var key = new Dictionary<string, int>();
-            foreach (Item item in activeRecipe.Products)
+            foreach (Item item in activeRecipe.PlantProducts)
             {
                 AddToDictionary(key, item.ItemName);
             }
@@ -97,9 +97,9 @@ namespace Tavern.Cooking
             foreach (DishRecipe recipe in recipeList)
             {
                 var recipeDict = new Dictionary<string, int>();
-                foreach (ProductItemConfig product in recipe.Products)
+                foreach (PlantProductItemConfig plantProduct in recipe.PlantProducts)
                 {
-                    AddToDictionary(recipeDict, product.GetItem().ItemName);
+                    AddToDictionary(recipeDict, plantProduct.GetItem().ItemName);
                 }
 
                 foreach (LootItemConfig loot in recipe.Loots)

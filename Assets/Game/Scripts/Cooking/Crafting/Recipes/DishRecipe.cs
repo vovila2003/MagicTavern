@@ -4,7 +4,9 @@ using Sirenix.OdinInspector;
 using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
 using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tavern.Cooking
 {
@@ -13,9 +15,10 @@ namespace Tavern.Cooking
         menuName = "Settings/Cooking/DishRecipes/Dish Recipe")]
     public class DishRecipe : ItemRecipe<DishItem>
     {
+        [FormerlySerializedAs("ProductIngredients")]
         [Title("Ingredients"), Space(10)]
         [SerializeField]
-        private ProductItemConfig[] ProductIngredients;
+        private PlantProductItemConfig[] PlantProductIngredients;
         
         [SerializeField] 
         private LootItemConfig[] LootIngredients;
@@ -24,21 +27,21 @@ namespace Tavern.Cooking
         private KitchenItemConfig[] RequiredKitchenItems;
 
         [SerializeField] 
-        private int Stars;
-
-        [SerializeField] 
         private MiniGameConfig MiniGameConfig;
-        
-        public ProductItemConfig[] Products => ProductIngredients;
+
+        [ShowInInspector, ReadOnly] 
+        private int _stars;
+
+        public PlantProductItemConfig[] PlantProducts => PlantProductIngredients;
         public LootItemConfig[] Loots => LootIngredients;
         public KitchenItemConfig[] KitchenItems => RequiredKitchenItems;
-        public int StarsCount => Stars;
+        public int StarsCount => _stars;
         public MiniGameConfig GameConfig => MiniGameConfig;
 
         private void OnValidate()
         {
             var items = new HashSet<string>();
-            foreach (ProductItemConfig itemConfig in ProductIngredients)
+            foreach (PlantProductItemConfig itemConfig in PlantProductIngredients)
             {
                 CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
@@ -47,6 +50,8 @@ namespace Tavern.Cooking
             {
                 CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
+            
+            _stars = items.Count;
             
             foreach (KitchenItemConfig itemConfig in RequiredKitchenItems)
             {
