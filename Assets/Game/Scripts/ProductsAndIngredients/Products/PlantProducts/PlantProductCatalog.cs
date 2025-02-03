@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Tavern.ProductsAndIngredients
 {
     [CreateAssetMenu(
-        fileName = "ProductCatalog", 
-        menuName = "Settings/Gardening/Products/Products Catalog")]
+        fileName = "PlantProductCatalog", 
+        menuName = "Settings/Products/Plant Products Catalog")]
     public class PlantProductCatalog : ItemsCatalog<PlantProductItem>
     {
     }

@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: CuttingBoard
-    Flags: 1
-    Components:
-    - rid: 909695298399633409
+    Flags: 0
+    Components: []
   Metadata:
     Title: "\u0420\u0430\u0437\u0434\u0435\u043B\u043E\u0447\u043D\u0430\u044F \u0434\u043E\u0441\u043A\u0430"
     Description: "\u041D\u0435\u0437\u0430\u043C\u0435\u043D\u0438\u043C\u0430 \u0434\u043B\u044F
@@ -25,9 +24,4 @@ MonoBehaviour:
     Icon: {fileID: 0}
   references:
     version: 2
-    RefIds:
-    - rid: 909695298399633409
-      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
-      data:
-        IsLimited: 0
-        MaxSize: 0
+    RefIds: []

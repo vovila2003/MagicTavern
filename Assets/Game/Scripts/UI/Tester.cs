@@ -1,3 +1,4 @@
+using Tavern.Cooking;
 using Tavern.UI.Presenters;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,14 +10,19 @@ namespace Tavern.UI
     {
         [SerializeField] 
         private Button OpenButton;
+
+        [SerializeField] 
+        private RecipeType RecipeType;
         
         private CookingPresentersFactory _factory;
         private CookingPanelPresenter _presenter;
+        private ActiveDishRecipe _recipe;
 
         [Inject]
-        private void Construct(CookingPresentersFactory factory)
+        private void Construct(CookingPresentersFactory factory, ActiveDishRecipe recipe)
         {
             _factory = factory;
+            _recipe = recipe;
         }
 
         private void OnEnable()
@@ -31,6 +37,7 @@ namespace Tavern.UI
 
         private void OnOpen()
         {
+            _recipe.Type = RecipeType;
             _presenter ??= _factory.CreateCookingPanelPresenter();
 
             _presenter.Show();

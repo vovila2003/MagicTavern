@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Items;
-using Tavern.Looting;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
@@ -46,9 +45,10 @@ namespace Tavern.Cooking
             }
         }
 
-        private readonly DishRecipeCatalog _recipeCatalog;
+        private readonly Dictionary<RecipeType, DishRecipeCatalog> _recipeCatalog;
         private readonly DictionaryComparer _comparer;
         private Dictionary<Dictionary<string, int>, DishRecipe> _recipes;
+        private RecipeType _type = RecipeType.Salad;
 
         public RecipeMatcher(CookingSettings settings)
         {
@@ -58,14 +58,18 @@ namespace Tavern.Cooking
 
         public bool MatchRecipe(ActiveDishRecipe activeRecipe, out DishRecipe resultRecipe)
         {
-            if (_recipes is null) Init();
-            
             resultRecipe = null;
+            if (activeRecipe is null) return false;
+
+            if (_type != activeRecipe.Type || _recipes is null)
+            {
+                Init(activeRecipe.Type);
+            } 
+            
             if (_recipes is null) return false;
 
-            if (activeRecipe is null) return false;
             
-            if (activeRecipe.FakePlantProducts.Count != 0 || activeRecipe.FakeLoots.Count != 0) return false;
+            if (activeRecipe.FakePlantProducts.Count != 0 || activeRecipe.FakeAnimalProducts.Count != 0) return false;
 
             Dictionary<string, int> key = GetKey(activeRecipe);
 
@@ -82,7 +86,7 @@ namespace Tavern.Cooking
                 AddToDictionary(key, item.ItemName);
             }
             
-            foreach (Item item in activeRecipe.Loots)
+            foreach (Item item in activeRecipe.AnimalProducts)
             {
                 AddToDictionary(key, item.ItemName);
             }
@@ -90,10 +94,11 @@ namespace Tavern.Cooking
             return key;
         }
 
-        private void Init()
+        private void Init(RecipeType type)
         {
+            _type = type;
             _recipes = new Dictionary<Dictionary<string, int>, DishRecipe>(_comparer);
-            Dictionary<string, DishRecipe>.ValueCollection recipeList = _recipeCatalog.RecipeList;
+            Dictionary<string, DishRecipe>.ValueCollection recipeList = _recipeCatalog[_type].RecipeList;
             foreach (DishRecipe recipe in recipeList)
             {
                 var recipeDict = new Dictionary<string, int>();
@@ -102,9 +107,9 @@ namespace Tavern.Cooking
                     AddToDictionary(recipeDict, plantProduct.GetItem().ItemName);
                 }
 
-                foreach (LootItemConfig loot in recipe.Loots)
+                foreach (AnimalProductItemConfig animalProduct in recipe.AnimalProducts)
                 {
-                    AddToDictionary(recipeDict, loot.GetItem().ItemName);
+                    AddToDictionary(recipeDict, animalProduct.GetItem().ItemName);
                 }
 
                 if (!_recipes.TryAdd(recipeDict, recipe))

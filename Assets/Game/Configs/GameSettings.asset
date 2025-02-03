@@ -19,7 +19,12 @@ MonoBehaviour:
     SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}
     PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
   CookingConfigs:
-    DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
+    SaladCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
+    StoveCatalog: {fileID: 11400000, guid: 164805e6cdfefd132a90bebff2b24996, type: 2}
+    OvenCatalog: {fileID: 11400000, guid: 4c4f95a3eff4a9154bfcda6469cf0a26, type: 2}
+    GrillCatalog: {fileID: 11400000, guid: 6c434c03669d82f6e9a1902061904e75, type: 2}
+    MixerCatalog: {fileID: 11400000, guid: 547f07429fe97ad388b93a6c7279d3d2, type: 2}
+    TubCatalog: {fileID: 11400000, guid: fe8dd7931dd7b1ff488c60d796b53f10, type: 2}
     EffectsCatalog: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
     DefaultMiniGameSettings:
       GreenZone: 30

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Tavern.Gardening;
-using Tavern.Looting;
 using Tavern.ProductsAndIngredients;
 
 namespace Tavern.Cooking
@@ -9,7 +7,7 @@ namespace Tavern.Cooking
     public interface IActiveDishRecipeReader
     {
         event Action OnChanged;
-        event Action<List<PlantProductItem>, List<LootItem>> OnSpent;
+        event Action<List<PlantProductItem>, List<AnimalProductItem>> OnSpent;
         DishRecipe Recipe { get; }
         bool HasItem(string item);
         bool IsEmpty { get; }

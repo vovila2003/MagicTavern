@@ -3,7 +3,6 @@ using Modules.Inventories;
 using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
 using Tavern.InputServices.Interfaces;
-using Tavern.Looting;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace Tavern.UI.Presenters
         private readonly IViewsFactory _viewsFactory;
         private readonly DishCookbookContext _dishCookbook;
         private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
-        private readonly IStackableInventory<LootItem> _lootInventory;
+        private readonly IStackableInventory<AnimalProductItem> _animalProductInventory;
         private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly DishCrafter _dishCrafter;
         private readonly ISpaceInput _spaceInput;
@@ -29,7 +28,7 @@ namespace Tavern.UI.Presenters
             IViewsFactory viewsViewsFactory, 
             DishCookbookContext dishCookbook,
             IStackableInventory<PlantProductItem> plantProductInventory,
-            IStackableInventory<LootItem> lootInventory,
+            IStackableInventory<AnimalProductItem> animalProductInventory,
             ActiveDishRecipe activeDishRecipe,
             DishCrafter dishCrafter,
             ISpaceInput spaceInput,
@@ -41,7 +40,7 @@ namespace Tavern.UI.Presenters
             _viewsFactory = viewsViewsFactory;
             _dishCookbook = dishCookbook;
             _plantProductInventory = plantProductInventory;
-            _lootInventory = lootInventory;
+            _animalProductInventory = animalProductInventory;
             _activeDishRecipe = activeDishRecipe;
             _dishCrafter = dishCrafter;
             _spaceInput = spaceInput;
@@ -81,7 +80,7 @@ namespace Tavern.UI.Presenters
             Transform viewContainer, ActiveDishRecipe recipe) =>
             new(_viewsFactory.CreateCookingIngredientsView(viewContainer),
                 _plantProductInventory,
-                _lootInventory,
+                _animalProductInventory,
                 this,
                 _sceneSettings.Canvas, 
                 recipe);

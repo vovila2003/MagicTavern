@@ -1,5 +1,3 @@
-using Tavern.Cooking;
-using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
 using UnityEngine;
 
@@ -40,5 +38,10 @@ namespace Tavern.Settings
         
         public CookingSettings CookingSettings => CookingConfigs;
         public UISettings UISettings => UIConfigs;
+
+        private void OnValidate()
+        {
+            CookingConfigs.Validate();
+        }
     }
 }

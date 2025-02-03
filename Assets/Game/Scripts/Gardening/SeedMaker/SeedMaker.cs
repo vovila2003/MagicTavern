@@ -47,7 +47,7 @@ namespace Tavern.Gardening
 
             int seedCount = productCount * seedRatio;
             
-            _productsStorage.RemoveItems(ProductNameProvider.GetName(type.Name), productCount);
+            _productsStorage.RemoveItems(PlantProductNameProvider.GetName(type.Name), productCount);
             for (var i = 0; i < seedCount; i++)
             {
                 _seedsStorage.AddItemByName(SeedNameProvider.GetName(type.Name));
@@ -58,7 +58,7 @@ namespace Tavern.Gardening
         {
             seedRatio = 0;
 
-            int itemCount = _productsStorage.GetItemCount(ProductNameProvider.GetName(type.Name));
+            int itemCount = _productsStorage.GetItemCount(PlantProductNameProvider.GetName(type.Name));
             if (itemCount < productCount)
             {
                 Debug.Log($"Not enough products of type {type}");

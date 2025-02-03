@@ -2,11 +2,8 @@ using System.Collections.Generic;
 using Modules.Crafting;
 using Sirenix.OdinInspector;
 using Tavern.Cooking.MiniGame;
-using Tavern.Gardening;
-using Tavern.Looting;
 using Tavern.ProductsAndIngredients;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Tavern.Cooking
 {
@@ -15,13 +12,12 @@ namespace Tavern.Cooking
         menuName = "Settings/Cooking/DishRecipes/Dish Recipe")]
     public class DishRecipe : ItemRecipe<DishItem>
     {
-        [FormerlySerializedAs("ProductIngredients")]
         [Title("Ingredients"), Space(10)]
         [SerializeField]
         private PlantProductItemConfig[] PlantProductIngredients;
         
         [SerializeField] 
-        private LootItemConfig[] LootIngredients;
+        private AnimalProductItemConfig[] AnimalProductIngredients;
         
         [SerializeField] 
         private KitchenItemConfig[] RequiredKitchenItems;
@@ -33,7 +29,7 @@ namespace Tavern.Cooking
         private int _stars;
 
         public PlantProductItemConfig[] PlantProducts => PlantProductIngredients;
-        public LootItemConfig[] Loots => LootIngredients;
+        public AnimalProductItemConfig[] AnimalProducts => AnimalProductIngredients;
         public KitchenItemConfig[] KitchenItems => RequiredKitchenItems;
         public int StarsCount => _stars;
         public MiniGameConfig GameConfig => MiniGameConfig;
@@ -46,7 +42,7 @@ namespace Tavern.Cooking
                 CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
             
-            foreach (LootItemConfig itemConfig in LootIngredients)
+            foreach (AnimalProductItemConfig itemConfig in AnimalProductIngredients)
             {
                 CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }

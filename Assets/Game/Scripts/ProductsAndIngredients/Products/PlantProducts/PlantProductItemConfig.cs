@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Tavern.ProductsAndIngredients
 {
     [CreateAssetMenu(
-        fileName = "Product",
-        menuName = "Settings/Gardening/Products/Product Config")]
+        fileName = "PlantProduct",
+        menuName = "Settings/Products/Plant Product Config")]
     public class PlantProductItemConfig : PlantItemConfig<PlantProductItem>
     {
         protected void OnValidate()
@@ -15,7 +15,7 @@ namespace Tavern.ProductsAndIngredients
             
             if (component.Config is null) return;
             
-            plantProductItem.SetName(ProductNameProvider.GetName(component.Config.Name));
+            plantProductItem.SetName(PlantProductNameProvider.GetName(component.Config.Name));
         }
     }
 }

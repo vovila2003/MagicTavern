@@ -45,7 +45,7 @@ namespace Tavern.Gardening
         {
             for (var i = 0; i < value; i++)
             {
-                _plantProductsStorage.AddItemByName(ProductNameProvider.GetName(config.Name));
+                _plantProductsStorage.AddItemByName(PlantProductNameProvider.GetName(config.Name));
             }
         }
 

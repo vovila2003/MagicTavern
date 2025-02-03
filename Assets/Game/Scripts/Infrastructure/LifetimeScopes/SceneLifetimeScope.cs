@@ -125,6 +125,9 @@ namespace Tavern.Infrastructure
             builder.Register<PlantProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<PlantProductInventoryContext>();
             
+            builder.Register<AnimalProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<AnimalProductInventoryContext>();
+            
             builder.Register<SeedInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedInventoryContext>();
             

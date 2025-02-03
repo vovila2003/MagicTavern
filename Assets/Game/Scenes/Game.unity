@@ -514,6 +514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 368490052}
   - component: {fileID: 368490055}
+  - component: {fileID: 368490056}
   m_Layer: 0
   m_Name: ProductsStorage
   m_TagString: Untagged
@@ -592,6 +593,32 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 20d55c6ef9933a532bb6b599f6d294c4, type: 2}
   - {fileID: 11400000, guid: 653b4ad2938ac6f47a613bd35bc1cf50, type: 2}
   ItemsCatalog: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
+--- !u!114 &368490056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368490051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c96c1289d04cf080b6d31098b44eae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Items:
+  - {fileID: 11400000, guid: ade004d7ce712b7bea4389df4775a5ff, type: 2}
+  - {fileID: 11400000, guid: eea258ab0413b32bc93438f647ec579c, type: 2}
+  - {fileID: 11400000, guid: 8d8be6ff0e9de29b0b9dfbb1ad0de9d6, type: 2}
+  - {fileID: 11400000, guid: ade004d7ce712b7bea4389df4775a5ff, type: 2}
+  - {fileID: 11400000, guid: eea258ab0413b32bc93438f647ec579c, type: 2}
+  - {fileID: 11400000, guid: 8d8be6ff0e9de29b0b9dfbb1ad0de9d6, type: 2}
+  - {fileID: 11400000, guid: ade004d7ce712b7bea4389df4775a5ff, type: 2}
+  - {fileID: 11400000, guid: eea258ab0413b32bc93438f647ec579c, type: 2}
+  - {fileID: 11400000, guid: 8d8be6ff0e9de29b0b9dfbb1ad0de9d6, type: 2}
+  - {fileID: 11400000, guid: ade004d7ce712b7bea4389df4775a5ff, type: 2}
+  - {fileID: 11400000, guid: eea258ab0413b32bc93438f647ec579c, type: 2}
+  - {fileID: 11400000, guid: 8d8be6ff0e9de29b0b9dfbb1ad0de9d6, type: 2}
+  ItemsCatalog: {fileID: 11400000, guid: 091a91e542873341da703ff93923402d, type: 2}
 --- !u!1 &483100650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,10 +1486,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Items:
-  - {fileID: 11400000, guid: 8d9e88a69face9a178b4aa3d71555136, type: 2}
   - {fileID: 11400000, guid: a4c621c21f032acbc8ee3e90d6edb2a8, type: 2}
-  - {fileID: 11400000, guid: 0077f8378351c6a9d9e8e5f53ec5d2da, type: 2}
-  - {fileID: 11400000, guid: 8d9e88a69face9a178b4aa3d71555136, type: 2}
+  - {fileID: 11400000, guid: c472c6082de52fcd2a5d623defe91d2d, type: 2}
   ItemsCatalog: {fileID: 11400000, guid: ec70a777ba0b9dd27b8df1a4200475de, type: 2}
 --- !u!1 &774227576
 GameObject:

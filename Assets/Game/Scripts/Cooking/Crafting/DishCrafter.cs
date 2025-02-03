@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
-using Tavern.Gardening;
-using Tavern.Looting;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using Tavern.Storages;
@@ -14,7 +12,7 @@ namespace Tavern.Cooking
     public class DishCrafter
     {
         public event Action<DishRecipe, DishItem> OnDishCrafted;
-        public event Action<List<PlantProductItem> , List<LootItem>> OnSlopCrafted;
+        public event Action<List<PlantProductItem> , List<AnimalProductItem>> OnSlopCrafted;
         
         private readonly IInventory<DishItem> _dishInventory;
         private readonly ISlopsStorage _slopsStorage;
@@ -58,7 +56,9 @@ namespace Tavern.Cooking
 
         public void MakeSlops(ActiveDishRecipe activeDishRecipe)
         {
-            (List<PlantProductItem> spentPlantProducts, List<LootItem> spentLoots) = activeDishRecipe.SpendIngredients();
+            (List<PlantProductItem> spentPlantProducts, List<AnimalProductItem> spentLoots) = 
+                activeDishRecipe.SpendIngredients();
+            
             _slopsStorage.AddOneSlop();
             
             OnSlopCrafted?.Invoke(spentPlantProducts, spentLoots);

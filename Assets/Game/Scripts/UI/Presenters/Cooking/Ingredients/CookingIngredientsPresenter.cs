@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.Looting;
 using Tavern.ProductsAndIngredients;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ namespace Tavern.UI.Presenters
         
         private readonly Transform _parent;
         private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
-        private readonly IStackableInventory<LootItem> _lootInventory;
+        private readonly IStackableInventory<AnimalProductItem> _animalProductsInventory;
         private readonly CookingPresentersFactory _cookingPresentersFactory;
         private readonly Transform _canvas;
         private readonly IActiveDishRecipeReader _recipe;
@@ -25,7 +24,7 @@ namespace Tavern.UI.Presenters
 
         public CookingIngredientsPresenter(IContainerView view,
             IStackableInventory<PlantProductItem> plantProductInventory,
-            IStackableInventory<LootItem> lootInventory,
+            IStackableInventory<AnimalProductItem> animalProductsInventory,
             CookingPresentersFactory cookingPresentersFactory, 
             Transform canvas,
             IActiveDishRecipeReader recipe
@@ -33,7 +32,7 @@ namespace Tavern.UI.Presenters
         {
             _parent = view.ContentTransform;
             _plantProductInventory = plantProductInventory;
-            _lootInventory = lootInventory;
+            _animalProductsInventory = animalProductsInventory;
             _cookingPresentersFactory = cookingPresentersFactory;
             _canvas = canvas;
             _recipe = recipe;
@@ -46,8 +45,8 @@ namespace Tavern.UI.Presenters
             _plantProductInventory.OnItemCountChanged += OnPlantProductCountChanged;
             _plantProductInventory.OnItemRemoved += OnItemRemoved;
             
-            _lootInventory.OnItemCountChanged += OnLootCountChanged;
-            _lootInventory.OnItemRemoved += OnItemRemoved;
+            _animalProductsInventory.OnItemCountChanged += AnimalProductsCountChanged;
+            _animalProductsInventory.OnItemRemoved += OnItemRemoved;
 
             _recipe.OnSpent += OnSpendIngredients;
         }
@@ -57,8 +56,8 @@ namespace Tavern.UI.Presenters
             _plantProductInventory.OnItemCountChanged -= OnPlantProductCountChanged;
             _plantProductInventory.OnItemRemoved -= OnItemRemoved;
             
-            _lootInventory.OnItemCountChanged -= OnLootCountChanged;
-            _lootInventory.OnItemRemoved -= OnItemRemoved;
+            _animalProductsInventory.OnItemCountChanged -= AnimalProductsCountChanged;
+            _animalProductsInventory.OnItemRemoved -= OnItemRemoved;
             
             _recipe.OnSpent -= OnSpendIngredients;
 
@@ -74,14 +73,14 @@ namespace Tavern.UI.Presenters
         private void SetupCards()
         {
             AddPlantProductPresenters(_plantProductInventory.Items);
-            AddLootPresenters(_lootInventory.Items);
+            AddAnimalProductsPresenters(_animalProductsInventory.Items);
         }
 
-        private void AddLootPresenters(List<LootItem> items)
+        private void AddAnimalProductsPresenters(List<AnimalProductItem> items)
         {
-            foreach (LootItem item in items)
+            foreach (AnimalProductItem item in items)
             {
-                AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
+                AddPresenter(item, _animalProductsInventory.GetItemCount(item.ItemName));
             }
         }
 
@@ -113,8 +112,8 @@ namespace Tavern.UI.Presenters
         private void OnPlantProductCountChanged(Item item, int count) => 
             OnItemCountChanged(item, count, _plantProductInventory);
 
-        private void OnLootCountChanged(Item item, int count) => 
-            OnItemCountChanged(item, count, _lootInventory);
+        private void AnimalProductsCountChanged(Item item, int count) => 
+            OnItemCountChanged(item, count, _animalProductsInventory);
 
         private void OnItemCountChanged<T>(Item item, int count, IStackableInventory<T> inventory) where T : Item
         {
@@ -140,10 +139,10 @@ namespace Tavern.UI.Presenters
             presenter.Hide();
         }
 
-        private void OnSpendIngredients(List<PlantProductItem> products, List<LootItem> loots)
+        private void OnSpendIngredients(List<PlantProductItem> plantProducts, List<AnimalProductItem> animalProducts)
         {
-            AddPlantProductPresenters(products);
-            AddLootPresenters(loots);
+            AddPlantProductPresenters(plantProducts);
+            AddAnimalProductsPresenters(animalProducts);
         }
 
         private void OnIngredientRightClick(Item item)
