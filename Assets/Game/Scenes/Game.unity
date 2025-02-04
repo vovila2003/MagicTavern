@@ -1896,6 +1896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OpenButton: {fileID: 180787270}
+  RequiredKitchenItems: []
 --- !u!1 &922843655
 GameObject:
   m_ObjectHideFlags: 0

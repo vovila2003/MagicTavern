@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Modules.Items;
+using Sirenix.Utilities;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
@@ -45,10 +47,10 @@ namespace Tavern.Cooking
             }
         }
 
-        private readonly Dictionary<RecipeType, DishRecipeCatalog> _recipeCatalog;
+        private readonly DishRecipeCatalog _recipeCatalog;
         private readonly DictionaryComparer _comparer;
         private Dictionary<Dictionary<string, int>, DishRecipe> _recipes;
-        private RecipeType _type = RecipeType.Salad;
+        private readonly HashSet<KitchenItemConfig> _kitchens = new();
 
         public RecipeMatcher(CookingSettings settings)
         {
@@ -61,9 +63,9 @@ namespace Tavern.Cooking
             resultRecipe = null;
             if (activeRecipe is null) return false;
 
-            if (_type != activeRecipe.Type || _recipes is null)
+            if (!_kitchens.SequenceEqual(activeRecipe.RequiredKitchen) || _recipes is null)
             {
-                Init(activeRecipe.Type);
+                Init(activeRecipe);
             } 
             
             if (_recipes is null) return false;
@@ -94,13 +96,16 @@ namespace Tavern.Cooking
             return key;
         }
 
-        private void Init(RecipeType type)
+        private void Init(ActiveDishRecipe activeRecipe)
         {
-            _type = type;
+            _kitchens.Clear();
+            _kitchens.AddRange(activeRecipe.RequiredKitchen);
             _recipes = new Dictionary<Dictionary<string, int>, DishRecipe>(_comparer);
-            Dictionary<string, DishRecipe>.ValueCollection recipeList = _recipeCatalog[_type].RecipeList;
+            Dictionary<string, DishRecipe>.ValueCollection recipeList = _recipeCatalog.RecipeList;
             foreach (DishRecipe recipe in recipeList)
             {
+                if (!HasKitchen(recipe)) continue;
+                
                 var recipeDict = new Dictionary<string, int>();
                 foreach (PlantProductItemConfig plantProduct in recipe.PlantProducts)
                 {
@@ -118,6 +123,9 @@ namespace Tavern.Cooking
                 }
             }
         }
+
+        private bool HasKitchen(DishRecipe recipe) => 
+            recipe.KitchenItems.All(kitchenItemConfig => _kitchens.Contains(kitchenItemConfig));
 
         private static void AddToDictionary(Dictionary<string, int> recipeDict, string itemName)
         {

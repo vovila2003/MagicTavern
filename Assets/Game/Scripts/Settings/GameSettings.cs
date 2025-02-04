@@ -38,10 +38,5 @@ namespace Tavern.Settings
         
         public CookingSettings CookingSettings => CookingConfigs;
         public UISettings UISettings => UIConfigs;
-
-        private void OnValidate()
-        {
-            CookingConfigs.Validate();
-        }
     }
 }

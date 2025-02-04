@@ -12,7 +12,7 @@ namespace Tavern.UI
         private Button OpenButton;
 
         [SerializeField] 
-        private RecipeType RecipeType;
+        private KitchenItemConfig[] RequiredKitchenItems;
         
         private CookingPresentersFactory _factory;
         private CookingPanelPresenter _presenter;
@@ -37,7 +37,7 @@ namespace Tavern.UI
 
         private void OnOpen()
         {
-            _recipe.Type = RecipeType;
+            _recipe.SetKitchen(RequiredKitchenItems);
             _presenter ??= _factory.CreateCookingPanelPresenter();
 
             _presenter.Show();
