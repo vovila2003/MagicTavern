@@ -68,14 +68,11 @@ namespace Tavern.Cooking
                 Init(activeRecipe);
             } 
             
-            if (_recipes is null) return false;
-
-            
             if (activeRecipe.FakePlantProducts.Count != 0 || activeRecipe.FakeAnimalProducts.Count != 0) return false;
 
             Dictionary<string, int> key = GetKey(activeRecipe);
 
-            bool result = _recipes.TryGetValue(key, out resultRecipe);
+            bool result = _recipes!.TryGetValue(key, out resultRecipe);
             
             return result;
         }
@@ -112,9 +109,9 @@ namespace Tavern.Cooking
                     AddToDictionary(recipeDict, plantProduct.GetItem().ItemName);
                 }
 
-                foreach (AnimalProductItemConfig animalProduct in recipe.AnimalProducts)
+                foreach (AnimalProductIngredient animalProduct in recipe.AnimalProducts)
                 {
-                    AddToDictionary(recipeDict, animalProduct.GetItem().ItemName);
+                    AddToDictionary(recipeDict, animalProduct.Name());
                 }
 
                 if (!_recipes.TryAdd(recipeDict, recipe))

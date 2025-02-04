@@ -17,7 +17,7 @@ namespace Tavern.Cooking
         private PlantProductItemConfig[] PlantProductIngredients;
         
         [SerializeField] 
-        private AnimalProductItemConfig[] AnimalProductIngredients;
+        private AnimalProductIngredient[] AnimalProductIngredients;
         
         [SerializeField] 
         private KitchenItemConfig[] RequiredKitchenItems;
@@ -29,7 +29,7 @@ namespace Tavern.Cooking
         private int _stars;
 
         public PlantProductItemConfig[] PlantProducts => PlantProductIngredients;
-        public AnimalProductItemConfig[] AnimalProducts => AnimalProductIngredients;
+        public AnimalProductIngredient[] AnimalProducts => AnimalProductIngredients;
         public KitchenItemConfig[] KitchenItems => RequiredKitchenItems;
         public int StarsCount => _stars;
         public MiniGameConfig GameConfig => MiniGameConfig;
@@ -42,9 +42,27 @@ namespace Tavern.Cooking
                 CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
             
-            foreach (AnimalProductItemConfig itemConfig in AnimalProductIngredients)
+            foreach (AnimalProductIngredient itemConfig in AnimalProductIngredients)
             {
-                CheckDuplicates(items, itemConfig.GetItem().ItemName);
+                string itemName;
+                if (!itemConfig.FromGroup)
+                {
+                    itemName = itemConfig.AnimalProductConfig.GetItem().ItemName;
+                }
+                else
+                {
+                    if (!itemConfig.AnimalProductConfig.GetItem().TryGet(out GroupComponent groupComponent))
+                    {
+                        throw new UnityException("Animal ingredient marked as Grouped, but haven't group component");
+                    }
+                    
+                    itemName = groupComponent.GroupName;
+                }
+                
+                if (!items.Add(itemName))
+                {
+                    throw new UnityException($"Duplicate item named {itemName} in DishRecipe {Name}");
+                }
             }
             
             _stars = items.Count;
