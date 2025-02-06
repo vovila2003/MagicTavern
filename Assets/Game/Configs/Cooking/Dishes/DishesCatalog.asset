@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: DishesCatalog
   m_EditorClassIdentifier: 
   Items:
+  - {fileID: 11400000, guid: 88a9af728472458ea850646efd228830, type: 2}
+  - {fileID: 11400000, guid: 8dbf02a6dddea5718b6d41e2400c6647, type: 2}
+  - {fileID: 11400000, guid: b3b4edfca11de53fb89cfa975a523716, type: 2}
+  - {fileID: 11400000, guid: 4f593ebc3f47d27e1bcc482e02b4a2ce, type: 2}
+  - {fileID: 11400000, guid: dea21458fb251555180ec73361cd1b17, type: 2}
+  - {fileID: 11400000, guid: 7fcdc39fc3b007e77966a5209d438b89, type: 2}
+  - {fileID: 11400000, guid: 437ab555b2b9c21b786142777cb48f60, type: 2}
+  - {fileID: 11400000, guid: 029d010927d76a32a914ccbc9bf0adfa, type: 2}
+  - {fileID: 11400000, guid: e30b25670cf665d16a58dd6d7d4e6f1e, type: 2}
+  - {fileID: 11400000, guid: 7ecc8d88285abaa17a84465344b10c8a, type: 2}
+  - {fileID: 11400000, guid: 467d7e74cc193d47381cd50059d92d9c, type: 2}
+  - {fileID: 11400000, guid: e279453ed1b3004b194050321df31243, type: 2}
+  - {fileID: 11400000, guid: fa9e8cb9e3428a693ab8c7f41a23190b, type: 2}
+  - {fileID: 11400000, guid: 57e1faac0fb2c3bcba6a4c5314178b50, type: 2}
+  - {fileID: 11400000, guid: db35bebabcaba1fee9afb6dc1dc0020b, type: 2}
   - {fileID: 11400000, guid: b973a3c6e22740602b79c0a7ddfb9299, type: 2}
   - {fileID: 11400000, guid: aa1d28219ce6cba0595e248fa0054fd4, type: 2}
   - {fileID: 11400000, guid: 0f1baa799ae078dfead5ba0df4ee15bf, type: 2}

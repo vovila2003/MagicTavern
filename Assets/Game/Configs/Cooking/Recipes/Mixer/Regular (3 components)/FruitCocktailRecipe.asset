@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
-  m_Name: BakedPotatoesRecipe
+  m_Name: FruitCocktailRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: fa9e8cb9e3428a693ab8c7f41a23190b, type: 2}
+  ResultItemConfig: {fileID: 11400000, guid: b3b4edfca11de53fb89cfa975a523716, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
-  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
-  - {fileID: 11400000, guid: aab7cfe5c56f7bda688f8f154543ef3c, type: 2}
-  - {fileID: 11400000, guid: ec16c022118e55774beb0155f7a38dcd, type: 2}
+  - {fileID: 11400000, guid: eeff7accdd39a1bd28b1921738f39e84, type: 2}
+  - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}
+  - {fileID: 11400000, guid: 401188fada6c9ced1b1d594dae116d02, type: 2}
   AnimalProductIngredients: []
   RequiredKitchenItems:
-  - {fileID: 11400000, guid: 8d9e88a69face9a178b4aa3d71555136, type: 2}
+  - {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
   MiniGameConfig:
     GreenZone: 30
     YellowZone: 30

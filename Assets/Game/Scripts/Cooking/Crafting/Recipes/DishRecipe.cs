@@ -17,7 +17,7 @@ namespace Tavern.Cooking
         private PlantProductItemConfig[] PlantProductIngredients;
         
         [SerializeField] 
-        private AnimalProductIngredient[] AnimalProductIngredients;
+        private AnimalProductItemConfig[] AnimalProductIngredients;
         
         [SerializeField] 
         private KitchenItemConfig[] RequiredKitchenItems;
@@ -29,7 +29,7 @@ namespace Tavern.Cooking
         private int _stars;
 
         public PlantProductItemConfig[] PlantProducts => PlantProductIngredients;
-        public AnimalProductIngredient[] AnimalProducts => AnimalProductIngredients;
+        public AnimalProductItemConfig[] AnimalProducts => AnimalProductIngredients;
         public KitchenItemConfig[] KitchenItems => RequiredKitchenItems;
         public int StarsCount => _stars;
         public MiniGameConfig GameConfig => MiniGameConfig;
@@ -42,27 +42,9 @@ namespace Tavern.Cooking
                 CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
             
-            foreach (AnimalProductIngredient itemConfig in AnimalProductIngredients)
+            foreach (AnimalProductItemConfig itemConfig in AnimalProductIngredients)
             {
-                string itemName;
-                if (!itemConfig.FromGroup)
-                {
-                    itemName = itemConfig.AnimalProductConfig.GetItem().ItemName;
-                }
-                else
-                {
-                    if (!itemConfig.AnimalProductConfig.GetItem().TryGet(out GroupComponent groupComponent))
-                    {
-                        throw new UnityException("Animal ingredient marked as Grouped, but haven't group component");
-                    }
-                    
-                    itemName = groupComponent.GroupName;
-                }
-                
-                if (!items.Add(itemName))
-                {
-                    throw new UnityException($"Duplicate item named {itemName} in DishRecipe {Name}");
-                }
+                CheckDuplicates(items, itemConfig.GetItem().ItemName);
             }
             
             _stars = items.Count;

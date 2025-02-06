@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
-  m_Name: BakedPotatoesRecipe
+  m_Name: BakedAppleRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: fa9e8cb9e3428a693ab8c7f41a23190b, type: 2}
+  ResultItemConfig: {fileID: 11400000, guid: 467d7e74cc193d47381cd50059d92d9c, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
-  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
-  - {fileID: 11400000, guid: aab7cfe5c56f7bda688f8f154543ef3c, type: 2}
-  - {fileID: 11400000, guid: ec16c022118e55774beb0155f7a38dcd, type: 2}
+  - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}
+  - {fileID: 11400000, guid: a24c186d6e32db5b99138fe598680250, type: 2}
+  - {fileID: 11400000, guid: 8a8352b8fb1c61b1c922f6b13d47c81c, type: 2}
   AnimalProductIngredients: []
   RequiredKitchenItems:
   - {fileID: 11400000, guid: 8d9e88a69face9a178b4aa3d71555136, type: 2}

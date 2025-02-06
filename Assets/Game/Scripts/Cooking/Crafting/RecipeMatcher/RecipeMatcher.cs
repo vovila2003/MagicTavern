@@ -109,9 +109,9 @@ namespace Tavern.Cooking
                     AddToDictionary(recipeDict, plantProduct.GetItem().ItemName);
                 }
 
-                foreach (AnimalProductIngredient animalProduct in recipe.AnimalProducts)
+                foreach (AnimalProductItemConfig animalProduct in recipe.AnimalProducts)
                 {
-                    AddToDictionary(recipeDict, animalProduct.Name());
+                    AddToDictionary(recipeDict, animalProduct.GetItem().ItemName);
                 }
 
                 if (!_recipes.TryAdd(recipeDict, recipe))

@@ -183,9 +183,9 @@ namespace Tavern.Cooking
 
         private void GetAnimalProducts(DishRecipe recipe)
         {
-            foreach (AnimalProductIngredient animalIngredient in recipe.AnimalProducts)
+            foreach (AnimalProductItemConfig itemConfig in recipe.AnimalProducts)
             {
-                string productName = animalIngredient.Name();
+                string productName = itemConfig.GetItem().ItemName;
                 if (_animalProductInventory.IsItemExists(productName))
                 {
                     _items.Add(productName);
@@ -194,7 +194,7 @@ namespace Tavern.Cooking
                 }
                 else
                 {
-                    var fakeAnimalProduct = animalIngredient.AnimalProductConfig.GetItem().Clone() as AnimalProductItem;
+                    var fakeAnimalProduct = itemConfig.GetItem().Clone() as AnimalProductItem;
                     _fakeAnimalProducts.Add(fakeAnimalProduct);
                 }
             }
