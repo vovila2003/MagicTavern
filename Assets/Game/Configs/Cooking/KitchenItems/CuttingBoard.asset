@@ -18,10 +18,9 @@ MonoBehaviour:
     Components: []
   Metadata:
     Title: "\u0420\u0430\u0437\u0434\u0435\u043B\u043E\u0447\u043D\u0430\u044F \u0434\u043E\u0441\u043A\u0430"
-    Description: "\u041D\u0435\u0437\u0430\u043C\u0435\u043D\u0438\u043C\u0430 \u0434\u043B\u044F
-      \u043F\u0440\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u0438\u044F
+    Description: "\u041F\u0440\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u0438\u0435
       \u0441\u0430\u043B\u0430\u0442\u043E\u0432"
-    Icon: {fileID: 0}
+    Icon: {fileID: 1045185747, guid: 207885838a77baeaea8c55d678c8faae, type: 3}
   references:
     version: 2
     RefIds: []

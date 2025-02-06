@@ -20,7 +20,7 @@ namespace Tavern.Cooking
         private AnimalProductItemConfig[] AnimalProductIngredients;
         
         [SerializeField] 
-        private KitchenItemConfig[] RequiredKitchenItems;
+        private KitchenItemConfig RequiredKitchenItem;
 
         [SerializeField] 
         private MiniGameConfig MiniGameConfig;
@@ -30,7 +30,7 @@ namespace Tavern.Cooking
 
         public PlantProductItemConfig[] PlantProducts => PlantProductIngredients;
         public AnimalProductItemConfig[] AnimalProducts => AnimalProductIngredients;
-        public KitchenItemConfig[] KitchenItems => RequiredKitchenItems;
+        public KitchenItemConfig KitchenItem => RequiredKitchenItem;
         public int StarsCount => _stars;
         public MiniGameConfig GameConfig => MiniGameConfig;
 
@@ -48,10 +48,10 @@ namespace Tavern.Cooking
             }
             
             _stars = items.Count;
-            
-            foreach (KitchenItemConfig itemConfig in RequiredKitchenItems)
+
+            if (KitchenItem is null)
             {
-                CheckDuplicates(items, itemConfig.GetItem().ItemName);
+                throw new UnityException($"Select required kitchen Item in DishRecipe {Name}");
             }
         }
 

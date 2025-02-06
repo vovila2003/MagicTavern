@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Modules.Crafting;
 using Tavern.Cooking;
 using UnityEngine;
@@ -82,20 +81,17 @@ namespace Tavern.UI.Presenters
 
         private void SetupCards()
         {
-            HashSet<KitchenItemConfig> requiredKitchen = _activeRecipe.RequiredKitchen;
+            KitchenItemConfig requiredKitchen = _activeRecipe.RequiredKitchen;
 
             foreach (ItemRecipe<DishItem> recipe in _cookbook.Recipes.Values)
             {
                 if (recipe is not DishRecipe dishRecipe) continue;
 
-                if (!CheckKitchen(dishRecipe, requiredKitchen)) continue;
+                if (!dishRecipe.KitchenItem != requiredKitchen) continue;
 
                 AddPresenter(dishRecipe);
             }
         }
-
-        private static bool CheckKitchen(DishRecipe recipe, HashSet<KitchenItemConfig> requiredKitchen) => 
-            recipe.KitchenItems.All(requiredKitchen.Contains);
 
         private void AddPresenter(DishRecipe dishRecipe)
         {

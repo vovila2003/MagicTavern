@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
 using Modules.Items;
-using Sirenix.Utilities;
 using Tavern.ProductsAndIngredients;
 using UnityEngine;
 
@@ -42,7 +41,7 @@ namespace Tavern.Cooking
 
         public IReadOnlyCollection<Item> FakeAnimalProducts => _fakeAnimalProducts;
 
-        public HashSet<KitchenItemConfig> RequiredKitchen { get; } = new();
+        public KitchenItemConfig RequiredKitchen { get; private set; }
         private bool CanAddIngredient => _plantProducts.Count + _animalProducts.Count < MaxIngredientsCount;
 
         public ActiveDishRecipe(
@@ -53,16 +52,15 @@ namespace Tavern.Cooking
             _animalProductInventory = animalProductInventory;
         }
 
-        public void SetKitchen(KitchenItemConfig[] kitchens)
+        public void SetKitchen(KitchenItemConfig kitchenItem)
         {
-            RequiredKitchen.Clear();
-            if (kitchens.IsNullOrEmpty())
+            if (kitchenItem is null)
             {
                 Debug.LogError("Empty required kitchen items. When cooking, only slop is obtained(");
                 return;
             }
             
-            RequiredKitchen.AddRange(kitchens);
+            RequiredKitchen = kitchenItem;
         }
         
         public bool HasItem(string item) => _items.Contains(item);

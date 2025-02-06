@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: DishRecipeCatalog
   m_EditorClassIdentifier: 
   Recipes:
+  - {fileID: 11400000, guid: 2792824d778a2af00aa9470b2287c17b, type: 2}
+  - {fileID: 11400000, guid: 106737d18b6e55161850f86c67a4cd57, type: 2}
+  - {fileID: 11400000, guid: 9f0a9874d6e2b82738e6a360eb048069, type: 2}
+  - {fileID: 11400000, guid: 766f344bcc3dd1793bc665ebd26d9dc2, type: 2}
+  - {fileID: 11400000, guid: ff2af69718d62c48f846adefa920a025, type: 2}
   - {fileID: 11400000, guid: fdc34ae04a726839da1c8b299b89af68, type: 2}
   - {fileID: 11400000, guid: 3f2a48c86f0caf3ae98ed8e6335ac702, type: 2}
   - {fileID: 11400000, guid: 3ea0c703f2fb254ef8e822ad7401f608, type: 2}

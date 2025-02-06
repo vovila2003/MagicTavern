@@ -19,8 +19,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 08f411c4df31edfe989720c66e7295c6, type: 2}
   - {fileID: 11400000, guid: b3dc2eaa42773c695a4430daaadaf943, type: 2}
   AnimalProductIngredients: []
-  RequiredKitchenItems:
-  - {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
+  RequiredKitchenItem: {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
   MiniGameConfig:
     GreenZone: 30
     YellowZone: 30

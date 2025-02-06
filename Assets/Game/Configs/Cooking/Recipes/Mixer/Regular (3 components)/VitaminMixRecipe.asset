@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
   m_Name: VitaminMixRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: 4f593ebc3f47d27e1bcc482e02b4a2ce, type: 2}
+  ResultItemConfig: {fileID: 11400000, guid: dea21458fb251555180ec73361cd1b17, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
-  - {fileID: 11400000, guid: 653b4ad2938ac6f47a613bd35bc1cf50, type: 2}
-  - {fileID: 11400000, guid: 0d85d9f2b677c8ae7bb101f5950d3631, type: 2}
-  - {fileID: 11400000, guid: 20d55c6ef9933a532bb6b599f6d294c4, type: 2}
+  - {fileID: 11400000, guid: 0f6dfa0b0f75316d5b9f79385095ed25, type: 2}
+  - {fileID: 11400000, guid: 401188fada6c9ced1b1d594dae116d02, type: 2}
+  - {fileID: 11400000, guid: 8a8352b8fb1c61b1c922f6b13d47c81c, type: 2}
   AnimalProductIngredients: []
-  RequiredKitchenItems:
-  - {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
+  RequiredKitchenItem: {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
   MiniGameConfig:
     GreenZone: 30
     YellowZone: 30

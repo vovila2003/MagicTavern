@@ -27,6 +27,7 @@ namespace Tavern.UI.Presenters
         private DishRecipe _dishRecipe;
         private List<PlantProductItem> _plantProductItems;
         private List<AnimalProductItem> _animalProductItems;
+        private KitchenItemConfig _kitchenItemConfig;
 
         public CookingPanelPresenter(
             IPanelView view, 
@@ -48,13 +49,19 @@ namespace Tavern.UI.Presenters
                 _view.Container, activeRecipe);
             _ingredientsPresenter = factory.CreateCookingIngredientsPresenter(_view.Container, activeRecipe);
         }
+        
+        public void Show(KitchenItemConfig kitchenItemConfig)
+        {
+            _kitchenItemConfig = kitchenItemConfig;
+            Show();
+        }
 
         protected override void OnShow()
         {
             _activeRecipe.Reset();
             SetupView();
             SetupLeftPanel();
-            SetupMiniGame();
+            SetupMiniGame(_kitchenItemConfig.Metadata.Icon);
             SetupIngredients();
 
             _crafter.OnDishCrafted += OnDishCrafted;
@@ -82,7 +89,7 @@ namespace Tavern.UI.Presenters
 
         private void SetupView()
         {
-            _view.SetTitle(Title);
+            _view.SetTitle($"{Title}: {_kitchenItemConfig.Metadata.Description}");
             _view.OnCloseClicked += Hide;
         }
 
@@ -93,9 +100,9 @@ namespace Tavern.UI.Presenters
             _recipesPresenter.Show();
         }
 
-        private void SetupMiniGame()
+        private void SetupMiniGame(Sprite sprite)
         {
-            _cookingAndMatchRecipePresenter.Show();            
+            _cookingAndMatchRecipePresenter.Show(sprite);            
         }
 
         private void SetupIngredients()

@@ -19,7 +19,7 @@ MonoBehaviour:
   Metadata:
     Title: "\u041C\u0438\u043A\u0441\u0435\u0440"
     Description: "\u0421\u043E\u043A\u0438, \u043F\u044E\u0440\u0435"
-    Icon: {fileID: 0}
+    Icon: {fileID: -1213623331, guid: 207885838a77baeaea8c55d678c8faae, type: 3}
   references:
     version: 2
     RefIds: []

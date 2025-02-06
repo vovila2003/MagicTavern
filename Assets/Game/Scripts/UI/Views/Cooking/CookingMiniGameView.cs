@@ -12,7 +12,10 @@ namespace Tavern.UI.Views
         {
             add => Button.onClick.AddListener(value);
             remove => Button.onClick.RemoveListener(value);
-        } 
+        }
+
+        [SerializeField] 
+        private Image Icon;
         
         [SerializeField] 
         private TMP_Text TimeText;
@@ -31,7 +34,12 @@ namespace Tavern.UI.Views
         
         [SerializeField]
         private TMP_Text ButtonText;
-        
+
+        public void SetIcon(Sprite icon)
+        {
+            Icon.sprite = icon;
+        }
+
         public void SetTimerText(string text)
         {
             TimeText.text = text;
