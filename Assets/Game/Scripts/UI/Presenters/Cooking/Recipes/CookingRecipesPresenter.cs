@@ -87,7 +87,7 @@ namespace Tavern.UI.Presenters
             {
                 if (recipe is not DishRecipe dishRecipe) continue;
 
-                if (!dishRecipe.KitchenItem != requiredKitchen) continue;
+                if (dishRecipe.KitchenItem != requiredKitchen) continue;
 
                 AddPresenter(dishRecipe);
             }

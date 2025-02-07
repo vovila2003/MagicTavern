@@ -61,7 +61,7 @@ namespace Tavern.Cooking
             resultRecipe = null;
             if (activeRecipe is null) return false;
 
-            if (!_kitchen != activeRecipe.RequiredKitchen || _recipes is null)
+            if (_kitchen != activeRecipe.RequiredKitchen || _recipes is null)
             {
                 Init(activeRecipe);
             } 
@@ -98,7 +98,7 @@ namespace Tavern.Cooking
             Dictionary<string, DishRecipe>.ValueCollection recipeList = _recipeCatalog.RecipeList;
             foreach (DishRecipe recipe in recipeList)
             {
-                if (!recipe.KitchenItem != _kitchen) continue;
+                if (recipe.KitchenItem != _kitchen) continue;
                 
                 var recipeDict = new Dictionary<string, int>();
                 foreach (PlantProductItemConfig plantProduct in recipe.PlantProducts)
