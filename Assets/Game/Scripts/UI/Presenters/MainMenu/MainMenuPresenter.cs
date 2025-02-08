@@ -5,17 +5,17 @@ namespace Tavern.UI.Presenters
     public class MainMenuPresenter : BasePresenter
     {
         private readonly IMainMenuView _view;
-        private readonly StartGameController _startGameController;
-        private readonly QuitGameController _quitGameController;
-        
-        public MainMenuPresenter(
-            IMainMenuView view,
-            StartGameController startGameController, 
-            QuitGameController quitGameController) : base(view)
+        private readonly GameCycleController _gameCycleController;
+        private readonly UiManager _uiManager;
+
+        public MainMenuPresenter(IMainMenuView view,
+            GameCycleController gameCycleController, 
+            UiManager uiManager
+            ) : base(view)
         {
             _view = view;
-            _startGameController = startGameController;
-            _quitGameController = quitGameController;
+            _gameCycleController = gameCycleController;
+            _uiManager = uiManager;
         }
 
         protected override void OnShow()
@@ -32,12 +32,15 @@ namespace Tavern.UI.Presenters
 
         private void OnStartGame()
         {
-            _startGameController.OnStart();
+            _gameCycleController.PrepareGame();
+            _gameCycleController.StartGame();
+            
+            _uiManager.ShowHud();
         }
 
         private void OnQuitGame()
         {
-            _quitGameController.OnQuit();    
+            _gameCycleController.ExitGame();
         }
     }
 }

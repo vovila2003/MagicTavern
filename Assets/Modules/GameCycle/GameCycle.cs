@@ -9,7 +9,8 @@ namespace Modules.GameCycle
     public class GameCycle
     {
         private readonly List<IGameListener> _listeners = new();
-        private GameState _state = GameState.None;
+        
+        public GameState State { get; private set; } = GameState.None;
 
         public void AddListener(IGameListener listener)
         {
@@ -20,12 +21,19 @@ namespace Modules.GameCycle
         {
             _listeners.Remove(listener);
         }
-        
+
+        public void Initialize(
+            IEnumerable<IGameListener> listeners)
+        {
+            AddListeners(listeners);
+            InitGame();
+        }
+
         public void PrepareGame()
         {
-            if (_state != GameState.Initialized && _state != GameState.IsFinished)
+            if (State != GameState.Initialized && State != GameState.IsFinished)
             {
-                Debug.LogWarning($"Can't Prepare game from {_state} state!");
+                Debug.LogWarning($"Can't Prepare game from {State} state!");
                 return;
             }
             
@@ -37,14 +45,14 @@ namespace Modules.GameCycle
                     prepareGameListener.OnPrepare();
                 }
             }
-            _state = GameState.Ready;
+            State = GameState.Ready;
         }
-        
+
         public void StartGame()
         {
-            if (_state != GameState.Ready)
+            if (State != GameState.Ready)
             {
-                Debug.LogWarning($"Can't Start game from {_state} state!");
+                Debug.LogWarning($"Can't Start game from {State} state!");
                 return;
             }
 
@@ -57,14 +65,14 @@ namespace Modules.GameCycle
                 }
             }
 
-            _state = GameState.IsRunning;
+            State = GameState.IsRunning;
         }
-        
+
         public void FinishGame()
         {
-            if (_state != GameState.IsRunning)
+            if (State != GameState.IsRunning)
             {
-                Debug.LogWarning($"Can't Finish game from {_state} state!");
+                Debug.LogWarning($"Can't Finish game from {State} state!");
                 return;
             }
             
@@ -77,14 +85,14 @@ namespace Modules.GameCycle
                 }
             }
 
-            _state = GameState.IsFinished;
+            State = GameState.IsFinished;
         }
-        
+
         public void PauseGame()
         {
-            if (_state != GameState.IsRunning)
+            if (State != GameState.IsRunning)
             {
-                Debug.LogWarning($"Can't Pause game from {_state} state!");
+                Debug.LogWarning($"Can't Pause game from {State} state!");
                 return;
             }
             
@@ -97,14 +105,14 @@ namespace Modules.GameCycle
                 }
             }
 
-            _state = GameState.Pause;
+            State = GameState.Pause;
         }
-        
+
         public void ResumeGame()
         {
-            if (_state != GameState.Pause)
+            if (State != GameState.Pause)
             {
-                Debug.LogWarning($"Can't Resume game from {_state} state!");
+                Debug.LogWarning($"Can't Resume game from {State} state!");
                 return;
             }
             
@@ -117,7 +125,7 @@ namespace Modules.GameCycle
                 }
             }
 
-            _state = GameState.IsRunning;
+            State = GameState.IsRunning;
         }
 
         public void ExitGame()
@@ -131,15 +139,15 @@ namespace Modules.GameCycle
                 }
             }
 
-            _state = GameState.None;
+            State = GameState.None;
             QuitGame();
         }
 
         private void InitGame()
         {
-            if (_state != GameState.None)
+            if (State != GameState.None)
             {
-                Debug.LogWarning($"Can't Init game from {_state} state!");
+                Debug.LogWarning($"Can't Init game from {State} state!");
                 return;
             }
             
@@ -151,14 +159,7 @@ namespace Modules.GameCycle
                     initGameListener.OnInit();
                 }
             }
-            _state = GameState.Initialized;
-        }
-
-        public void Initialize(
-            IEnumerable<IGameListener> listeners)
-        {
-            AddListeners(listeners);
-            InitGame();
+            State = GameState.Initialized;
         }
 
         private static void QuitGame()

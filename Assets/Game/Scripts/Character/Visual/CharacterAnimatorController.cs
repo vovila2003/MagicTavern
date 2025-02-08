@@ -1,16 +1,17 @@
+using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
 
 namespace Tavern.Character.Visual
 {
+    [UsedImplicitly]
     public class CharacterAnimatorController : 
         IStartGameListener,
         IPauseGameListener,
         IResumeGameListener,
         IFinishGameListener
     {
-        private const float Threshold = 0.05f;
         private static readonly int MoveUpDown = Animator.StringToHash("moveUpDown");
         private static readonly int MoveLeftRight = Animator.StringToHash("moveLeftRight");
         private readonly ICharacter _character;
@@ -23,7 +24,6 @@ namespace Tavern.Character.Visual
             _moveInput = moveInput;
         }
 
-
         void IStartGameListener.OnStart()
         {
             _animator = _character.GetAnimator();
@@ -31,41 +31,32 @@ namespace Tavern.Character.Visual
             {
                 Debug.LogError($"{nameof(CharacterAnimatorController)} has no animator");
             }
+            
+            Activate();
+        }
+
+        void IFinishGameListener.OnFinish() => Deactivate();
+
+        void IPauseGameListener.OnPause() => Deactivate();
+
+        void IResumeGameListener.OnResume() => Activate();
+
+        private void OnMove(Vector2 direction)
+        {
+            _animator.SetFloat(MoveUpDown, direction.y);
+            _animator.SetFloat(MoveLeftRight, direction.x);
+        }
+
+        private void Activate()
+        {
             _moveInput.OnMove += OnMove;
             _animator.enabled = true;
         }
 
-        void IFinishGameListener.OnFinish()
+        private void Deactivate()
         {
             _moveInput.OnMove -= OnMove;
             _animator.enabled = false;
-        }
-
-        void IPauseGameListener.OnPause()
-        {
-            _animator.enabled = false;
-        }
-
-        void IResumeGameListener.OnResume()
-        {
-            _animator.enabled = true;
-        }
-
-        private void OnMove(Vector2 direction)
-        {
-            float upDown = 0;
-            float leftRight = 0;
-            if (Mathf.Abs(direction.y) > Threshold)
-            {
-                upDown = direction.y;
-            } 
-            else if (Mathf.Abs(direction.x) > Threshold)
-            {
-                leftRight = direction.x;
-            }
-            
-            _animator.SetFloat(MoveUpDown, upDown);
-            _animator.SetFloat(MoveLeftRight, leftRight);
         }
     }
 }

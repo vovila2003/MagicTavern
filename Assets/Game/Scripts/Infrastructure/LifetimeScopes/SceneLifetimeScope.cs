@@ -30,10 +30,7 @@ namespace Tavern.Infrastructure
         private GameSettings GameSettings;
 
         [SerializeField] 
-        private Transform World;
-
-        [SerializeField] 
-        private Transform Pots;
+        private SceneSettings SceneSettings;
 
         [SerializeField]
         private UISceneSettings UISceneSettings;
@@ -56,11 +53,14 @@ namespace Tavern.Infrastructure
         private void RegisterCommon(IContainerBuilder builder)
         {
             builder.Register<MovableByRigidbody>(Lifetime.Transient).AsImplementedInterfaces();
+            builder.RegisterInstance(SceneSettings);
         }
 
         private void RegisterCharacter(IContainerBuilder builder)
         {
-            Character.Character character = Instantiate(GameSettings.CharacterSettings.Prefab, World);
+            Character.Character character = Instantiate(
+                GameSettings.CharacterSettings.Prefab, 
+                SceneSettings.WorldTransform);
             if (!character.TryGetComponent(out SeederComponent seeder))
             {
                 Debug.LogWarning($"Character {character.name} does not have a SeederComponent");
@@ -77,7 +77,7 @@ namespace Tavern.Infrastructure
             builder.RegisterEntryPoint<CharacterJumpController>();
             builder.RegisterEntryPoint<CharacterFireController>();
             builder.RegisterEntryPoint<CharacterBlockController>();
-            builder.RegisterEntryPoint<CharacterActionController>();
+            //builder.RegisterEntryPoint<CharacterActionController>();
             builder.RegisterEntryPoint<CharacterDodgeController>();
             builder.Register<CharacterAnimatorController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterEntryPoint<InputService>();
@@ -89,8 +89,6 @@ namespace Tavern.Infrastructure
             builder.RegisterEntryPoint<GameCycleController>().AsSelf();
             builder.Register<FinishGameController>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-            builder.Register<QuitGameController>(Lifetime.Singleton);
-            builder.Register<StartGameController>(Lifetime.Singleton);
         }
 
         private void RegisterUi(IContainerBuilder builder)
@@ -98,14 +96,12 @@ namespace Tavern.Infrastructure
             builder.RegisterInstance(UISceneSettings);
             builder.RegisterInstance(GameSettings.UISettings);
 
-            builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces().AsSelf();
             builder.Register<MouseClickInputService>(Lifetime.Singleton).AsImplementedInterfaces();
 
             builder.Register<ViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<CommonPresentersFactory>(Lifetime.Singleton);
             builder.Register<CookingPresentersFactory>(Lifetime.Singleton);
-
-            builder.RegisterComponentInHierarchy<Tester>(); //TODO for test -> remove
         }
 
         private void RegisterGameCursor(IContainerBuilder builder)
@@ -143,7 +139,8 @@ namespace Tavern.Infrastructure
             builder.RegisterInstance(GameSettings.PotPrefab);
             builder.RegisterComponentInHierarchy<SeedMaker>();
 
-            builder.Register<PotsController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf().WithParameter(Pots);
+            builder.Register<PotsController>(Lifetime.Singleton)
+                .AsImplementedInterfaces().AsSelf().WithParameter(SceneSettings.WorldTransform);
             builder.RegisterComponentInHierarchy<PotCreator>();
             
             RegisterMedicine(builder);
@@ -194,6 +191,8 @@ namespace Tavern.Infrastructure
             builder.RegisterEntryPoint<MiniGameInputService>();
             builder.RegisterEntryPoint<MiniGame>().AsSelf();
             builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+
+            builder.Register<KitchenItemFactory>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterShopping(IContainerBuilder builder)

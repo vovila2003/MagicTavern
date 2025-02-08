@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Tavern.Components.Interfaces;
 using Tavern.InputServices.Interfaces;
@@ -6,6 +7,7 @@ using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
+    [UsedImplicitly]
     public sealed class CharacterMoveController : 
         IStartGameListener,
         IPauseGameListener,
@@ -18,7 +20,7 @@ namespace Tavern.Character.Controllers
         private readonly ISpeedable _speedable;
         private Vector3 _direction;
         private readonly ICharacter _character;
-        private bool _enabled;
+        private bool _enable;
 
         public CharacterMoveController(ICharacter character, ISpeedable speedable, 
             IMoveInput moveInput)
@@ -30,6 +32,8 @@ namespace Tavern.Character.Controllers
 
         void IFixedTickable.FixedTick()
         {
+            if (!_enable) return;
+            
             float fixedDeltaTime = Time.fixedDeltaTime;
             Vector3 newPosition = _direction * (fixedDeltaTime * _speedable.GetSpeed());
             if (!InBounds(newPosition))
@@ -37,10 +41,7 @@ namespace Tavern.Character.Controllers
                 OnMove(Vector2.zero);
             }
 
-            if (_enabled)
-            {
-                _movable.OnFixedUpdate(fixedDeltaTime);
-            }
+            _movable.OnFixedUpdate(fixedDeltaTime);
         }
 
         private void OnMove(Vector2 direction)
@@ -59,24 +60,29 @@ namespace Tavern.Character.Controllers
         void IStartGameListener.OnStart()
         {
             _movable = _character.GetMoveComponent();
-            _moveInput.OnMove += OnMove;
-            _enabled = true;
+            Activate();
         }
 
-        void IFinishGameListener.OnFinish()
-        {
-            _moveInput.OnMove -= OnMove;
-            _enabled = false;
-        }
+        void IFinishGameListener.OnFinish() => Deactivate();
 
         void IPauseGameListener.OnPause()
         {
-            _enabled = false;
+            Deactivate();
+            OnMove(Vector2.zero);
         }
 
-        void IResumeGameListener.OnResume()
+        void IResumeGameListener.OnResume() => Activate();
+
+        private void Activate()
         {
-            _enabled = true;
+            _moveInput.OnMove += OnMove;
+            _enable = true;
+        }
+
+        private void Deactivate()
+        {
+            _moveInput.OnMove -= OnMove;
+            _enable = false;
         }
     }
 }

@@ -5,12 +5,17 @@ namespace Tavern.UI.Presenters
     public sealed class PausePresenter : BasePresenter
     {
         private readonly IPauseView _view;
-        private readonly PauseGameController _pauseGameController;
+        private readonly GameCycleController _gameCycleController;
+        private readonly UiManager _uiManager;
 
-        public PausePresenter(IPauseView view, PauseGameController pauseGameController) : base(view)
+        public PausePresenter(
+            IPauseView view, 
+            GameCycleController gameCycleController, 
+            UiManager uiManager) : base(view)
         {
             _view = view;
-            _pauseGameController = pauseGameController;
+            _gameCycleController = gameCycleController;
+            _uiManager = uiManager;
         }
 
         protected override void OnShow()
@@ -25,7 +30,8 @@ namespace Tavern.UI.Presenters
 
         private void OnResume()
         {
-            _pauseGameController.OnPauseResume();            
+            _uiManager.HidePause();
+            _gameCycleController.ResumeGame();            
         }
     }
 }

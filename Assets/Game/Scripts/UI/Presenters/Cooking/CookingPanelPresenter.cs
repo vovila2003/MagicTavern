@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Cooking;
@@ -28,6 +29,7 @@ namespace Tavern.UI.Presenters
         private List<PlantProductItem> _plantProductItems;
         private List<AnimalProductItem> _animalProductItems;
         private KitchenItemConfig _kitchenItemConfig;
+        private Action _onExit;
 
         public CookingPanelPresenter(
             IPanelView view, 
@@ -50,9 +52,10 @@ namespace Tavern.UI.Presenters
             _ingredientsPresenter = factory.CreateCookingIngredientsPresenter(_view.Container, activeRecipe);
         }
         
-        public void Show(KitchenItemConfig kitchenItemConfig)
+        public void Show(KitchenItemConfig kitchenItemConfig, Action onExit)
         {
             _kitchenItemConfig = kitchenItemConfig;
+            _onExit = onExit;
             Show();
         }
 
@@ -85,6 +88,8 @@ namespace Tavern.UI.Presenters
             
             _crafter.OnDishCrafted -= OnDishCrafted;
             _crafter.OnSlopCrafted -= OnSlopCrafted;
+            
+            _onExit?.Invoke();
         }
 
         private void SetupView()

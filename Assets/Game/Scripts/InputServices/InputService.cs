@@ -1,6 +1,5 @@
 using System;
 using JetBrains.Annotations;
-using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
 using VContainer.Unity;
@@ -17,10 +16,6 @@ namespace Tavern.InputServices
         IDodgeInput,
         IMouseInput,
         IPauseInput,
-        IStartGameListener,
-        IFinishGameListener,
-        IPauseGameListener,
-        IResumeGameListener, 
         ITickable
     {
         public event Action OnFire;
@@ -33,36 +28,10 @@ namespace Tavern.InputServices
         public event Action<Vector2> OnMouse;
         public event Action OnPause;
 
-        private Vector2 _direction;
-        private Vector2 _prevDirection;
-        private Vector2 _dodgeDirection;
-        private Vector2 _prevDodgeDirection;
-        private bool _characterManagementInputEnabled;
-
         void ITickable.Tick()
         {
             CheckPause();
             CheckCharacterManagement();
-        }
-
-        void IStartGameListener.OnStart()
-        {
-            _characterManagementInputEnabled = true;
-        }
-
-        void IFinishGameListener.OnFinish()
-        {
-            _characterManagementInputEnabled = false;
-        }
-
-        void IPauseGameListener.OnPause()
-        {
-            _characterManagementInputEnabled = false;
-        }
-
-        void IResumeGameListener.OnResume()
-        {
-            _characterManagementInputEnabled = true;
         }
 
         private void CheckPause()
@@ -75,8 +44,6 @@ namespace Tavern.InputServices
 
         private void CheckCharacterManagement()
         {
-            if (!_characterManagementInputEnabled) return;
-            
             CheckCursor();
             CheckJump();
             CheckFire();
@@ -121,12 +88,7 @@ namespace Tavern.InputServices
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
             
-            _direction = new Vector2(horizontal, vertical).normalized;
-
-            if (_direction == _prevDirection) return;
-            
-            OnMove?.Invoke(_direction);
-            _prevDirection = _direction;
+            OnMove?.Invoke(new Vector2(horizontal, vertical).normalized);
         }
 
         private void CheckBlock()
@@ -153,12 +115,7 @@ namespace Tavern.InputServices
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
             
-            _dodgeDirection = new Vector2(horizontal, vertical).normalized;
-            
-            if (_dodgeDirection == _prevDodgeDirection) return;
-
-            OnDodge?.Invoke(_dodgeDirection);
-            _prevDodgeDirection = _dodgeDirection;
+            OnDodge?.Invoke(new Vector2(horizontal, vertical).normalized);
         }
     }
 }

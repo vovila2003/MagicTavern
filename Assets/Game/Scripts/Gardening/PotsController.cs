@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Modules.GameCycle;
 using Modules.GameCycle.Interfaces;
 using Tavern.ProductsAndIngredients;
 using Tavern.Storages;
@@ -31,8 +30,7 @@ namespace Tavern.Gardening
             ISlopsStorage slopsStorage,
             SeedInventoryContext seedsStorage,
             Pot prefab, 
-            Transform parent, 
-            GameCycle cycle)
+            Transform parent)
         {
             _plantProductsStorage = plantProductsStorage;
             _slopsStorage = slopsStorage;

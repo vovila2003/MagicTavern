@@ -6,27 +6,19 @@ namespace Tavern.UI.Presenters
     [UsedImplicitly]
     public class CommonPresentersFactory
     {
-        private readonly StartGameController _startGameController;
-        private readonly QuitGameController _quitGameController;
-        private readonly PauseGameController _pauseGameController;
+        private readonly GameCycleController _gameCycleController;
 
-
-        public CommonPresentersFactory(
-            StartGameController startGameController, 
-            QuitGameController quitGameController, 
-            PauseGameController pauseGameController)
+        public CommonPresentersFactory(GameCycleController gameCycleController)
         {
-            _startGameController = startGameController;
-            _quitGameController = quitGameController;
-            _pauseGameController = pauseGameController;
+            _gameCycleController = gameCycleController;
         }
 
-        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView) => 
-            new(mainMenuView, _startGameController, _quitGameController);
+        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView, UiManager uiManager) => 
+            new(mainMenuView, _gameCycleController, uiManager);
 
         public HudPresenter CreateHudPresenter(IHudView hudView) => new(hudView);
 
-        public PausePresenter CreatePausePresenter(IPauseView pauseView) => 
-            new(pauseView, _pauseGameController);
+        public PausePresenter CreatePausePresenter(IPauseView pauseView, UiManager uiManager) => 
+            new(pauseView, _gameCycleController, uiManager);
     }
 }

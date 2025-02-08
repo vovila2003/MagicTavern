@@ -10,6 +10,9 @@ namespace Tavern.Settings
     {
         [SerializeField]
         private DishRecipeCatalog DishRecipeCatalog;
+
+        [SerializeField] 
+        private KitchenItemContext KitchenItemPrefab;
         
         [SerializeField]
         private EffectsCatalog EffectsCatalog;
@@ -23,11 +26,11 @@ namespace Tavern.Settings
         [SerializeField] 
         private int MaxDefaultMiniGameTimeInSeconds = 10;
 
-
         public EffectsCatalog Effects => EffectsCatalog;
         public MiniGameConfig DefaultMiniGameConfig  => DefaultMiniGameSettings;
         public int MinDefaultTime => MinDefaultMiniGameTimeInSeconds;
         public int MaxDefaultTime => MaxDefaultMiniGameTimeInSeconds;
         public DishRecipeCatalog DishRecipes => DishRecipeCatalog;
+        public KitchenItemContext KitchenPrefab => KitchenItemPrefab;
     }
 }
