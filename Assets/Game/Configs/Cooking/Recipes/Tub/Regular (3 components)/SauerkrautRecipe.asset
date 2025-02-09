@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
+  m_Name: SauerkrautRecipe
+  m_EditorClassIdentifier: 
+  ResultItemConfig: {fileID: 11400000, guid: 77fb64cd10d7e1c23abc61ec0e302c94, type: 2}
+  TimeInSeconds: 5
+  PlantProductIngredients:
+  - {fileID: 11400000, guid: 08f411c4df31edfe989720c66e7295c6, type: 2}
+  - {fileID: 11400000, guid: 0f6dfa0b0f75316d5b9f79385095ed25, type: 2}
+  - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}
+  AnimalProductIngredients: []
+  RequiredKitchenItem: {fileID: 11400000, guid: 0077f8378351c6a9d9e8e5f53ec5d2da, type: 2}
+  MiniGameConfig:
+    GreenZone: 30
+    YellowZone: 30
+    MinSpeed: 1
+    MaxSpeed: 1.2

@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: DishesCatalog
   m_EditorClassIdentifier: 
   Items:
+  - {fileID: 11400000, guid: e3ba1fcff68964026bf00b2f2d6bcf14, type: 2}
+  - {fileID: 11400000, guid: a6e6b49a77516a61f923c0a0022d0c6c, type: 2}
+  - {fileID: 11400000, guid: 77fb64cd10d7e1c23abc61ec0e302c94, type: 2}
+  - {fileID: 11400000, guid: 88a72b8aa316929b4876642d9e91fa9c, type: 2}
+  - {fileID: 11400000, guid: 49a09d5b979d6ed63a1383a1004c5b65, type: 2}
   - {fileID: 11400000, guid: 88a9af728472458ea850646efd228830, type: 2}
   - {fileID: 11400000, guid: 8dbf02a6dddea5718b6d41e2400c6647, type: 2}
   - {fileID: 11400000, guid: b3b4edfca11de53fb89cfa975a523716, type: 2}
