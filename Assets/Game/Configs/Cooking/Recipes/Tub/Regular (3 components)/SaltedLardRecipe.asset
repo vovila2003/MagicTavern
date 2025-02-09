@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
   m_Name: SaltedLardRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: 49a09d5b979d6ed63a1383a1004c5b65, type: 2}
+  ResultItemConfig: {fileID: 11400000, guid: a6e6b49a77516a61f923c0a0022d0c6c, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
   - {fileID: 11400000, guid: b3dc2eaa42773c695a4430daaadaf943, type: 2}
   - {fileID: 11400000, guid: ec16c022118e55774beb0155f7a38dcd, type: 2}
   AnimalProductIngredients:
-  - {fileID: 11400000, guid: 3a8f16ff3cfa3a2aa97c2986d605acf1, type: 2}
+  - {fileID: 11400000, guid: 5fc7bb2d1c17b979983583f41331d8ed, type: 2}
   RequiredKitchenItem: {fileID: 11400000, guid: 0077f8378351c6a9d9e8e5f53ec5d2da, type: 2}
   MiniGameConfig:
     GreenZone: 30
