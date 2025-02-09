@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
@@ -5,6 +6,7 @@ using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
+    [UsedImplicitly]
     public sealed class CharacterDodgeController : 
         IStartGameListener,
         IPauseGameListener,

@@ -15,6 +15,8 @@ namespace Modules.Items
         public bool TryGetItem(string itemName, out ItemConfig<T> itemConfig) => 
             _itemsDict.TryGetValue(itemName, out itemConfig);
 
+        public IReadOnlyCollection<ItemConfig<T>> AllItems => _itemsDict.Values;
+
         [Button]
         private void OnValidate()
         {

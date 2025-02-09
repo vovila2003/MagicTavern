@@ -1,8 +1,10 @@
+using JetBrains.Annotations;
 using Tavern.Components;
 using UnityEngine;
 
 namespace Tavern.Character.Agents
 {
+    [UsedImplicitly]
     public sealed class CharacterAttackAgent 
     {
         private WeaponComponent _weapon;

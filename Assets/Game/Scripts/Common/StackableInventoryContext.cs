@@ -15,6 +15,12 @@ namespace Tavern.Common
         
         [SerializeField]
         private ItemsCatalog<T> ItemsCatalog;
+
+        [SerializeField] 
+        private bool DebugMode;
+
+        [SerializeField, ShowIf("DebugMode")] 
+        private int Count;
         
         private IStackableInventory<T> _inventory;
 
@@ -36,6 +42,16 @@ namespace Tavern.Common
             }
             
             _inventory.Setup(items);
+
+            if (!DebugMode) return;
+            
+            foreach (ItemConfig<T> config in ItemsCatalog.AllItems)
+            {
+                for (var i = 0; i < Count; ++i)
+                {
+                    _inventory.AddItem(config.GetItem().Clone() as T);    
+                }
+            }
         }
 
         private void OnEnable()

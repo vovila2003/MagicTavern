@@ -1,23 +1,6 @@
-using Tavern.Buying;
-using Tavern.Cameras;
-using Tavern.Character.Agents;
-using Tavern.Character.Controllers;
-using Tavern.Character.Visual;
 using Tavern.Components;
-using Tavern.Cooking;
-using Tavern.Cooking.MiniGame;
-using Tavern.Gardening;
-using Tavern.Gardening.Fertilizer;
-using Tavern.Gardening.Medicine;
 using Tavern.InputServices;
-using Tavern.Looting;
-using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
-using Tavern.Storages;
-using Tavern.Storages.CurrencyStorages;
-using Tavern.UI;
-using Tavern.UI.Presenters;
-using Tavern.UI.Views;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -37,26 +20,23 @@ namespace Tavern.Infrastructure
 
         protected override void Configure(IContainerBuilder builder)
         {
-            RegisterCommon(builder);
-            RegisterCharacter(builder);
-            RegisterGame(builder);
-            RegisterUi(builder);
-            RegisterGameCursor(builder);
-            RegisterCamera(builder);
-            RegisterStorages(builder);
-            RegisterGardening(builder);
-            RegisterLooting(builder);
-            RegisterCooking(builder);
-            RegisterShopping(builder);
-        }
-
-        private void RegisterCommon(IContainerBuilder builder)
-        {
-            builder.Register<MovableByRigidbody>(Lifetime.Transient).AsImplementedInterfaces();
+            builder.RegisterEntryPoint<InputService>();
             builder.RegisterInstance(SceneSettings);
+            
+            Character.Character character = CreateCharacter(builder);
+            
+            new CharacterInstaller(GameSettings, character).Install(builder);
+            new GameCycleInstaller().Install(builder);
+            new UiInstaller(UISceneSettings, GameSettings).Install(builder);
+            new CameraInstaller(GameSettings).Install(builder);
+            new StoragesInstaller().Install(builder);
+            new GardeningInstaller(GameSettings, SceneSettings).Install(builder);
+            new LootingInstaller().Install(builder);
+            new CookingInstaller(GameSettings).Install(builder);
+            new ShoppingInstaller().Install(builder);
         }
 
-        private void RegisterCharacter(IContainerBuilder builder)
+        private Character.Character CreateCharacter(IContainerBuilder builder)
         {
             Character.Character character = Instantiate(
                 GameSettings.CharacterSettings.Prefab, 
@@ -70,151 +50,7 @@ namespace Tavern.Infrastructure
                 builder.RegisterComponent(seeder).AsImplementedInterfaces();
             }
 
-            builder.RegisterComponent(character).AsImplementedInterfaces();
-            builder.RegisterInstance(GameSettings.CharacterSettings);
-            builder.Register<CharacterAttackAgent>(Lifetime.Singleton);
-            builder.RegisterEntryPoint<CharacterMoveController>();
-            builder.RegisterEntryPoint<CharacterJumpController>();
-            builder.RegisterEntryPoint<CharacterFireController>();
-            builder.RegisterEntryPoint<CharacterBlockController>();
-            //builder.RegisterEntryPoint<CharacterActionController>();
-            builder.RegisterEntryPoint<CharacterDodgeController>();
-            builder.Register<CharacterAnimatorController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterEntryPoint<InputService>();
-        }
-
-        private void RegisterGame(IContainerBuilder builder)
-        {
-            builder.Register<Modules.GameCycle.GameCycle>(Lifetime.Singleton).AsSelf();
-            builder.RegisterEntryPoint<GameCycleController>().AsSelf();
-            builder.Register<FinishGameController>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-        }
-
-        private void RegisterUi(IContainerBuilder builder)
-        {
-            builder.RegisterInstance(UISceneSettings);
-            builder.RegisterInstance(GameSettings.UISettings);
-
-            builder.RegisterComponentInHierarchy<UiManager>().AsImplementedInterfaces().AsSelf();
-            builder.Register<MouseClickInputService>(Lifetime.Singleton).AsImplementedInterfaces();
-
-            builder.Register<ViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<CommonPresentersFactory>(Lifetime.Singleton);
-            builder.Register<CookingPresentersFactory>(Lifetime.Singleton);
-        }
-
-        private void RegisterGameCursor(IContainerBuilder builder)
-        {
-            builder.RegisterInstance(GameSettings.CursorSettings);
-            builder.Register<GameCursor.GameCursor>(Lifetime.Singleton).AsImplementedInterfaces();
-        }
-
-        private void RegisterCamera(IContainerBuilder builder)
-        {
-            builder.RegisterInstance(GameSettings.CameraSettings);
-            builder.RegisterComponentInHierarchy<CameraSetup>();
-        }
-
-        private void RegisterStorages(IContainerBuilder builder)
-        {
-            builder.Register<PlantProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<PlantProductInventoryContext>();
-            
-            builder.Register<AnimalProductInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<AnimalProductInventoryContext>();
-            
-            builder.Register<SeedInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.RegisterComponentInHierarchy<SeedInventoryContext>();
-            
-            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
-            
-            builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
-        }
-
-        private void RegisterGardening(IContainerBuilder builder)
-        {
-            builder.RegisterInstance(GameSettings.SeedMakerSettings);
-            builder.RegisterInstance(GameSettings.PotPrefab);
-            builder.RegisterComponentInHierarchy<SeedMaker>();
-
-            builder.Register<PotsController>(Lifetime.Singleton)
-                .AsImplementedInterfaces().AsSelf().WithParameter(SceneSettings.WorldTransform);
-            builder.RegisterComponentInHierarchy<PotCreator>();
-            
-            RegisterMedicine(builder);
-            RegisterFertilizer(builder);
-        }
-
-        private void RegisterMedicine(IContainerBuilder builder)
-        {
-            builder.Register<MedicineConsumer>(Lifetime.Singleton).AsSelf();
-            builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
-        }
-
-        private void RegisterFertilizer(IContainerBuilder builder)
-        {
-            builder.Register<FertilizerConsumer>(Lifetime.Singleton).AsSelf();
-            builder.Register<FertilizerInventory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<FertilizerInventoryContext>();
-            
-            builder.RegisterEntryPoint<FertilizerCrafter>().AsSelf();
-            builder.RegisterComponentInHierarchy<FertilizerCrafterContext>();
-        }
-
-        private void RegisterLooting(IContainerBuilder builder)
-        {
-            builder.Register<LootInventory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<LootInventoryContext>();
-        }
-
-        private void RegisterCooking(IContainerBuilder builder)
-        {
-            builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<KitchenInventoryContext>();
-
-            builder.Register<ActiveDishRecipe>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.Register<DishCrafter>(Lifetime.Singleton);
-            
-            builder.Register<DishInventory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<DishInventoryContext>();
-
-            builder.RegisterComponentInHierarchy<DishCookbookContext>();
-            builder.RegisterComponentInHierarchy<DishAutoCookbookContext>();
-            
-            builder.RegisterInstance(GameSettings.CookingSettings);
-
-            builder.Register<RecipeMatcher>(Lifetime.Singleton);
-
-            builder.RegisterEntryPoint<MiniGameInputService>();
-            builder.RegisterEntryPoint<MiniGame>().AsSelf();
-            builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-
-            builder.Register<KitchenItemFactory>(Lifetime.Singleton).AsImplementedInterfaces();
-        }
-
-        private void RegisterShopping(IContainerBuilder builder)
-        {
-            builder.Register<GoodsBuyCondition_CanSpendMoney>(Lifetime.Singleton).AsImplementedInterfaces();
-            
-            builder.Register<GoodsBuyProcessor_SpendMoney>(Lifetime.Singleton).AsImplementedInterfaces();
-            
-            builder.Register<DishItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<FertilizerItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<KitchenItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<LootItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<MedicineItemBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<ProductBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<SeedBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-            
-            builder.Register<WaterBuyCompleter>(Lifetime.Singleton).AsImplementedInterfaces();
-
-            builder.Register<GoodsBuyer>(Lifetime.Singleton).AsSelf();
-
-            builder.RegisterComponentInHierarchy<Shop.Shop>();
-
+            return character;
         }
     }
 }
