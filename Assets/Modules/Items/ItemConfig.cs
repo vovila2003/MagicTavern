@@ -9,7 +9,7 @@ namespace Modules.Items
         private T Item;
         
         [SerializeField]
-        public ItemMetadata Metadata;
+        public Metadata Metadata;
 
         public T GetItem()
         {

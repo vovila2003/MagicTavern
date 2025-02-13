@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: CherryProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695298399633487
     - rid: 909695298399633488
+    - rid: 909695548954247273
   Metadata:
     Title: "\u0412\u0438\u0448\u043D\u044F"
     Description: 
-    Icon: {fileID: -1695590577, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: 604807659, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -34,3 +35,7 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 775e56e5de555c0f7bf1ecbc5a052f53, type: 2}
+    - rid: 909695548954247273
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

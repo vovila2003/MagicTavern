@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: PerchProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695323664547922
+    - rid: 909695548954247252
+    - rid: 909695548954247311
   Metadata:
     Title: "\u041E\u043A\u0443\u043D\u044C"
     Description: "\u0441\u0432\u0435\u0436\u0438\u0439"
-    Icon: {fileID: 681956567, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: 900458496, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -29,3 +31,10 @@ MonoBehaviour:
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 909695548954247252
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 6
+    - rid: 909695548954247311
+      type: {class: ComponentGroupFish, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

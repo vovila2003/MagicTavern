@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: CarrotProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695298399633410
     - rid: 909695298399633411
+    - rid: 909695548954247283
   Metadata:
     Title: "\u041C\u043E\u0440\u043A\u043E\u0432\u044C"
     Description: "\u0421\u043E\u0447\u043D\u0430\u044F"
-    Icon: {fileID: 1288369884, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: -425257391, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -34,3 +35,7 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 74f5d983b4f134ce886b75d09448bb2f, type: 2}
+    - rid: 909695548954247283
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

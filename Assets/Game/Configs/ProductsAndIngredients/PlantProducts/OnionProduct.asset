@@ -14,17 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: OnionProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 1692307273784492042
     - rid: 1692307273784492043
+    - rid: 909695548954247282
   Metadata:
     Title: "\u041B\u0443\u043A"
     Description: "\u0420\u0435\u043F\u0447\u0430\u0442\u044B\u0439"
-    Icon: {fileID: -1518409378, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: 1531189193, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
+    - rid: 909695548954247282
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3
     - rid: 1692307273784492042
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:

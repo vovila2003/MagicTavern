@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: GrilledPotatoes
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247292
   Metadata:
     Title: "\u041A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C \"\u0413\u0440\u0438\u043B\u044C\""
     Description: "\u043A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C, \u0447\u0435\u0441\u043D\u043E\u043A,
@@ -23,4 +24,8 @@ MonoBehaviour:
     Icon: {fileID: 412063318, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247292
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

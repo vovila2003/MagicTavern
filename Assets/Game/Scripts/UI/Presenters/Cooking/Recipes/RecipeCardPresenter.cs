@@ -57,7 +57,7 @@ namespace Tavern.UI.Presenters
 
         private void SetupView(DishRecipe recipe, int stars)
         {
-            ItemMetadata metadata = recipe.ResultItem.GetItem().Metadata;
+            Metadata metadata = recipe.ResultItem.GetItem().Metadata;
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
             _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");

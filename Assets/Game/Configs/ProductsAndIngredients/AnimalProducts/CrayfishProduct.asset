@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: CrayfishProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695323664547922
+    - rid: 909695548954247249
+    - rid: 909695548954247313
   Metadata:
     Title: "\u0420\u0430\u043A"
     Description: "\u0416\u0438\u0432\u043E\u0439"
-    Icon: {fileID: -98124923, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: -1014797376, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -29,3 +31,10 @@ MonoBehaviour:
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 909695548954247249
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 11
+    - rid: 909695548954247313
+      type: {class: ComponentGroupFish, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

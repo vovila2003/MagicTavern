@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: GrilledVegetableMix
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247278
   Metadata:
     Title: "\u041E\u0432\u043E\u0449\u043D\u043E\u0439 \u043C\u0438\u043A\u0441 \"\u0413\u0440\u0438\u043B\u044C\""
     Description: "\u0441\u043B\u0430\u0434\u043A\u0438\u0439 \u043F\u0435\u0440\u0435\u0446,
@@ -23,4 +24,8 @@ MonoBehaviour:
     Icon: {fileID: -1676933085, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247278
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

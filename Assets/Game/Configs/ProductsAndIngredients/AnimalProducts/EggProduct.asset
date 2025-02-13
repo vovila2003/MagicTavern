@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: EggProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695323664547922
+    - rid: 909695548954247251
+    - rid: 909695548954247314
   Metadata:
     Title: "\u042F\u0439\u0446\u043E"
     Description: "\u043A\u0443\u0440\u0438\u043D\u043E\u0435"
-    Icon: {fileID: -848428478, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: 1085749078, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -29,3 +31,10 @@ MonoBehaviour:
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 909695548954247251
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 2
+    - rid: 909695548954247314
+      type: {class: ComponentGroupMeat, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

@@ -6,7 +6,7 @@ namespace Tavern.Cooking
     [Serializable]
     public class KitchenItem : Item
     {
-        public KitchenItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
+        public KitchenItem(string name, ItemFlags flags, Metadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }

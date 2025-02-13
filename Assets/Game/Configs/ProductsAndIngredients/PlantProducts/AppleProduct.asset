@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: AppleProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695298399633487
     - rid: 909695298399633488
+    - rid: 909695548954247255
   Metadata:
     Title: "\u042F\u0431\u043B\u043E\u043A\u043E"
     Description: "\u0445\u0440\u0443\u0441\u0442\u044F\u0449\u0435\u0435"
-    Icon: {fileID: 692514547, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: -1130409192, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -34,3 +35,7 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 95ef3641479aaeeac933198fcde4e268, type: 2}
+    - rid: 909695548954247255
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

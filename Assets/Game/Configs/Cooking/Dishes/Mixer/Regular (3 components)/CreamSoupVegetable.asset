@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: CreamSoupVegetable
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247288
   Metadata:
     Title: "\u041A\u0440\u0435\u043C-\u0441\u0443\u043F \"\u041E\u0432\u043E\u0449\u043D\u043E\u0439\""
     Description: "\u043A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C, \u043A\u0430\u043F\u0443\u0441\u0442\u0430,
@@ -23,4 +24,8 @@ MonoBehaviour:
     Icon: {fileID: 1905072888, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247288
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 2

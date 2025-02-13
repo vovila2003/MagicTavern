@@ -10,7 +10,7 @@ namespace Tavern.Cooking
         [ShowInInspector, ReadOnly]
         public bool IsExtra { get; set; }
         
-        public DishItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
+        public DishItem(string name, ItemFlags flags, Metadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }

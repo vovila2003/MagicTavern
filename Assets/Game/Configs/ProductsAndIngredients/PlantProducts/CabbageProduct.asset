@@ -14,17 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: CabbageProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 1692307273784492042
     - rid: 1692307273784492043
+    - rid: 909695548954247281
   Metadata:
     Title: "\u041A\u0430\u043F\u0443\u0441\u0442\u0430"
     Description: "\u0431\u0435\u043B\u043E\u043A\u0430\u0447\u0430\u043D\u043D\u0430\u044F"
-    Icon: {fileID: 874983534, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: 558595991, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
+    - rid: 909695548954247281
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3
     - rid: 1692307273784492042
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:

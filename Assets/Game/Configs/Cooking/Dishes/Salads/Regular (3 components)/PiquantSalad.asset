@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: PiquantSalad
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247279
   Metadata:
     Title: "\u0421\u0430\u043B\u0430\u0442 \"\u041F\u0438\u043A\u0430\u043D\u0442\u043D\u044B\u0439\""
     Description: "\u043C\u043E\u0440\u043A\u043E\u0432\u044C, \u0447\u0435\u0441\u043D\u043E\u043A,
@@ -23,4 +24,8 @@ MonoBehaviour:
     Icon: {fileID: 594342659, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247279
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 2

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: FruitCocktail
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247276
   Metadata:
     Title: "\u0424\u0440\u0443\u043A\u0442\u043E\u0432\u044B\u0439 \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u044C "
     Description: "\u0433\u0440\u0443\u0448\u0430, \u044F\u0431\u043B\u043E\u043A\u043E,
@@ -23,4 +24,8 @@ MonoBehaviour:
     Icon: {fileID: 228995929, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247276
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 2

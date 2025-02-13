@@ -14,12 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: FriedChicken
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247291
   Metadata:
     Title: "\u0416\u0430\u0440\u0435\u043D\u0430\u044F \u043A\u0443\u0440\u0438\u0446\u0430"
     Description: "\u043A\u0443\u0440\u0438\u0446\u0430, \u043B\u0443\u043A, \u0447\u0435\u0441\u043D\u043E\u043A"
     Icon: {fileID: 1971839807, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247291
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

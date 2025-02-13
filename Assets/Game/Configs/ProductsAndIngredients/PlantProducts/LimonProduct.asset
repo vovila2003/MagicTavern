@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: LemonProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695298399633483
     - rid: 909695298399633484
+    - rid: 909695548954247264
   Metadata:
     Title: "\u041B\u0438\u043C\u043E\u043D"
     Description: "\u043A\u0438\u0441\u043B\u044B\u0439"
-    Icon: {fileID: 2081624559, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: 1665775820, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -34,3 +35,7 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: a0ee1a0669d258c4c8ab7912645341e0, type: 2}
+    - rid: 909695548954247264
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

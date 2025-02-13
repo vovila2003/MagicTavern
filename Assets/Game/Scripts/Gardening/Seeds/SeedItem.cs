@@ -6,7 +6,7 @@ namespace Tavern.Gardening
     [Serializable]
     public class SeedItem : Item
     {
-        public SeedItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
+        public SeedItem(string name, ItemFlags flags, Metadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }

@@ -1,9 +1,9 @@
-using Modules.Inventories;
 using Modules.Items;
+using Modules.Shopping;
 
 namespace Tavern.Gardening
 {
-    public abstract class PlantItemConfig<T> : StackableItemConfig<T> where T : Item
+    public abstract class PlantItemConfig<T> : SellableStackableItemConfig<T> where T : Item
     {
         protected override void Awake()
         {

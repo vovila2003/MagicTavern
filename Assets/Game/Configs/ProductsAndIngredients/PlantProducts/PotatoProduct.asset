@@ -14,17 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: PotatoProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 1692307273784492042
     - rid: 1692307273784492043
+    - rid: 909695548954247274
   Metadata:
     Title: "\u041A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C"
     Description: "\u041C\u043E\u043B\u043E\u0434\u043E\u0439 "
-    Icon: {fileID: -819537044, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: -1456302726, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
+    - rid: 909695548954247274
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3
     - rid: 1692307273784492042
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:

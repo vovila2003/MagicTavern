@@ -1,4 +1,4 @@
-using Modules.Inventories;
+using Modules.Shopping;
 using UnityEngine;
 
 namespace Tavern.ProductsAndIngredients
@@ -6,7 +6,7 @@ namespace Tavern.ProductsAndIngredients
     [CreateAssetMenu(
         fileName = "AnimalProduct",
         menuName = "Settings/Products/Animal Product Config")]
-    public class AnimalProductItemConfig : StackableItemConfig<AnimalProductItem>
+    public class AnimalProductItemConfig : SellableStackableItemConfig<AnimalProductItem>
     {
     }
 }

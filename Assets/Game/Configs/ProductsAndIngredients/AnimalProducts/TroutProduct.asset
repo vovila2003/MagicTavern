@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: TroutProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695323664547922
+    - rid: 909695548954247254
+    - rid: 909695548954247310
   Metadata:
     Title: "\u0424\u043E\u0440\u0435\u043B\u044C"
     Description: "\u0420\u0430\u0434\u0443\u0436\u043D\u0430\u044F"
@@ -29,3 +31,10 @@ MonoBehaviour:
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 909695548954247254
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 12
+    - rid: 909695548954247310
+      type: {class: ComponentGroupFish, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

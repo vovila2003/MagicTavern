@@ -6,7 +6,7 @@ namespace Tavern.Looting
     [Serializable]
     public class LootItem : Item
     {
-        public LootItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
+        public LootItem(string name, ItemFlags flags, Metadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }

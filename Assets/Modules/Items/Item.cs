@@ -19,12 +19,12 @@ namespace Modules.Items
         
         public string ItemName => Name;
         public ItemFlags ItemFlags => Flags;
-        public ItemMetadata Metadata {get; set; }
+        public Metadata Metadata {get; set; }
 
         public Item(
             string name,
             ItemFlags flags,
-            ItemMetadata metadata,
+            Metadata metadata,
             params IItemComponent[] attributes)
         {
             Name = name;

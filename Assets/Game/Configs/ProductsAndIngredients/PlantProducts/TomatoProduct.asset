@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: TomatoProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695298399633483
     - rid: 909695298399633484
+    - rid: 909695548954247287
   Metadata:
     Title: "\u041F\u043E\u043C\u0438\u0434\u043E\u0440"
     Description: "\u041A\u0440\u0430\u0441\u043D\u044B\u0439"
-    Icon: {fileID: 862406917, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: -2097573776, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -34,3 +35,7 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 193cd6c3ccc5001bcade2a71bcfd3194, type: 2}
+    - rid: 909695548954247287
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: PorkProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695323664547922
+    - rid: 909695548954247253
+    - rid: 909695548954247315
   Metadata:
     Title: "\u0421\u0432\u0438\u043D\u0438\u043D\u0430"
     Description: "\u0436\u0438\u0440\u043D\u0430\u044F"
-    Icon: {fileID: -731707277, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: 1834459852, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -29,3 +31,10 @@ MonoBehaviour:
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 909695548954247253
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 10
+    - rid: 909695548954247315
+      type: {class: ComponentGroupMeat, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

@@ -6,7 +6,7 @@ namespace Tavern.Gardening.Medicine
     [Serializable]
     public class MedicineItem : Item
     {
-        public MedicineItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
+        public MedicineItem(string name, ItemFlags flags, Metadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }

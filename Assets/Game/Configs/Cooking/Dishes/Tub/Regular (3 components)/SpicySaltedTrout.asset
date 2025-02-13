@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: SpicySaltedTrout
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247298
   Metadata:
     Title: "\u0424\u043E\u0440\u0435\u043B\u044C \"\u041F\u0440\u044F\u043D\u043E\u0433\u043E
       \u043F\u043E\u0441\u043E\u043B\u0430\""
@@ -24,4 +25,8 @@ MonoBehaviour:
     Icon: {fileID: 1592364421, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247298
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 2

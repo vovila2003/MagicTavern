@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: VegetableSalad
-    Flags: 0
-    Components: []
+    Flags: 16
+    Components:
+    - rid: 909695548954247258
   Metadata:
     Title: "\u0421\u0430\u043B\u0430\u0442 \"\u041E\u0432\u043E\u0449\u043D\u043E\u0439\""
     Description: "\u043F\u043E\u043C\u0438\u0434\u043E\u0440, \u043E\u0433\u0443\u0440\u0435\u0446,
@@ -23,4 +24,8 @@ MonoBehaviour:
     Icon: {fileID: -1202601056, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 909695548954247258
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 2

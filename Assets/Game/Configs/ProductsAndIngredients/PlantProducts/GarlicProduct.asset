@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item:
     Name: GarlicProduct
-    Flags: 1
+    Flags: 17
     Components:
     - rid: 909695298399633410
     - rid: 909695298399633411
+    - rid: 909695548954247268
   Metadata:
     Title: "\u0427\u0435\u0441\u043D\u043E\u043A"
     Description: "\u0436\u0433\u0443\u0447\u0438\u0439"
-    Icon: {fileID: 1494106713, guid: a026d8218c1f2b7fda79d7c6368a929c, type: 3}
+    Icon: {fileID: -1379498240, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
@@ -34,3 +35,7 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: b80a6e68607f686ec9bd69c4b0fed401, type: 2}
+    - rid: 909695548954247268
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

@@ -6,7 +6,7 @@ namespace Tavern.Gardening.Fertilizer
     [Serializable]
     public class FertilizerItem : Item
     {
-        public FertilizerItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
+        public FertilizerItem(string name, ItemFlags flags, Metadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }

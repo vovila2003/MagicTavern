@@ -4,9 +4,9 @@ using Modules.Items;
 namespace Tavern.ProductsAndIngredients
 {
     [Serializable]
-    public class PlantProductItem : Item
+    public class PlantProductItem : ProductItem
     {
-        public PlantProductItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
+        public PlantProductItem(string name, ItemFlags flags, Metadata metadata, params IItemComponent[] attributes) 
             : base(name, flags, metadata, attributes)
         {
         }
