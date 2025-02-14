@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
   m_Name: SiderRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: 88a72b8aa316929b4876642d9e91fa9c, type: 2}
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: 88a72b8aa316929b4876642d9e91fa9c, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
   - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}

@@ -6,36 +6,37 @@ namespace Modules.Crafting
 {
     public class Cookbook<T> where T : Item
     {
-        public event Action<ItemRecipe<T>> OnRecipeAdded;
-        public event Action<ItemRecipe<T>> OnRecipeRemoved;
+        public event Action<ItemRecipe> OnRecipeAdded;
+        public event Action<ItemRecipe> OnRecipeRemoved;
         
-        private readonly Dictionary<string, ItemRecipe<T>> _recipes = new();
-        private readonly Dictionary<ItemConfig<T>, ItemRecipe<T>> _recipesByConfig = new();
+        private readonly Dictionary<string, ItemRecipe> _recipes = new();
+        private readonly Dictionary<ItemConfig, ItemRecipe> _recipesByConfig = new();
 
-        public IReadOnlyDictionary<string, ItemRecipe<T>> Recipes => _recipes;
+        public IReadOnlyDictionary<string, ItemRecipe> Recipes => _recipes;
 
-        public Cookbook(ItemRecipe<T>[] recipes)
+        public Cookbook(ItemRecipe[] recipes)
         {
-            foreach (ItemRecipe<T> recipe in recipes)
+            foreach (ItemRecipe recipe in recipes)
             {
                 _recipes[recipe.Name] = recipe;
-                _recipesByConfig[recipe.ResultItem] = recipe;
+                _recipesByConfig[recipe.ResultItemConfig] = recipe;
             }
         }
 
-        public bool TryGetRecipeByConfig(ItemConfig<T> itemConfig, out ItemRecipe<T> recipe)
+        public bool TryGetRecipeByConfig(ItemConfig itemConfig, out ItemRecipe recipe)
         {
             return _recipesByConfig.TryGetValue(itemConfig, out recipe);
         }
 
-        public bool TryGetRecipeByName(string recipeName, out ItemRecipe<T> recipe)
+        public bool TryGetRecipeByName(string recipeName, out ItemRecipe recipe)
         {
             return _recipes.TryGetValue(recipeName, out recipe);
         }
 
-        public bool AddRecipe(ItemRecipe<T> recipe)
+        public bool AddRecipe(ItemRecipe recipe)
         {
-            bool result = _recipes.TryAdd(recipe.Name, recipe) && _recipesByConfig.TryAdd(recipe.ResultItem, recipe);
+            bool result = _recipes.TryAdd(recipe.Name, recipe) 
+                && _recipesByConfig.TryAdd(recipe.ResultItemConfig, recipe);
             if (result)
             {
                 OnRecipeAdded?.Invoke(recipe);    
@@ -44,9 +45,9 @@ namespace Modules.Crafting
             return result;
         }
 
-        public bool RemoveRecipeByConfig(ItemRecipe<T> recipe)
+        public bool RemoveRecipeByConfig(ItemRecipe recipe)
         {
-            bool result = _recipes.Remove(recipe.Name) && _recipesByConfig.Remove(recipe.ResultItem);
+            bool result = _recipes.Remove(recipe.Name) && _recipesByConfig.Remove(recipe.ResultItemConfig);
             if (result)
             {
                 OnRecipeRemoved?.Invoke(recipe);    
@@ -57,7 +58,8 @@ namespace Modules.Crafting
         
         public bool RemoveRecipeByName(string name)
         {
-            bool result = _recipes.Remove(name, out ItemRecipe<T> recipe) && _recipesByConfig.Remove(recipe.ResultItem);
+            bool result = _recipes.Remove(name, out ItemRecipe recipe) 
+                && _recipesByConfig.Remove(recipe.ResultItemConfig);
             if (result)
             {
                 OnRecipeRemoved?.Invoke(recipe);      

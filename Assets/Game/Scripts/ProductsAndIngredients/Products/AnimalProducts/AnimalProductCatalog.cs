@@ -6,7 +6,7 @@ namespace Tavern.ProductsAndIngredients
     [CreateAssetMenu(
         fileName = "AnimalProductCatalog", 
         menuName = "Settings/Products/Animal Products Catalog")]
-    public class AnimalProductCatalog : ItemsCatalog<AnimalProductItem>
+    public class AnimalProductCatalog : ItemsCatalog
     {
     }
 }

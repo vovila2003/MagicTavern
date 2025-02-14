@@ -12,30 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: GarlicProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: GarlicProduct
-    Flags: 17
-    Components:
-    - rid: 909695298399633410
-    - rid: 909695298399633411
-    - rid: 909695548954247268
-  Metadata:
-    Title: "\u0427\u0435\u0441\u043D\u043E\u043A"
-    Description: "\u0436\u0433\u0443\u0447\u0438\u0439"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654081
+  - rid: 588217054552654082
+  - rid: 588217054552654083
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: -1379498240, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695298399633410
+    - rid: 588217054552654081
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695298399633411
+    - rid: 588217054552654082
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654083
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: b80a6e68607f686ec9bd69c4b0fed401, type: 2}
-    - rid: 909695548954247268
-      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
-      data:
-        <BasePrice>k__BackingField: 3

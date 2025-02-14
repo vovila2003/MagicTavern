@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
   m_Name: FruitCocktailRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: b3b4edfca11de53fb89cfa975a523716, type: 2}
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: b3b4edfca11de53fb89cfa975a523716, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
   - {fileID: 11400000, guid: eeff7accdd39a1bd28b1921738f39e84, type: 2}

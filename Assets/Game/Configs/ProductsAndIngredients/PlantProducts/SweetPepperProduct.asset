@@ -12,30 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: SweetPepperProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: SweetPepperProduct
-    Flags: 17
-    Components:
-    - rid: 909695298399633487
-    - rid: 909695298399633488
-    - rid: 909695548954247271
-  Metadata:
-    Title: "\u0421\u043B\u0430\u0434\u043A\u0438\u0439 \u043F\u0435\u0440\u0435\u0446"
-    Description: "\u0441\u043E\u0447\u043D\u044B\u0439"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654092
+  - rid: 588217054552654093
+  - rid: 588217054552654094
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: 1063803721, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695298399633487
+    - rid: 588217054552654092
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695298399633488
+    - rid: 588217054552654093
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654094
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: f40612c9970437d0bbcf286af8b94c69, type: 2}
-    - rid: 909695548954247271
-      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
-      data:
-        <BasePrice>k__BackingField: 3

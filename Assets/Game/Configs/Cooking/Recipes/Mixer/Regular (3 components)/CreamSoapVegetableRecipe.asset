@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
   m_Name: CreamSoapVegetableRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: 8dbf02a6dddea5718b6d41e2400c6647, type: 2}
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: 8dbf02a6dddea5718b6d41e2400c6647, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
   - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}

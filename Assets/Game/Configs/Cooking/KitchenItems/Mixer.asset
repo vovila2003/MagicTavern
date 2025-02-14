@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1b78c884d44710b05a7163e314689d, type: 3}
   m_Name: Mixer
   m_EditorClassIdentifier: 
-  Item:
-    Name: Mixer
-    Flags: 0
-    Components: []
-  Metadata:
+  <Flags>k__BackingField: 0
+  Components: []
+  <Metadata>k__BackingField:
     Title: "\u041C\u0438\u043A\u0441\u0435\u0440"
-    Description: "\u0421\u043E\u043A\u0438, \u043F\u044E\u0440\u0435"
+    Description: 
     Icon: {fileID: -1338904164, guid: 079be3b5fcfeff96287ce2b35a54a351, type: 3}
   references:
     version: 2

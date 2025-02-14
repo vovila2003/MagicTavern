@@ -6,7 +6,7 @@ namespace Tavern.Gardening.Medicine
     [CreateAssetMenu(
         fileName = "MedicineCatalog", 
         menuName = "Settings/Gardening/Medicine/Medicine Catalog")]
-    public class MedicineCatalog : ItemsCatalog<MedicineItem>
+    public class MedicineCatalog : ItemsCatalog
     {
     }
 }

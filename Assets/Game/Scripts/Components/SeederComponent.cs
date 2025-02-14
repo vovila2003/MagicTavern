@@ -58,7 +58,7 @@ namespace Tavern.Components
 
             if (pot.IsFertilized) return;
 
-            _fertilizerInventoryContext.Consume(fertilizer.GetItem(), pot);
+            _fertilizerInventoryContext.Consume(fertilizer, pot);
         }
 
         [Button]
@@ -77,7 +77,7 @@ namespace Tavern.Components
         {
             if (!CanHeal(pot, medicine)) return;
 
-            _medicineInventoryContext.Consume(medicine.GetItem(), pot);
+            _medicineInventoryContext.Consume(medicine, pot);
         }
 
         [Button]

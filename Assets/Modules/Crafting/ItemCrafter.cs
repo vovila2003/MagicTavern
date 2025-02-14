@@ -11,7 +11,7 @@ namespace Modules.Crafting
         
         private readonly IInventory<T> _outputInventory;
 
-        private ItemRecipe<T> _currentRecipe;
+        private ItemRecipe _currentRecipe;
         protected readonly Countdown Timer;
 
         protected ItemCrafter(IInventory<T> outputInventory)
@@ -20,9 +20,9 @@ namespace Modules.Crafting
             Timer = new Countdown();
         }
 
-        public abstract bool CanCraft(ItemRecipe<T> recipe);
+        public abstract bool CanCraft(ItemRecipe recipe);
 
-        public void Craft(ItemRecipe<T> recipe)
+        public void Craft(ItemRecipe recipe)
         {
             if (Timer.IsPlaying()) return;
             
@@ -43,7 +43,7 @@ namespace Modules.Crafting
             Timer.OnEnded += OnTimerEnded;
         }
 
-        protected abstract void RemoveIngredientsFromInventories(ItemRecipe<T> recipe);
+        protected abstract void RemoveIngredientsFromInventories(ItemRecipe recipe);
 
         protected void Tick(float deltaTime) => Timer.Tick(deltaTime);
 
@@ -53,9 +53,9 @@ namespace Modules.Crafting
             OnCrafted?.Invoke(item);
         }
 
-        private T AddResultToInventory(ItemRecipe<T> recipe)
+        private T AddResultToInventory(ItemRecipe recipe)
         {
-            var item = recipe.ResultItem.GetItem().Clone() as T;
+            var item = recipe.ResultItemConfig.Create() as T;
             _outputInventory.AddItem(item);
             return item;
         }

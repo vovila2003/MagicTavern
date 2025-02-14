@@ -12,20 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: BakedApple
   m_EditorClassIdentifier: 
-  Item:
-    Name: BakedApple
-    Flags: 16
-    Components:
-    - rid: 909695548954247275
-  Metadata:
-    Title: "\u042F\u0431\u043B\u043E\u043A\u043E \"\u0417\u0430\u043F\u0435\u0447\u0435\u043D\u043D\u043E\u0435\""
-    Description: "\u044F\u0431\u043B\u043E\u043A\u043E, \u0432\u0438\u0448\u043D\u044F,
-      \u043B\u0438\u043C\u043E\u043D"
-    Icon: {fileID: 396313397, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
+  <Flags>k__BackingField: 16
+  Components:
+  - rid: 588217054552653906
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
+    Icon: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247275
+    - rid: 588217054552653906
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 3

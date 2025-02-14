@@ -1,3 +1,4 @@
+using Modules.Items;
 using UnityEngine;
 
 namespace Tavern.Gardening
@@ -5,16 +6,20 @@ namespace Tavern.Gardening
     [CreateAssetMenu(
         fileName = "SeedConfig",
         menuName = "Settings/Gardening/Seeds/Seed Config")]
-    public class SeedItemConfig : PlantItemConfig<SeedItem>
+    public class SeedItemConfig : PlantItemConfig
     {
         protected void OnValidate()
         {
-            SeedItem seedItem = GetItem();
-            if (!seedItem.TryGet(out ComponentPlant component)) return;
+            if (!TryGet(out ComponentPlant component)) return;
             
             if (component.Config is null) return;
             
-            seedItem.SetName(SeedNameProvider.GetName(component.Config.Name));
+            SetName(SeedNameProvider.GetName(component.Config.Name));
+        }
+
+        public override Item Create()
+        {
+            return new SeedItem(this, GetComponentClones());
         }
     }
 }

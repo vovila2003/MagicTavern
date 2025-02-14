@@ -12,29 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1da8507edf74cada287c32abc12f894, type: 3}
   m_Name: CrayfishProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: CrayfishProduct
-    Flags: 17
-    Components:
-    - rid: 909695323664547922
-    - rid: 909695548954247249
-    - rid: 909695548954247313
-  Metadata:
-    Title: "\u0420\u0430\u043A"
-    Description: "\u0416\u0438\u0432\u043E\u0439"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654129
+  - rid: 588217054552654130
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: -1014797376, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695323664547922
+    - rid: 588217054552654129
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695548954247249
+    - rid: 588217054552654130
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
-        <BasePrice>k__BackingField: 11
-    - rid: 909695548954247313
-      type: {class: ComponentGroupFish, ns: Tavern.ProductsAndIngredients, asm: Game}
-      data: 
+        <BasePrice>k__BackingField: 0

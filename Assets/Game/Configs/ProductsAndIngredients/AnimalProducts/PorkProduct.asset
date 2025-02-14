@@ -12,29 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1da8507edf74cada287c32abc12f894, type: 3}
   m_Name: PorkProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: PorkProduct
-    Flags: 17
-    Components:
-    - rid: 909695323664547922
-    - rid: 909695548954247253
-    - rid: 909695548954247315
-  Metadata:
-    Title: "\u0421\u0432\u0438\u043D\u0438\u043D\u0430"
-    Description: "\u0436\u0438\u0440\u043D\u0430\u044F"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654132
+  - rid: 588217054552654133
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: 1834459852, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695323664547922
+    - rid: 588217054552654132
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695548954247253
+    - rid: 588217054552654133
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
-        <BasePrice>k__BackingField: 10
-    - rid: 909695548954247315
-      type: {class: ComponentGroupMeat, ns: Tavern.ProductsAndIngredients, asm: Game}
-      data: 
+        <BasePrice>k__BackingField: 0

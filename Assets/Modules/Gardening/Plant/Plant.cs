@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Gardening
@@ -6,7 +7,7 @@ namespace Modules.Gardening
     [Serializable]
     public class Plant
     {
-        [SerializeField] 
+        [ShowInInspector, ReadOnly] 
         private string Name;
         
         [SerializeField]
@@ -37,5 +38,10 @@ namespace Modules.Gardening
         public int SicknessProbability => BaseProbabilityOfSickness;
         public int SicknessPenalty => PenaltyProbabilityOfSickness;
         public bool CanHaveSeed => CanHarvestHaveSeed;
+
+        public void SetName(string newName)
+        {
+            Name = newName;
+        }
     }
 }

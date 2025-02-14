@@ -12,30 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: CucumberProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: CucumberProduct
-    Flags: 17
-    Components:
-    - rid: 909695298399633485
-    - rid: 909695298399633486
-    - rid: 909695548954247261
-  Metadata:
-    Title: "\u041E\u0433\u0443\u0440\u0435\u0446"
-    Description: "\u043F\u0443\u043F\u044B\u0440\u0447\u0430\u0442\u044B\u0439 \u0441\u043E\u0447\u043D\u044B\u0439"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654072
+  - rid: 588217054552654073
+  - rid: 588217054552654074
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: 581055943, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695298399633485
+    - rid: 588217054552654072
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695298399633486
+    - rid: 588217054552654073
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654074
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: d54f6e9895fa148ccbbac4e8b7392df5, type: 2}
-    - rid: 909695548954247261
-      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
-      data:
-        <BasePrice>k__BackingField: 3

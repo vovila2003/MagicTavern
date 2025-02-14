@@ -12,30 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: CabbageProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: CabbageProduct
-    Flags: 17
-    Components:
-    - rid: 1692307273784492042
-    - rid: 1692307273784492043
-    - rid: 909695548954247281
-  Metadata:
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654038
+  - rid: 588217054552654039
+  - rid: 588217054552654040
+  <Metadata>k__BackingField:
     Title: "\u041A\u0430\u043F\u0443\u0441\u0442\u0430"
-    Description: "\u0431\u0435\u043B\u043E\u043A\u0430\u0447\u0430\u043D\u043D\u0430\u044F"
+    Description: 
     Icon: {fileID: 558595991, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247281
-      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
-      data:
-        <BasePrice>k__BackingField: 3
-    - rid: 1692307273784492042
+    - rid: 588217054552654038
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 1692307273784492043
+    - rid: 588217054552654039
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654040
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: e6f7839f415f1a7a89ffef0beeddf7ef, type: 2}

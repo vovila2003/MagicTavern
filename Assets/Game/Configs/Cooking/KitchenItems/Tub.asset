@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1b78c884d44710b05a7163e314689d, type: 3}
   m_Name: Tub
   m_EditorClassIdentifier: 
-  Item:
-    Name: Tub
-    Flags: 0
-    Components: []
-  Metadata:
+  <Flags>k__BackingField: 0
+  Components: []
+  <Metadata>k__BackingField:
     Title: "\u041A\u0430\u0434\u043A\u0430"
-    Description: "\u0424\u0435\u0440\u043C\u0435\u043D\u0442\u0430\u0446\u0438\u044F,
-      \u0437\u0430\u0441\u043E\u043B\u043A\u0430, \u0431\u0440\u043E\u0436\u0435\u043D\u0438\u0435"
+    Description: 
     Icon: {fileID: -1472556753, guid: 079be3b5fcfeff96287ce2b35a54a351, type: 3}
   references:
     version: 2

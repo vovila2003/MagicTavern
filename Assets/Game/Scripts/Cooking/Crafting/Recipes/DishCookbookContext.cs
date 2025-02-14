@@ -17,7 +17,7 @@ namespace Tavern.Cooking
         protected override void OnAwake()
         {
             base.OnAwake();
-            foreach (ItemRecipe<DishItem> recipe in Recipes.Values)
+            foreach (ItemRecipe recipe in Recipes.Values)
             {
                 AddNewRecipe(recipe);
             }
@@ -34,18 +34,18 @@ namespace Tavern.Cooking
             OnStarsChanged?.Invoke(recipe, count);
         }
 
-        protected override void OnAddRecipe(ItemRecipe<DishItem> recipe)
+        protected override void OnAddRecipe(ItemRecipe recipe)
         {
             AddNewRecipe(recipe);
         }
 
-        protected override void OnRemoveRecipe(ItemRecipe<DishItem> recipe)
+        protected override void OnRemoveRecipe(ItemRecipe recipe)
         {
             if (recipe is not DishRecipe dishRecipe) return;
             _recipeStars.Remove(dishRecipe);
         }
 
-        private void AddNewRecipe(ItemRecipe<DishItem> recipe)
+        private void AddNewRecipe(ItemRecipe recipe)
         {
             if (recipe is not DishRecipe dishRecipe)
                 throw new ArgumentException($"Recipe {recipe.Name} is not a DishRecipe");

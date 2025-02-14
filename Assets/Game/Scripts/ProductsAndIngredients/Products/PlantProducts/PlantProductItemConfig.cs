@@ -1,3 +1,4 @@
+using Modules.Items;
 using Tavern.Gardening;
 using UnityEngine;
 
@@ -6,16 +7,21 @@ namespace Tavern.ProductsAndIngredients
     [CreateAssetMenu(
         fileName = "PlantProduct",
         menuName = "Settings/Products/Plant Product Config")]
-    public class PlantProductItemConfig : PlantItemConfig<PlantProductItem>
+    public class PlantProductItemConfig : PlantItemConfig
     {
+
         protected void OnValidate()
         {
-            PlantProductItem plantProductItem = GetItem();
-            if (!plantProductItem.TryGet(out ComponentPlant component)) return;
+            if (!TryGet(out ComponentPlant component)) return;
             
             if (component.Config is null) return;
             
-            plantProductItem.SetName(PlantProductNameProvider.GetName(component.Config.Name));
+            SetName(PlantProductNameProvider.GetName(component.Config.Name));
+        }
+
+        public override Item Create()
+        {
+            return new PlantProductItem(this, GetComponentClones());
         }
     }
 }

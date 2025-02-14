@@ -32,7 +32,7 @@ namespace Tavern.Gardening.Fertilizer
             
             if (!_fertilizerCrafter.CanCraft(recipe))
             {
-                Debug.Log($"Can't craft dish of name {recipe.ResultItem.GetItem().ItemName}");    
+                Debug.Log($"Can't craft dish of name {recipe.ResultItemConfig.Name}");    
                 return;
             } 
             

@@ -83,7 +83,7 @@ namespace Tavern.UI.Presenters
         {
             KitchenItemConfig requiredKitchen = _activeRecipe.RequiredKitchen;
 
-            foreach (ItemRecipe<DishItem> recipe in _cookbook.Recipes.Values)
+            foreach (ItemRecipe recipe in _cookbook.Recipes.Values)
             {
                 if (recipe is not DishRecipe dishRecipe) continue;
 
@@ -101,14 +101,14 @@ namespace Tavern.UI.Presenters
             recipePresenter.Show(dishRecipe, _cookbook.GetRecipeStars(dishRecipe));
         }
 
-        private void OnRecipeAdded(ItemRecipe<DishItem> recipe)
+        private void OnRecipeAdded(ItemRecipe recipe)
         {
             if (recipe is not DishRecipe dishRecipe) return;
             
             AddPresenter(dishRecipe);
         }
 
-        private void OnRecipeRemoved(ItemRecipe<DishItem> recipe)
+        private void OnRecipeRemoved(ItemRecipe recipe)
         {
             if (recipe is not DishRecipe dishRecipe) return;
 

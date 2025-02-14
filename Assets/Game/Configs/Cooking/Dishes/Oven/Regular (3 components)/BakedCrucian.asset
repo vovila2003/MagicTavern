@@ -12,20 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: BakedCrucian
   m_EditorClassIdentifier: 
-  Item:
-    Name: BakedCrucian
-    Flags: 16
-    Components:
-    - rid: 909695548954247272
-  Metadata:
-    Title: "\u041A\u0430\u0440\u0430\u0441\u044C \"\u0417\u0430\u043F\u0435\u0447\u0435\u043D\u043D\u044B\u0439\""
-    Description: "\u043A\u0430\u0440\u0430\u0441\u044C, \u043B\u0438\u043C\u043E\u043D,
-      \u0437\u0435\u043B\u0435\u043D\u044C"
-    Icon: {fileID: 2007478489, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
+  <Flags>k__BackingField: 16
+  Components:
+  - rid: 588217054552653905
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
+    Icon: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247272
+    - rid: 588217054552653905
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 3

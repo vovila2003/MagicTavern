@@ -12,29 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1da8507edf74cada287c32abc12f894, type: 3}
   m_Name: ChickenProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: ChickenProduct
-    Flags: 17
-    Components:
-    - rid: 909695323664547922
-    - rid: 909695548954247248
-    - rid: 909695548954247309
-  Metadata:
-    Title: "\u041A\u0443\u0440\u0438\u0446\u0430"
-    Description: "\u0442\u0443\u0448\u043A\u0430"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654079
+  - rid: 588217054552654080
+  - rid: 588217054552654138
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: 1114843826, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695323664547922
+    - rid: 588217054552654079
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695548954247248
+    - rid: 588217054552654080
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
-        <BasePrice>k__BackingField: 10
-    - rid: 909695548954247309
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654138
       type: {class: ComponentGroupMeat, ns: Tavern.ProductsAndIngredients, asm: Game}
       data: 

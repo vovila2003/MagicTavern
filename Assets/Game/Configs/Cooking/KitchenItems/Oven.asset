@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1b78c884d44710b05a7163e314689d, type: 3}
   m_Name: Oven
   m_EditorClassIdentifier: 
-  Item:
-    Name: Oven
-    Flags: 0
-    Components: []
-  Metadata:
+  <Flags>k__BackingField: 0
+  Components: []
+  <Metadata>k__BackingField:
     Title: "\u0414\u0443\u0445\u043E\u0432\u043A\u0430"
-    Description: "\u0417\u0430\u043F\u0435\u043A\u0430\u043D\u0438\u0435, \u0442\u043E\u043C\u043B\u0435\u043D\u0438\u0435"
+    Description: 
     Icon: {fileID: 1042244170, guid: 079be3b5fcfeff96287ce2b35a54a351, type: 3}
   references:
     version: 2

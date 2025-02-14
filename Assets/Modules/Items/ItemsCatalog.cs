@@ -5,25 +5,30 @@ using UnityEngine;
 
 namespace Modules.Items
 {
-    public class ItemsCatalog<T> : ScriptableObject where T : Item 
+    public class ItemsCatalog : ScriptableObject  
     {
         [SerializeField] 
-        protected ItemConfig<T>[] Items;
+        protected ItemConfig[] Items;
         
-        private readonly Dictionary<string, ItemConfig<T>> _itemsDict = new();
+        private readonly Dictionary<string, ItemConfig> _itemsDict = new();
 
-        public bool TryGetItem(string itemName, out ItemConfig<T> itemConfig) => 
+        public bool TryGetItem(string itemName, out ItemConfig itemConfig) => 
             _itemsDict.TryGetValue(itemName, out itemConfig);
 
-        public IReadOnlyCollection<ItemConfig<T>> AllItems => _itemsDict.Values;
+        public IReadOnlyCollection<ItemConfig> AllItems => _itemsDict.Values;
 
         [Button]
         private void OnValidate()
         {
             var collection = new Dictionary<string, bool>();
-            foreach (ItemConfig<T> settings in Items)
+            foreach (ItemConfig settings in Items)
             {
-                string itemName = settings.GetItem().ItemName;
+                string itemName = settings.Name;
+                if (itemName == string.Empty)
+                {
+                    Debug.LogWarning($"Item has empty name in catalog");
+                }
+                
                 _itemsDict[itemName] = settings;
                 if (collection.TryAdd(itemName, true))
                 {

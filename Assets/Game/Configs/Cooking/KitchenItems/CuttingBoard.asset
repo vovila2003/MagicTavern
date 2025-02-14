@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1b78c884d44710b05a7163e314689d, type: 3}
   m_Name: CuttingBoard
   m_EditorClassIdentifier: 
-  Item:
-    Name: CuttingBoard
-    Flags: 0
-    Components: []
-  Metadata:
-    Title: "\u0420\u0430\u0437\u0434\u0435\u043B\u043E\u0447\u043D\u0430\u044F \u0434\u043E\u0441\u043A\u0430"
-    Description: "\u041F\u0440\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u0438\u0435
+  <Flags>k__BackingField: 0
+  Components: []
+  <Metadata>k__BackingField:
+    Title: "\u041D\u0430\u0440\u0435\u0437\u043D\u0430\u044F \u0434\u043E\u0441\u043A\u0430"
+    Description: "\u041D\u0435\u0437\u0430\u043C\u0435\u043D\u0438\u043C\u0430 \u0434\u043B\u044F
+      \u043F\u0440\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u0438\u044F
       \u0441\u0430\u043B\u0430\u0442\u043E\u0432"
     Icon: {fileID: 981505016, guid: 079be3b5fcfeff96287ce2b35a54a351, type: 3}
   references:

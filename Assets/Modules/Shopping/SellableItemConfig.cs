@@ -2,17 +2,16 @@ using Modules.Items;
 
 namespace Modules.Shopping
 {
-    public abstract class SellableItemConfig<T> : ItemConfig<T> where T : Item
+    public abstract class SellableItemConfig : ItemConfig
     {
         protected override void Awake()
         {
             base.Awake();
 
-            T item = GetItem();
-            if (item.Has<ComponentSellable>()) return;
+            if (Has<ComponentSellable>()) return;
 
-            item.Components?.Add(new ComponentSellable());
-            item.SetFlags(ItemFlags.Sellable);
+            Components?.Add(new ComponentSellable());
+            SetFlags(ItemFlags.Sellable);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Tavern.Cooking
     [CreateAssetMenu(
         fileName = "DishRecipe",
         menuName = "Settings/Cooking/DishRecipes/Dish Recipe")]
-    public class DishRecipe : ItemRecipe<DishItem>
+    public class DishRecipe : ItemRecipe
     {
         [Title("Ingredients"), Space(10)]
         [SerializeField]
@@ -39,12 +39,12 @@ namespace Tavern.Cooking
             var items = new HashSet<string>();
             foreach (PlantProductItemConfig itemConfig in PlantProductIngredients)
             {
-                CheckDuplicates(items, itemConfig.GetItem().ItemName);
+                CheckDuplicates(items, itemConfig.Name);
             }
             
             foreach (AnimalProductItemConfig itemConfig in AnimalProductIngredients)
             {
-                CheckDuplicates(items, itemConfig.GetItem().ItemName);
+                CheckDuplicates(items, itemConfig.Name);
             }
             
             _stars = items.Count;

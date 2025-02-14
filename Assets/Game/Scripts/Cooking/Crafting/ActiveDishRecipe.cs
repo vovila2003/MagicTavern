@@ -164,7 +164,7 @@ namespace Tavern.Cooking
         {
             foreach (PlantProductItemConfig plantProductConfig in recipe.PlantProducts)
             {
-                string productName = plantProductConfig.GetItem().ItemName;
+                string productName = plantProductConfig.Name;
                 if (_plantProductInventory.IsItemExists(productName))
                 {
                     _items.Add(productName);
@@ -173,7 +173,7 @@ namespace Tavern.Cooking
                 }
                 else
                 {
-                    var fakePlantProduct = plantProductConfig.GetItem().Clone() as PlantProductItem;
+                    var fakePlantProduct = plantProductConfig.Create() as PlantProductItem;
                     _fakePlantProducts.Add(fakePlantProduct);
                 }
             }
@@ -183,7 +183,7 @@ namespace Tavern.Cooking
         {
             foreach (AnimalProductItemConfig itemConfig in recipe.AnimalProducts)
             {
-                string productName = itemConfig.GetItem().ItemName;
+                string productName = itemConfig.Name;
                 if (_animalProductInventory.IsItemExists(productName))
                 {
                     _items.Add(productName);
@@ -192,7 +192,7 @@ namespace Tavern.Cooking
                 }
                 else
                 {
-                    var fakeAnimalProduct = itemConfig.GetItem().Clone() as AnimalProductItem;
+                    var fakeAnimalProduct = itemConfig.Create() as AnimalProductItem;
                     _fakeAnimalProducts.Add(fakeAnimalProduct);
                 }
             }

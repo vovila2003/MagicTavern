@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 namespace Modules.Gardening
@@ -15,5 +16,13 @@ namespace Modules.Gardening
 
         public string Name => Plant.PlantName;
         public PlantMetadata PlantMetadata => Metadata;
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            string path = AssetDatabase.GetAssetPath(this);
+            Plant.SetName(System.IO.Path.GetFileNameWithoutExtension(path));
+#endif
+        }
     }
 }

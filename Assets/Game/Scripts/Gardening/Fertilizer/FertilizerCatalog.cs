@@ -6,7 +6,7 @@ namespace Tavern.Gardening.Fertilizer
     [CreateAssetMenu(
         fileName = "FertilizerCatalog", 
         menuName = "Settings/Gardening/Fertilizer/Fertilizer Catalog")]
-    public class FertilizerCatalog : ItemsCatalog<FertilizerItem>
+    public class FertilizerCatalog : ItemsCatalog
     {
     }
 }

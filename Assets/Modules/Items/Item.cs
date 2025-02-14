@@ -1,60 +1,43 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Modules.Items
 {
     [Serializable]
     public class Item
     {
-        [SerializeField]
-        protected string Name;
-
-        [SerializeField]
-        protected ItemFlags Flags;
+        protected ItemConfig Config;
         
-        [SerializeReference] 
-        public List<IItemComponent> Components;
+        [ShowInInspector, ReadOnly]
+        public string ItemName => Config.Name;
         
-        public string ItemName => Name;
-        public ItemFlags ItemFlags => Flags;
-        public Metadata Metadata {get; set; }
+        [ShowInInspector, ReadOnly]
+        public ItemFlags ItemFlags => Config.Flags;
+        
+        [ShowInInspector, ReadOnly]
+        public Metadata Metadata => Config.Metadata;
+        
+        [ShowInInspector, ReadOnly]
+        private List<IItemComponent> _components;
 
         public Item(
-            string name,
-            ItemFlags flags,
-            Metadata metadata,
+            ItemConfig config,
             params IItemComponent[] attributes)
         {
-            Name = name;
-            Flags = flags;
-            Metadata = metadata;
-            Components = new List<IItemComponent>(attributes);
+            Config = config;
+            _components = new List<IItemComponent>(attributes);
         }
 
-        public void SetFlags(ItemFlags flags) => Flags |= flags;
-        public void ResetFlags(ItemFlags flags) => Flags &= ~flags;
-        
-        public void SetName(string name) => Name = name;
-        
-        public bool TryGet<T>(out T component)
+        public void AddComponent(IItemComponent component)
         {
-            foreach (IItemComponent attribute in Components)
-            {
-                if (attribute is not T tAttribute) continue;
-                
-                component = tAttribute;
-                return true;
-            }
-
-            component = default;
-            return false;
+            _components.Add(component);
         }
         
         public T Get<T>()
         {
-            foreach (IItemComponent attribute in Components)
+            foreach (IItemComponent attribute in _components)
             {
                 if (attribute is T tAttribute)
                 {
@@ -68,7 +51,7 @@ namespace Modules.Items
         public List<T> GetAll<T>()
         {
             var result = new List<T>();
-            foreach (IItemComponent attribute in Components)
+            foreach (IItemComponent attribute in _components)
             {
                 if (attribute is T tAttribute)
                 {
@@ -79,23 +62,23 @@ namespace Modules.Items
             return result;
         }
 
-        public bool Has<T>() => Components.OfType<T>().Any();
+        public bool Has<T>() => _components.OfType<T>().Any();
 
         public virtual Item Clone()
         {
             IItemComponent[] components = GetComponents();
 
-            return new Item(Name, Flags, Metadata, components);
+            return new Item(Config, components);
         }
 
         protected IItemComponent[] GetComponents()
         {
-            int count = Components.Count;
+            int count = _components.Count;
             var components = new IItemComponent[count];
 
             for (var i = 0; i < count; i++)
             {
-                components[i] = Components[i].Clone();
+                components[i] = _components[i].Clone();
             }
 
             return components;

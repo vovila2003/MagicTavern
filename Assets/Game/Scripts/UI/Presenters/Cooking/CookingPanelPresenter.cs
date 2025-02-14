@@ -18,7 +18,7 @@ namespace Tavern.UI.Presenters
         private readonly CookingPresentersFactory _factory;
         private readonly ActiveDishRecipe _activeRecipe;
         private readonly Transform _canvas;
-        private readonly ResourceItemConfig _slopConfig;
+        private readonly SlopsItem _slopsItem;
 
         private readonly CookingRecipesPresenter _recipesPresenter;
         private readonly CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
@@ -37,7 +37,7 @@ namespace Tavern.UI.Presenters
             CookingPresentersFactory factory,
             ActiveDishRecipe activeRecipe,
             Transform canvas,
-            ResourceItemConfig slopConfig
+            SlopsItemConfig slopConfig
             ) : base(view)
         {
             _view = view;
@@ -45,7 +45,7 @@ namespace Tavern.UI.Presenters
             _factory = factory;
             _activeRecipe = activeRecipe;
             _canvas = canvas;
-            _slopConfig = slopConfig;
+            _slopsItem = slopConfig.Create() as SlopsItem;
             _recipesPresenter = factory.CreateLeftGridPresenter(_view.Container);
             _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(
                 _view.Container, activeRecipe);
@@ -137,7 +137,7 @@ namespace Tavern.UI.Presenters
 
         private void OnSlopCrafted(List<PlantProductItem> plantProductItems, List<AnimalProductItem> animalProductItems)
         {
-            ShowInfo(plantProductItems, animalProductItems, _slopConfig.GetItem());
+            ShowInfo(plantProductItems, animalProductItems, _slopsItem);
         }
 
         private void ShowInfo(DishRecipe recipe, Item item)

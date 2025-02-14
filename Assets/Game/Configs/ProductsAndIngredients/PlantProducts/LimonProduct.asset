@@ -12,30 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: LimonProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: LemonProduct
-    Flags: 17
-    Components:
-    - rid: 909695298399633483
-    - rid: 909695298399633484
-    - rid: 909695548954247264
-  Metadata:
-    Title: "\u041B\u0438\u043C\u043E\u043D"
-    Description: "\u043A\u0438\u0441\u043B\u044B\u0439"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654084
+  - rid: 588217054552654085
+  - rid: 588217054552654086
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: 1665775820, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695298399633483
+    - rid: 588217054552654084
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695298399633484
+    - rid: 588217054552654085
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654086
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: a0ee1a0669d258c4c8ab7912645341e0, type: 2}
-    - rid: 909695548954247264
-      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
-      data:
-        <BasePrice>k__BackingField: 3

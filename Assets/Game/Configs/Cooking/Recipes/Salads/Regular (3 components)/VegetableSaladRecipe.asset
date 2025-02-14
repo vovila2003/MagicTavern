@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
   m_Name: VegetableSaladRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: da79f6da19f1c6c13a31779affb291cd, type: 2}
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: da79f6da19f1c6c13a31779affb291cd, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
   - {fileID: 11400000, guid: 653b4ad2938ac6f47a613bd35bc1cf50, type: 2}

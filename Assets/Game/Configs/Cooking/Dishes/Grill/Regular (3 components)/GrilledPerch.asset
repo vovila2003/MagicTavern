@@ -12,20 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: GrilledPerch
   m_EditorClassIdentifier: 
-  Item:
-    Name: GrilledPerch
-    Flags: 16
-    Components:
-    - rid: 909695548954247277
-  Metadata:
-    Title: "\u041E\u043A\u0443\u043D\u044C \"\u0413\u0440\u0438\u043B\u044C\""
-    Description: "\u043E\u043A\u0443\u043D\u044C, \u043B\u0438\u043C\u043E\u043D,
-      \u0437\u0435\u043B\u0435\u043D\u044C"
-    Icon: {fileID: 573441206, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
+  <Flags>k__BackingField: 16
+  Components:
+  - rid: 588217054552653897
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
+    Icon: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247277
+    - rid: 588217054552653897
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 3

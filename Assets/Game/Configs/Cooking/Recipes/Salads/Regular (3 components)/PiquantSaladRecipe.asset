@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
   m_Name: PiquantSaladRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: b7b5670fe014bad1da2892a3b8c07498, type: 2}
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: b7b5670fe014bad1da2892a3b8c07498, type: 2}
   TimeInSeconds: 5
   PlantProductIngredients:
   - {fileID: 11400000, guid: 0f6dfa0b0f75316d5b9f79385095ed25, type: 2}

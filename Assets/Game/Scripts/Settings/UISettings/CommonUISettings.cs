@@ -24,13 +24,13 @@ namespace Tavern.Settings
         private InfoPanelView InfoPanelPrefab;
 
         [SerializeField] 
-        private ResourceItemConfig SlopsConfig;
+        private SlopsItemConfig SlopsConfig;
                 
         public EntityCardSettings EntityCardConfig => EntityCardSettings;
         public ItemCardSettings ItemCardConfig => ItemCardSettings;
         public ContainerView ContainerView => LeftGridPrefab;
         public PanelView Panel => PanelPrefab;
         public InfoPanelView InfoPanel => InfoPanelPrefab;
-        public ResourceItemConfig SlopsSettings => SlopsConfig;
+        public SlopsItemConfig SlopsSettings => SlopsConfig;
     }
 }

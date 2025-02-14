@@ -101,14 +101,14 @@ namespace Tavern.Cooking
                 if (recipe.KitchenItem != _kitchen) continue;
                 
                 var recipeDict = new Dictionary<string, int>();
-                foreach (PlantProductItemConfig plantProduct in recipe.PlantProducts)
+                foreach (PlantProductItemConfig plantProductConfig in recipe.PlantProducts)
                 {
-                    AddToDictionary(recipeDict, plantProduct.GetItem().ItemName);
+                    AddToDictionary(recipeDict, plantProductConfig.Name);
                 }
 
-                foreach (AnimalProductItemConfig animalProduct in recipe.AnimalProducts)
+                foreach (AnimalProductItemConfig animalProductConfig in recipe.AnimalProducts)
                 {
-                    AddToDictionary(recipeDict, animalProduct.GetItem().ItemName);
+                    AddToDictionary(recipeDict, animalProductConfig.Name);
                 }
 
                 if (!_recipes.TryAdd(recipeDict, recipe))

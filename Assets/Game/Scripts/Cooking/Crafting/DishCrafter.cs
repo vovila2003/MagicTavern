@@ -31,7 +31,7 @@ namespace Tavern.Cooking
         public void CraftDish(ActiveDishRecipe activeDishRecipe, bool isExtra)
         {
             DishRecipe recipe = activeDishRecipe.Recipe;
-            if (recipe.ResultItem.GetItem().Clone() is not DishItem result) return;
+            if (recipe.ResultItemConfig.Create() is not DishItem result) return;
             
             result.IsExtra = isExtra;
             
@@ -51,7 +51,7 @@ namespace Tavern.Cooking
             List<ComponentEffect> existed = result.GetAll<ComponentEffect>();
             if (!_effectsCatalog.TryGetRandomEffectExpect(existed, out EffectConfig newEffect)) return;
             
-            result.Components.Add(new ComponentEffect(newEffect));
+            result.AddComponent(new ComponentEffect(newEffect));
         }
 
         public void MakeSlops(ActiveDishRecipe activeDishRecipe)

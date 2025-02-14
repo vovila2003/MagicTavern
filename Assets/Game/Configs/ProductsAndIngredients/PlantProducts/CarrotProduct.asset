@@ -12,30 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: CarrotProduct
   m_EditorClassIdentifier: 
-  Item:
-    Name: CarrotProduct
-    Flags: 17
-    Components:
-    - rid: 909695298399633410
-    - rid: 909695298399633411
-    - rid: 909695548954247283
-  Metadata:
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654112
+  - rid: 588217054552654113
+  - rid: 588217054552654114
+  <Metadata>k__BackingField:
     Title: "\u041C\u043E\u0440\u043A\u043E\u0432\u044C"
-    Description: "\u0421\u043E\u0447\u043D\u0430\u044F"
+    Description: 
     Icon: {fileID: -425257391, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695298399633410
+    - rid: 588217054552654112
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 909695298399633411
+    - rid: 588217054552654113
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654114
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 74f5d983b4f134ce886b75d09448bb2f, type: 2}
-    - rid: 909695548954247283
-      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
-      data:
-        <BasePrice>k__BackingField: 3
