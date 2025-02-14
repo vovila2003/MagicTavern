@@ -34,6 +34,7 @@ namespace Tavern.Cooking
         public int StarsCount => _stars;
         public MiniGameConfig GameConfig => MiniGameConfig;
 
+        [Button]
         private void OnValidate()
         {
             var items = new HashSet<string>();

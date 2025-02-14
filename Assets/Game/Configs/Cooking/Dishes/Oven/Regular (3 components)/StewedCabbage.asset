@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: StewedCabbage
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: StewedCabbage
   <Flags>k__BackingField: 16
   Components:
   - rid: 588217054552653908
   <Metadata>k__BackingField:
-    Title: 
-    Description: 
-    Icon: {fileID: 0}
+    Title: "\u041A\u0430\u043F\u0443\u0441\u0442\u0430 \"\u0422\u0443\u0448\u0435\u043D\u0430\u044F\""
+    Description: "\u043A\u0430\u043F\u0443\u0441\u0442\u0430, \u043B\u0443\u043A,
+      \u0447\u0435\u0441\u043D\u043E\u043A"
+    Icon: {fileID: 332147478, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
     RefIds:

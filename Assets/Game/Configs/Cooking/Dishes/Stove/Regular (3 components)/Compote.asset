@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: Compote
   m_EditorClassIdentifier: 
-  Item:
-    Name: Compote
-    Flags: 16
-    Components:
-    - rid: 909695548954247267
-  Metadata:
+  <Name>k__BackingField: Compote
+  <Flags>k__BackingField: 16
+  Components:
+  - rid: 909695571585400907
+  <Metadata>k__BackingField:
     Title: "\u041A\u043E\u043C\u043F\u043E\u0442"
     Description: "\u044F\u0431\u043B\u043E\u043A\u043E, \u0433\u0440\u0443\u0448\u0430,
       \u0432\u0438\u0448\u043D\u044F"
@@ -25,7 +24,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247267
+    - rid: 909695571585400907
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 3

@@ -12,20 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: FriedPotatoes
   m_EditorClassIdentifier: 
-  Item:
-    Name: FriedPotatoes
-    Flags: 16
-    Components:
-    - rid: 909695548954247295
-  Metadata:
-    Title: "\u041A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C \"\u0416\u0430\u0440\u0435\u043D\u044B\u0439\""
+  <Name>k__BackingField: FriedPotatoes
+  <Flags>k__BackingField: 16
+  Components:
+  - rid: 909695571585400911
+  <Metadata>k__BackingField:
+    Title: "\u041A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C \"\u0416\u0430\u0440\u0435\u043D\u044B\u0439\" "
     Description: "\u043A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C, \u043B\u0443\u043A,
       \u0437\u0435\u043B\u0435\u043D\u044C"
     Icon: {fileID: 1063080803, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247295
+    - rid: 909695571585400911
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 3

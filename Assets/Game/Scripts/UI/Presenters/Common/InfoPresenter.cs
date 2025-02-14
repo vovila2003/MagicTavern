@@ -56,7 +56,7 @@ namespace Tavern.UI.Presenters
 
             SetupEffects();
 
-            if (_item is IExtraItem { IsExtra: true })
+            if (_item.Has<ComponentDishExtra>())
             {
                 _view.SetExtra(true);
                 description = $"{FromChef} {description}";

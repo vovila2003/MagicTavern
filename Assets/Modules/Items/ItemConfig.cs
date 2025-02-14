@@ -8,7 +8,7 @@ namespace Modules.Items
 {
     public abstract class ItemConfig : ScriptableObject
     {
-        [ShowInInspector, ReadOnly] 
+        [field: SerializeField, ReadOnly] 
         public string Name { get; private set; }
 
         [field: SerializeField] 
@@ -61,8 +61,6 @@ namespace Modules.Items
         protected virtual void Awake()
         {
             Components ??= new List<IItemComponent>();
-
-            if (Name != string.Empty) return;
         }
 
         protected virtual void OnValidate()

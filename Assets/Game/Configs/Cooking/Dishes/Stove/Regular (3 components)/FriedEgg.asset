@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: FriedEgg
   m_EditorClassIdentifier: 
-  Item:
-    Name: FriedEgg
-    Flags: 16
-    Components:
-    - rid: 909695548954247259
-  Metadata:
+  <Name>k__BackingField: FriedEgg
+  <Flags>k__BackingField: 16
+  Components:
+  - rid: 909695571585400906
+  <Metadata>k__BackingField:
     Title: "\u042F\u0438\u0447\u043D\u0438\u0446\u0430"
     Description: "\u044F\u0439\u0446\u043E, \u0447\u0435\u0441\u043D\u043E\u043A,
       \u043F\u043E\u043C\u0438\u0434\u043E\u0440"
@@ -25,7 +24,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247259
+    - rid: 909695571585400906
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 3

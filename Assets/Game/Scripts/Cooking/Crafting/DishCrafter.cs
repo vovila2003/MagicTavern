@@ -33,11 +33,10 @@ namespace Tavern.Cooking
             DishRecipe recipe = activeDishRecipe.Recipe;
             if (recipe.ResultItemConfig.Create() is not DishItem result) return;
             
-            result.IsExtra = isExtra;
-            
             if (isExtra)
             {
                 ProcessExtra(result);
+                ProcessEffect(result);
             }
             
             activeDishRecipe.SpendIngredients();
@@ -47,6 +46,13 @@ namespace Tavern.Cooking
         }
 
         private void ProcessExtra(DishItem result)
+        {
+            if (result.Has<ComponentDishExtra>()) return;
+            
+            result.AddComponent(new ComponentDishExtra());
+        }
+
+        private void ProcessEffect(DishItem result)
         {
             List<ComponentEffect> existed = result.GetAll<ComponentEffect>();
             if (!_effectsCatalog.TryGetRandomEffectExpect(existed, out EffectConfig newEffect)) return;

@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: FruitCocktail
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: FruitCocktail
   <Flags>k__BackingField: 16
   Components:
   - rid: 588217054552653901
   <Metadata>k__BackingField:
-    Title: 
-    Description: 
-    Icon: {fileID: 0}
+    Title: "\u0424\u0440\u0443\u043A\u0442\u043E\u0432\u044B\u0439 \u043A\u043E\u043A\u0442\u0435\u0439\u043B\u044C"
+    Description: "\u0433\u0440\u0443\u0448\u0430, \u044F\u0431\u043B\u043E\u043A\u043E,
+      \u0441\u043C\u043E\u0440\u043E\u0434\u0438\u043D\u0430"
+    Icon: {fileID: 228995929, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
     RefIds:

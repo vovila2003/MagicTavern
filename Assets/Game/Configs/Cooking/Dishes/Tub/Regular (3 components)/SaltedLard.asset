@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: SaltedLard
   m_EditorClassIdentifier: 
-  Item:
-    Name: SaltedLard
-    Flags: 16
-    Components:
-    - rid: 909695548954247297
-  Metadata:
+  <Name>k__BackingField: SaltedLard
+  <Flags>k__BackingField: 16
+  Components:
+  - rid: 909695571585400912
+  <Metadata>k__BackingField:
     Title: "\u0421\u0430\u043B\u043E \u0421\u043E\u043B\u0435\u043D\u043E\u0435"
     Description: "\u0441\u0432\u0438\u043D\u0438\u043D\u0430, \u0447\u0435\u0441\u043D\u043E\u043A,
       \u0437\u0435\u043B\u0435\u043D\u044C"
@@ -25,7 +24,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 909695548954247297
+    - rid: 909695571585400912
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 2

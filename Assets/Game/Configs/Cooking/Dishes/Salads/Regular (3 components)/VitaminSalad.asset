@@ -12,17 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc1c8023254327a839fb1f069c513a, type: 3}
   m_Name: VitaminSalad
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: VitaminSalad
   <Flags>k__BackingField: 16
   Components:
   - rid: 588217054552653983
   <Metadata>k__BackingField:
-    Title: 
-    Description: 
-    Icon: {fileID: 0}
+    Title: "\u0421\u0430\u043B\u0430\u0442 \"\u0412\u0438\u0442\u0430\u043C\u0438\u043D\u043D\u044B\u0439\""
+    Description: "\u043A\u0430\u043F\u0443\u0441\u0442\u0430, \u043C\u043E\u0440\u043A\u043E\u0432\u044C,
+      \u043B\u0443\u043A"
+    Icon: {fileID: 715462139, guid: f0ab76bbc5633ad8e9be977b44b630ab, type: 3}
   references:
     version: 2
     RefIds:
     - rid: 588217054552653983
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
-        <BasePrice>k__BackingField: 0
+        <BasePrice>k__BackingField: 2
