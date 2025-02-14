@@ -7,11 +7,8 @@ namespace Tavern.Shopping
     [CreateAssetMenu(
         fileName = "SellerConfig",
         menuName = "Settings/Shopping/Seller Config")]
-    public class SellerConfig : ScriptableObject 
+    public class SellerConfig : NamedConfig 
     {
-        [field: SerializeField]
-        public string Name { get; private set; }
-        
         [field: SerializeField]
         public int StartMoney { get; private set; }
         
@@ -22,7 +19,7 @@ namespace Tavern.Shopping
         public Metadata Metadata { get; private set; }
 
         [field: SerializeField]
-        public ItemConfig[] StartItems { get; private set; }
+        public ItemsCatalog StartItems { get; private set; }
         
         [field: SerializeReference]
         public List<ComponentGroup> Filter { get; private set; }
@@ -34,16 +31,20 @@ namespace Tavern.Shopping
         public int[] Discounts { get; private set; } = new int[7];
         
         [field: SerializeField]
-        public ItemConfig[] Assortment { get; private set; }
+        public ItemsCatalog Assortment { get; private set; }
         
         private void Awake()
         {
             Filter ??= new List<ComponentGroup>();
         }
 
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             Filter ??= new List<ComponentGroup>();
+            
+            //TODO check filter and assortment, startItems
         }
     }
 }

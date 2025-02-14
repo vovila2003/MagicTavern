@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: OnionProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: OnionProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654115
   - rid: 588217054552654116
   - rid: 588217054552654117
+  - rid: 909695571585400953
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u041B\u0443\u043A"
     Description: 
     Icon: {fileID: 1531189193, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 73c3e7bd97df8cd1e9ec65c73a716e46, type: 2}
+    - rid: 909695571585400953
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

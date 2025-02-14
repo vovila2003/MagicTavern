@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: TomatoProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: TomatoProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654119
   - rid: 588217054552654120
   - rid: 588217054552654121
+  - rid: 909695571585400954
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u041F\u043E\u043C\u0438\u0434\u043E\u0440"
     Description: 
     Icon: {fileID: -2097573776, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 193cd6c3ccc5001bcade2a71bcfd3194, type: 2}
+    - rid: 909695571585400954
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

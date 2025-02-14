@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: CherryProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: CherryProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654095
   - rid: 588217054552654096
   - rid: 588217054552654097
+  - rid: 909695571585400956
   <Metadata>k__BackingField:
     Title: "\u0412\u0438\u0448\u043D\u044F"
     Description: 
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 775e56e5de555c0f7bf1ecbc5a052f53, type: 2}
+    - rid: 909695571585400956
+      type: {class: ComponentGroupBerry, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

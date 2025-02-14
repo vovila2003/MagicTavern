@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: CarrotProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: CarrotProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654112
   - rid: 588217054552654113
   - rid: 588217054552654114
+  - rid: 909695571585400952
   <Metadata>k__BackingField:
     Title: "\u041C\u043E\u0440\u043A\u043E\u0432\u044C"
     Description: 
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 74f5d983b4f134ce886b75d09448bb2f, type: 2}
+    - rid: 909695571585400952
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

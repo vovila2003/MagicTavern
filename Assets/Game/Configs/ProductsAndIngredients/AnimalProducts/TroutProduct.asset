@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1da8507edf74cada287c32abc12f894, type: 3}
   m_Name: TroutProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: TroutProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654088
   - rid: 588217054552654089
+  - rid: 909695571585400937
   <Metadata>k__BackingField:
     Title: 
     Description: 
@@ -32,3 +34,6 @@ MonoBehaviour:
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 0
+    - rid: 909695571585400937
+      type: {class: ComponentGroupFish, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

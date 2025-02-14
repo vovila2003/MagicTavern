@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1da8507edf74cada287c32abc12f894, type: 3}
   m_Name: PerchProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: PerchProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654100
   - rid: 588217054552654101
+  - rid: 909695571585400938
   <Metadata>k__BackingField:
     Title: 
     Description: 
@@ -32,3 +34,6 @@ MonoBehaviour:
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 0
+    - rid: 909695571585400938
+      type: {class: ComponentGroupFish, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

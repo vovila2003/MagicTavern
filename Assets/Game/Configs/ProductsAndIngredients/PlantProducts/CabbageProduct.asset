@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: CabbageProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: CabbageProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654038
   - rid: 588217054552654039
   - rid: 588217054552654040
+  - rid: 909695571585400948
   <Metadata>k__BackingField:
     Title: "\u041A\u0430\u043F\u0443\u0441\u0442\u0430"
     Description: 
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: e6f7839f415f1a7a89ffef0beeddf7ef, type: 2}
+    - rid: 909695571585400948
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

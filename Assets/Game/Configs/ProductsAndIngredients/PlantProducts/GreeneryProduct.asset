@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: GreeneryProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: GreeneryProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654075
   - rid: 588217054552654076
   - rid: 588217054552654077
+  - rid: 909695571585400951
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u0417\u0435\u043B\u0435\u043D\u044C"
     Description: 
     Icon: {fileID: 165698487, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: d17d52ec0a4c5d621887b92f60d49fa3, type: 2}
+    - rid: 909695571585400951
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

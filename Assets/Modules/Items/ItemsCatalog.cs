@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Modules.Items
 {
+    [CreateAssetMenu(
+        fileName = "ItemsCatalog", 
+        menuName = "Settings/Items/Items Catalog")]
     public class ItemsCatalog : ScriptableObject  
     {
         [SerializeField] 

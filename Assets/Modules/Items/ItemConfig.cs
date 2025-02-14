@@ -1,16 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
 namespace Modules.Items
 {
-    public abstract class ItemConfig : ScriptableObject
+    public abstract class ItemConfig : NamedConfig
     {
-        [field: SerializeField, ReadOnly] 
-        public string Name { get; private set; }
-
         [field: SerializeField] 
         public ItemFlags Flags { get; private set; }
 
@@ -61,14 +56,6 @@ namespace Modules.Items
         protected virtual void Awake()
         {
             Components ??= new List<IItemComponent>();
-        }
-
-        protected virtual void OnValidate()
-        {
-#if UNITY_EDITOR
-            string path = AssetDatabase.GetAssetPath(this);
-            Name = System.IO.Path.GetFileNameWithoutExtension(path);
-#endif
         }
 
         protected IItemComponent[] GetComponentClones()

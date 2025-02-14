@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: SweetPepperProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: SweetPepperProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654092
   - rid: 588217054552654093
   - rid: 588217054552654094
+  - rid: 909695571585400950
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u0421\u043B\u0430\u0434\u043A\u0438\u0439 \u043F\u0435\u0440\u0435\u0446"
     Description: 
     Icon: {fileID: 1063803721, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: f40612c9970437d0bbcf286af8b94c69, type: 2}
+    - rid: 909695571585400950
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

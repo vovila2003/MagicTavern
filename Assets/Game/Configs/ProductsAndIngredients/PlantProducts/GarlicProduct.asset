@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: GarlicProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: GarlicProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654081
   - rid: 588217054552654082
   - rid: 588217054552654083
+  - rid: 909695571585400949
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u0427\u0435\u0441\u043D\u043E\u043A"
     Description: 
     Icon: {fileID: -1379498240, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: b80a6e68607f686ec9bd69c4b0fed401, type: 2}
+    - rid: 909695571585400949
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 

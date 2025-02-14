@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
   m_Name: PotatoProduct
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: PotatoProduct
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654102
   - rid: 588217054552654103
   - rid: 588217054552654104
+  - rid: 909695571585400947
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u041A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044C"
     Description: 
     Icon: {fileID: -1456302726, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
@@ -37,3 +39,6 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 78459dccb0c144f969a49981fd08dd22, type: 2}
+    - rid: 909695571585400947
+      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
+      data: 
