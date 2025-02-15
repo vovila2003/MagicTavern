@@ -25,26 +25,30 @@ namespace Modules.Inventories
             _items = new List<T>(items);
         }
 
-        public void AddItem(T item)
+        public void AddItem(Item item)
         {
-            if (_items.Contains(item)) return;
+            if (item is not T tItem) return;
             
-            _items.Add(item);
-            _counts.TryAdd(item, 0);
-            _counts[item]++;
-            OnItemAdded?.Invoke(item);
+            if (_items.Contains(tItem)) return;
+            
+            _items.Add(tItem);
+            _counts.TryAdd(tItem, 0);
+            _counts[tItem]++;
+            OnItemAdded?.Invoke(tItem);
         }
         
-        public void RemoveItem(T item)
+        public void RemoveItem(Item item)
         {
-            if (!_items.Remove(item)) return;
+            if (item is not T tItem) return;
             
-            OnItemRemoved?.Invoke(item);
+            if (!_items.Remove(tItem)) return;
             
-            _counts[item]--;
-            if (_counts[item] != 0) return;
+            OnItemRemoved?.Invoke(tItem);
             
-            _counts.Remove(item);
+            _counts[tItem]--;
+            if (_counts[tItem] != 0) return;
+            
+            _counts.Remove(tItem);
         }
 
         public void RemoveItems(string name, int count)
@@ -55,7 +59,7 @@ namespace Modules.Inventories
             }
         }
 
-        public T RemoveItem(string name)
+        public Item RemoveItem(string name)
         {
             if (FindItem(name, out T item))
             {

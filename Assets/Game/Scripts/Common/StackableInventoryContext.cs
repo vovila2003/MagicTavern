@@ -45,7 +45,7 @@ namespace Tavern.Common
 
             if (!DebugMode) return;
             
-            foreach (ItemConfig config in ItemsCatalog.AllItems)
+            foreach (ItemConfig config in ItemsCatalog.Items)
             {
                 for (var i = 0; i < Count; ++i)
                 {

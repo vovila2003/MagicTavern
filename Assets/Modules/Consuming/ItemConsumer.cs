@@ -46,9 +46,8 @@ namespace Modules.Consuming
             {
                 return;
             }
-            
-            T removedItem = _inventory.RemoveItem(name);
-            if (removedItem != null)
+
+            if (_inventory.RemoveItem(name) is T removedItem)
             {
                 OnConsumed(removedItem, target);
             }

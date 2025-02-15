@@ -1,3 +1,4 @@
+using Tavern.Shopping.Buying;
 using VContainer;
 using VContainer.Unity;
 
@@ -7,6 +8,8 @@ namespace Tavern.Infrastructure
     {
         public void Install(IContainerBuilder builder)
         {
+            builder.Register<Buyer>(Lifetime.Singleton);
+
             // builder.Register<GoodsBuyCondition_CanSpendMoney>(Lifetime.Singleton).AsImplementedInterfaces();
             //
             // builder.Register<GoodsBuyProcessor_SpendMoney>(Lifetime.Singleton).AsImplementedInterfaces();

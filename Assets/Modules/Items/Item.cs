@@ -47,6 +47,20 @@ namespace Modules.Items
 
             throw new Exception($"Attribute of type {typeof(T).Name} is not found!");
         }
+        
+        public bool TryGet<T>(out T component)
+        {
+            foreach (IItemComponent attribute in _components)
+            {
+                if (attribute is not T tAttribute) continue;
+                
+                component = tAttribute;
+                return true;
+            }
+
+            component = default;
+            return false;
+        }
 
         public List<T> GetAll<T>()
         {

@@ -7,6 +7,11 @@ namespace Modules.Storages
     [Serializable]
     public class ResourceStorage : StorageInt
     {
+        public ResourceStorage(int value = 0, LimitType limitType = LimitType.Unlimited, int limitValue = 0) 
+            : base(value, limitType, limitValue)
+        {
+        }
+
         public event Action<int> OnResourceStorageAdded;
         public event Action<int> OnResourceStorageChanged;
         public event Action<int> OnResourceStorageValueSpent;
@@ -18,6 +23,9 @@ namespace Modules.Storages
 
         [SerializeField, ShowIf("Limit", LimitType.Limited)]
         private int MaxValue;
+        
+        [ShowInInspector, ReadOnly]
+        private int ResourceValue => Value;
 
         public void Init()
         {

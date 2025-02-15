@@ -168,7 +168,7 @@ namespace Tavern.Cooking
                 if (_plantProductInventory.IsItemExists(productName))
                 {
                     _items.Add(productName);
-                    PlantProductItem plantProduct = _plantProductInventory.RemoveItem(productName);
+                    var plantProduct = _plantProductInventory.RemoveItem(productName) as PlantProductItem;
                     _plantProducts.Add(plantProduct);
                 }
                 else
@@ -187,7 +187,7 @@ namespace Tavern.Cooking
                 if (_animalProductInventory.IsItemExists(productName))
                 {
                     _items.Add(productName);
-                    AnimalProductItem loot = _animalProductInventory.RemoveItem(productName);
+                    var loot = _animalProductInventory.RemoveItem(productName) as AnimalProductItem;
                     _animalProducts.Add(loot);
                 }
                 else

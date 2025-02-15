@@ -8,7 +8,7 @@ namespace Tavern.Shopping
     public class Preference
     {
         [SerializeReference]
-        public ComponentGroup Group;
+        public IComponentGroup Group;
 
         public float Factor;
     }

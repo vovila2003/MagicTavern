@@ -31,13 +31,7 @@ namespace Modules.Items
             return result;
         }
 
-        protected void SetFlags(ItemFlags flags) => Flags |= flags;
-
-        protected void ResetFlags(ItemFlags flags) => Flags &= ~flags;
-
-        protected void SetName(string newName) => Name = newName;
-
-        protected bool TryGet<T>(out T component)
+        public bool TryGet<T>(out T component)
         {
             foreach (IItemComponent attribute in Components)
             {
@@ -50,6 +44,12 @@ namespace Modules.Items
             component = default;
             return false;
         }
+
+        protected void SetFlags(ItemFlags flags) => Flags |= flags;
+
+        protected void ResetFlags(ItemFlags flags) => Flags &= ~flags;
+
+        protected void SetName(string newName) => Name = newName;
 
         protected bool Has<T>() => Components.OfType<T>().Any();
 

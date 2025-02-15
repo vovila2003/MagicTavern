@@ -5,23 +5,18 @@ using UnityEngine;
 
 namespace Modules.Items
 {
-    [CreateAssetMenu(
-        fileName = "ItemsCatalog", 
-        menuName = "Settings/Items/Items Catalog")]
     public class ItemsCatalog : ScriptableObject  
     {
-        [SerializeField] 
-        protected ItemConfig[] Items;
+        [field: SerializeField] 
+        public ItemConfig[] Items { get; protected set; }
         
         private readonly Dictionary<string, ItemConfig> _itemsDict = new();
 
         public bool TryGetItem(string itemName, out ItemConfig itemConfig) => 
             _itemsDict.TryGetValue(itemName, out itemConfig);
 
-        public IReadOnlyCollection<ItemConfig> AllItems => _itemsDict.Values;
-
         [Button]
-        private void OnValidate()
+        private void Validate()
         {
             var collection = new Dictionary<string, bool>();
             foreach (ItemConfig settings in Items)

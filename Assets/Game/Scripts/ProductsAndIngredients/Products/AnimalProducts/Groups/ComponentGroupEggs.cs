@@ -4,7 +4,7 @@ using Modules.Items;
 namespace Tavern.ProductsAndIngredients
 {
     [Serializable]
-    public class ComponentGroupEggs : ComponentGroup
+    public class ComponentGroupEggs : ComponentAnimalProductGroup
     {
         public override IItemComponent Clone()
         {

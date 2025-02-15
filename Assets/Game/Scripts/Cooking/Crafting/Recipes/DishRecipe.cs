@@ -35,7 +35,7 @@ namespace Tavern.Cooking
         public MiniGameConfig GameConfig => MiniGameConfig;
 
         [Button]
-        private void OnValidate()
+        public void Validate()
         {
             var items = new HashSet<string>();
             foreach (PlantProductItemConfig itemConfig in PlantProductIngredients)

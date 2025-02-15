@@ -33,33 +33,37 @@ namespace Modules.Inventories
             }
         }
 
-        public void AddItem(T item)
+        public void AddItem(Item item)
         {
-            if (IsStackable(item))
-            {
-                AddStackable(item);
-            }
-            else
-            {
-                AddSingle(item);
-            }
-        }
-
-        public void RemoveItem(T item)
-        {
-            if (!IsItemExists(item)) return;
+            if (item is not T tItem) return;
             
-            if (IsStackable(item))
+            if (IsStackable(tItem))
             {
-                RemoveStackable(item);
+                AddStackable(tItem);
             }
             else
             {
-                RemoveSingle(item);
+                AddSingle(tItem);
             }
         }
 
-        public T RemoveItem(string name)
+        public void RemoveItem(Item item)
+        {
+            if (item is not T tItem) return;
+            
+            if (!IsItemExists(tItem)) return;
+            
+            if (IsStackable(tItem))
+            {
+                RemoveStackable(tItem);
+            }
+            else
+            {
+                RemoveSingle(tItem);
+            }
+        }
+
+        public Item RemoveItem(string name)
         {
             if (!FindAllItems(name, out List<T> items)) return null;
             

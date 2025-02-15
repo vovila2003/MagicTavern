@@ -21,12 +21,13 @@ namespace Tavern.Cooking
             _recipes.TryGetValue(recipeName, out recipe);
         
         [Button]
-        private void OnValidate()
+        private void Validate()
         {
             _recipes.Clear();
             var collection = new Dictionary<DishRecipe, bool>();
             foreach (DishRecipe recipe in Recipes)
             {
+                recipe.Validate();
                 _recipes.Add(recipe.Name, recipe);
                 if (collection.TryAdd(recipe, true))
                 {

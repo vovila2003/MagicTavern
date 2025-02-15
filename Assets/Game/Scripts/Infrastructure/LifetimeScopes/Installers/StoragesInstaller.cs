@@ -24,6 +24,9 @@ namespace Tavern.Infrastructure
             builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
             
             builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
+            
+            builder.Register<InventoryFacade>(Lifetime.Singleton);
+            builder.RegisterComponentInHierarchy<InventoryFacadeContext>();
         }
     }
 }
