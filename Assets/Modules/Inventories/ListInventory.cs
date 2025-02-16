@@ -69,7 +69,7 @@ namespace Modules.Inventories
             return item;
         }
 
-        public IReadOnlyList<T> GetItems()
+        public IReadOnlyList<Item> GetItems()
         {
             return _items.ToList();
         }

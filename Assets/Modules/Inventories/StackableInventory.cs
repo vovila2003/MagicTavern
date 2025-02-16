@@ -88,7 +88,7 @@ namespace Modules.Inventories
             }
         }
 
-        public IReadOnlyList<T> GetItems() => _listInventory.GetItems();
+        public IReadOnlyList<Item> GetItems() => _listInventory.GetItems();
 
         public int GetItemCount(string name)
         {

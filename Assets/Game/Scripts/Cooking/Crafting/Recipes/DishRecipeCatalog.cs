@@ -19,9 +19,23 @@ namespace Tavern.Cooking
 
         public bool TryGetRecipe(string recipeName, out DishRecipe recipe) => 
             _recipes.TryGetValue(recipeName, out recipe);
-        
+
         [Button]
         private void Validate()
+        {
+            OnValidate();
+        }
+
+        private void Awake()
+        {
+            _recipes.Clear();
+            foreach (DishRecipe recipe in Recipes)
+            {
+                _recipes.Add(recipe.Name, recipe);
+            }
+        }
+
+        private void OnValidate()
         {
             _recipes.Clear();
             var collection = new Dictionary<DishRecipe, bool>();

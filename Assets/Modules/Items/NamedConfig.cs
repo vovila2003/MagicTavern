@@ -1,10 +1,12 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
 namespace Modules.Items
 {
-    public abstract class NamedConfig : ScriptableObject
+    [Serializable]
+    public class NamedConfig : ScriptableObject
     {
         [field: SerializeField, ReadOnly] 
         public string Name { get; protected set; }

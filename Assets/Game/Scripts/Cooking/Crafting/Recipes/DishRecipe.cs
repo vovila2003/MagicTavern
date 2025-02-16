@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Modules.Crafting;
 using Sirenix.OdinInspector;
@@ -36,6 +37,16 @@ namespace Tavern.Cooking
 
         [Button]
         public void Validate()
+        {
+            OnValidate();
+        }
+
+        private void Awake()
+        {
+            _stars = PlantProductIngredients.Length + AnimalProductIngredients.Length;
+        }
+
+        private void OnValidate()
         {
             var items = new HashSet<string>();
             foreach (PlantProductItemConfig itemConfig in PlantProductIngredients)

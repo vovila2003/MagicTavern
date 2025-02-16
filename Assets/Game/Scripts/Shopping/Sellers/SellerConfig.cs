@@ -35,7 +35,10 @@ namespace Tavern.Shopping
         public Preference[] Preferences { get; private set; }
 
         [field: SerializeField]
-        public int[] Discounts { get; private set; } = new int[7];
+        public int[] Discounts { get; private set; } = new int[ShoppingConfig.MaxReputation];
+
+        [field: SerializeField]
+        public int[] Surcharges { get; private set; } = { 30, 27, 23, 20, 17, 13, 10 };
 
         public NpcSeller Create()
         {
@@ -50,6 +53,13 @@ namespace Tavern.Shopping
         [Button]
         private void Validate()
         {
+            OnValidate();
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            
             CheckForSellable(StartItems, "StartItems");
             CheckForSellable(Assortment, "Assortment");
             

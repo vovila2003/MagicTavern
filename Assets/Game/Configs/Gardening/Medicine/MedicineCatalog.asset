@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9240bdaf31714c5da26895ed497a0db0, type: 3}
   m_Name: MedicineCatalog
   m_EditorClassIdentifier: 
-  Items:
+  <Items>k__BackingField:
   - {fileID: 11400000, guid: fd6dbd1002ac8d515bf3a76f8c569bb9, type: 2}

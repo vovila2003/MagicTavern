@@ -10,7 +10,7 @@ namespace Tavern.ProductsAndIngredients
     public class PlantProductItemConfig : PlantItemConfig
     {
 
-        protected void OnValidate()
+        protected override void OnValidate()
         {
             if (!TryGet(out ComponentPlant component)) return;
             

@@ -18,6 +18,19 @@ namespace Modules.Items
         [Button]
         private void Validate()
         {
+            OnValidate();
+        }
+
+        private void Awake()
+        {
+            foreach (ItemConfig settings in Items)
+            {
+                _itemsDict[settings.Name] = settings;
+            }
+        }
+
+        private void OnValidate()
+        {
             var collection = new Dictionary<string, bool>();
             foreach (ItemConfig settings in Items)
             {
@@ -28,7 +41,6 @@ namespace Modules.Items
                     continue;
                 }
                 
-                _itemsDict[itemName] = settings;
                 if (collection.TryAdd(itemName, true))
                 {
                     continue;

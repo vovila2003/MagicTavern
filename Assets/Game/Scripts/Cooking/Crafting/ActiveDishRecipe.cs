@@ -29,8 +29,8 @@ namespace Tavern.Cooking
         private readonly List<PlantProductItem> _spentPlantProducts = new();
         private readonly List<AnimalProductItem> _spentAnimalProducts = new();
 
-
         public DishRecipe Recipe { get; private set; }
+
         public bool IsEmpty => Recipe == null;
 
         public IReadOnlyCollection<Item> PlantProducts => _plantProducts;

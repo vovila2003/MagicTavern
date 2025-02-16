@@ -21,6 +21,14 @@ namespace Tavern.Cooking
             return _prices.TryGetValue(config, out price);
         }
 
+        private void Awake()
+        {
+            foreach (MenuItem menuItem in Prices)
+            {
+                _prices[menuItem.Dish] = menuItem.Price;
+            }
+        }
+
         private void OnValidate()
         {
             var collection = new Dictionary<DishItemConfig, bool>();
@@ -35,7 +43,6 @@ namespace Tavern.Cooking
                     Debug.LogWarning($"Price of dish {dishConfig.Name} must be greater than zero!");
                 } 
                 
-                _prices[dishConfig] = price;
                 if (collection.TryAdd(dishConfig, true))
                 {
                     continue;

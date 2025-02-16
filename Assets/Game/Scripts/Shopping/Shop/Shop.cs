@@ -24,7 +24,7 @@ namespace Tavern.Shopping.Shop
 
         private void Awake()
         {
-            _npcSeller = new NpcSeller(SellerConfig);
+            _npcSeller = SellerConfig.Create();
         }
 
         [Button]
@@ -53,6 +53,12 @@ namespace Tavern.Shopping.Shop
             bool result = Deal.SellFromNpc(_buyer, _npcSeller, itemConfig, price);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
+        }
+
+        [Button]
+        public void SetReputation(int reputation)
+        {
+            _npcSeller.UpdateReputation(reputation);
         }
     }
 }

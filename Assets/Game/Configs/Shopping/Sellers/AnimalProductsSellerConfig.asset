@@ -23,10 +23,12 @@ MonoBehaviour:
       \u0421\u044B\u0440, \u042F\u0439\u0446\u0430"
     Icon: {fileID: 21300000, guid: c1e3b29191c950b479adb3d99a5c1d8a, type: 3}
   Filter:
-  - rid: 909695586510569579
+  - rid: 909695613331570806
   <StartItems>k__BackingField:
   - {fileID: 11400000, guid: 8d8be6ff0e9de29b0b9dfbb1ad0de9d6, type: 2}
   - {fileID: 11400000, guid: eea258ab0413b32bc93438f647ec579c, type: 2}
+  - {fileID: 11400000, guid: f1605921c65a5ae859e0fe56e22c3a88, type: 2}
+  - {fileID: 11400000, guid: 5fc7bb2d1c17b979983583f41331d8ed, type: 2}
   <Assortment>k__BackingField:
   - {fileID: 11400000, guid: 8d8be6ff0e9de29b0b9dfbb1ad0de9d6, type: 2}
   - {fileID: 11400000, guid: eea258ab0413b32bc93438f647ec579c, type: 2}
@@ -43,7 +45,8 @@ MonoBehaviour:
   - Group:
       rid: 909695586510569556
     Factor: 0.9
-  <Discounts>k__BackingField: 00000000000000000000000000000000000000000000000000000000
+  <Discounts>k__BackingField: 00000000050000000a0000000f00000014000000190000001e000000
+  <Surcharges>k__BackingField: 1e0000001b0000001700000014000000110000000d0000000a000000
   references:
     version: 2
     RefIds:
@@ -53,6 +56,6 @@ MonoBehaviour:
     - rid: 909695586510569556
       type: {class: ComponentGroupEggs, ns: Tavern.ProductsAndIngredients, asm: Game}
       data: 
-    - rid: 909695586510569579
-      type: {class: ComponentAnimalProductGroup, ns: Tavern.ProductsAndIngredients, asm: Game}
+    - rid: 909695613331570806
+      type: {class: ComponentFilterAnimalProductGroup, ns: Tavern.ProductsAndIngredients, asm: Game}
       data: 

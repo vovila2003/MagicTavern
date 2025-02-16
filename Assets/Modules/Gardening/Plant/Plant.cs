@@ -7,7 +7,7 @@ namespace Modules.Gardening
     [Serializable]
     public class Plant
     {
-        [ShowInInspector, ReadOnly] 
+        [SerializeField, ReadOnly] 
         private string Name;
         
         [SerializeField]

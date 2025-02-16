@@ -4,6 +4,7 @@ using Modules.Items;
 using Modules.Storages;
 using Sirenix.OdinInspector;
 using Tavern.Shopping.Buying;
+using UnityEngine;
 
 namespace Tavern.Shopping
 {
@@ -38,7 +39,19 @@ namespace Tavern.Shopping
             AddItems(_config.Assortment);
             _moneyStorage.Add(_config.WeeklyMoneyBonus);
         }
-        
+
+        public void UpdateReputation(int newReputation)
+        {
+            if (newReputation < 0 || newReputation >= ShoppingConfig.MaxReputation)
+            {
+                Debug.LogError($"Reputation must be between 0 and {ShoppingConfig.MaxReputation - 1}");
+                return;
+            }
+            
+            CurrentReputation = newReputation;
+            RecalculatePrices();
+        }
+
         public (bool, int) GetItemPrice(ItemConfig itemConfig) => 
             !_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? (false, 0) : (true, info.Price);
 
@@ -88,6 +101,17 @@ namespace Tavern.Shopping
             if (!hasPrice) return;
                 
             _items.Add(itemConfig.Name, new ItemInfoByConfig(itemConfig, price));
+        }
+
+        private void RecalculatePrices()
+        {
+            foreach (ItemInfoByConfig info in _items.Values)
+            {
+                (bool hasPrice, int price) = PriceCalculator.GetPrice(_config, info.Item, CurrentReputation);
+                if (!hasPrice) continue;
+                
+                info.Price = price;
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d60ece6049f46e6862e4ac66b2fa9cb, type: 3}
   m_Name: PlantProductCatalog
   m_EditorClassIdentifier: 
-  Items:
+  <Items>k__BackingField:
   - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}
   - {fileID: 11400000, guid: 08f411c4df31edfe989720c66e7295c6, type: 2}
   - {fileID: 11400000, guid: 0f6dfa0b0f75316d5b9f79385095ed25, type: 2}

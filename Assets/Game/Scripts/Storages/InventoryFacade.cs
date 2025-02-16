@@ -10,6 +10,8 @@ namespace Tavern.Storages
     {
         [ShowInInspector, ReadOnly]
         private readonly Dictionary<string, IInventoryBase> _inventoryDictionary = new();
+        
+        public Dictionary<string, IInventoryBase>.ValueCollection Inventories => _inventoryDictionary.Values;
 
         public InventoryFacade(IReadOnlyList<IInventoryBase> inventories)
         {

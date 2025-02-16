@@ -19,7 +19,7 @@ MonoBehaviour:
   - rid: 588217054552654133
   - rid: 909695571585400943
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u0421\u0432\u0438\u043D\u0438\u043D\u0430"
     Description: 
     Icon: {fileID: 1834459852, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
@@ -33,7 +33,7 @@ MonoBehaviour:
     - rid: 588217054552654133
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
-        <BasePrice>k__BackingField: 0
+        <BasePrice>k__BackingField: 20
     - rid: 909695571585400943
       type: {class: ComponentGroupMeat, ns: Tavern.ProductsAndIngredients, asm: Game}
       data: 
