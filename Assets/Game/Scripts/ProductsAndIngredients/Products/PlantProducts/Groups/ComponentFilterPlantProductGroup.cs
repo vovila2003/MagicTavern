@@ -4,11 +4,11 @@ using Modules.Items;
 namespace Tavern.ProductsAndIngredients
 {
     [Serializable]
-    public class ComponentAnimalProductGroup : IComponentGroup
+    public class ComponentFilterPlantProductGroup : IComponentGroup
     {
         public virtual IItemComponent Clone()
         {
-            return new ComponentAnimalProductGroup();
+            return new ComponentFilterPlantProductGroup();
         }
     }
 }

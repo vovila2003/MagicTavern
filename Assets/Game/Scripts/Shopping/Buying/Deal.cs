@@ -4,13 +4,13 @@ namespace Tavern.Shopping.Buying
 {
     public static class Deal
     {
-        public static bool Make(IBuyer buyer, Seller seller, ItemConfig itemConfig, int price)
+        public static bool SellFromNpc(IBuyer buyer, NpcSeller npcSeller, ItemConfig itemConfig, int price)
         {
-            if (!buyer.CanBuy(price) || !seller.HasItem(itemConfig)) return false;
+            if (!buyer.CanBuy(price) || !npcSeller.HasItem(itemConfig)) return false;
 
             buyer.GiveMoney(price);
 
-            if (!seller.GiveItem(itemConfig))
+            if (!npcSeller.GiveItem(itemConfig))
             {
                 buyer.TakeMoney(price);
                 return false;
@@ -18,12 +18,12 @@ namespace Tavern.Shopping.Buying
 
             if (!buyer.TakeItem(itemConfig))
             {
-                seller.TakeItem(itemConfig);
+                npcSeller.TakeItem(itemConfig);
                 buyer.TakeMoney(price);
                 return false;
             }
             
-            seller.TakeMoney(price);
+            npcSeller.TakeMoney(price);
 
             return true;
         }

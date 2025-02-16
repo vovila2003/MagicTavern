@@ -37,9 +37,9 @@ namespace Tavern.Shopping
         [field: SerializeField]
         public int[] Discounts { get; private set; } = new int[7];
 
-        public Seller Create()
+        public NpcSeller Create()
         {
-            return new Seller(this);
+            return new NpcSeller(this);
         }
 
         private void Awake()

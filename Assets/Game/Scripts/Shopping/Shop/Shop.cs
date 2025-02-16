@@ -12,7 +12,7 @@ namespace Tavern.Shopping.Shop
         private SellerConfig SellerConfig;
 
         [ShowInInspector, ReadOnly]
-        private Seller _seller;
+        private NpcSeller _npcSeller;
 
         private Buyer _buyer;
 
@@ -24,25 +24,25 @@ namespace Tavern.Shopping.Shop
 
         private void Awake()
         {
-            _seller = new Seller(SellerConfig);
+            _npcSeller = new NpcSeller(SellerConfig);
         }
 
         [Button]
         public void WeeklyUpdate()
         {
-            _seller?.WeeklyUpdate();
+            _npcSeller?.WeeklyUpdate();
         }
 
         [Button]
         public void Buy(ItemConfig itemConfig)
         {
-            if (!_seller.HasItem(itemConfig))
+            if (!_npcSeller.HasItem(itemConfig))
             {
                 Debug.Log($"Shop doesn't have item {itemConfig.Name}");
                 return;
             }
             
-            (bool hasPrice, int price) = _seller.GetItemPrice(itemConfig);
+            (bool hasPrice, int price) = _npcSeller.GetItemPrice(itemConfig);
 
             if (!hasPrice)
             {
@@ -50,7 +50,7 @@ namespace Tavern.Shopping.Shop
                 return;
             }
 
-            bool result = Deal.Make(_buyer, _seller, itemConfig, price);
+            bool result = Deal.SellFromNpc(_buyer, _npcSeller, itemConfig, price);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }

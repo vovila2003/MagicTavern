@@ -8,27 +8,28 @@ using Tavern.Shopping.Buying;
 namespace Tavern.Shopping
 {
     [Serializable]
-    public class Seller
+    public class NpcSeller
     {
         private readonly SellerConfig _config;
         
         [ShowInInspector, ReadOnly]
-        private readonly Dictionary<string, ItemInfo> _items = new();
+        private readonly Dictionary<string, ItemInfoByConfig> _items = new();
         
         [ShowInInspector, ReadOnly]
         private readonly ResourceStorage _moneyStorage;
         
         [ShowInInspector, ReadOnly]
         private readonly List<ItemInfo> _characterItems = new();
-        private readonly PriceCalculator _priceCalculator;
+
+        [ShowInInspector, ReadOnly]
+        public int CurrentReputation { get; private set; }
         
-        public IReadOnlyCollection<ItemInfo> ItemPrices => _items.Values;
+        public IReadOnlyCollection<ItemInfoByConfig> ItemPrices => _items.Values;
         
-        public Seller(SellerConfig config)
+        public NpcSeller(SellerConfig config)
         {
             _config = config;
             _moneyStorage = new ResourceStorage(_config.StartMoney);
-            _priceCalculator = new PriceCalculator(_config);
             AddItems(_config.StartItems);
         }
 
@@ -38,13 +39,14 @@ namespace Tavern.Shopping
             _moneyStorage.Add(_config.WeeklyMoneyBonus);
         }
         
-        public (bool, int) GetItemPrice(ItemConfig itemConfig) => _priceCalculator.GetPrice(itemConfig);
+        public (bool, int) GetItemPrice(ItemConfig itemConfig) => 
+            !_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? (false, 0) : (true, info.Price);
 
         public bool HasItem(ItemConfig itemConfig) => _items.ContainsKey(itemConfig.Name);
 
         public bool GiveItem(ItemConfig itemConfig)
         {
-            if (!_items.TryGetValue(itemConfig.Name, out ItemInfo info)) return false;
+            if (!_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info)) return false;
 
             if (info.Count <= 0)
             {
@@ -75,17 +77,17 @@ namespace Tavern.Shopping
 
         private void AddItem(ItemConfig itemConfig)
         {
-            if (_items.TryGetValue(itemConfig.Name, out ItemInfo itemInfo))
+            if (_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig itemInfo))
             {
                 itemInfo.Count++;
                 return;
             }
                 
-            (bool hasPrice, int price) = _priceCalculator.GetPrice(itemConfig);
+            (bool hasPrice, int price) = PriceCalculator.GetPrice(_config, itemConfig, CurrentReputation);
 
             if (!hasPrice) return;
                 
-            _items.Add(itemConfig.Name, new ItemInfo(itemConfig, price));
+            _items.Add(itemConfig.Name, new ItemInfoByConfig(itemConfig, price));
         }
     }
 }

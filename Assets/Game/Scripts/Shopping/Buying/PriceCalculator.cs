@@ -4,25 +4,44 @@ using UnityEngine;
 
 namespace Tavern.Shopping.Buying
 {
-    public class PriceCalculator
+    public static class PriceCalculator
     {
-        private readonly SellerConfig _config;
-
-        public PriceCalculator(SellerConfig config)
-        {
-            _config = config;
-        }
-
-        public (bool, int) GetPrice(ItemConfig itemConfig)
+        public static (bool, int) GetPrice(SellerConfig sellerConfig, ItemConfig itemConfig, int reputation)
         {
             if (!itemConfig.TryGet(out ComponentSellable componentSellable))
             {
                 Debug.LogError($"item {itemConfig.Name} doesn't have sellable component");
                 return (false, 0);
             }
+
+            float currentPrice = CalculatePriceByPreferences(sellerConfig, itemConfig, componentSellable);
+
+            currentPrice = CalculateDiscount(sellerConfig, reputation, currentPrice);
+
+            return (true, Mathf.RoundToInt(currentPrice));
+        }
+
+        private static float CalculatePriceByPreferences(SellerConfig sellerConfig, ItemConfig itemConfig,
+            ComponentSellable componentSellable)
+        {
+            float price = componentSellable.BasePrice;
+            if (!itemConfig.TryGet(out IComponentGroup componentGroup)) return price;
             
-            //calculate price
-            return (true, componentSellable.BasePrice);
+            var factor = 1f;
+            foreach (Preference preference in sellerConfig.Preferences)
+            {
+                if (componentGroup.GetType() == preference.Group.GetType())
+                {
+                    factor *= preference.Factor;
+                }
+            }
+
+            return factor * price;
+        }
+
+        private static float CalculateDiscount(SellerConfig sellerConfig, int reputation, float currentPrice)
+        {
+            return currentPrice * (1 - sellerConfig.Discounts[reputation] / 100f);
         }
     }
 }
