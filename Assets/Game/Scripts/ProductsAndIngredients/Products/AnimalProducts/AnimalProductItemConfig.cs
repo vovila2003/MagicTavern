@@ -13,5 +13,7 @@ namespace Tavern.ProductsAndIngredients
         {
             return new AnimalProductItem(this, GetComponentClones());
         }
+
+        protected override string GetItemType() => nameof(AnimalProductItem);
     }
 }

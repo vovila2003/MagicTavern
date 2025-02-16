@@ -12,5 +12,7 @@ namespace Tavern.Storages
         {
             return new SlopsItem(this, GetComponentClones());
         }
+
+        protected override string GetItemType() => nameof(SlopsItem);
     }
 }

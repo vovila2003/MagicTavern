@@ -21,5 +21,7 @@ namespace Tavern.Gardening
         {
             return new SeedItem(this, GetComponentClones());
         }
+
+        protected override string GetItemType() => nameof(SeedItem);
     }
 }

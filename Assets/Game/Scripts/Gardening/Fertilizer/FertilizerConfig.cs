@@ -15,6 +15,8 @@ namespace Tavern.Gardening.Fertilizer
             return new FertilizerItem(this, GetComponentClones());
         }
 
+        protected override string GetItemType() => nameof(FertilizerItem);
+
         protected override void Awake()
         {
             base.Awake();

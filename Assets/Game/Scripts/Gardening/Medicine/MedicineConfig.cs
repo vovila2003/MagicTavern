@@ -14,6 +14,8 @@ namespace Tavern.Gardening.Medicine
             return new MedicineItem(this, GetComponentClones());
         }
 
+        protected override string GetItemType() => nameof(MedicineItem);
+
         protected override void Awake()
         {
             base.Awake();

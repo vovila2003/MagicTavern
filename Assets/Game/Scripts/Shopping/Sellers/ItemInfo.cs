@@ -8,11 +8,11 @@ namespace Tavern.Shopping
         public int Price;
         public int Count;
 
-        public ItemInfo(ItemConfig item, int price, int count)
+        public ItemInfo(ItemConfig item, int price)
         {
             Item = item;
             Price = price;
-            Count = count;
+            Count = 1;
         }
     }
 }

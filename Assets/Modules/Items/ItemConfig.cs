@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Modules.Items
@@ -14,6 +15,10 @@ namespace Modules.Items
 
         [field: SerializeField]
         public Metadata Metadata { get; private set; }
+
+        [ShowInInspector] 
+        public string ItemTypeName => GetItemType();
+
 
         public abstract Item Create();
 
@@ -45,6 +50,7 @@ namespace Modules.Items
             return false;
         }
 
+
         protected void SetFlags(ItemFlags flags) => Flags |= flags;
 
         protected void ResetFlags(ItemFlags flags) => Flags &= ~flags;
@@ -52,6 +58,8 @@ namespace Modules.Items
         protected void SetName(string newName) => Name = newName;
 
         protected bool Has<T>() => Components.OfType<T>().Any();
+
+        protected abstract string GetItemType();
 
         protected virtual void Awake()
         {

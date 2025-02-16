@@ -48,6 +48,35 @@ namespace Tavern.Storages
                 Storage.Add(StartValueInStorageInDebugMode);
             }
         }
+        
+        [Button]
+        protected void Add(int value)
+        {
+            bool result = Storage.Add(value);
+
+            Debug.Log($"Add to {Name} storage value {value}: result - {result}");
+        }
+
+        protected bool CanSpend(int value)
+        {
+            return Storage.CanSpend(value);
+        }
+        
+        [Button]
+        protected void Spend(int value)
+        {
+            bool result = Storage.Spend(value);
+
+            Debug.Log($"Spend from {Name} storage value {value}: result - {result}");
+        }
+
+        [Button]
+        protected void ResetStorage()
+        {
+            Storage.Reset();
+
+            Debug.Log($"Reset {Name} storage");
+        }
 
         private void ValueAdded(int value)
         {
@@ -73,29 +102,5 @@ namespace Tavern.Storages
         {
             Debug.Log($"{Name} storage is empty");
         }
-
-        [Button]
-        protected void Add(int value)
-        {
-            bool result = Storage.Add(value);
-
-            Debug.Log($"Add to {Name} storage value {value}: result - {result}");
-        }
-
-        [Button]
-        protected void Spend(int value)
-        {
-            bool result = Storage.Spend(value);
-
-            Debug.Log($"Spend from {Name} storage value {value}: result - {result}");
-        }
-
-        [Button]
-        protected void ResetStorage()
-        {
-            Storage.Reset();
-
-            Debug.Log($"Reset {Name} storage");
-        }     
     }
 }

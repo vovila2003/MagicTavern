@@ -13,6 +13,8 @@ namespace Tavern.Cooking
         {
             return new DishItem(this, GetComponentClones());
         }
+
+        protected override string GetItemType() => nameof(DishItem);
     }
 }
 

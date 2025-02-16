@@ -37,6 +37,8 @@ namespace Tavern.Shopping
             AddItems(_config.Assortment);
             _moneyStorage.Add(_config.WeeklyMoneyBonus);
         }
+        
+        public (bool, int) GetItemPrice(ItemConfig itemConfig) => _priceCalculator.GetPrice(itemConfig);
 
         public bool HasItem(ItemConfig itemConfig) => _items.ContainsKey(itemConfig.Name);
 
@@ -83,7 +85,7 @@ namespace Tavern.Shopping
 
             if (!hasPrice) return;
                 
-            _items.Add(itemConfig.Name, new ItemInfo(itemConfig, price, 1));
+            _items.Add(itemConfig.Name, new ItemInfo(itemConfig, price));
         }
     }
 }

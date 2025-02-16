@@ -4,6 +4,7 @@ namespace Tavern.Storages.CurrencyStorages
     {
         void EarnMoney(int value);
         void SpendMoney(int value);
+        bool CanSpendMoney(int value);
         int Money { get; }
     }
 }

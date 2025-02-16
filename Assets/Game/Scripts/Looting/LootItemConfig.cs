@@ -13,5 +13,7 @@ namespace Tavern.Looting
         {
             return new LootItem(this, GetComponentClones());
         }
+
+        protected override string GetItemType() => nameof(LootItem);
     }
 }

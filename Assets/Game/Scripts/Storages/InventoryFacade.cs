@@ -9,7 +9,7 @@ namespace Tavern.Storages
     public class InventoryFacade
     {
         [ShowInInspector, ReadOnly]
-        private readonly Dictionary<Type, IInventoryBase> _inventoryDictionary = new();
+        private readonly Dictionary<string, IInventoryBase> _inventoryDictionary = new();
 
         public InventoryFacade(IReadOnlyList<IInventoryBase> inventories)
         {
@@ -18,15 +18,14 @@ namespace Tavern.Storages
                 Type inventoryType = inventory.GetType();
                 Type baseType = inventoryType.BaseType;
                 if (baseType is null) continue;
+                
                 Type[] genericTypes = baseType.GenericTypeArguments;
                 if (genericTypes.Length == 0) continue;
-                _inventoryDictionary.Add(genericTypes[0], inventory);
+                
+                _inventoryDictionary.Add(genericTypes[0].Name, inventory);
             }
         }
 
-        public IInventoryBase GetInventory(Type type)
-        {
-            return _inventoryDictionary[type];
-        }
+        public IInventoryBase GetInventory(string type) => _inventoryDictionary[type];
     }
 }

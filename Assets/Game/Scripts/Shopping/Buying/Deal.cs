@@ -8,7 +8,7 @@ namespace Tavern.Shopping.Buying
         {
             if (!buyer.CanBuy(price) || !seller.HasItem(itemConfig)) return false;
 
-            if (!buyer.GiveMoney(price)) return false;
+            buyer.GiveMoney(price);
 
             if (!seller.GiveItem(itemConfig))
             {

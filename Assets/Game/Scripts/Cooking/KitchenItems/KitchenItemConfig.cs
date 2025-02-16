@@ -12,5 +12,7 @@ namespace Tavern.Cooking
         {
             return new KitchenItem(this, GetComponentClones());
         }
+
+        protected override string GetItemType() => nameof(KitchenItem);
     }
 }

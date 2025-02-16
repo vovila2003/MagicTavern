@@ -22,6 +22,9 @@ namespace Modules.Items
         [ShowInInspector, ReadOnly]
         private List<IItemComponent> _components;
 
+        [ShowInInspector, ReadOnly]
+        public string TypeName => Config.ItemTypeName;
+
         public Item(
             ItemConfig config,
             params IItemComponent[] attributes)
