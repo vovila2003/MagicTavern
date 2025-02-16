@@ -38,6 +38,7 @@ namespace Tavern.Cooking
                 if (dishConfig is null) continue;
 
                 float price = menuItem.Price;
+                _prices[menuItem.Dish] = price;
                 if (price <= 0)
                 {
                     Debug.LogWarning($"Price of dish {dishConfig.Name} must be greater than zero!");

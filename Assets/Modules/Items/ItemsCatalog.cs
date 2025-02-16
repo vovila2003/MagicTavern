@@ -35,6 +35,7 @@ namespace Modules.Items
             foreach (ItemConfig settings in Items)
             {
                 string itemName = settings.Name;
+                _itemsDict[settings.Name] = settings;
                 if (itemName is null)
                 {
                     Debug.LogWarning($"Item has empty name in catalog");
