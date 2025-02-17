@@ -7,12 +7,12 @@ using Tavern.Storages.CurrencyStorages;
 namespace Tavern.Shopping
 {
     [UsedImplicitly]
-    public class Buyer : IBuyer
+    public class CharacterBuyer : IBuyer
     {
         private readonly IMoneyStorage _moneyStorage;
         private readonly InventoryFacade _inventories;
 
-        public Buyer(IMoneyStorage moneyStorage, InventoryFacade inventories)
+        public CharacterBuyer(IMoneyStorage moneyStorage, InventoryFacade inventories)
         {
             _moneyStorage = moneyStorage;
             _inventories = inventories;
@@ -20,15 +20,22 @@ namespace Tavern.Shopping
 
         public bool CanBuy(int price) => _moneyStorage.CanSpendMoney(price);
 
-        public void GiveMoney(int price) => _moneyStorage.SpendMoney(price);
+        public void SpendMoney(int price) => _moneyStorage.SpendMoney(price);
 
-        public void TakeMoney(int price) => _moneyStorage.EarnMoney(price);
+        public void EarnMoney(int price) => _moneyStorage.EarnMoney(price);
 
         public bool TakeItem(ItemConfig itemConfig)
         {
             Item item = itemConfig.Create();
-            IInventoryBase inventory = _inventories.GetInventory(itemConfig.ItemTypeName);
+            
+            return TakeItem(item);
+        }
+
+        public bool TakeItem(Item item)
+        {
+            IInventoryBase inventory = _inventories.GetInventory(item.TypeName);
             inventory.AddItem(item);
+            
             return true;
         }
     }    

@@ -23,14 +23,15 @@ namespace Tavern.Shopping
         [ShowInInspector, ReadOnly]
         private CharacterSeller _characterSeller;
         
-        private Buyer _buyer;
+        private CharacterBuyer _characterBuyer;
         
         public SellerConfig SellerConfig { get; private set; }
+        public NpcSeller Seller => _npcSeller;
 
         [Inject]
-        private void Construct(Buyer buyer, CharacterSeller characterSeller)
+        private void Construct(CharacterBuyer characterBuyer, CharacterSeller characterSeller)
         {
-            _buyer = buyer;
+            _characterBuyer = characterBuyer;
             _characterSeller = characterSeller;
         }
 
@@ -54,7 +55,7 @@ namespace Tavern.Shopping
         }
 
         [Button]
-        public void Buy(ItemConfig itemConfig)
+        public void BuyByConfig(ItemConfig itemConfig)
         {
             if (!_npcSeller.HasItem(itemConfig))
             {
@@ -66,11 +67,32 @@ namespace Tavern.Shopping
 
             if (!hasPrice)
             {
-                Debug.Log($"Can't sell item {itemConfig.Name}. Unknown price.");
+                Debug.Log($"Can't buy item {itemConfig.Name}. Unknown price.");
                 return;
             }
 
-            bool result = Deal.BuyFromNpc(_buyer, _npcSeller, itemConfig, price);
+            bool result = Deal.BuyFromNpc(_characterBuyer, _npcSeller, itemConfig, price);
+            string dealResult = result ? "OK" : "FAIL";
+            Debug.Log($"Deal result: {dealResult}");
+        }
+
+        public void BuyOut(Item item)
+        {
+            if (!_npcSeller.HasItem(item))
+            {
+                Debug.Log($"Shop doesn't have item {item.ItemName}");
+                return;
+            }
+            
+            (bool hasPrice, int price) = _npcSeller.GetItemPrice(item);
+            
+            if (!hasPrice)
+            {
+                Debug.Log($"Can't buy item {item.ItemName}. Unknown price.");
+                return;
+            }
+            
+            bool result = Deal.BuyOutFromNpc(_characterBuyer, _npcSeller, item, price);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }

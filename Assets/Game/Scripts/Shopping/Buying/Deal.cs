@@ -8,22 +8,22 @@ namespace Tavern.Shopping
         {
             if (!buyer.CanBuy(price) || !npcSeller.HasItem(itemConfig)) return false;
 
-            buyer.GiveMoney(price);
+            buyer.SpendMoney(price);
 
             if (!npcSeller.GiveItem(itemConfig))
             {
-                buyer.TakeMoney(price);
+                buyer.EarnMoney(price);
                 return false;
             }
 
             if (!buyer.TakeItem(itemConfig))
             {
                 npcSeller.TakeItemByConfig(itemConfig);
-                buyer.TakeMoney(price);
+                buyer.EarnMoney(price);
                 return false;
             }
             
-            npcSeller.TakeMoney(price);
+            npcSeller.EarnMoney(price);
 
             return true;
         }
@@ -32,22 +32,46 @@ namespace Tavern.Shopping
         {
             if (!buyer.CanBuy(price) || !characterSeller.HasItem(item)) return false;
 
-            buyer.GiveMoney(price);
+            buyer.SpendMoney(price);
 
             if (!characterSeller.GiveItem(item))
             {
-                buyer.TakeMoney(price);
+                buyer.EarnMoney(price);
                 return false;
             }
 
             if (!buyer.TakeItem(item))
             {
                 characterSeller.TakeItem(item);
-                buyer.TakeMoney(price);
+                buyer.EarnMoney(price);
                 return false;
             }
             
-            characterSeller.TakeMoney(price);
+            characterSeller.EarnMoney(price);
+
+            return true;
+        }
+
+        public static bool BuyOutFromNpc(IBuyer buyer, NpcSeller npcSeller, Item item, int price)
+        {
+            if (!buyer.CanBuy(price) || !npcSeller.HasItem(item)) return false;
+
+            buyer.SpendMoney(price);
+
+            if (!npcSeller.GiveItem(item))
+            {
+                buyer.EarnMoney(price);
+                return false;
+            }
+
+            if (!buyer.TakeItem(item))
+            {
+                npcSeller.TakeItem(item);
+                buyer.EarnMoney(price);
+                return false;
+            }
+            
+            npcSeller.EarnMoney(price);
 
             return true;
         }

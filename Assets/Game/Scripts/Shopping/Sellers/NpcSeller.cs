@@ -19,13 +19,13 @@ namespace Tavern.Shopping
         private readonly ResourceStorage _moneyStorage;
         
         [ShowInInspector, ReadOnly]
-        private readonly List<ItemInfo> _characterItems = new();
+        private readonly Dictionary<Item, int> _characterItems = new();
 
         [ShowInInspector, ReadOnly]
         public int CurrentReputation { get; private set; }
         
         public IReadOnlyCollection<ItemInfoByConfig> ItemPrices => _items.Values;
-        public IReadOnlyCollection<ItemInfo> CharacterItemPrices => _characterItems;
+        public IReadOnlyDictionary<Item, int> CharacterItemPrices => _characterItems;
         
         public NpcSeller(SellerConfig config)
         {
@@ -53,9 +53,13 @@ namespace Tavern.Shopping
         }
 
         public (bool, int) GetItemPrice(ItemConfig itemConfig) => 
-            !_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? (false, 0) : (true, info.Price);
+            _items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? (true, info.Price) : (false, 0);
+        
+        public (bool hasPrice, int price) GetItemPrice(Item item) => 
+            _characterItems.TryGetValue(item, out int price) ? (true, price) : (false, 0);
 
         public bool HasItem(ItemConfig itemConfig) => _items.ContainsKey(itemConfig.Name);
+        public bool HasItem(Item item) => _characterItems.ContainsKey(item);
 
         public bool GiveItem(ItemConfig itemConfig)
         {
@@ -80,16 +84,16 @@ namespace Tavern.Shopping
 
         public bool TakeItem(Item item)
         {
-            (bool hasPrice, int price) = PriceCalculator.GetPrice(_config, item, CurrentReputation);
+            (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(_config, item, CurrentReputation);
 
             if (!hasPrice) return false;
                 
-            _characterItems.Add(new ItemInfo(item, price));
+            _characterItems.Add(item, price);
 
             return true;
         }
 
-        public void TakeMoney(int price) => _moneyStorage.Add(price);
+        public void EarnMoney(int price) => _moneyStorage.Add(price);
 
         private void AddItems(ItemConfig[] collection)
         {
@@ -127,6 +131,8 @@ namespace Tavern.Shopping
 
         public bool CanBuy(int price) => _moneyStorage.CanSpend(price);
 
-        public void GiveMoney(int price) => _moneyStorage.Spend(price);
+        public void SpendMoney(int price) => _moneyStorage.Spend(price);
+
+        public bool GiveItem(Item item) => _characterItems.Remove(item);
     }
 }

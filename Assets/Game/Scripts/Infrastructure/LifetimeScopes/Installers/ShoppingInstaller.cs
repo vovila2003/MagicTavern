@@ -18,7 +18,7 @@ namespace Tavern.Infrastructure
         {
             builder.RegisterInstance(_gameSettings.ShoppingSettings);
             
-            builder.Register<Buyer>(Lifetime.Singleton);
+            builder.Register<CharacterBuyer>(Lifetime.Singleton);
             builder.Register<CharacterSeller>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             
             builder.Register<ShopFactory>(Lifetime.Singleton).AsImplementedInterfaces();

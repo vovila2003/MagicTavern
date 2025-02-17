@@ -84,6 +84,6 @@ namespace Tavern.Shopping
             inventoryBase.AddItem(item);
         }
 
-        public void TakeMoney(int price) => _moneyStorage.EarnMoney(price);
+        public void EarnMoney(int price) => _moneyStorage.EarnMoney(price);
     }
 }
