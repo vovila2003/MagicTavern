@@ -1,5 +1,6 @@
 using System;
 using Tavern.Cooking;
+using Tavern.Shopping;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -18,6 +19,12 @@ namespace Tavern.Settings
         
         [SerializeField]
         private KitchenItemPoint[] KitchenItemPoints;
+        
+        [field: SerializeField]
+        public Transform ShopsParent { get; private set; }
+        
+        [field: SerializeField]
+        public ShopPoint[] ShopPoints { get; private set; }
         
         public Transform WorldTransform => World;
         public Transform PotsTransform => Pots;

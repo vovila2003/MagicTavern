@@ -4,7 +4,7 @@ using Modules.Items;
 using Tavern.Storages;
 using Tavern.Storages.CurrencyStorages;
 
-namespace Tavern.Shopping.Buying
+namespace Tavern.Shopping
 {
     [UsedImplicitly]
     public class Buyer : IBuyer

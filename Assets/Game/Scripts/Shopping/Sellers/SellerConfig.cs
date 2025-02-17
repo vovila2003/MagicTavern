@@ -20,6 +20,9 @@ namespace Tavern.Shopping
         [field: Space]
         [field: SerializeField]
         public Metadata Metadata { get; private set; }
+        
+        [field: SerializeField]
+        public Metadata ShopMetadata { get; private set; }
 
         [Space]
         [SerializeReference] 

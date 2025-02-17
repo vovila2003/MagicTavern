@@ -2,7 +2,7 @@ using Modules.Items;
 using Modules.Shopping;
 using UnityEngine;
 
-namespace Tavern.Shopping.Buying
+namespace Tavern.Shopping
 {
     public static class PriceCalculator
     {

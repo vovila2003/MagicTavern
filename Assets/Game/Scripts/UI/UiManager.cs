@@ -2,6 +2,7 @@ using System;
 using Modules.GameCycle.Interfaces;
 using Tavern.Cooking;
 using Tavern.Settings;
+using Tavern.Shopping;
 using Tavern.UI.Presenters;
 using UnityEngine;
 using VContainer;
@@ -44,6 +45,13 @@ namespace Tavern.UI
                 _currentPresenter = null;
             });
             _currentPresenter = _cookingPresenter;
+        }
+        
+        public void ShowShoppingUi(SellerConfig shopConfig, Action exitShoppingUi)
+        {
+            //TODO
+            Debug.Log($"Open UI for shop {shopConfig.Metadata.Title}");
+            exitShoppingUi?.Invoke();
         }
 
         public void HideUi()

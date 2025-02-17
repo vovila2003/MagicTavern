@@ -33,7 +33,7 @@ namespace Tavern.Infrastructure
             new GardeningInstaller(GameSettings, SceneSettings).Install(builder);
             new LootingInstaller().Install(builder);
             new CookingInstaller(GameSettings).Install(builder);
-            new ShoppingInstaller().Install(builder);
+            new ShoppingInstaller(GameSettings).Install(builder);
         }
 
         private Character.Character CreateCharacter(IContainerBuilder builder)

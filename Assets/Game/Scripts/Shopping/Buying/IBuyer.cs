@@ -1,6 +1,6 @@
 using Modules.Items;
 
-namespace Tavern.Shopping.Buying
+namespace Tavern.Shopping
 {
     public interface IBuyer
     {

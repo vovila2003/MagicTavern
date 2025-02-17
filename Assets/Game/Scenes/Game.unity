@@ -1328,6 +1328,9 @@ MonoBehaviour:
     - {fileID: 821277603}
     - {fileID: 1641482948}
     - {fileID: 1802786430}
+    <ShopsParent>k__BackingField: {fileID: 1312850138}
+    <ShopPoints>k__BackingField:
+    - {fileID: 1918819087}
   UISceneSettings:
     CanvasTransform: {fileID: 1401415931}
     PoolTransform: {fileID: 551141115}
@@ -1643,7 +1646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 827408128}
   m_Layer: 0
-  m_Name: KitchenItemPoints
+  m_Name: KitchenItems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2034,7 +2037,6 @@ Transform:
   - {fileID: 615366037}
   - {fileID: 907775180}
   - {fileID: 858324743}
-  - {fileID: 1373087713}
   - {fileID: 1151332173}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2811,7 +2813,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1891570051}
+  - {fileID: 1918819086}
   m_Father: {fileID: 1347470388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1347470387
@@ -2851,38 +2853,6 @@ Transform:
   - {fileID: 827408128}
   - {fileID: 1312850138}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1373087712
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1373087713}
-  m_Layer: 0
-  m_Name: Shopping
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1373087713
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373087712}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1978309689}
-  m_Father: {fileID: 1057946215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1396555558
 GameObject:
@@ -3708,72 +3678,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KitchenItemConfig: {fileID: 11400000, guid: 0077f8378351c6a9d9e8e5f53ec5d2da, type: 2}
---- !u!1001 &1891570050
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1312850138}
-    m_Modifications:
-    - target: {fileID: 2906641971980454432, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_Name
-      value: Shop
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 9.022039
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 6.1204605
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8225788646862751075, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-      propertyPath: SellerConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 7594b7d5053d7af8f83c1416bfe3e5bd, type: 2}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
---- !u!4 &1891570051 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3242982870450553494, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
-  m_PrefabInstance: {fileID: 1891570050}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1896812129
 GameObject:
   m_ObjectHideFlags: 0
@@ -3825,6 +3729,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ResumeButton: {fileID: 825965437}
+--- !u!1 &1918819085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1918819086}
+  - component: {fileID: 1918819087}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1918819086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918819085}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.89, y: 0, z: 6.94}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1312850138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1918819087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918819085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e4bd89b6bf452493027d5cde9f6c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SellerConfig: {fileID: 11400000, guid: 7594b7d5053d7af8f83c1416bfe3e5bd, type: 2}
 --- !u!1 &1923880908
 GameObject:
   m_ObjectHideFlags: 0
@@ -3856,51 +3805,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1347470388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1978309688
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1978309689}
-  - component: {fileID: 1978309690}
-  m_Layer: 0
-  m_Name: AnimalProductsShop
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1978309689
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978309688}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1373087713}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1978309690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978309688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e628a02d8fb4018b964c8dc7b9e9a57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SellerConfig: {fileID: 11400000, guid: 7594b7d5053d7af8f83c1416bfe3e5bd, type: 2}
 --- !u!1 &1993040255
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,6 +29,8 @@ MonoBehaviour:
       MaxSpeed: 2
     MinDefaultMiniGameTimeInSeconds: 5
     MaxDefaultMiniGameTimeInSeconds: 10
+  <ShoppingSettings>k__BackingField:
+    <ShopPrefab>k__BackingField: {fileID: 8225788646862751075, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
   UIConfigs:
     Common:
       EntityCardSettings:

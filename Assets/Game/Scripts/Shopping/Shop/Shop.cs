@@ -1,23 +1,31 @@
+using System;
 using Modules.Items;
 using Sirenix.OdinInspector;
-using Tavern.Shopping.Buying;
+using Tavern.Common;
 using UnityEngine;
 using VContainer;
 
-namespace Tavern.Shopping.Shop
+namespace Tavern.Shopping
 {
     public class Shop : MonoBehaviour
     {
+        public event Action OnActivated;
+        
         [SerializeField]
-        private SellerConfig SellerConfig;
-
+        private Interactor Interactor;
+        
+        [SerializeField]
+        private SpriteRenderer SpriteRenderer;
+        
         [ShowInInspector, ReadOnly]
         private NpcSeller _npcSeller;
 
-        private Buyer _buyer;
-        
         [ShowInInspector, ReadOnly]
         private CharacterSeller _characterSeller;
+        
+        private Buyer _buyer;
+        
+        public SellerConfig SellerConfig { get; private set; }
 
         [Inject]
         private void Construct(Buyer buyer, CharacterSeller characterSeller)
@@ -26,9 +34,17 @@ namespace Tavern.Shopping.Shop
             _characterSeller = characterSeller;
         }
 
-        private void Awake()
+        private void OnDisable()
         {
+            Interactor.OnActivated -= OnAction;
+        }
+        
+        public void Setup(SellerConfig pointConfig)
+        {
+            SellerConfig = pointConfig;
             _npcSeller = SellerConfig.Create();
+            SpriteRenderer.sprite = SellerConfig.ShopMetadata.Icon;
+            Interactor.OnActivated += OnAction;
         }
 
         [Button]
@@ -84,6 +100,11 @@ namespace Tavern.Shopping.Shop
         public void SetReputation(int reputation)
         {
             _npcSeller.UpdateReputation(reputation);
+        }
+
+        private void OnAction()
+        {
+            OnActivated?.Invoke();
         }
     }
 }
