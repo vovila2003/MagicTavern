@@ -7,8 +7,8 @@ namespace Modules.Inventories
 {
     public class ListInventory<T> : IInventory<T> where T : Item
     {
-        public event Action<T> OnItemAdded;
-        public event Action<T> OnItemRemoved;
+        public event Action<Item, IInventoryBase> OnItemAdded;
+        public event Action<Item, IInventoryBase> OnItemRemoved;
 
         private readonly Dictionary<T,int> _counts = new();
         private List<T> _items;
@@ -34,7 +34,7 @@ namespace Modules.Inventories
             _items.Add(tItem);
             _counts.TryAdd(tItem, 0);
             _counts[tItem]++;
-            OnItemAdded?.Invoke(tItem);
+            OnItemAdded?.Invoke(tItem, this);
         }
         
         public void RemoveItem(Item item)
@@ -43,7 +43,7 @@ namespace Modules.Inventories
             
             if (!_items.Remove(tItem)) return;
             
-            OnItemRemoved?.Invoke(tItem);
+            OnItemRemoved?.Invoke(tItem, this);
             
             _counts[tItem]--;
             if (_counts[tItem] != 0) return;
@@ -61,7 +61,7 @@ namespace Modules.Inventories
 
         public Item RemoveItem(string name)
         {
-            if (FindItem(name, out T item))
+            if (FindItem(name, out Item item))
             {
                 RemoveItem(item);
             }
@@ -74,7 +74,7 @@ namespace Modules.Inventories
             return _items.ToList();
         }
 
-        public bool FindItem(string name, out T result)
+        public bool FindItem(string name, out Item result)
         {
             foreach (T inventoryItem in _items)
             {

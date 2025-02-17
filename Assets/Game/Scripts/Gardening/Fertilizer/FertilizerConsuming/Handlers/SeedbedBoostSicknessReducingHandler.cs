@@ -20,10 +20,9 @@ namespace Tavern.Gardening.Fertilizer
                 Debug.Log($"Target is not {nameof(Pot)}");
                 return;
             }
-
-            if (!item.Has<ComponentHarvestSicknessReducing>()) return;
-
-            var component = item.Get<ComponentHarvestSicknessReducing>();
+            
+            if (!item.TryGet(out ComponentHarvestSicknessReducing component)) return;
+            
             _target.Seedbed.ReduceHarvestSicknessProbability(component.Reducing);
         }
     }

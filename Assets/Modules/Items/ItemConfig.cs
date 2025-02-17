@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Modules.Items
 {
-    public abstract class ItemConfig : NamedConfig
+    public abstract class ItemConfig : NamedConfig, IComponentsHavingCapable
     {
         [field: SerializeField] 
         public ItemFlags Flags { get; private set; }
@@ -57,7 +57,7 @@ namespace Modules.Items
 
         protected void SetName(string newName) => Name = newName;
 
-        protected bool Has<T>() => Components.OfType<T>().Any();
+        public bool Has<T>() => Components.OfType<T>().Any();
 
         protected abstract string GetItemType();
 

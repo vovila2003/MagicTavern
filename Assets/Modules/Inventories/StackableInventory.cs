@@ -7,8 +7,8 @@ namespace Modules.Inventories
 {
     public class StackableInventory<T> : IStackableInventory<T> where T : Item
     {
-        public event Action<T> OnItemAdded;
-        public event Action<T> OnItemRemoved;
+        public event Action<Item, IInventoryBase> OnItemAdded;
+        public event Action<Item, IInventoryBase> OnItemRemoved;
         public event Action<T, int> OnItemCountChanged;
         
         private readonly ListInventory<T> _listInventory;
@@ -75,7 +75,7 @@ namespace Modules.Inventories
             }
 
             _listInventory.RemoveItem(lastItem);
-            OnItemRemoved?.Invoke(lastItem);
+            OnItemRemoved?.Invoke(lastItem, this);
             
             return lastItem;
         }
@@ -99,9 +99,9 @@ namespace Modules.Inventories
                 : items.Count;
         }
 
-        public bool FindItem(string name, out T item)
+        public bool FindItem(string name, out Item item)
         {
-            bool result = _listInventory.FindItem(name, out T inventoryItem);
+            bool result = _listInventory.FindItem(name, out Item inventoryItem);
             item = inventoryItem;
             
             return result;
@@ -116,9 +116,9 @@ namespace Modules.Inventories
         }
 
         public bool IsItemExists(T item) => 
-            IsStackable(item) ? FindItem(item.ItemName, out T _) : _listInventory.IsItemExists(item);
+            IsStackable(item) ? FindItem(item.ItemName, out Item _) : _listInventory.IsItemExists(item);
 
-        public bool IsItemExists(string name) => FindItem(name, out T _);
+        public bool IsItemExists(string name) => FindItem(name, out Item _);
 
         private bool IsStackable(T item) => item.ItemFlags.HasFlag(ItemFlags.Stackable);
 
@@ -127,7 +127,7 @@ namespace Modules.Inventories
             if (IsItemExists(item)) return;
             
             _listInventory.AddItem(item);
-            OnItemAdded?.Invoke(item);
+            OnItemAdded?.Invoke(item, this);
         }
 
         private void AddStackable(T item)
@@ -138,7 +138,7 @@ namespace Modules.Inventories
             }
             
             _listInventory.AddItem(item);
-            OnItemAdded?.Invoke(item);
+            OnItemAdded?.Invoke(item, this);
             OnItemCountChanged?.Invoke(item, item.Get<ComponentStackable>().Value);
         }
 
@@ -163,7 +163,7 @@ namespace Modules.Inventories
         private void RemoveSingle(T item)
         {
             _listInventory.RemoveItem(item);
-            OnItemRemoved?.Invoke(item);
+            OnItemRemoved?.Invoke(item, this);
         }
 
         private bool TryDecrementStackable(T item)

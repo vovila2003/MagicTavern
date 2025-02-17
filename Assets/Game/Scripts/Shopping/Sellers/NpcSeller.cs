@@ -26,6 +26,7 @@ namespace Tavern.Shopping
         public int CurrentReputation { get; private set; }
         
         public IReadOnlyCollection<ItemInfoByConfig> ItemPrices => _items.Values;
+        public IReadOnlyCollection<ItemInfo> CharacterItemPrices => _characterItems;
         
         public NpcSeller(SellerConfig config)
         {
@@ -76,7 +77,18 @@ namespace Tavern.Shopping
             return true;
         }
 
-        public void TakeItem(ItemConfig itemConfig) => AddItem(itemConfig);
+        public void TakeItemByConfig(ItemConfig itemConfig) => AddItem(itemConfig);
+
+        public bool TakeItem(Item item)
+        {
+            (bool hasPrice, int price) = PriceCalculator.GetPrice(_config, item, CurrentReputation);
+
+            if (!hasPrice) return false;
+                
+            _characterItems.Add(new ItemInfo(item, price));
+
+            return true;
+        }
 
         public void TakeMoney(int price) => _moneyStorage.Add(price);
 
@@ -113,5 +125,9 @@ namespace Tavern.Shopping
                 info.Price = price;
             }
         }
+
+        public bool CanBuy(int price) => _moneyStorage.CanSpend(price);
+
+        public void GiveMoney(int price) => _moneyStorage.Spend(price);
     }
 }

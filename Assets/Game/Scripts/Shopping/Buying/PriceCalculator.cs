@@ -6,11 +6,10 @@ namespace Tavern.Shopping.Buying
 {
     public static class PriceCalculator
     {
-        public static (bool, int) GetPrice(SellerConfig sellerConfig, ItemConfig itemConfig, int reputation)
+        public static (bool, int) GetPrice(SellerConfig sellerConfig, IComponentsHavingCapable itemConfig, int reputation)
         {
             if (!itemConfig.TryGet(out ComponentSellable componentSellable))
             {
-                Debug.LogError($"item {itemConfig.Name} doesn't have sellable component");
                 return (false, 0);
             }
 
@@ -21,7 +20,7 @@ namespace Tavern.Shopping.Buying
             return (true, Mathf.RoundToInt(currentPrice));
         }
 
-        private static float CalculatePriceByPreferences(SellerConfig sellerConfig, ItemConfig itemConfig,
+        private static float CalculatePriceByPreferences(SellerConfig sellerConfig, IComponentsHavingCapable itemConfig,
             ComponentSellable componentSellable)
         {
             float price = componentSellable.BasePrice;
@@ -38,7 +37,7 @@ namespace Tavern.Shopping.Buying
 
             return factor * price;
         }
-
+        
         private static float CalculateDiscount(SellerConfig sellerConfig, int reputation, float currentPrice)
         {
             return currentPrice * (1 - sellerConfig.Discounts[reputation] / 100f);

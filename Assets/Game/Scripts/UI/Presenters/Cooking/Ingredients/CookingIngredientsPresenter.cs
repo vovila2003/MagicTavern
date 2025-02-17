@@ -119,7 +119,7 @@ namespace Tavern.UI.Presenters
         {
             if (_recipe.HasItem(item.ItemName))
             {
-                OnItemRemoved(item);
+                OnItemRemoved(item, inventory);
                 return;
             }
             
@@ -131,7 +131,7 @@ namespace Tavern.UI.Presenters
             _presenters[item.ItemName].ChangeCount(count);
         }
 
-        private void OnItemRemoved(Item item)
+        private void OnItemRemoved(Item item, IInventoryBase _)
         {
             if (!_presenters.Remove(item.ItemName, out ItemCardPresenter presenter)) return;
 
@@ -148,7 +148,11 @@ namespace Tavern.UI.Presenters
         private void OnIngredientRightClick(Item item)
         {
             Item clone = item.Clone();
-            clone.Get<ComponentStackable>().Value = 1;
+            if (clone.TryGet(out ComponentStackable component))
+            {
+                component.Value = 1;
+            }
+            
             OnTryAddItem?.Invoke(clone);
         }
 

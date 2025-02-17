@@ -112,12 +112,12 @@ namespace Tavern.Common
             _inventory.RemoveItem(itemConfig.Name);
         }
 
-        private void OnItemAdded(T item)
+        private void OnItemAdded(Item item, IInventoryBase inventory)
         {
             Debug.Log($"Item of name {item.ItemName} is added to inventory");
         }
 
-        private void OnItemRemoved(T item)
+        private void OnItemRemoved(Item item, IInventoryBase inventory)
         {
             Debug.Log($"Item of name {item.ItemName} is removed from inventory");
         }
