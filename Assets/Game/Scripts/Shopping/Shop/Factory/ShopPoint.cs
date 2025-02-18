@@ -12,7 +12,7 @@ namespace Tavern.Shopping
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, 0.5f);
+            Gizmos.DrawWireSphere(transform.position, 0.8f);
             Gizmos.color = Color.white;
         }
     }

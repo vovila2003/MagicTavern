@@ -12,7 +12,8 @@ namespace Tavern.UI.Presenters
     [UsedImplicitly]
     public class CookingPresentersFactory
     {
-        private readonly IViewsFactory _viewsFactory;
+        private readonly ICommonViewsFactory _commonViewsFactory;
+        private readonly ICookingViewsFactory _cookingViewsFactory;
         private readonly DishCookbookContext _dishCookbook;
         private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
         private readonly IStackableInventory<AnimalProductItem> _animalProductInventory;
@@ -26,7 +27,8 @@ namespace Tavern.UI.Presenters
         private readonly CookingSettings _cookingSettings;
 
         public CookingPresentersFactory(
-            IViewsFactory viewsViewsFactory, 
+            ICommonViewsFactory commonViewsFactory,
+            ICookingViewsFactory cookingViewsFactory, 
             DishCookbookContext dishCookbook,
             IStackableInventory<PlantProductItem> plantProductInventory,
             IStackableInventory<AnimalProductItem> animalProductInventory,
@@ -39,7 +41,8 @@ namespace Tavern.UI.Presenters
             UISceneSettings sceneSettings,
             CookingSettings cookingSettings)
         {
-            _viewsFactory = viewsViewsFactory;
+            _commonViewsFactory = commonViewsFactory;
+            _cookingViewsFactory = cookingViewsFactory;
             _dishCookbook = dishCookbook;
             _plantProductInventory = plantProductInventory;
             _animalProductInventory = animalProductInventory;
@@ -54,22 +57,22 @@ namespace Tavern.UI.Presenters
         }
 
         public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform) =>
-            new(_viewsFactory.GetEntityCardView(viewContentTransform), 
-                _viewsFactory.EntityCardViewPool);
+            new(_commonViewsFactory.GetEntityCardView(viewContentTransform), 
+                _commonViewsFactory.EntityCardViewPool);
 
         public ItemCardPresenter CreateItemCardPresenter(Transform viewContentTransform) =>
-            new(_viewsFactory.GetItemCardView(viewContentTransform), 
-                _viewsFactory.ItemCardViewPool);
+            new(_commonViewsFactory.GetItemCardView(viewContentTransform), 
+                _commonViewsFactory.ItemCardViewPool);
 
         public CookingRecipesPresenter CreateLeftGridPresenter(Transform viewContainer) =>
-            new(_viewsFactory.CreateLeftGridView(viewContainer), 
+            new(_commonViewsFactory.CreateLeftGridView(viewContainer), 
                 _dishCookbook,
                 this, 
                 _activeDishRecipe,
                 _cookingSettings.EnableRecipeMatching);
 
         public CookingPanelPresenter CreateCookingPanelPresenter() => 
-            new(_viewsFactory.CreatePanelView(),
+            new(_commonViewsFactory.CreatePanelView(),
                 _dishCrafter,
                 this,
                 _activeDishRecipe,
@@ -78,11 +81,11 @@ namespace Tavern.UI.Presenters
 
         public CookingAndMatchRecipePresenter CreateCookingAndMatchRecipePresenter(
             Transform viewContainer, ActiveDishRecipe recipe) => 
-            new(_viewsFactory.CreateCookingAndMatchRecipeView(viewContainer), this);
+            new(_cookingViewsFactory.CreateCookingAndMatchRecipeView(viewContainer), this);
 
         public CookingIngredientsPresenter CreateCookingIngredientsPresenter(
             Transform viewContainer, ActiveDishRecipe recipe) =>
-            new(_viewsFactory.CreateCookingIngredientsView(viewContainer),
+            new(_cookingViewsFactory.CreateCookingIngredientsView(viewContainer),
                 _plantProductInventory,
                 _animalProductInventory,
                 this,
@@ -91,18 +94,18 @@ namespace Tavern.UI.Presenters
                 _cookingSettings.EnableRecipeMatching);
 
         public MatchNewRecipePresenter CreateMatchNewRecipePresenter(Transform viewContainer) => 
-            new(_viewsFactory.CreateMatchNewRecipeView(viewContainer));
+            new(_cookingViewsFactory.CreateMatchNewRecipeView(viewContainer));
 
         public InfoPresenter CreateInfoPresenter(Transform parent) =>
-            new(_viewsFactory.InfoViewProvider, parent, this);
+            new(_commonViewsFactory.InfoViewProvider, parent, this);
 
         public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform parent) =>
-            new(_viewsFactory.CreateCookingMiniGameView(parent), 
+            new(_cookingViewsFactory.CreateCookingMiniGameView(parent), 
                 _player,
                 _spaceInput);
 
         public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent) => 
-            new(_viewsFactory.CreateRecipeIngredientsView(parent), 
+            new(_cookingViewsFactory.CreateRecipeIngredientsView(parent), 
                 _settings.CookingSettings, 
                 CreateInfoPresenter,
                 _sceneSettings.Canvas,
@@ -110,7 +113,7 @@ namespace Tavern.UI.Presenters
                 _cookingSettings.EnableRecipeMatching);
 
         public RecipeEffectsPresenter CreateRecipeEffectsPresenter(Transform parent) => 
-            new(_viewsFactory.CreateRecipeEffectsView(parent), 
+            new(_cookingViewsFactory.CreateRecipeEffectsView(parent), 
                 _settings.CookingSettings,
                 _activeDishRecipe);
 

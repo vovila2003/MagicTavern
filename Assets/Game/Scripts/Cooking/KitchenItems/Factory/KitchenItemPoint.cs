@@ -11,7 +11,7 @@ namespace Tavern.Cooking
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(transform.position, 0.5f);
+            Gizmos.DrawWireSphere(transform.position, 0.8f);
         }
     }
 }

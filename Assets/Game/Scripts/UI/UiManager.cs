@@ -15,11 +15,13 @@ namespace Tavern.UI
         private UISceneSettings _settings;
         private CommonPresentersFactory _commonFactory;
         private CookingPresentersFactory _cookingFactory;
+        private ShoppingPresentersFactory _shoppingFactory;
         
         private MainMenuPresenter _mainMenuPresenter;
         private PausePresenter _pausePresenter;
         private HudPresenter _hudPresenter;
         private CookingPanelPresenter _cookingPresenter;
+        private ShoppingPanelPresenter _shoppingPresenter;
         private BasePresenter _currentPresenter;
         
         public bool IsOpen => _currentPresenter != null;
@@ -28,10 +30,12 @@ namespace Tavern.UI
         private void Construct(
             CommonPresentersFactory commonFactory,
             CookingPresentersFactory cookingFactory,
+            ShoppingPresentersFactory shoppingFactory,
             UISceneSettings settings)
         {
             _commonFactory = commonFactory;
             _cookingFactory = cookingFactory;
+            _shoppingFactory = shoppingFactory;
             _settings = settings;
         }
 
@@ -47,11 +51,16 @@ namespace Tavern.UI
             _currentPresenter = _cookingPresenter;
         }
         
-        public void ShowShoppingUi(SellerConfig shopConfig, Action exitShoppingUi)
+        public void ShowShoppingUi(SellerConfig shopConfig, Action onExit)
         {
-            //TODO
-            Debug.Log($"Open UI for shop {shopConfig.Metadata.Title}");
-            exitShoppingUi?.Invoke();
+            _shoppingPresenter ??= _shoppingFactory.CreateShoppingPanelPresenter();
+            
+            _shoppingPresenter.Show(shopConfig, () =>
+            {
+                onExit?.Invoke();
+                _currentPresenter = null;
+            });
+            _currentPresenter = _shoppingPresenter;
         }
 
         public void HideUi()

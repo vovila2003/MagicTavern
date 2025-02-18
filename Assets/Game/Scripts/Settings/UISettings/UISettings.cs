@@ -11,6 +11,9 @@ namespace Tavern.Settings
 
         [SerializeField] 
         private CookingUISettings Cooking;
+        
+        [field: SerializeField] 
+        public ShoppingUISettings Shopping { get; private set; }
 
         public CommonUISettings CommonSettings => Common;
         public CookingUISettings CookingSettings => Cooking;

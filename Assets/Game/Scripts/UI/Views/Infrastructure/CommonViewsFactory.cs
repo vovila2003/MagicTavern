@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Tavern.UI.Views
 {
     [UsedImplicitly]
-    public class ViewsFactory : IViewsFactory
+    public class CommonViewsFactory : ICommonViewsFactory
     {
         public IEntityCardViewPool EntityCardViewPool { get; }
         public IItemCardViewPool ItemCardViewPool { get; }
@@ -15,7 +15,7 @@ namespace Tavern.UI.Views
         private readonly UISettings _settings;
         private readonly UISceneSettings _sceneSettings;
 
-        public ViewsFactory(UISettings settings, UISceneSettings sceneSettings)
+        public CommonViewsFactory(UISettings settings, UISceneSettings sceneSettings)
         {
             _settings = settings;
             _sceneSettings = sceneSettings;
@@ -51,24 +51,6 @@ namespace Tavern.UI.Views
         public IContainerView CreateLeftGridView(Transform viewContainer) => 
             Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
 
-        public IMatchNewRecipeView CreateMatchNewRecipeView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.MatchNewNewRecipeView, viewContainer);
-
-        public IContainerView CreateCookingIngredientsView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.CookingIngredientsView, viewContainer);
-
-        public ICookingAndMatchRecipeView CreateCookingAndMatchRecipeView(Transform viewContainer) =>
-            Object.Instantiate(_settings.CookingSettings.CookingAndMatchRecipeView, viewContainer);
-
-        public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
-
-        public IRecipeIngredientsView CreateRecipeIngredientsView(Transform viewContainer) =>
-            Object.Instantiate(_settings.CookingSettings.RecipeIngredientsView, viewContainer);
-        
-        public IRecipeEffectsView CreateRecipeEffectsView(Transform viewContainer) =>
-            Object.Instantiate(_settings.CookingSettings.RecipeEffectsView, viewContainer);
-        
         //private
         private InfoPanelView CreateInfoPanelView() =>
             Object.Instantiate(_settings.CommonSettings.InfoPanel, _sceneSettings.Pool);
