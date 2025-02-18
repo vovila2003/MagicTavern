@@ -15,6 +15,7 @@ namespace Tavern.UI.Presenters
         private readonly IContainerView _view;
         private readonly CookingPresentersFactory _cookingPresentersFactory;
         private readonly ActiveDishRecipe _activeRecipe;
+        private readonly bool _enableMatching;
         private readonly DishCookbookContext _cookbook;
         private MatchNewRecipePresenter _matchNewRecipePresenter;
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
@@ -23,19 +24,24 @@ namespace Tavern.UI.Presenters
             IContainerView view, 
             DishCookbookContext cookbook,
             CookingPresentersFactory cookingPresentersFactory,
-            ActiveDishRecipe activeRecipe
+            ActiveDishRecipe activeRecipe,
+            bool enableMatching
             ) : base(view)
         {
             _parent = view.ContentTransform;
             _view = view;
             _cookingPresentersFactory = cookingPresentersFactory;
             _activeRecipe = activeRecipe;
+            _enableMatching = enableMatching;
             _cookbook = cookbook;
         }
 
         protected override void OnShow()
         {
+            
             SetupMatchRecipe();
+            
+            
             SetupCards();
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
@@ -52,9 +58,12 @@ namespace Tavern.UI.Presenters
             _cookbook.OnStarsChanged -= OnRecipeStarsChanged;
             
             _activeRecipe.OnChanged -= OnRecipeChanged;
-            
-            _matchNewRecipePresenter.Hide();
-            _matchNewRecipePresenter.OnPressed -= MatchNewRecipePressed;
+
+            if (_enableMatching)
+            {
+                _matchNewRecipePresenter.Hide();
+                _matchNewRecipePresenter.OnPressed -= MatchNewRecipePressed;
+            }
             
             foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
             {
@@ -74,6 +83,8 @@ namespace Tavern.UI.Presenters
 
         private void SetupMatchRecipe()
         {
+            if (!_enableMatching) return;
+            
             _matchNewRecipePresenter ??= _cookingPresentersFactory.CreateMatchNewRecipePresenter(_parent);
             _matchNewRecipePresenter.OnPressed += MatchNewRecipePressed;
             _matchNewRecipePresenter.Show();
@@ -140,7 +151,7 @@ namespace Tavern.UI.Presenters
             if (!_recipeCardPresenters.TryGetValue(recipe, out RecipeCardPresenter presenter)) return;
             
             presenter.SetSelected(true);
-            presenter.Up();
+            presenter.Up(_enableMatching ? 1 : 0);
             _view.Up();
 
         }

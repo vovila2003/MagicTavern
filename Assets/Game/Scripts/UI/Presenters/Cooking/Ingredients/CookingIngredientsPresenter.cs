@@ -19,6 +19,7 @@ namespace Tavern.UI.Presenters
         private readonly CookingPresentersFactory _cookingPresentersFactory;
         private readonly Transform _canvas;
         private readonly IActiveDishRecipeReader _recipe;
+        private readonly bool _enableMatching;
         private readonly Dictionary<string, ItemCardPresenter> _presenters = new();
         private InfoPresenter _infoPresenter;
 
@@ -27,7 +28,8 @@ namespace Tavern.UI.Presenters
             IStackableInventory<AnimalProductItem> animalProductsInventory,
             CookingPresentersFactory cookingPresentersFactory, 
             Transform canvas,
-            IActiveDishRecipeReader recipe
+            IActiveDishRecipeReader recipe,
+            bool enableMatching
             ) : base(view)
         {
             _parent = view.ContentTransform;
@@ -36,6 +38,7 @@ namespace Tavern.UI.Presenters
             _cookingPresentersFactory = cookingPresentersFactory;
             _canvas = canvas;
             _recipe = recipe;
+            _enableMatching = enableMatching;
         }
 
         protected override void OnShow()
@@ -104,8 +107,11 @@ namespace Tavern.UI.Presenters
             
             presenter = _cookingPresentersFactory.CreateItemCardPresenter(_parent);
             _presenters.Add(item.ItemName, presenter);
-            presenter.OnRightClick += OnIngredientRightClick;
-            presenter.OnLeftClick += OnIngredientLeftClick;
+            if (_enableMatching)
+            {
+                presenter.OnRightClick += OnIngredientRightClick;
+                presenter.OnLeftClick += OnIngredientLeftClick;
+            }
             presenter.Show(item, itemCount);
         }
 
@@ -182,6 +188,8 @@ namespace Tavern.UI.Presenters
 
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
         {
+            if (!_enableMatching) return;
+            
             presenter.OnRightClick -= OnIngredientRightClick;
             presenter.OnLeftClick -= OnIngredientLeftClick;
         }

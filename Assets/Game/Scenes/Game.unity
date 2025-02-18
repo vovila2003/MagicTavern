@@ -285,9 +285,9 @@ GameObject:
   - component: {fileID: 205785941}
   - component: {fileID: 205785942}
   m_Layer: 0
-  m_Name: Point (2)
+  m_Name: KitchenITemPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -414,7 +414,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772c614b96ddaeb5dabbc693aa277546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemRecipes: []
+  ItemRecipes:
+  - {fileID: 11400000, guid: c107a5c315ab02a98b4dd55438658388, type: 2}
+  - {fileID: 11400000, guid: 2792824d778a2af00aa9470b2287c17b, type: 2}
+  - {fileID: 11400000, guid: ef1b9b3d2c994d07ebb168d535bf7b28, type: 2}
+  - {fileID: 11400000, guid: bdda26d1648ec930f849626e1ba4062a, type: 2}
+  - {fileID: 11400000, guid: fdc34ae04a726839da1c8b299b89af68, type: 2}
+  - {fileID: 11400000, guid: 3aa50288855135eb083aa4a0c26b8cf0, type: 2}
+  - {fileID: 11400000, guid: 2cc747d4b23071d0fb2effc40337b793, type: 2}
+  - {fileID: 11400000, guid: 3f2a48c86f0caf3ae98ed8e6335ac702, type: 2}
+  - {fileID: 11400000, guid: 58794887a03553396b73b06ffa740b51, type: 2}
+  - {fileID: 11400000, guid: ac9fe27a49369fb0aab287a4e5df0c84, type: 2}
+  - {fileID: 11400000, guid: 106737d18b6e55161850f86c67a4cd57, type: 2}
+  - {fileID: 11400000, guid: b124bb219a85c2c4d9daebd5ffa0810f, type: 2}
 --- !u!114 &361997369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,9 +516,9 @@ GameObject:
   - component: {fileID: 479389816}
   - component: {fileID: 479389817}
   m_Layer: 0
-  m_Name: Point
+  m_Name: KitchenITemPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1481,9 +1493,9 @@ GameObject:
   - component: {fileID: 821277602}
   - component: {fileID: 821277603}
   m_Layer: 0
-  m_Name: Point (3)
+  m_Name: KitchenITemPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2278,9 +2290,9 @@ GameObject:
   - component: {fileID: 1170893591}
   - component: {fileID: 1170893592}
   m_Layer: 0
-  m_Name: Point (1)
+  m_Name: KitchenITemPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3390,9 +3402,9 @@ GameObject:
   - component: {fileID: 1641482947}
   - component: {fileID: 1641482948}
   m_Layer: 0
-  m_Name: Point (4)
+  m_Name: KitchenITemPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3644,9 +3656,9 @@ GameObject:
   - component: {fileID: 1802786429}
   - component: {fileID: 1802786430}
   m_Layer: 0
-  m_Name: Point (5)
+  m_Name: KitchenITemPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3740,9 +3752,9 @@ GameObject:
   - component: {fileID: 1918819086}
   - component: {fileID: 1918819087}
   m_Layer: 0
-  m_Name: Point
+  m_Name: ShopPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

@@ -23,6 +23,7 @@ namespace Tavern.UI.Presenters
         private readonly IMouseClickInput _mouseClickInput;
         private readonly UISettings _settings;
         private readonly UISceneSettings _sceneSettings;
+        private readonly CookingSettings _cookingSettings;
 
         public CookingPresentersFactory(
             IViewsFactory viewsViewsFactory, 
@@ -35,7 +36,8 @@ namespace Tavern.UI.Presenters
             MiniGamePlayer player,
             IMouseClickInput mouseClickInput,
             UISettings settings,
-            UISceneSettings sceneSettings)
+            UISceneSettings sceneSettings,
+            CookingSettings cookingSettings)
         {
             _viewsFactory = viewsViewsFactory;
             _dishCookbook = dishCookbook;
@@ -48,6 +50,7 @@ namespace Tavern.UI.Presenters
             _mouseClickInput = mouseClickInput;
             _settings = settings;
             _sceneSettings = sceneSettings;
+            _cookingSettings = cookingSettings;
         }
 
         public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform) =>
@@ -62,7 +65,8 @@ namespace Tavern.UI.Presenters
             new(_viewsFactory.CreateLeftGridView(viewContainer), 
                 _dishCookbook,
                 this, 
-                _activeDishRecipe);
+                _activeDishRecipe,
+                _cookingSettings.EnableRecipeMatching);
 
         public CookingPanelPresenter CreateCookingPanelPresenter() => 
             new(_viewsFactory.CreatePanelView(),
@@ -83,7 +87,8 @@ namespace Tavern.UI.Presenters
                 _animalProductInventory,
                 this,
                 _sceneSettings.Canvas, 
-                recipe);
+                recipe,
+                _cookingSettings.EnableRecipeMatching);
 
         public MatchNewRecipePresenter CreateMatchNewRecipePresenter(Transform viewContainer) => 
             new(_viewsFactory.CreateMatchNewRecipeView(viewContainer));
@@ -101,7 +106,8 @@ namespace Tavern.UI.Presenters
                 _settings.CookingSettings, 
                 CreateInfoPresenter,
                 _sceneSettings.Canvas,
-                _activeDishRecipe);
+                _activeDishRecipe,
+                _cookingSettings.EnableRecipeMatching);
 
         public RecipeEffectsPresenter CreateRecipeEffectsPresenter(Transform parent) => 
             new(_viewsFactory.CreateRecipeEffectsView(parent), 

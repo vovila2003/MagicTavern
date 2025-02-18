@@ -39,9 +39,9 @@ namespace Tavern.UI.Presenters
             _view.SetSelected(selected);
         }
 
-        public void Up()
+        public void Up(int position)
         {
-            _view.Transform.SetSiblingIndex(1);
+            _view.Transform.SetSiblingIndex(position);
         }
 
         protected override void OnShow()

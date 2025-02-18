@@ -19,7 +19,8 @@ namespace Tavern.UI.Presenters
         public CookingMiniGamePresenter(
             ICookingMiniGameView view,
             MiniGamePlayer player,
-            ISpaceInput input) : base(view)
+            ISpaceInput input
+            ) : base(view)
         {
             _view = view;
             _player = player;

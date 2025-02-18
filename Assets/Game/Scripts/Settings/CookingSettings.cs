@@ -25,6 +25,9 @@ namespace Tavern.Settings
         
         [SerializeField] 
         private int MaxDefaultMiniGameTimeInSeconds = 10;
+        
+        [field: SerializeField]
+        public bool EnableRecipeMatching { get; private set; }
 
         public EffectsCatalog Effects => EffectsCatalog;
         public MiniGameConfig DefaultMiniGameConfig  => DefaultMiniGameSettings;

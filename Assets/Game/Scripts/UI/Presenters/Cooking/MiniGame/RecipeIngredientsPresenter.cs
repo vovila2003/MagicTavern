@@ -18,6 +18,7 @@ namespace Tavern.UI.Presenters
         private readonly Func<Transform, InfoPresenter> _infoPresenterFactory;
         private readonly Transform _canvas;
         private readonly ActiveDishRecipe _recipe;
+        private readonly bool _enableMatching;
         private readonly Dictionary<IRecipeIngredientView, Item> _views = new();
         
         private InfoPresenter _infoPresenter;
@@ -27,13 +28,16 @@ namespace Tavern.UI.Presenters
             CookingUISettings settings,
             Func<Transform, InfoPresenter> infoPresenterFactory, 
             Transform canvas,
-            ActiveDishRecipe recipe) : base(view)
+            ActiveDishRecipe recipe,
+            bool enableMatching
+            ) : base(view)
         {
             _view = view;
             _settings = settings;
             _infoPresenterFactory = infoPresenterFactory;
             _canvas = canvas;
             _recipe = recipe;
+            _enableMatching = enableMatching;
         }
 
         protected override void OnShow()
@@ -86,9 +90,12 @@ namespace Tavern.UI.Presenters
                 recipeIngredientView.SetIcon(metadata.Icon);
                 recipeIngredientView.SetBackgroundColor(_settings.FilledColor);
                 recipeIngredientView.SetFake(isFake);
-                
-                recipeIngredientView.OnLeftClicked += OnIngredientLeftClicked;
-                recipeIngredientView.OnRightClicked += OnIngredientRightClicked;
+
+                if (_enableMatching)
+                {
+                    recipeIngredientView.OnLeftClicked += OnIngredientLeftClicked;
+                    recipeIngredientView.OnRightClicked += OnIngredientRightClicked;
+                }
                 
                 _views.Add(recipeIngredientView, item);
                 i++;
@@ -133,6 +140,8 @@ namespace Tavern.UI.Presenters
 
         private void UnsubscribeIngredientView(IRecipeIngredientView view)
         {
+            if (!_enableMatching) return;
+            
             view.OnLeftClicked -= OnIngredientLeftClicked;
             view.OnRightClicked -= OnIngredientRightClicked;
         }
