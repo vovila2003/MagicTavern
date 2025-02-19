@@ -6,6 +6,8 @@ namespace Tavern.ProductsAndIngredients
     [Serializable]
     public class ComponentGroupBerry : ComponentFilterPlantProductGroup
     {
+        public override string Name => "Ягоды";
+        
         public override IItemComponent Clone()
         {
             return new ComponentGroupBerry();

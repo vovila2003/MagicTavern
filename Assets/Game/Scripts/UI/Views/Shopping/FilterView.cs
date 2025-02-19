@@ -1,12 +1,24 @@
+using Tavern.UI.Presenters;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace Tavern.UI.Views.Shopping
+namespace Tavern.UI.Views
 {
-    public class FilterView :  MonoBehaviour
+    public class FilterView :  View, IFilterView
     {
+        public event UnityAction OnCardClicked
+        {
+            add => Button.onClick.AddListener(value);
+            remove => Button.onClick.RemoveListener(value);
+        }
+        
         [SerializeField] 
         private TMP_Text Text;
+
+        [SerializeField] 
+        private Button Button;
 
         public void SetText(string text)
         {

@@ -8,21 +8,26 @@ namespace Tavern.UI.Presenters
         private const string Title = "Торговля";
 
         private readonly IPanelView _view;
+        private readonly ShoppingPresentersFactory _factory;
+        private readonly CategoriesPresenter _categoriesPresenter;
 
         private InfoPresenter _infoPresenter;
         private Action _onExit;
-        private SellerConfig _shopConfig;
+        private SellerConfig _sellerConfig;
 
         public ShoppingPanelPresenter(
-            IPanelView view
+            IPanelView view,
+            ShoppingPresentersFactory factory
             ) : base(view)
         {
             _view = view;
+            _factory = factory;
+            _categoriesPresenter = _factory.CreateCategoriesPresenter(_view.Container);
         }
         
-        public void Show(SellerConfig shopConfig, Action onExit)
+        public void Show(SellerConfig sellerConfig, Action onExit)
         {
-            _shopConfig = shopConfig;
+            _sellerConfig = sellerConfig;
             _onExit = onExit;
             Show();
         }
@@ -30,6 +35,7 @@ namespace Tavern.UI.Presenters
         protected override void OnShow()
         {
             SetupView();
+            SetupCategories();
         }
 
         protected override void OnHide()
@@ -41,8 +47,13 @@ namespace Tavern.UI.Presenters
 
         private void SetupView()
         {
-            _view.SetTitle($"{Title}: {_shopConfig.ShopMetadata.Title}");
+            _view.SetTitle($"{Title}: {_sellerConfig.ShopMetadata.Title}");
             _view.OnCloseClicked += Hide;
+        }
+
+        private void SetupCategories()
+        {
+            _categoriesPresenter.Show(_sellerConfig);
         }
     }
 }

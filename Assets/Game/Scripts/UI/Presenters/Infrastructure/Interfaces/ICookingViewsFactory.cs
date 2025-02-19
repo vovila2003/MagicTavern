@@ -11,15 +11,4 @@ namespace Tavern.UI.Presenters
         IRecipeIngredientsView CreateRecipeIngredientsView(Transform viewContainer);
         IRecipeEffectsView CreateRecipeEffectsView(Transform viewContainer);
     }
-
-    public interface ICommonViewsFactory
-    {
-        IEntityCardViewPool EntityCardViewPool { get; }
-        IItemCardViewPool ItemCardViewPool { get; }
-        IInfoViewProvider InfoViewProvider { get; }
-        IEntityCardView GetEntityCardView(Transform viewContentTransform);
-        IItemCardView GetItemCardView(Transform viewContentTransform);
-        IPanelView CreatePanelView();
-        IContainerView CreateLeftGridView(Transform viewContainer);
-    }
 }
