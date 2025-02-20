@@ -9,10 +9,10 @@ namespace Tavern.UI.Presenters
     {
         private const string AllGoods = "Все товары";
         private readonly ICategoriesView _view;
-        private SellerConfig _config;
         private readonly ShoppingPresentersFactory _factory;
-        private Dictionary<FilterPresenter, ComponentGroupConfig> _filterPresenters = new();
+        private readonly Dictionary<FilterPresenter, ComponentGroupConfig> _filterPresenters = new();
         private FilterPresenter _allGoodsPresenter;
+        private readonly HashSet<ComponentGroupConfig> _filters = new();
 
         public CategoriesPresenter(ICategoriesView view, ShoppingPresentersFactory factory) : base(view)
         {
@@ -20,9 +20,14 @@ namespace Tavern.UI.Presenters
             _factory = factory;
         }
 
-        public void Show(SellerConfig config)
+        public void Show(IReadOnlyCollection<ItemInfoByConfig> items)
         {
-            _config = config;
+            foreach (ItemInfoByConfig info in items)
+            {
+                if (!info.Item.TryGet(out ComponentGroup componentGroup)) continue;
+                _filters.Add(componentGroup.Config);
+            }
+            
             Show();
         }
 
@@ -34,15 +39,25 @@ namespace Tavern.UI.Presenters
 
         protected override void OnHide()
         {
+            _allGoodsPresenter.Hide();
             _allGoodsPresenter.OnClicked -= OnAllGoodsClicked;
+
+            foreach (FilterPresenter presenter in _filterPresenters.Keys)
+            {
+                presenter.Hide();
+                presenter.OnClicked -= OnFilterClicked;
+            }
+            _filterPresenters.Clear();
         }
 
         private void SetupFilters()
         {
-            HashSet<ComponentGroupConfig> _configs = new();
-            foreach (Preference preference in _config.Preferences)
+            foreach (ComponentGroupConfig filter in _filters)
             {
-                //if (_configs.Add(preference.Group))
+                FilterPresenter presenter = _factory.CreateFilterPresenter(_view.Container, filter.Name);
+                presenter.OnClicked += OnFilterClicked;
+                presenter.Show();
+                _filterPresenters.Add(presenter, filter);
             }
         }
 
@@ -53,9 +68,16 @@ namespace Tavern.UI.Presenters
             _allGoodsPresenter.Show();
         }
 
-        private void OnAllGoodsClicked()
+        private void OnAllGoodsClicked(FilterPresenter _)
         {
             Debug.Log("All goods clicked");
+        }
+
+        private void OnFilterClicked(FilterPresenter filterPresenter)
+        {
+            if (!_filterPresenters.TryGetValue(filterPresenter, out ComponentGroupConfig config)) return;
+
+            Debug.Log($"{config.Name} clicked");
         }
     }
 }

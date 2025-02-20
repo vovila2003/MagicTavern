@@ -8,6 +8,8 @@ namespace Tavern.Shopping
     [Serializable]
     public class Shop
     {
+        public event Action OnUpdated;
+        
         [ShowInInspector, ReadOnly]
         public NpcSeller NpcSeller { get; private set; }
 
@@ -29,7 +31,10 @@ namespace Tavern.Shopping
 
         public void WeeklyUpdate()
         {
-            NpcSeller?.WeeklyUpdate();
+            if (NpcSeller is null) return;
+            
+            NpcSeller.WeeklyUpdate();
+            OnUpdated?.Invoke();
         }
 
         public void BuyByConfig(ItemConfig itemConfig)

@@ -13,7 +13,7 @@ namespace Tavern.UI.Presenters
 
         private InfoPresenter _infoPresenter;
         private Action _onExit;
-        private SellerConfig _sellerConfig;
+        private Shop _shop;
 
         public ShoppingPanelPresenter(
             IPanelView view,
@@ -25,9 +25,9 @@ namespace Tavern.UI.Presenters
             _categoriesPresenter = _factory.CreateCategoriesPresenter(_view.Container);
         }
         
-        public void Show(SellerConfig sellerConfig, Action onExit)
+        public void Show(Shop shop, Action onExit)
         {
-            _sellerConfig = sellerConfig;
+            _shop = shop;
             _onExit = onExit;
             Show();
         }
@@ -36,24 +36,33 @@ namespace Tavern.UI.Presenters
         {
             SetupView();
             SetupCategories();
+
+            _shop.OnUpdated += OnShopUpdated;
         }
 
         protected override void OnHide()
         {
             _view.OnCloseClicked -= Hide;
+            _shop.OnUpdated -= OnShopUpdated;
             
             _onExit?.Invoke();
         }
 
         private void SetupView()
         {
-            _view.SetTitle($"{Title}: {_sellerConfig.ShopMetadata.Title}");
+            _view.SetTitle($"{Title}: {_shop.SellerConfig.ShopMetadata.Title}");
             _view.OnCloseClicked += Hide;
         }
 
         private void SetupCategories()
         {
-            _categoriesPresenter.Show(_sellerConfig);
+            _categoriesPresenter.Show(_shop.NpcSeller.ItemPrices);
+        }
+
+        private void OnShopUpdated()
+        {
+            _categoriesPresenter.Hide();
+            SetupCategories();
         }
     }
 }

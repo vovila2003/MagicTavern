@@ -51,11 +51,11 @@ namespace Tavern.UI
             _currentPresenter = _cookingPresenter;
         }
         
-        public void ShowShoppingUi(SellerConfig shopConfig, Action onExit)
+        public void ShowShoppingUi(Shop shop, Action onExit)
         {
             _shoppingPresenter ??= _shoppingFactory.CreateShoppingPanelPresenter();
             
-            _shoppingPresenter.Show(shopConfig, () =>
+            _shoppingPresenter.Show(shop, () =>
             {
                 onExit?.Invoke();
                 _currentPresenter = null;

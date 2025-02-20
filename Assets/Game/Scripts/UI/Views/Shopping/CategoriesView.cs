@@ -6,9 +6,12 @@ namespace Tavern.UI.Views
 {
     public class CategoriesView :  View, ICategoriesView
     {
+        [SerializeField] 
+        private Transform Content;
+        
         private readonly List<FilterView> _filters = new();
 
-        public Transform Container => transform;
+        public Transform Container => Content;
 
         public void AddFilter(FilterView filter)
         {

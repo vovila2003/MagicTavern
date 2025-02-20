@@ -57,7 +57,7 @@ MonoBehaviour:
       EmptyIngredientColor: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
       FilledIngredientColor: {r: 1, g: 1, b: 1, a: 1}
     <Shopping>k__BackingField:
-      <CategoriesView>k__BackingField: {fileID: -8062817104654161344, guid: 6830253f47c909175aa843fdcaff071c, type: 3}
+      <CategoriesView>k__BackingField: {fileID: 4404168462508442483, guid: a1c472cd3f532a0608ecc1c5fc9ad2e3, type: 3}
       <ShopItemView>k__BackingField: {fileID: 3926943699332996009, guid: 04ee77077f03591c6a3668580876cc36, type: 3}
       <VendorInfoView>k__BackingField: {fileID: 5389177924039638384, guid: 0000a113a4c5491bd9694a71d2709ff9, type: 3}
       <CharacterItemView>k__BackingField: {fileID: 3231570044008007321, guid: 413c6a278aedd2b1a86cc9cf106c2aab, type: 3}

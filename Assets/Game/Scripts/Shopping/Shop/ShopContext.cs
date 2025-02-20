@@ -20,6 +20,7 @@ namespace Tavern.Shopping
         private Shop _shop;
 
         public SellerConfig SellerConfig => _shop.SellerConfig;
+        public Shop Shop => _shop;
 
         private void OnDisable()
         {

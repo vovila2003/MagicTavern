@@ -31,7 +31,7 @@ namespace Tavern.Shopping
         {
             _gameCycleController.PauseGame();
             _shopContext.OnActivated -= ShopContextActivated;
-            _uiManager.ShowShoppingUi(_shopContext.SellerConfig, OnExitShoppingUi);
+            _uiManager.ShowShoppingUi(_shopContext.Shop, OnExitShoppingUi);
         }
         
         private void OnExitShoppingUi()

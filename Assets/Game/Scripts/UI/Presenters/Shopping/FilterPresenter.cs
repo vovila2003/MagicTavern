@@ -4,7 +4,7 @@ namespace Tavern.UI.Presenters
 {
     public class FilterPresenter : BasePresenter
     {
-        public event Action OnClicked; 
+        public event Action<FilterPresenter> OnClicked; 
         
         private readonly IFilterView _view;
         private readonly string _text;
@@ -28,7 +28,7 @@ namespace Tavern.UI.Presenters
 
         private void OnFilterClicked()
         {
-            OnClicked?.Invoke();
+            OnClicked?.Invoke(this);
         }
     }
 }
