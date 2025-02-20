@@ -8,7 +8,7 @@ namespace Tavern.Shopping
     {
         public static (bool, int) GetPrice(
             SellerConfig sellerConfig, 
-            IComponentsHavingCapable itemConfig, 
+            IHavingComponentsCapable itemConfig, 
             int reputation)
         {
             if (!itemConfig.TryGet(out ComponentSellable componentSellable))
@@ -25,7 +25,7 @@ namespace Tavern.Shopping
 
         public static (bool hasPrice, int price) GetPriceWithSurcharge(
             SellerConfig config, 
-            IComponentsHavingCapable item, 
+            IHavingComponentsCapable item, 
             int currentReputation)
         {
             if (!item.TryGet(out ComponentSellable componentSellable))
@@ -40,7 +40,7 @@ namespace Tavern.Shopping
 
         private static float CalculatePriceByPreferences(
             SellerConfig sellerConfig, 
-            IComponentsHavingCapable itemConfig,
+            IHavingComponentsCapable itemConfig,
             ComponentSellable componentSellable)
         {
             float price = componentSellable.BasePrice;
@@ -49,7 +49,7 @@ namespace Tavern.Shopping
             var factor = 1f;
             foreach (Preference preference in sellerConfig.Preferences)
             {
-                if (componentGroup.GetType() == preference.Group.GetType())
+                if (componentGroup.Config == preference.Group) 
                 {
                     factor *= preference.Factor;
                 }

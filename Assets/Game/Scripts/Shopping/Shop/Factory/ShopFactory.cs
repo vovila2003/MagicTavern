@@ -26,16 +26,19 @@ namespace Tavern.Shopping
             var gameCycleController = _resolver.Resolve<GameCycleController>();
             var uiManager = _resolver.Resolve<UiManager>();
             var sceneSettings = _resolver.Resolve<SceneSettings>();
-            Shop prefab = _resolver.Resolve<ShoppingSettings>().ShopPrefab;
+            ShopContext prefab = _resolver.Resolve<ShoppingSettings>().ShopContextPrefab;
+            var characterBuyer = _resolver.Resolve<CharacterBuyer>();
+            var characterSeller = _resolver.Resolve<CharacterSeller>();
             
             foreach (ShopPoint point in sceneSettings.ShopPoints)
             {
-                Shop shop = _resolver.Instantiate(prefab, point.transform.position,
+                ShopContext shopContext = _resolver.Instantiate(prefab, point.transform.position,
                     point.transform.rotation, sceneSettings.ShopsParent);
-                
-                shop.Setup(point.Config);
+
+                var shop = new Shop(characterSeller, characterBuyer, point.Config); 
+                shopContext.Setup(shop);
             
-                _listeners.Add(new ShopListener(shop, gameCycleController, uiManager));
+                _listeners.Add(new ShopListener(shopContext, gameCycleController, uiManager));
             }
             
             foreach (ShopPoint point in sceneSettings.ShopPoints)

@@ -9,5 +9,6 @@ namespace Tavern.UI.Presenters
         IVendorInfoView CreateVendorInfoView(Transform viewContainer);
         IContainerView CreateCharacterItemsView(Transform viewContainer);
         ICharacterInfoView CreateCharacterInfoView(Transform viewContainer);
+        IFilterView CreateFilterView(Transform viewContainer);
     }
 }

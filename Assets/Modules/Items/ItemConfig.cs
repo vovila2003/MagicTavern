@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Modules.Items
 {
-    public abstract class ItemConfig : NamedConfig, IComponentsHavingCapable
+    public abstract class ItemConfig : NamedConfig, IHavingComponentsCapable
     {
         [field: SerializeField] 
         public ItemFlags Flags { get; private set; }

@@ -1,4 +1,5 @@
 using Tavern.UI.Views;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -6,5 +7,6 @@ namespace Tavern.UI.Presenters
     {
         void AddFilter(FilterView filter);
         void ClearFilters();
+        Transform Container { get; }
     }
 }

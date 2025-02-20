@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 namespace Modules.Items
 {
     [Serializable]
-    public class Item : IComponentsHavingCapable
+    public class Item : IHavingComponentsCapable
     {
         protected ItemConfig Config;
         

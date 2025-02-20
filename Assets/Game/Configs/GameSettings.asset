@@ -29,8 +29,9 @@ MonoBehaviour:
       MaxSpeed: 2
     MinDefaultMiniGameTimeInSeconds: 5
     MaxDefaultMiniGameTimeInSeconds: 10
+    <EnableRecipeMatching>k__BackingField: 0
   <ShoppingSettings>k__BackingField:
-    <ShopPrefab>k__BackingField: {fileID: 8225788646862751075, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
+    <ShopContextPrefab>k__BackingField: {fileID: 8225788646862751075, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
   UIConfigs:
     Common:
       EntityCardSettings:
@@ -55,3 +56,10 @@ MonoBehaviour:
       DefaultIngredientSprite: {fileID: 21300000, guid: ff6f2bfde08e2a4448a09bc3fefa7e42, type: 3}
       EmptyIngredientColor: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
       FilledIngredientColor: {r: 1, g: 1, b: 1, a: 1}
+    <Shopping>k__BackingField:
+      <CategoriesView>k__BackingField: {fileID: -8062817104654161344, guid: 6830253f47c909175aa843fdcaff071c, type: 3}
+      <ShopItemView>k__BackingField: {fileID: 3926943699332996009, guid: 04ee77077f03591c6a3668580876cc36, type: 3}
+      <VendorInfoView>k__BackingField: {fileID: 5389177924039638384, guid: 0000a113a4c5491bd9694a71d2709ff9, type: 3}
+      <CharacterItemView>k__BackingField: {fileID: 3231570044008007321, guid: 413c6a278aedd2b1a86cc9cf106c2aab, type: 3}
+      <CharacterInfoView>k__BackingField: {fileID: 1153836047481700923, guid: e5764c9192fb421578297b909105c06e, type: 3}
+      <FilterView>k__BackingField: {fileID: 7972640799965641659, guid: c04fb1b68b350a108853eb8acf9f8eef, type: 3}

@@ -1,5 +1,5 @@
 using System;
-using Modules.Items;
+using Modules.Shopping;
 using UnityEngine;
 
 namespace Tavern.Shopping
@@ -7,8 +7,8 @@ namespace Tavern.Shopping
     [Serializable]
     public class Preference
     {
-        [SerializeReference]
-        public IComponentGroup Group;
+        [SerializeField]
+        public ComponentGroupConfig Group;
 
         public float Factor;
     }

@@ -18,7 +18,7 @@ MonoBehaviour:
   - rid: 588217054552654081
   - rid: 588217054552654082
   - rid: 588217054552654083
-  - rid: 909695571585400949
+  - rid: 588217188916133969
   <Metadata>k__BackingField:
     Title: "\u0427\u0435\u0441\u043D\u043E\u043A"
     Description: 
@@ -39,6 +39,7 @@ MonoBehaviour:
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: b80a6e68607f686ec9bd69c4b0fed401, type: 2}
-    - rid: 909695571585400949
-      type: {class: ComponentGroupVegetable, ns: Tavern.ProductsAndIngredients, asm: Game}
-      data: 
+    - rid: 588217188916133969
+      type: {class: ComponentGroup, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <Config>k__BackingField: {fileID: 11400000, guid: 5e2cc1564009424d29c07093bb427954, type: 2}

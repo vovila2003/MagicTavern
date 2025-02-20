@@ -4,7 +4,7 @@ namespace Tavern.UI.Presenters
 {
     public interface IFilterView : IView
     {
-        event UnityAction OnCardClicked;
+        event UnityAction OnFilterClicked;
         void SetText(string text);
     }
 }

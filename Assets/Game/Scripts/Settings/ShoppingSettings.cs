@@ -8,6 +8,6 @@ namespace Tavern.Settings
     public class ShoppingSettings
     {
         [field: SerializeField]
-        public Shop ShopPrefab { get; private set; }
+        public ShopContext ShopContextPrefab { get; private set; }
     }
 }

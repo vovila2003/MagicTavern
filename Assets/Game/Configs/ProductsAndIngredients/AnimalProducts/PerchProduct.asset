@@ -17,7 +17,7 @@ MonoBehaviour:
   Components:
   - rid: 588217054552654100
   - rid: 588217054552654101
-  - rid: 909695571585400938
+  - rid: 588217188916133961
   <Metadata>k__BackingField:
     Title: "\u041E\u043A\u0443\u043D\u044C"
     Description: 
@@ -34,6 +34,7 @@ MonoBehaviour:
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
         <BasePrice>k__BackingField: 20
-    - rid: 909695571585400938
-      type: {class: ComponentGroupFish, ns: Tavern.ProductsAndIngredients, asm: Game}
-      data: 
+    - rid: 588217188916133961
+      type: {class: ComponentGroup, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <Config>k__BackingField: {fileID: 11400000, guid: ba4c7cbf77191dff9b4fcaaca4aeda5a, type: 2}

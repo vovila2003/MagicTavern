@@ -5,39 +5,39 @@ namespace Tavern.Shopping
 {
     public class ShopListener
     {
-        private readonly Shop _shop;
+        private readonly ShopContext _shopContext;
         private readonly GameCycleController _gameCycleController;
         private readonly UiManager _uiManager;
 
         public ShopListener(
-            Shop shop, 
+            ShopContext shopContext, 
             GameCycleController gameCycleController,
             UiManager uiManager
             )
         {
-            _shop = shop;
+            _shopContext = shopContext;
             _gameCycleController = gameCycleController;
             _uiManager = uiManager;
 
-            _shop.OnActivated += OnShopActivated;
+            _shopContext.OnActivated += ShopContextActivated;
         }
 
         public void Dispose()
         {
-            _shop.OnActivated -= OnShopActivated;
+            _shopContext.OnActivated -= ShopContextActivated;
         }
         
-        private void OnShopActivated()
+        private void ShopContextActivated()
         {
             _gameCycleController.PauseGame();
-            _shop.OnActivated -= OnShopActivated;
-            _uiManager.ShowShoppingUi(_shop.SellerConfig, OnExitShoppingUi);
+            _shopContext.OnActivated -= ShopContextActivated;
+            _uiManager.ShowShoppingUi(_shopContext.SellerConfig, OnExitShoppingUi);
         }
         
         private void OnExitShoppingUi()
         {
             _gameCycleController.ResumeGame();
-            _shop.OnActivated += OnShopActivated;
+            _shopContext.OnActivated += ShopContextActivated;
         }
     }
 }

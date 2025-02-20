@@ -29,5 +29,8 @@ namespace Tavern.UI.Views
         
         public ICharacterInfoView CreateCharacterInfoView(Transform viewContainer) =>
             Object.Instantiate(_settings.Shopping.CharacterInfoView, viewContainer);
+
+        public IFilterView CreateFilterView(Transform viewContainer) => 
+            Object.Instantiate(_settings.Shopping.FilterView, viewContainer);
     }
 }

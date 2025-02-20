@@ -8,7 +8,7 @@ namespace Tavern.UI.Views
 {
     public class FilterView :  View, IFilterView
     {
-        public event UnityAction OnCardClicked
+        public event UnityAction OnFilterClicked
         {
             add => Button.onClick.AddListener(value);
             remove => Button.onClick.RemoveListener(value);
@@ -25,4 +25,6 @@ namespace Tavern.UI.Views
             Text.text = text;
         }
     }
+    
+    
 }

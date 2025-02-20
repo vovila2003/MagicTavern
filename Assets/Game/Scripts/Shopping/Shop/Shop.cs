@@ -1,69 +1,46 @@
 using System;
 using Modules.Items;
 using Sirenix.OdinInspector;
-using Tavern.Common;
 using UnityEngine;
-using VContainer;
 
 namespace Tavern.Shopping
 {
-    public class Shop : MonoBehaviour
+    [Serializable]
+    public class Shop
     {
-        public event Action OnActivated;
-        
-        [SerializeField]
-        private Interactor Interactor;
-        
-        [SerializeField]
-        private SpriteRenderer SpriteRenderer;
-        
         [ShowInInspector, ReadOnly]
-        private NpcSeller _npcSeller;
+        public NpcSeller NpcSeller { get; private set; }
 
         [ShowInInspector, ReadOnly]
         private CharacterSeller _characterSeller;
-        
+
         private CharacterBuyer _characterBuyer;
-        
+
         public SellerConfig SellerConfig { get; private set; }
-        public NpcSeller Seller => _npcSeller;
 
-        [Inject]
-        private void Construct(CharacterBuyer characterBuyer, CharacterSeller characterSeller)
+        public Shop(CharacterSeller characterSeller, CharacterBuyer characterBuyer, SellerConfig sellerConfig)
         {
-            _characterBuyer = characterBuyer;
             _characterSeller = characterSeller;
+            _characterBuyer = characterBuyer;
+            SellerConfig = sellerConfig;
+            
+            NpcSeller = SellerConfig.Create();
         }
 
-        private void OnDisable()
-        {
-            Interactor.OnActivated -= OnAction;
-        }
-        
-        public void Setup(SellerConfig pointConfig)
-        {
-            SellerConfig = pointConfig;
-            _npcSeller = SellerConfig.Create();
-            SpriteRenderer.sprite = SellerConfig.ShopMetadata.Icon;
-            Interactor.OnActivated += OnAction;
-        }
-
-        [Button]
         public void WeeklyUpdate()
         {
-            _npcSeller?.WeeklyUpdate();
+            NpcSeller?.WeeklyUpdate();
         }
 
-        [Button]
         public void BuyByConfig(ItemConfig itemConfig)
         {
-            if (!_npcSeller.HasItem(itemConfig))
+            if (!NpcSeller.HasItem(itemConfig))
             {
                 Debug.Log($"Shop doesn't have item {itemConfig.Name}");
                 return;
             }
             
-            (bool hasPrice, int price) = _npcSeller.GetItemPrice(itemConfig);
+            (bool hasPrice, int price) = NpcSeller.GetItemPrice(itemConfig);
 
             if (!hasPrice)
             {
@@ -71,20 +48,20 @@ namespace Tavern.Shopping
                 return;
             }
 
-            bool result = Deal.BuyFromNpc(_characterBuyer, _npcSeller, itemConfig, price);
+            bool result = Deal.BuyFromNpc(_characterBuyer, NpcSeller, itemConfig, price);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }
 
         public void BuyOut(Item item)
         {
-            if (!_npcSeller.HasItem(item))
+            if (!NpcSeller.HasItem(item))
             {
                 Debug.Log($"Shop doesn't have item {item.ItemName}");
                 return;
             }
             
-            (bool hasPrice, int price) = _npcSeller.GetItemPrice(item);
+            (bool hasPrice, int price) = NpcSeller.GetItemPrice(item);
             
             if (!hasPrice)
             {
@@ -92,7 +69,7 @@ namespace Tavern.Shopping
                 return;
             }
             
-            bool result = Deal.BuyOutFromNpc(_characterBuyer, _npcSeller, item, price);
+            bool result = Deal.BuyOutFromNpc(_characterBuyer, NpcSeller, item, price);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }
@@ -113,20 +90,14 @@ namespace Tavern.Shopping
                 return;
             }
             
-            bool result = Deal.SellToNpc(_npcSeller, _characterSeller, item, price);
+            bool result = Deal.SellToNpc(NpcSeller, _characterSeller, item, price);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }
 
-        [Button]
         public void SetReputation(int reputation)
         {
-            _npcSeller.UpdateReputation(reputation);
-        }
-
-        private void OnAction()
-        {
-            OnActivated?.Invoke();
+            NpcSeller.UpdateReputation(reputation);
         }
     }
 }
