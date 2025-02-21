@@ -61,7 +61,7 @@ namespace Tavern.UI.Presenters
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
             _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");
-            _view.SetMaxStart(recipe.StarsCount);
+            _view.SetMaxStars(recipe.StarsCount);
             _view.SetStars(stars / 2.0f);
             _view.OnCardClicked += OnClicked;
         }

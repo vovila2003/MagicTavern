@@ -13,8 +13,8 @@ namespace Tavern.UI.Presenters
         private readonly ShoppingPresentersFactory _factory;
         private CategoriesPresenter _categoriesPresenter;
         private ShopItemsPresenter _shopItemsPresenter;
+        private VendorInfoPresenter _vendorInfoPresenter; 
 
-        private InfoPresenter _infoPresenter;
         private Action _onExit;
         private Shop _shop;
 
@@ -39,6 +39,7 @@ namespace Tavern.UI.Presenters
             SetupView();
             SetupCategories();
             SetupShopItems();
+            SetupVendorInfo();
 
             _shop.OnUpdated += OnShopUpdated;
         }
@@ -106,6 +107,13 @@ namespace Tavern.UI.Presenters
             _shopItemsPresenter ??= _factory.CreateShopItemsPresenter(_view.Container);
             
             _shopItemsPresenter.Show(_shop);
+        }
+
+        private void SetupVendorInfo()
+        {
+            _vendorInfoPresenter ??= _factory.CreateVendorInfoPresenter(_view.Container);
+            
+            _vendorInfoPresenter.Show(_shop.NpcSeller);
         }
     }
 }

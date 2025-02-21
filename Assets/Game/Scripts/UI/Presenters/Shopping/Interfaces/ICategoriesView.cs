@@ -8,5 +8,6 @@ namespace Tavern.UI.Presenters
         void AddFilter(FilterView filter);
         void ClearFilters();
         Transform Container { get; }
+        void Left();
     }
 }

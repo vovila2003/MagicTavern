@@ -36,5 +36,8 @@ namespace Tavern.UI.Presenters
 
         public ShopItemsPresenter CreateShopItemsPresenter(Transform viewContainer) =>
             new(_shoppingViewsFactory.CreateShopItemsView(viewContainer), this);
+
+        public VendorInfoPresenter CreateVendorInfoPresenter(Transform viewContainer) =>
+            new(_shoppingViewsFactory.CreateVendorInfoView(viewContainer));
     }
 }

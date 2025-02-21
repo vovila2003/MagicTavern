@@ -8,48 +8,66 @@ using UnityEngine;
 namespace Tavern.Shopping
 {
     [Serializable]
-    public class NpcSeller
+    public class NpcSeller : IDisposable
     {
-        private readonly SellerConfig _config;
+        public event Action<int> OnSellerMoneyChanged;
+        public event Action<int> OnReputationChanged;
         
+        public SellerConfig Config { get; }
+
         [ShowInInspector, ReadOnly]
         private readonly Dictionary<string, ItemInfoByConfig> _items = new();
-        
+
         [ShowInInspector, ReadOnly]
         private readonly ResourceStorage _moneyStorage;
-        
+
         [ShowInInspector, ReadOnly]
         private readonly Dictionary<Item, int> _characterItems = new();
 
         [ShowInInspector, ReadOnly]
         public int CurrentReputation { get; private set; }
-        
+
         public IReadOnlyCollection<ItemInfoByConfig> ItemPrices => _items.Values;
         public IReadOnlyDictionary<Item, int> CharacterItemPrices => _characterItems;
-        
+        public int Money => _moneyStorage.Value;
+
         public NpcSeller(SellerConfig config)
         {
-            _config = config;
-            _moneyStorage = new ResourceStorage(_config.StartMoney);
-            AddItems(_config.StartItems);
+            Config = config;
+            _moneyStorage = new ResourceStorage(Config.StartMoney);
+            _moneyStorage.Init();
+            _moneyStorage.OnResourceStorageChanged += OnMoneyChanged;
+            AddItems(Config.StartItems);
+        }
+
+        private void OnMoneyChanged(int value)
+        {
+            OnSellerMoneyChanged?.Invoke(value);
+        }
+
+        public void Dispose()
+        {
+            _moneyStorage.OnResourceStorageChanged -= OnMoneyChanged;
         }
 
         public void WeeklyUpdate()
         {
-            AddItems(_config.Assortment);
-            _moneyStorage.Add(_config.WeeklyMoneyBonus);
+            AddItems(Config.Assortment);
+            _moneyStorage.Add(Config.WeeklyMoneyBonus);
         }
 
         public void UpdateReputation(int newReputation)
         {
-            if (newReputation < 0 || newReputation >= ShoppingConfig.MaxReputation)
+            if (newReputation < 0 || newReputation > ShoppingConfig.MaxReputation)
             {
-                Debug.LogError($"Reputation must be between 0 and {ShoppingConfig.MaxReputation - 1}");
+                Debug.LogError($"Reputation must be between 0 and {ShoppingConfig.MaxReputation}");
                 return;
             }
             
             CurrentReputation = newReputation;
             RecalculatePrices();
+            
+            OnReputationChanged?.Invoke(CurrentReputation);
         }
 
         public (bool, int) GetItemPrice(ItemConfig itemConfig) => 
@@ -84,7 +102,7 @@ namespace Tavern.Shopping
 
         public bool TakeItem(Item item)
         {
-            (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(_config, item, CurrentReputation);
+            (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
 
             if (!hasPrice) return false;
                 
@@ -111,7 +129,7 @@ namespace Tavern.Shopping
                 return;
             }
                 
-            (bool hasPrice, int price) = PriceCalculator.GetPrice(_config, itemConfig, CurrentReputation);
+            (bool hasPrice, int price) = PriceCalculator.GetPrice(Config, itemConfig, CurrentReputation);
 
             if (!hasPrice) return;
                 
@@ -122,7 +140,7 @@ namespace Tavern.Shopping
         {
             foreach (ItemInfoByConfig info in _items.Values)
             {
-                (bool hasPrice, int price) = PriceCalculator.GetPrice(_config, info.Item, CurrentReputation);
+                (bool hasPrice, int price) = PriceCalculator.GetPrice(Config, info.Item, CurrentReputation);
                 if (!hasPrice) continue;
                 
                 info.Price = price;

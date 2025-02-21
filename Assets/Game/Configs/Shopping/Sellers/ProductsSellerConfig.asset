@@ -10,21 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5458e2dc1e824b50921c2f41385fca1b, type: 3}
-  m_Name: AnimalProductsSellerConfig
+  m_Name: ProductsSellerConfig
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: AnimalProductsSellerConfig
+  <Name>k__BackingField: ProductsSellerConfig
   <StartMoney>k__BackingField: 50
   <WeeklyMoneyBonus>k__BackingField: 10
   <Metadata>k__BackingField:
-    Title: "\u041F\u0440\u043E\u0434\u0430\u0432\u0435\u0446 \u0436\u0438\u0432\u043E\u0442\u043D\u044B\u0445
-      \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u0432"
-    Description: "\u0413\u043E\u0432\u044F\u0434\u0438\u043D\u0430, \u0421\u0432\u0438\u043D\u0438\u043D\u0430,
-      \u041A\u0443\u0440\u0438\u0446\u0430, \u041C\u043E\u043B\u043E\u043A\u043E,
-      \u0421\u044B\u0440, \u042F\u0439\u0446\u0430"
+    Title: "\u041F\u0435\u0442\u0440 \u0418\u0432\u0430\u043D\u043E\u0432\u0438\u0447"
+    Description: "\u043F\u0440\u043E\u0434\u0430\u0432\u0435\u0446 \u043F\u0440\u043E\u0431\u0443\u043A\u0442\u043E\u0432"
     Icon: {fileID: 21300000, guid: c1e3b29191c950b479adb3d99a5c1d8a, type: 3}
   <ShopMetadata>k__BackingField:
     Title: "\u0414\u0435\u0441\u044F\u0442\u043E\u0447\u043A\u0430"
-    Description: "\u041C\u044F\u0441\u043D\u043E\u0439 \u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    Description: "\u041F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u0432\u044B\u0439
+      \u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     Icon: {fileID: 21300000, guid: cc56045f313c8d142944917b80931ecf, type: 3}
   <StartItems>k__BackingField:
   - {fileID: 11400000, guid: 8d8be6ff0e9de29b0b9dfbb1ad0de9d6, type: 2}
@@ -40,10 +38,40 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f1605921c65a5ae859e0fe56e22c3a88, type: 2}
   - {fileID: 11400000, guid: 5fc7bb2d1c17b979983583f41331d8ed, type: 2}
   - {fileID: 11400000, guid: 3a8f16ff3cfa3a2aa97c2986d605acf1, type: 2}
+  - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}
+  - {fileID: 11400000, guid: 08f411c4df31edfe989720c66e7295c6, type: 2}
+  - {fileID: 11400000, guid: 0f6dfa0b0f75316d5b9f79385095ed25, type: 2}
+  - {fileID: 11400000, guid: a24c186d6e32db5b99138fe598680250, type: 2}
+  - {fileID: 11400000, guid: 0d85d9f2b677c8ae7bb101f5950d3631, type: 2}
+  - {fileID: 11400000, guid: 401188fada6c9ced1b1d594dae116d02, type: 2}
+  - {fileID: 11400000, guid: b3dc2eaa42773c695a4430daaadaf943, type: 2}
+  - {fileID: 11400000, guid: ec16c022118e55774beb0155f7a38dcd, type: 2}
+  - {fileID: 11400000, guid: 8a8352b8fb1c61b1c922f6b13d47c81c, type: 2}
+  - {fileID: 11400000, guid: aab7cfe5c56f7bda688f8f154543ef3c, type: 2}
+  - {fileID: 11400000, guid: eeff7accdd39a1bd28b1921738f39e84, type: 2}
+  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
+  - {fileID: 11400000, guid: 20d55c6ef9933a532bb6b599f6d294c4, type: 2}
+  - {fileID: 11400000, guid: 653b4ad2938ac6f47a613bd35bc1cf50, type: 2}
   <Preferences>k__BackingField:
   - Group: {fileID: 11400000, guid: 1e3d9658265095110a1046975a0d6df2, type: 2}
     Factor: 1.2
   - Group: {fileID: 11400000, guid: 5369db7483fcc81b1b67c50398eb74e5, type: 2}
     Factor: 0.9
-  <Discounts>k__BackingField: 00000000050000000a0000000f00000014000000190000001e000000
-  <Surcharges>k__BackingField: 1e0000001b0000001700000014000000110000000d0000000a000000
+  <Discounts>k__BackingField:
+  - 0
+  - 2.5
+  - 5
+  - 7.5
+  - 10
+  - 12.5
+  - 15
+  - 17.5
+  <Surcharges>k__BackingField:
+  - 30
+  - 27.15
+  - 24.3
+  - 21.45
+  - 18.6
+  - 15.75
+  - 12.9
+  - 10

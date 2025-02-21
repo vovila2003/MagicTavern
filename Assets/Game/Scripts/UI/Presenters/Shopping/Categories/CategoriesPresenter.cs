@@ -33,6 +33,8 @@ namespace Tavern.UI.Presenters
             }
             
             Show();
+            
+            _view.Left();
         }
 
         protected override void OnShow()

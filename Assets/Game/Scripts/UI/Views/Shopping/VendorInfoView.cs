@@ -29,7 +29,7 @@ namespace Tavern.UI.Views
             Icon.sprite = sprite;
         }
         
-        public void SetMaxStart(int count)
+        public void SetMaxStars(int count)
         {
             Stars.SetStarsMaxCount(count);
         }

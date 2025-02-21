@@ -6,7 +6,7 @@ namespace Tavern.UI.Presenters
     {
         void SetTitle(string text);
         void SetIcon(Sprite sprite);
-        void SetMaxStart(int count);
+        void SetMaxStars(int count);
         void SetStars(float stars);
         void SetMoney(string text);
     }

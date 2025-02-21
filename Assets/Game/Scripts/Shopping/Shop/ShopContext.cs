@@ -25,6 +25,7 @@ namespace Tavern.Shopping
         private void OnDisable()
         {
             Interactor.OnActivated -= OnAction;
+            _shop.Dispose();
         }
         
         public void Setup(Shop shop)

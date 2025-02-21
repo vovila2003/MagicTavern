@@ -32,10 +32,10 @@ namespace Tavern.Shopping
         public Preference[] Preferences { get; private set; }
 
         [field: SerializeField]
-        public int[] Discounts { get; private set; } = new int[ShoppingConfig.MaxReputation];
+        public float[] Discounts { get; private set; } = new float[ShoppingConfig.MaxReputation + 1];
 
         [field: SerializeField]
-        public int[] Surcharges { get; private set; } = { 30, 27, 23, 20, 17, 13, 10 };
+        public float[] Surcharges { get; private set; } = { 30, 27.15f, 24.3f, 21.45f, 18.6f, 15.75f, 12.9f, 10 };
 
         public NpcSeller Create()
         {

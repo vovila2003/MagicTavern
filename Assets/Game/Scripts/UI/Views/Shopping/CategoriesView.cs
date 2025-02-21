@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Tavern.UI.Presenters;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
@@ -8,6 +9,9 @@ namespace Tavern.UI.Views
     {
         [SerializeField] 
         private Transform Content;
+
+        [SerializeField] 
+        private ScrollRect ScrollRect;
         
         private readonly List<FilterView> _filters = new();
 
@@ -27,6 +31,11 @@ namespace Tavern.UI.Views
             }
             
             _filters.Clear();
+        }
+
+        public void Left()
+        {
+            ScrollRect.horizontalNormalizedPosition = 0;  
         }
     }
 }

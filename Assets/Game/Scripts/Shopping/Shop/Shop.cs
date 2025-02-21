@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Tavern.Shopping
 {
     [Serializable]
-    public class Shop
+    public class Shop : IDisposable
     {
         public event Action OnUpdated;
         
@@ -27,6 +27,11 @@ namespace Tavern.Shopping
             SellerConfig = sellerConfig;
             
             NpcSeller = SellerConfig.Create();
+        }
+
+        public void Dispose()
+        {
+            NpcSeller.Dispose();
         }
 
         public void WeeklyUpdate()
