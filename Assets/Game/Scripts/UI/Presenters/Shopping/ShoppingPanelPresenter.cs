@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Modules.Shopping;
 using Tavern.Shopping;
 
 namespace Tavern.UI.Presenters
@@ -9,7 +11,8 @@ namespace Tavern.UI.Presenters
 
         private readonly IPanelView _view;
         private readonly ShoppingPresentersFactory _factory;
-        private readonly CategoriesPresenter _categoriesPresenter;
+        private CategoriesPresenter _categoriesPresenter;
+        private ShopItemsPresenter _shopItemsPresenter;
 
         private InfoPresenter _infoPresenter;
         private Action _onExit;
@@ -22,7 +25,6 @@ namespace Tavern.UI.Presenters
         {
             _view = view;
             _factory = factory;
-            _categoriesPresenter = _factory.CreateCategoriesPresenter(_view.Container);
         }
         
         public void Show(Shop shop, Action onExit)
@@ -36,6 +38,7 @@ namespace Tavern.UI.Presenters
         {
             SetupView();
             SetupCategories();
+            SetupShopItems();
 
             _shop.OnUpdated += OnShopUpdated;
         }
@@ -43,6 +46,10 @@ namespace Tavern.UI.Presenters
         protected override void OnHide()
         {
             _view.OnCloseClicked -= Hide;
+
+            _categoriesPresenter.OnShowAllGoods -= OnShowAllGoods;
+            _categoriesPresenter.OnShowGroup -= OnShowGroup;
+
             _shop.OnUpdated -= OnShopUpdated;
             
             _onExit?.Invoke();
@@ -56,13 +63,49 @@ namespace Tavern.UI.Presenters
 
         private void SetupCategories()
         {
+            _categoriesPresenter ??= _factory.CreateCategoriesPresenter(_view.Container);
+            
+            _categoriesPresenter.OnShowAllGoods += OnShowAllGoods;
+            _categoriesPresenter.OnShowGroup += OnShowGroup;
             _categoriesPresenter.Show(_shop.NpcSeller.ItemPrices);
         }
 
         private void OnShopUpdated()
         {
             _categoriesPresenter.Hide();
-            SetupCategories();
+            _categoriesPresenter.Show(_shop.NpcSeller.ItemPrices);
+        }
+
+        private void ShowGoods(IReadOnlyCollection<ItemInfoByConfig> items)
+        {
+            _shopItemsPresenter.SetItems(items);
+        }
+
+        private void OnShowAllGoods()
+        {
+            ShowGoods(_shop.NpcSeller.ItemPrices);
+        }
+
+        private void OnShowGroup(ComponentGroupConfig config)
+        {
+            var items = new List<ItemInfoByConfig>();
+            foreach (ItemInfoByConfig info in _shop.NpcSeller.ItemPrices)
+            {
+                if (!info.Item.TryGet(out ComponentGroup componentGroup)) continue;
+                
+                if (componentGroup.Config != config) continue;
+                
+                items.Add(info);
+            }
+            
+            ShowGoods(items);
+        }
+
+        private void SetupShopItems()
+        {
+            _shopItemsPresenter ??= _factory.CreateShopItemsPresenter(_view.Container);
+            
+            _shopItemsPresenter.Show(_shop);
         }
     }
 }

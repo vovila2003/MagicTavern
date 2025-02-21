@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Modules.Shopping;
+using Tavern.Shopping;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -27,6 +28,13 @@ namespace Tavern.UI.Presenters
                 this);
 
         public FilterPresenter CreateFilterPresenter(Transform viewContainer, string filterText) =>
-            new FilterPresenter(_shoppingViewsFactory.CreateFilterView(viewContainer), filterText);
+            new(_shoppingViewsFactory.CreateFilterView(viewContainer), filterText);
+
+        public ItemConfigCardPresenter CreateItemConfigCardPresenter(Transform viewContainer) =>
+            new(_commonViewsFactory.GetItemCardView(viewContainer), 
+                _commonViewsFactory.ItemCardViewPool);
+
+        public ShopItemsPresenter CreateShopItemsPresenter(Transform viewContainer) =>
+            new(_shoppingViewsFactory.CreateShopItemsView(viewContainer), this);
     }
 }

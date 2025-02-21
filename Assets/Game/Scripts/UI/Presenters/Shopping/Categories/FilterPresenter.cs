@@ -30,5 +30,10 @@ namespace Tavern.UI.Presenters
         {
             OnClicked?.Invoke(this);
         }
+
+        public void SetSelected(bool selected)
+        {
+            _view.SetSelected(selected);
+        }
     }
 }

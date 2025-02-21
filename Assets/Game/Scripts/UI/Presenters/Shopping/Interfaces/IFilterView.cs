@@ -6,5 +6,6 @@ namespace Tavern.UI.Presenters
     {
         event UnityAction OnFilterClicked;
         void SetText(string text);
+        void SetSelected(bool selected);
     }
 }

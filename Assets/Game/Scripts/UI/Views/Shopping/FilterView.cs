@@ -15,6 +15,15 @@ namespace Tavern.UI.Views
         }
         
         [SerializeField] 
+        private Image Background;
+        
+        [SerializeField]
+        private Color DefaultColor = Color.white;
+        
+        [SerializeField]
+        private Color SelectedColor;
+        
+        [SerializeField] 
         private TMP_Text Text;
 
         [SerializeField] 
@@ -23,6 +32,11 @@ namespace Tavern.UI.Views
         public void SetText(string text)
         {
             Text.text = text;
+        }
+
+        public void SetSelected(bool selected)
+        {
+            Background.color = selected ? SelectedColor : DefaultColor;
         }
     }
     
