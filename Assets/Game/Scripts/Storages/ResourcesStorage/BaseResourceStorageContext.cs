@@ -21,60 +21,60 @@ namespace Tavern.Storages
         [SerializeField, ShowIf("Limit", LimitType.Limited)]
         private int MaxValue;
 
-        private ResourceStorage _storage;
+        protected ResourceStorage Storage;
 
         [ShowInInspector, ReadOnly] 
-        protected int Value => _storage?.Value ?? 0;
+        protected int Value => Storage?.Value ?? 0;
 
-        private void Awake()
+        protected void Awake()
         {
-            _storage = new ResourceStorage(0, Limit, MaxValue);
+            Storage = new ResourceStorage(0, Limit, MaxValue);
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
-            _storage.OnResourceStorageAdded += ValueAdded;
-            _storage.OnResourceStorageChanged += ValueChanged;
-            _storage.OnResourceStorageEmpty += OnEmpty;
-            _storage.OnResourceStorageFull += OnFull;
-            _storage.OnResourceStorageValueSpent += OnSpent;
+            Storage.OnResourceStorageAdded += ValueAdded;
+            Storage.OnResourceStorageChanged += ValueChanged;
+            Storage.OnResourceStorageEmpty += OnEmpty;
+            Storage.OnResourceStorageFull += OnFull;
+            Storage.OnResourceStorageValueSpent += OnSpent;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
-            _storage.Dispose();
-            _storage.OnResourceStorageAdded -= ValueAdded;
-            _storage.OnResourceStorageChanged -= ValueChanged;
-            _storage.OnResourceStorageEmpty -= OnEmpty;
-            _storage.OnResourceStorageFull -= OnFull;
-            _storage.OnResourceStorageValueSpent -= OnSpent;
+            Storage.Dispose();
+            Storage.OnResourceStorageAdded -= ValueAdded;
+            Storage.OnResourceStorageChanged -= ValueChanged;
+            Storage.OnResourceStorageEmpty -= OnEmpty;
+            Storage.OnResourceStorageFull -= OnFull;
+            Storage.OnResourceStorageValueSpent -= OnSpent;
         }
 
         private void Start()
         {
             if (DebugMode)
             {
-                _storage.Add(StartValueInStorageInDebugMode);
+                Storage.Add(StartValueInStorageInDebugMode);
             }
         }
         
         [Button]
         protected void Add(int value)
         {
-            bool result = _storage.Add(value);
+            bool result = Storage.Add(value);
 
             Debug.Log($"Add to {Name} storage value {value}: result - {result}");
         }
 
         protected bool CanSpend(int value)
         {
-            return _storage.CanSpend(value);
+            return Storage.CanSpend(value);
         }
         
         [Button]
         protected void Spend(int value)
         {
-            bool result = _storage.Spend(value);
+            bool result = Storage.Spend(value);
 
             Debug.Log($"Spend from {Name} storage value {value}: result - {result}");
         }
@@ -82,7 +82,7 @@ namespace Tavern.Storages
         [Button]
         protected void ResetStorage()
         {
-            _storage.Reset();
+            Storage.Reset();
 
             Debug.Log($"Reset {Name} storage");
         }
