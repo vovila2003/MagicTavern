@@ -14,9 +14,10 @@ namespace Tavern.UI.Presenters
         public event Action<Item> OnTryAddItem;
         
         private readonly Transform _parent;
-        private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
-        private readonly IStackableInventory<AnimalProductItem> _animalProductsInventory;
+        private readonly IInventory<PlantProductItem> _plantProductInventory;
+        private readonly IInventory<AnimalProductItem> _animalProductsInventory;
         private readonly CookingPresentersFactory _cookingPresentersFactory;
+        private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly Transform _canvas;
         private readonly IActiveDishRecipeReader _recipe;
         private readonly bool _enableMatching;
@@ -24,9 +25,10 @@ namespace Tavern.UI.Presenters
         private InfoPresenter _infoPresenter;
 
         public CookingIngredientsPresenter(IContainerView view,
-            IStackableInventory<PlantProductItem> plantProductInventory,
-            IStackableInventory<AnimalProductItem> animalProductsInventory,
+            IInventory<PlantProductItem> plantProductInventory,
+            IInventory<AnimalProductItem> animalProductsInventory,
             CookingPresentersFactory cookingPresentersFactory, 
+            CommonPresentersFactory commonPresentersFactory, 
             Transform canvas,
             IActiveDishRecipeReader recipe,
             bool enableMatching
@@ -36,6 +38,7 @@ namespace Tavern.UI.Presenters
             _plantProductInventory = plantProductInventory;
             _animalProductsInventory = animalProductsInventory;
             _cookingPresentersFactory = cookingPresentersFactory;
+            _commonPresentersFactory = commonPresentersFactory;
             _canvas = canvas;
             _recipe = recipe;
             _enableMatching = enableMatching;
@@ -105,7 +108,7 @@ namespace Tavern.UI.Presenters
                 return;
             }
             
-            presenter = _cookingPresentersFactory.CreateItemCardPresenter(_parent);
+            presenter = _commonPresentersFactory.CreateItemCardPresenter(_parent);
             _presenters.Add(item.ItemName, presenter);
             if (_enableMatching)
             {
@@ -121,7 +124,7 @@ namespace Tavern.UI.Presenters
         private void AnimalProductsCountChanged(Item item, int count) => 
             OnItemCountChanged(item, count, _animalProductsInventory);
 
-        private void OnItemCountChanged<T>(Item item, int count, IStackableInventory<T> inventory) where T : Item
+        private void OnItemCountChanged<T>(Item item, int count, IInventory<T> inventory) where T : Item
         {
             if (_recipe.HasItem(item.ItemName))
             {

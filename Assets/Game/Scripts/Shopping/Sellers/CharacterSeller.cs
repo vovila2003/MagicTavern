@@ -14,11 +14,14 @@ namespace Tavern.Shopping
     [UsedImplicitly, Serializable]
     public class CharacterSeller : IInitGameListener, IExitGameListener
     {
+        public event Action OnSellableItemsChanged;
+        
         private readonly InventoryFacade _inventoryFacade;
         private readonly IMoneyStorage _moneyStorage;
 
-        [ShowInInspector, ReadOnly]
-        private readonly Dictionary<Item, IInventoryBase> _sellableItems = new();
+        [field: ShowInInspector]
+        [field: ReadOnly]
+        public Dictionary<Item, IInventoryBase> SellableItems { get; } = new();
 
         public CharacterSeller(InventoryFacade inventoryFacade, IMoneyStorage moneyStorage)
         {
@@ -32,6 +35,7 @@ namespace Tavern.Shopping
             {
                 inventory.OnItemAdded += OnItemAdded;
                 inventory.OnItemRemoved += OnItemRemoved;
+                inventory.OnItemCountChanged += OnItemCountChanged;
             }
         }
 
@@ -41,33 +45,34 @@ namespace Tavern.Shopping
             {
                 inventory.OnItemAdded -= OnItemAdded;
                 inventory.OnItemRemoved -= OnItemRemoved;
+                inventory.OnItemCountChanged -= OnItemCountChanged;
             }
         }
 
         private void OnItemAdded(Item item, IInventoryBase inventory)
         {
-            if (item.Has<ComponentSellable>())
-            {
-                _sellableItems.Add(item, inventory);
-            }
+            if (!item.Has<ComponentSellable>()) return;
+            
+            SellableItems.Add(item, inventory);
+            OnSellableItemsChanged?.Invoke();
         }
 
         private void OnItemRemoved(Item item, IInventoryBase _)
         {
-            if (item.Has<ComponentSellable>())
-            {
-                _sellableItems.Remove(item);
-            }
+            if (!item.Has<ComponentSellable>()) return;
+            
+            SellableItems.Remove(item);
+            OnSellableItemsChanged?.Invoke();
         }
 
-        public bool HasItem(Item item) => _sellableItems.ContainsKey(item);
+        public bool HasItem(Item item) => SellableItems.ContainsKey(item);
 
         public (bool hasPrice, int price) GetItemPrice(Item item) => 
             !item.TryGet(out ComponentSellable sellable) ? (false, 0) : (true, sellable.BasePrice);
 
         public bool GiveItem(Item item)
         {
-            if (!_sellableItems.TryGetValue(item, out IInventoryBase inventory))
+            if (!SellableItems.TryGetValue(item, out IInventoryBase inventory))
                 return false;
 
             if (!inventory.FindItem(item.ItemName, out Item _))
@@ -85,5 +90,10 @@ namespace Tavern.Shopping
         }
 
         public void EarnMoney(int price) => _moneyStorage.EarnMoney(price);
+
+        private void OnItemCountChanged(Item item, int count)
+        {
+            OnSellableItemsChanged?.Invoke();
+        }
     }
 }

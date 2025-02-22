@@ -18,8 +18,8 @@ namespace Tavern.Cooking
         public event Action<List<PlantProductItem>, List<AnimalProductItem>> OnSpent;
         public event Action<bool> OnCanCraftStateChanged;
         
-        private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
-        private readonly IStackableInventory<AnimalProductItem> _animalProductInventory;
+        private readonly IInventory<PlantProductItem> _plantProductInventory;
+        private readonly IInventory<AnimalProductItem> _animalProductInventory;
 
         private readonly HashSet<PlantProductItem> _plantProducts = new();
         private readonly HashSet<PlantProductItem> _fakePlantProducts = new();
@@ -45,8 +45,8 @@ namespace Tavern.Cooking
         private bool CanAddIngredient => _plantProducts.Count + _animalProducts.Count < MaxIngredientsCount;
 
         public ActiveDishRecipe(
-            IStackableInventory<PlantProductItem> plantProductInventory,
-            IStackableInventory<AnimalProductItem> animalProductInventory)
+            IInventory<PlantProductItem> plantProductInventory,
+            IInventory<AnimalProductItem> animalProductInventory)
         {
             _plantProductInventory = plantProductInventory;
             _animalProductInventory = animalProductInventory;
@@ -129,7 +129,7 @@ namespace Tavern.Cooking
             ReturnAnimalProducts();
         }
 
-        private void AddItem<T>(T item, IStackableInventory<T> inventory, HashSet<T> collection) where T : Item
+        private void AddItem<T>(T item, IInventory<T> inventory, HashSet<T> collection) where T : Item
         {
             if (!CanAddIngredient) return;
 
@@ -144,7 +144,7 @@ namespace Tavern.Cooking
             OnChanged?.Invoke();
         }
 
-        private void RemoveItem<T>(T item, IStackableInventory<T> inventory, 
+        private void RemoveItem<T>(T item, IInventory<T> inventory, 
             HashSet<T> collection, HashSet<T> fakeCollection) where T : Item
         {
             if (collection.Remove(item))

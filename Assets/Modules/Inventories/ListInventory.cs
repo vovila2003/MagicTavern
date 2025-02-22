@@ -7,6 +7,7 @@ namespace Modules.Inventories
 {
     public class ListInventory<T> : IInventory<T> where T : Item
     {
+        public event Action<Item, int> OnItemCountChanged;
         public event Action<Item, IInventoryBase> OnItemAdded;
         public event Action<Item, IInventoryBase> OnItemRemoved;
 

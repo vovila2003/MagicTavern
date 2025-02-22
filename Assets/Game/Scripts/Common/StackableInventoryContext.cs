@@ -22,13 +22,13 @@ namespace Tavern.Common
         [SerializeField, ShowIf("DebugMode")] 
         private int Count;
         
-        private IStackableInventory<T> _inventory;
+        private IInventory<T> _inventory;
 
         [ShowInInspector, ReadOnly]
         private List<T> ItemsList => _inventory == null ? new List<T>() : _inventory.Items;
 
         [Inject]
-        private void Construct(IStackableInventory<T> inventory)
+        private void Construct(IInventory<T> inventory)
         {
             _inventory = inventory;
         }
@@ -122,7 +122,7 @@ namespace Tavern.Common
             Debug.Log($"Item of name {item.ItemName} is removed from inventory");
         }
 
-        private void OnItemCountChanged(T item, int value)
+        private void OnItemCountChanged(Item item, int value)
         {
             Debug.Log($"Count of item with name {item.ItemName} is changed to {value}");
         }

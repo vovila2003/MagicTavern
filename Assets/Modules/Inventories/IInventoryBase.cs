@@ -6,6 +6,7 @@ namespace Modules.Inventories
 {
     public interface IInventoryBase
     {
+        event Action<Item, int> OnItemCountChanged;
         event Action<Item, IInventoryBase> OnItemAdded;
         event Action<Item, IInventoryBase> OnItemRemoved;   
         void AddItem(Item item);

@@ -14,9 +14,10 @@ namespace Tavern.UI.Presenters
     {
         private readonly ICommonViewsFactory _commonViewsFactory;
         private readonly ICookingViewsFactory _cookingViewsFactory;
+        private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly DishCookbookContext _dishCookbook;
-        private readonly IStackableInventory<PlantProductItem> _plantProductInventory;
-        private readonly IStackableInventory<AnimalProductItem> _animalProductInventory;
+        private readonly IInventory<PlantProductItem> _plantProductInventory;
+        private readonly IInventory<AnimalProductItem> _animalProductInventory;
         private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly DishCrafter _dishCrafter;
         private readonly ISpaceInput _spaceInput;
@@ -29,9 +30,10 @@ namespace Tavern.UI.Presenters
         public CookingPresentersFactory(
             ICommonViewsFactory commonViewsFactory,
             ICookingViewsFactory cookingViewsFactory, 
+            CommonPresentersFactory commonPresentersFactory,
             DishCookbookContext dishCookbook,
-            IStackableInventory<PlantProductItem> plantProductInventory,
-            IStackableInventory<AnimalProductItem> animalProductInventory,
+            IInventory<PlantProductItem> plantProductInventory,
+            IInventory<AnimalProductItem> animalProductInventory,
             ActiveDishRecipe activeDishRecipe,
             DishCrafter dishCrafter,
             ISpaceInput spaceInput,
@@ -43,6 +45,7 @@ namespace Tavern.UI.Presenters
         {
             _commonViewsFactory = commonViewsFactory;
             _cookingViewsFactory = cookingViewsFactory;
+            _commonPresentersFactory = commonPresentersFactory;
             _dishCookbook = dishCookbook;
             _plantProductInventory = plantProductInventory;
             _animalProductInventory = animalProductInventory;
@@ -60,9 +63,7 @@ namespace Tavern.UI.Presenters
             new(_commonViewsFactory.GetEntityCardView(viewContentTransform), 
                 _commonViewsFactory.EntityCardViewPool);
 
-        public ItemCardPresenter CreateItemCardPresenter(Transform viewContentTransform) =>
-            new(_commonViewsFactory.GetItemCardView(viewContentTransform), 
-                _commonViewsFactory.ItemCardViewPool);
+        
 
         public CookingRecipesPresenter CreateLeftGridPresenter(Transform viewContainer) =>
             new(_commonViewsFactory.CreateLeftGridView(viewContainer), 
@@ -89,6 +90,7 @@ namespace Tavern.UI.Presenters
                 _plantProductInventory,
                 _animalProductInventory,
                 this,
+                _commonPresentersFactory,
                 _sceneSettings.Canvas, 
                 recipe,
                 _cookingSettings.EnableRecipeMatching);

@@ -1,5 +1,4 @@
 using JetBrains.Annotations;
-using Modules.Shopping;
 using Tavern.Shopping;
 using UnityEngine;
 
@@ -10,13 +9,19 @@ namespace Tavern.UI.Presenters
     {
         private readonly ICommonViewsFactory _commonViewsFactory;
         private readonly IShoppingViewsFactory _shoppingViewsFactory;
+        private readonly CommonPresentersFactory _commonPresentersFactory;
+        private readonly CharacterSeller _characterSeller;
 
         public ShoppingPresentersFactory(
             ICommonViewsFactory commonViewsFactory,
-            IShoppingViewsFactory shoppingViewsFactory)
+            IShoppingViewsFactory shoppingViewsFactory,
+            CommonPresentersFactory commonPresentersFactory,
+            CharacterSeller characterSeller)
         {
             _commonViewsFactory = commonViewsFactory;
             _shoppingViewsFactory = shoppingViewsFactory;
+            _commonPresentersFactory = commonPresentersFactory;
+            _characterSeller = characterSeller;
         }
 
         public ShoppingPanelPresenter CreateShoppingPanelPresenter() => 
@@ -39,5 +44,10 @@ namespace Tavern.UI.Presenters
 
         public VendorInfoPresenter CreateVendorInfoPresenter(Transform viewContainer) =>
             new(_shoppingViewsFactory.CreateVendorInfoView(viewContainer));
+        
+        public CharacterItemsPresenter CreateCharacterItemsPresenter(Transform viewContainer) =>
+            new(_shoppingViewsFactory.CreateCharacterItemsView(viewContainer), 
+                _commonPresentersFactory, 
+                _characterSeller);
     }
 }

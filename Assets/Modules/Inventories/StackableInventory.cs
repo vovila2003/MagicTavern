@@ -5,11 +5,11 @@ using Modules.Items;
 
 namespace Modules.Inventories
 {
-    public class StackableInventory<T> : IStackableInventory<T> where T : Item
+    public class StackableInventory<T> : IInventory<T> where T : Item
     {
         public event Action<Item, IInventoryBase> OnItemAdded;
         public event Action<Item, IInventoryBase> OnItemRemoved;
-        public event Action<T, int> OnItemCountChanged;
+        public event Action<Item, int> OnItemCountChanged;
         
         private readonly ListInventory<T> _listInventory;
 
