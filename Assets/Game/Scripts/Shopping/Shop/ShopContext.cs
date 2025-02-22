@@ -16,10 +16,11 @@ namespace Tavern.Shopping
         [SerializeField]
         private SpriteRenderer SpriteRenderer;
 
-        [ShowInInspector, ReadOnly]
         private Shop _shop;
 
         public SellerConfig SellerConfig => _shop.SellerConfig;
+        
+        [ShowInInspector, ReadOnly]
         public Shop Shop => _shop;
 
         private void OnDisable()

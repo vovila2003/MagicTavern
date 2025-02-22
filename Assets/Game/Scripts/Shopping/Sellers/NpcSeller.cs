@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Tavern.Shopping
 {
     [Serializable]
-    public class NpcSeller : IDisposable
+    public class NpcSeller
     {
         public event Action<int> OnSellerMoneyChanged;
         public event Action<int> OnReputationChanged;
@@ -18,7 +18,6 @@ namespace Tavern.Shopping
         [ShowInInspector, ReadOnly]
         private readonly Dictionary<string, ItemInfoByConfig> _items = new();
 
-        [ShowInInspector, ReadOnly]
         private readonly ResourceStorage _moneyStorage;
 
         [ShowInInspector, ReadOnly]
@@ -29,13 +28,14 @@ namespace Tavern.Shopping
 
         public IReadOnlyCollection<ItemInfoByConfig> ItemPrices => _items.Values;
         public IReadOnlyDictionary<Item, int> CharacterItemPrices => _characterItems;
-        public int Money => _moneyStorage.Value;
+        
+        [ShowInInspector, ReadOnly]
+        public int Money => _moneyStorage?.Value ?? 0;
 
         public NpcSeller(SellerConfig config)
         {
             Config = config;
-            _moneyStorage = new ResourceStorage(Config.StartMoney);
-            _moneyStorage.Init();
+            _moneyStorage = new ResourceStorage(Config.StartMoney); // Unlimit
             _moneyStorage.OnResourceStorageChanged += OnMoneyChanged;
             AddItems(Config.StartItems);
         }

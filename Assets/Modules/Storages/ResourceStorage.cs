@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Modules.Storages
 {
-    [Serializable]
     public class ResourceStorage : StorageInt
     {
         public event Action<int> OnResourceStorageAdded;
@@ -17,24 +16,9 @@ namespace Modules.Storages
 
         public event Action OnResourceStorageEmpty;
 
-        [SerializeField]
-        private LimitType Limit = LimitType.Unlimited;
-
-        [SerializeField, ShowIf("Limit", LimitType.Limited)]
-        private int MaxValue;
-
-        [ShowInInspector, ReadOnly]
-        private int ResourceValue => Value;
-
         public ResourceStorage(int value = 0, LimitType limitType = LimitType.Unlimited, int limitValue = 0) 
             : base(value, limitType, limitValue)
         {
-        }
-
-        public void Init()
-        {
-            SetLimitType(Limit);
-            SetLimitValue(MaxValue);
             OnValueAdded += OnStorageValueAdded;
             OnValueChange += OnStorageValueChanged;
             OnValueSpent += OnStorageValueSpent;

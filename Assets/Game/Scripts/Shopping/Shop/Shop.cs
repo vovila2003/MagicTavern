@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Tavern.Shopping
 {
     [Serializable]
-    public class Shop : IDisposable
+    public class Shop 
     {
         public event Action OnUpdated;
         

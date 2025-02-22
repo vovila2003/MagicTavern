@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 3242982870450553494}
   - component: {fileID: 828020603470692049}
   - component: {fileID: 4118497344250200315}
-  - component: {fileID: 8225788646862751075}
+  - component: {fileID: 1517396157421802262}
   - component: {fileID: 4856287276357328038}
   m_Layer: 0
   m_Name: Shop
@@ -270,7 +270,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8225788646862751075
+--- !u!114 &1517396157421802262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
