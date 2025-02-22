@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Modules.Inventories;
 using Modules.Items;
 using Modules.Storages;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Tavern.Shopping
 {
@@ -56,6 +58,7 @@ namespace Tavern.Shopping
         {
             AddItems(Config.Assortment);
             _moneyStorage.Add(Config.WeeklyMoneyBonus);
+            ExtraSellRandomCharacterItem();
         }
 
         public void UpdateReputation(int newReputation)
@@ -74,11 +77,12 @@ namespace Tavern.Shopping
 
         public (bool, int) GetItemPrice(ItemConfig itemConfig) => 
             _items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? (true, info.Price) : (false, 0);
-        
+
         public (bool hasPrice, int price) GetItemPrice(Item item) => 
             _characterItems.TryGetValue(item, out int price) ? (true, price) : (false, 0);
 
         public bool HasItem(ItemConfig itemConfig) => _items.ContainsKey(itemConfig.Name);
+
         public bool HasItem(Item item) => _characterItems.ContainsKey(item);
 
         public bool GiveItem(ItemConfig itemConfig)
@@ -127,6 +131,21 @@ namespace Tavern.Shopping
         }
 
         public void EarnMoney(int price) => _moneyStorage.Add(price);
+        
+        public bool CanBuy(int price) => _moneyStorage.CanSpend(price);
+
+        public void SpendMoney(int price) => _moneyStorage.Spend(price);
+
+        public bool GiveItem(Item item)
+        {
+            bool ok = _characterItems.Remove(item);
+            if (ok)
+            {
+                OnItemsChanged?.Invoke();
+            }
+            
+            return ok;
+        }
 
         private void AddItems(ItemConfig[] collection)
         {
@@ -162,19 +181,17 @@ namespace Tavern.Shopping
             }
         }
 
-        public bool CanBuy(int price) => _moneyStorage.CanSpend(price);
-
-        public void SpendMoney(int price) => _moneyStorage.Spend(price);
-
-        public bool GiveItem(Item item)
+        private void ExtraSellRandomCharacterItem()
         {
-            bool ok = _characterItems.Remove(item);
-            if (ok)
-            {
-                OnItemsChanged?.Invoke();
-            }
-            
-            return ok;
+            float random = Random.Range(0, 101);
+            if (random > Config.SellCharacterItemByExtraPriceProbability) return;
+
+            int count = _characterItems.Count;
+            Item item = _characterItems.Keys.ToList()[Random.Range(0, count)];
+
+            int price = Mathf.RoundToInt(_characterItems[item] * Config.ExtraSellPricePercents / 100f);
+            _characterItems.Remove(item);
+            _moneyStorage.Add(price);
         }
     }
 }

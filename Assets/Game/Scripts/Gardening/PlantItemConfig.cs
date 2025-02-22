@@ -1,4 +1,3 @@
-using Modules.Items;
 using Modules.Shopping;
 
 namespace Tavern.Gardening

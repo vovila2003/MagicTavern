@@ -37,6 +37,12 @@ namespace Tavern.Shopping
 
         [field: SerializeField]
         public float[] Surcharges { get; private set; } = { 30, 27.15f, 24.3f, 21.45f, 18.6f, 15.75f, 12.9f, 10 };
+        
+        [field: SerializeField, Range(0, 100)]
+        public int SellCharacterItemByExtraPriceProbability { get; private set; } = 20;
+
+        [field: SerializeField] 
+        public float ExtraSellPricePercents { get; private set; } = 200;
 
         public NpcSeller Create()
         {
