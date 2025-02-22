@@ -9,6 +9,7 @@ namespace Tavern.Shopping
     public class Shop 
     {
         public event Action OnUpdated;
+        public event Action OnNpcSellerItemsChanged;
         
         [ShowInInspector, ReadOnly]
         public NpcSeller NpcSeller { get; private set; }
@@ -27,11 +28,13 @@ namespace Tavern.Shopping
             SellerConfig = sellerConfig;
             
             NpcSeller = SellerConfig.Create();
+            NpcSeller.OnItemsChanged += OnNpcSellerItemsCollectionChanged;
         }
 
         public void Dispose()
         {
             NpcSeller.Dispose();
+            NpcSeller.OnItemsChanged -= OnNpcSellerItemsCollectionChanged;
         }
 
         public void WeeklyUpdate()
@@ -108,6 +111,11 @@ namespace Tavern.Shopping
         public void SetReputation(int reputation)
         {
             NpcSeller.UpdateReputation(reputation);
+        }
+
+        private void OnNpcSellerItemsCollectionChanged()
+        {
+            OnNpcSellerItemsChanged?.Invoke();
         }
     }
 }

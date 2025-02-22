@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Modules.Items;
+using Modules.Shopping;
 using Tavern.Shopping;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Tavern.UI.Presenters
         private Shop _shop;
         private readonly ShoppingPresentersFactory _factory;
         private readonly Dictionary<string, ItemConfigCardPresenter> _presenters = new();
+        private ComponentGroupConfig _filter;
 
         public ShopItemsPresenter(
             IContainerView view, 
@@ -27,10 +29,11 @@ namespace Tavern.UI.Presenters
             Show();
         }
 
-        public void SetItems(IReadOnlyCollection<ItemInfoByConfig> items)
+        public void SetFilter(ComponentGroupConfig filter)
         {
+            _filter = filter;
             ClearItems();
-            SetupCards(items);
+            SetupCards(GetItemsByFilter(filter));
         }
 
         protected override void OnShow()
@@ -38,6 +41,7 @@ namespace Tavern.UI.Presenters
             SetupCards(_shop.NpcSeller.ItemPrices);
 
             _shop.OnUpdated += OnShopUpdated;
+            _shop.OnNpcSellerItemsChanged += OnItemsChanged;
         }
 
         protected override void OnHide()
@@ -45,6 +49,24 @@ namespace Tavern.UI.Presenters
             ClearItems();
 
             _shop.OnUpdated -= OnShopUpdated;
+            _shop.OnNpcSellerItemsChanged -= OnItemsChanged;
+        }
+
+        private IReadOnlyCollection<ItemInfoByConfig> GetItemsByFilter(ComponentGroupConfig filter)
+        {
+            if (filter is null) return _shop.NpcSeller.ItemPrices;
+            
+            var items = new List<ItemInfoByConfig>();
+            foreach (ItemInfoByConfig info in _shop.NpcSeller.ItemPrices)
+            {
+                if (!info.Item.TryGet(out ComponentGroup componentGroup)) continue;
+                
+                if (componentGroup.Config != filter) continue;
+                
+                items.Add(info);
+            }
+
+            return items;
         }
 
         private void SetupCards(IReadOnlyCollection<ItemInfoByConfig> items)
@@ -75,6 +97,7 @@ namespace Tavern.UI.Presenters
         private void OnIngredientRightClick(ItemConfig config)
         {
             Debug.Log($"{config.Name} right button clicked");
+            _shop.BuyByConfig(config);
         }
 
         private void OnIngredientLeftClick(ItemConfig config)
@@ -103,6 +126,11 @@ namespace Tavern.UI.Presenters
             }
 
             _presenters.Clear();
+        }
+
+        private void OnItemsChanged()
+        {
+            SetFilter(_filter);
         }
     }
 }

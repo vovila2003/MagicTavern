@@ -8,5 +8,6 @@ namespace Tavern.ProductsAndIngredients
         menuName = "Settings/Products/Plant Products Catalog")]
     public class PlantProductCatalog : ItemsCatalog
     {
+        public override string CatalogName => GetType().Name;
     }
 }

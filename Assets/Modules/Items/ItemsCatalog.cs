@@ -12,6 +12,8 @@ namespace Modules.Items
         
         private readonly Dictionary<string, ItemConfig> _itemsDict = new();
 
+        public virtual string CatalogName { get; private set; }
+
         public bool TryGetItem(string itemName, out ItemConfig itemConfig) => 
             _itemsDict.TryGetValue(itemName, out itemConfig);
 
@@ -37,7 +39,7 @@ namespace Modules.Items
                 string itemName = settings.Name;
                 if (itemName is null)
                 {
-                    Debug.LogWarning($"Item has empty name in catalog");
+                    Debug.LogWarning($"Item has empty name in catalog {CatalogName}");
                     continue;
                 }
                 _itemsDict[itemName] = settings;

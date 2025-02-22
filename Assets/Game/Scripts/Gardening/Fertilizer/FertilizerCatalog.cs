@@ -8,5 +8,6 @@ namespace Tavern.Gardening.Fertilizer
         menuName = "Settings/Gardening/Fertilizer/Fertilizer Catalog")]
     public class FertilizerCatalog : ItemsCatalog
     {
+        public override string CatalogName => GetType().Name;
     }
 }

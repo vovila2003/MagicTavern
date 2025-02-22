@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Modules.Inventories;
 using Modules.Items;
 using Modules.Storages;
 using Sirenix.OdinInspector;
@@ -12,6 +13,7 @@ namespace Tavern.Shopping
     {
         public event Action<int> OnSellerMoneyChanged;
         public event Action<int> OnReputationChanged;
+        public event Action OnItemsChanged;
         
         public SellerConfig Config { get; }
 
@@ -95,18 +97,31 @@ namespace Tavern.Shopping
                 _items.Remove(itemConfig.Name);
             }
             
+            OnItemsChanged?.Invoke();
+            
             return true;
         }
 
-        public void TakeItemByConfig(ItemConfig itemConfig) => AddItem(itemConfig);
+        public void TakeItemByConfig(ItemConfig itemConfig)
+        {
+            AddItem(itemConfig);
+            OnItemsChanged?.Invoke();
+        }
 
         public bool TakeItem(Item item)
         {
             (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
 
             if (!hasPrice) return false;
-                
-            _characterItems.Add(item, price);
+
+            Item clone = item.Clone();
+            if (clone.TryGet(out ComponentStackable componentStackable))
+            {
+                componentStackable.Value = 1;
+            }
+            
+            _characterItems.Add(clone, price);
+            OnItemsChanged?.Invoke();
 
             return true;
         }
@@ -151,6 +166,15 @@ namespace Tavern.Shopping
 
         public void SpendMoney(int price) => _moneyStorage.Spend(price);
 
-        public bool GiveItem(Item item) => _characterItems.Remove(item);
+        public bool GiveItem(Item item)
+        {
+            bool ok = _characterItems.Remove(item);
+            if (ok)
+            {
+                OnItemsChanged?.Invoke();
+            }
+            
+            return ok;
+        }
     }
 }

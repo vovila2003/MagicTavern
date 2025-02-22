@@ -8,5 +8,6 @@ namespace Tavern.Cooking
         menuName = "Settings/Cooking/Dishes/Dishes Catalog")]
     public class DishesCatalog : ItemsCatalog
     {
+        public override string CatalogName => GetType().Name;
     }
 }

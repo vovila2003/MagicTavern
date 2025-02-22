@@ -8,5 +8,6 @@ namespace Tavern.Gardening.Medicine
         menuName = "Settings/Gardening/Medicine/Medicine Catalog")]
     public class MedicineCatalog : ItemsCatalog
     {
+        public override string CatalogName => GetType().Name;
     }
 }

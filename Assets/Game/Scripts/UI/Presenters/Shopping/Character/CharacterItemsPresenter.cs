@@ -11,6 +11,7 @@ namespace Tavern.UI.Presenters
         private readonly IContainerView _view;
         private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly CharacterSeller _characterSeller;
+        private Shop _shop;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
 
         public CharacterItemsPresenter(
@@ -22,6 +23,12 @@ namespace Tavern.UI.Presenters
             _view = view;
             _commonPresentersFactory = commonPresentersFactory;
             _characterSeller = characterSeller;
+        }
+
+        public void Show(Shop shop)
+        {
+            _shop = shop;
+            Show();
         }
 
         protected override void OnShow()
@@ -63,7 +70,8 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientRightClick(Item item)
         {
-            Debug.Log($"{item.ItemName} right button clicked");
+            //Debug.Log($"{item.ItemName} right button clicked");
+            _shop.Sell(item);
         }
 
         private void OnIngredientLeftClick(Item item)

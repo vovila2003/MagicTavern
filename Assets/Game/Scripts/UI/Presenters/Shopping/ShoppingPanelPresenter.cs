@@ -81,29 +81,14 @@ namespace Tavern.UI.Presenters
             _categoriesPresenter.Show(_shop.NpcSeller.ItemPrices);
         }
 
-        private void ShowGoods(IReadOnlyCollection<ItemInfoByConfig> items)
-        {
-            _shopItemsPresenter.SetItems(items);
-        }
-
         private void OnShowAllGoods()
         {
-            ShowGoods(_shop.NpcSeller.ItemPrices);
+            _shopItemsPresenter.SetFilter(null);
         }
 
         private void OnShowGroup(ComponentGroupConfig config)
         {
-            var items = new List<ItemInfoByConfig>();
-            foreach (ItemInfoByConfig info in _shop.NpcSeller.ItemPrices)
-            {
-                if (!info.Item.TryGet(out ComponentGroup componentGroup)) continue;
-                
-                if (componentGroup.Config != config) continue;
-                
-                items.Add(info);
-            }
-            
-            ShowGoods(items);
+            _shopItemsPresenter.SetFilter(config);
         }
 
         private void SetupShopItems()
@@ -121,7 +106,7 @@ namespace Tavern.UI.Presenters
         private void SetupCharacterItems()
         {
             _characterItemsPresenter ??= _factory.CreateCharacterItemsPresenter(_view.Container);
-            _characterItemsPresenter.Show();
+            _characterItemsPresenter.Show(_shop);
         }
 
         private void SetupCharacterInfo()

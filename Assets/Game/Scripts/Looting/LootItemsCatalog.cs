@@ -8,5 +8,6 @@ namespace Tavern.Looting
         menuName = "Settings/Looting/Loot Items Catalog")]
     public class LootItemsCatalog : ItemsCatalog
     {
+        public override string CatalogName => GetType().Name;
     }
 }
