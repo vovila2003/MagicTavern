@@ -1,3 +1,4 @@
+using Modules.Info;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -15,6 +16,9 @@ namespace Tavern.Settings
         
         [SerializeField]
         private int MaxHealth;
+        
+        [field: SerializeField]
+        public Metadata Metadata { get; private set; }
         
         public Character.Character Prefab => CharacterPrefab;
         public float InitSpeed => Speed;

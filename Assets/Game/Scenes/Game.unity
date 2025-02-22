@@ -366,9 +366,8 @@ MonoBehaviour:
   Name: Water
   DebugMode: 1
   StartValueInStorageInDebugMode: 100
-  Storage:
-    Limit: 0
-    MaxValue: 500
+  Limit: 1
+  MaxValue: 0
 --- !u!1 &361997366
 GameObject:
   m_ObjectHideFlags: 0
@@ -3592,9 +3591,8 @@ MonoBehaviour:
   Name: Money
   DebugMode: 1
   StartValueInStorageInDebugMode: 1000
-  Storage:
-    Limit: 1
-    MaxValue: 0
+  Limit: 1
+  MaxValue: 0
 --- !u!1 &1750647780
 GameObject:
   m_ObjectHideFlags: 0
@@ -3642,9 +3640,8 @@ MonoBehaviour:
   Name: Slops
   DebugMode: 1
   StartValueInStorageInDebugMode: 5
-  Storage:
-    Limit: 0
-    MaxValue: 500
+  Limit: 1
+  MaxValue: 0
 --- !u!1 &1802786428
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ namespace Tavern.UI.Presenters
         private readonly IContainerView _view;
         private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly CharacterSeller _characterSeller;
-        private readonly Dictionary<string, ItemCardPresenter> _presenters = new();
+        private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
 
         public CharacterItemsPresenter(
             IContainerView view,
@@ -48,14 +48,14 @@ namespace Tavern.UI.Presenters
         {
             if (itemCount <= 0) return;
             
-            if (_presenters.TryGetValue(item.ItemName, out ItemCardPresenter presenter))
+            if (_presenters.TryGetValue(item, out ItemCardPresenter presenter))
             {
                 presenter.ChangeCount(itemCount);
                 return;
             }
             
             presenter = _commonPresentersFactory.CreateItemCardPresenter(_view.ContentTransform);
-            _presenters.Add(item.ItemName, presenter);
+            _presenters.Add(item, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
             presenter.Show(item, itemCount);

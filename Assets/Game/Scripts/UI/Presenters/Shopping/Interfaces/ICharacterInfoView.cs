@@ -1,4 +1,3 @@
-using Tavern.UI.Views;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -6,8 +5,9 @@ namespace Tavern.UI.Presenters
     public interface ICharacterInfoView : IView
     {
         void SetIcon(Sprite sprite);
-        void AddEffect(EffectView effect);
+        void AddEffect(IEffectView effect);
         void ClearEffects();
         void SetMoney(string text);
+        Transform Content { get; }
     }
 }

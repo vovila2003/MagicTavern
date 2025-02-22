@@ -12,5 +12,6 @@ namespace Tavern.Character
         IMovable GetMoveComponent();
         Transform GetTransform();
         Animator GetAnimator();
+        CharacterState GetState();
     }
 }

@@ -3,6 +3,7 @@ using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
 using Tavern.Settings;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -21,6 +22,15 @@ namespace Tavern.Infrastructure
 
         public void Install(IContainerBuilder builder)
         {
+            if (!_character.TryGetComponent(out SeederComponent seeder))
+            {
+                Debug.LogWarning($"Character {_character.name} does not have a SeederComponent");
+            }
+            else
+            {
+                builder.RegisterComponent(seeder).AsImplementedInterfaces();
+            }
+            
             builder.RegisterComponent(_character).AsImplementedInterfaces();
             builder.RegisterInstance(_gameSettings.CharacterSettings);
             builder.Register<MovableByRigidbody>(Lifetime.Transient).AsImplementedInterfaces();

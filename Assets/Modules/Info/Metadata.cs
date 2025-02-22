@@ -2,7 +2,7 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Modules.Items
+namespace Modules.Info
 {
     [Serializable]
     public class Metadata

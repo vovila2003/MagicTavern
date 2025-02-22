@@ -1,4 +1,5 @@
 using System;
+using Modules.Info;
 using Modules.Items;
 
 namespace Tavern.UI.Presenters

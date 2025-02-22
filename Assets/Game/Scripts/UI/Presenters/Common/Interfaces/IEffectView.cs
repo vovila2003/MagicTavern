@@ -6,5 +6,6 @@ namespace Tavern.UI.Presenters
     {
         void SetIcon(Sprite icon);
         void SetActive(bool active);
+        GameObject GetGameObject();
     }
 }

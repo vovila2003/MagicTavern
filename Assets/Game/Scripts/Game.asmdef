@@ -21,7 +21,8 @@
         "GUID:e5c8cfc19a43b18d7b6eba29149dccc6",
         "GUID:50f2550aa87cebea188bc42571233814",
         "GUID:33921588a09815e258a6d78a3c3186cc",
-        "Ui"
+        "Ui",
+        "Info"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

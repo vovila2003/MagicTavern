@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Tavern.Character;
 using Tavern.Shopping;
 using Tavern.Storages.CurrencyStorages;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Tavern.UI.Presenters
         private readonly ICommonViewsFactory _commonViewsFactory;
         private readonly IShoppingViewsFactory _shoppingViewsFactory;
         private readonly CommonPresentersFactory _commonPresentersFactory;
+        private readonly ICharacter _character;
         private readonly CharacterSeller _characterSeller;
         private readonly IMoneyStorage _moneyStorage;
 
@@ -18,12 +20,14 @@ namespace Tavern.UI.Presenters
             ICommonViewsFactory commonViewsFactory,
             IShoppingViewsFactory shoppingViewsFactory,
             CommonPresentersFactory commonPresentersFactory,
+            ICharacter character, 
             CharacterSeller characterSeller,
             IMoneyStorage moneyStorage)
         {
             _commonViewsFactory = commonViewsFactory;
             _shoppingViewsFactory = shoppingViewsFactory;
             _commonPresentersFactory = commonPresentersFactory;
+            _character = character;
             _characterSeller = characterSeller;
             _moneyStorage = moneyStorage;
         }
@@ -55,6 +59,9 @@ namespace Tavern.UI.Presenters
                 _characterSeller);
 
         public CharacterInfoPresenter CreateCharacterInfoPresenter(Transform viewContainer) =>
-            new(_shoppingViewsFactory.CreateCharacterInfoView(viewContainer), _moneyStorage);
+            new(_shoppingViewsFactory.CreateCharacterInfoView(viewContainer), 
+                _moneyStorage,
+                _character,
+                _commonViewsFactory);
     }
 }

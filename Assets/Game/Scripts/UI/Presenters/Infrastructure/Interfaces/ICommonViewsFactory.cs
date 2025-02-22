@@ -11,5 +11,6 @@ namespace Tavern.UI.Presenters
         IItemCardView GetItemCardView(Transform viewContentTransform);
         IPanelView CreatePanelView();
         IContainerView CreateLeftGridView(Transform viewContainer);
+        IEffectView CreateEffectView(Transform viewContainer);
     }
 }

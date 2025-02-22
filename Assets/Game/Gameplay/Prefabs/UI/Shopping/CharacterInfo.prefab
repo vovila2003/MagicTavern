@@ -185,10 +185,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2414207254186608573}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.1, y: 0.33}
-  m_AnchorMax: {x: 0.7, y: 0.93}
+  m_AnchorMin: {x: 0.075, y: 0.33}
+  m_AnchorMax: {x: 0.675, y: 0.93}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.0000076293945, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3284515346814416342
 CanvasRenderer:
@@ -446,8 +446,8 @@ RectTransform:
   - {fileID: 3172515440509615716}
   m_Father: {fileID: 2414207254186608573}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.75, y: 0.33}
-  m_AnchorMax: {x: 0.95, y: 0.93}
+  m_AnchorMin: {x: 0.725, y: 0.33}
+  m_AnchorMax: {x: 0.925, y: 0.93}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -508,7 +508,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 200
   m_Viewport: {fileID: 3172515440509615716}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}

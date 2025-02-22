@@ -15,3 +15,7 @@ MonoBehaviour:
   CharacterPrefab: {fileID: 2074152097557560704, guid: 7f7ce6e72108af9d58d4859748147497, type: 3}
   Speed: 1.5
   MaxHealth: 5
+  <Metadata>k__BackingField:
+    Title: Player
+    Description: 
+    Icon: {fileID: 21300000, guid: a129d11db2032294090c37ecaad44996, type: 3}

@@ -17,25 +17,25 @@ namespace Tavern.UI.Views
         [SerializeField]
         private TMP_Text Money;
         
+        public Transform Content => EffectContent;
         
-        private readonly List<EffectView> _effects = new();
+        private readonly List<IEffectView> _effects = new();
 
         public void SetIcon(Sprite sprite)
         {
             Icon.sprite = sprite;
         }
         
-        public void AddEffect(EffectView effect)
+        public void AddEffect(IEffectView effect)
         {
             _effects.Add(effect);
-            effect.transform.SetParent(EffectContent);
         }
 
         public void ClearEffects()
         {
-            foreach (EffectView effect in _effects)
+            foreach (IEffectView effect in _effects)
             {
-                Destroy(effect.gameObject);
+                Destroy(effect.GetGameObject());
             }
             
             _effects.Clear();

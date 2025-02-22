@@ -1,3 +1,4 @@
+using Modules.Info;
 using Modules.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;

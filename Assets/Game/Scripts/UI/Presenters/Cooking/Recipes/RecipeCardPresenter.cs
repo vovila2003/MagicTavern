@@ -1,5 +1,5 @@
 using System;
-using Modules.Items;
+using Modules.Info;
 using Tavern.Cooking;
 
 namespace Tavern.UI.Presenters

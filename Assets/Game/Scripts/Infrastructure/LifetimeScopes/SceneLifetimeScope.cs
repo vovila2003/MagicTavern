@@ -1,4 +1,3 @@
-using Tavern.Components;
 using Tavern.InputServices;
 using Tavern.Settings;
 using UnityEngine;
@@ -22,8 +21,10 @@ namespace Tavern.Infrastructure
         {
             builder.RegisterEntryPoint<InputService>();
             builder.RegisterInstance(SceneSettings);
-            
-            Character.Character character = CreateCharacter(builder);
+
+            Character.Character character = Instantiate(
+                GameSettings.CharacterSettings.Prefab, 
+                SceneSettings.WorldTransform);
             
             new CharacterInstaller(GameSettings, character).Install(builder);
             new GameCycleInstaller().Install(builder);
@@ -34,23 +35,6 @@ namespace Tavern.Infrastructure
             new LootingInstaller().Install(builder);
             new CookingInstaller(GameSettings).Install(builder);
             new ShoppingInstaller(GameSettings).Install(builder);
-        }
-
-        private Character.Character CreateCharacter(IContainerBuilder builder)
-        {
-            Character.Character character = Instantiate(
-                GameSettings.CharacterSettings.Prefab, 
-                SceneSettings.WorldTransform);
-            if (!character.TryGetComponent(out SeederComponent seeder))
-            {
-                Debug.LogWarning($"Character {character.name} does not have a SeederComponent");
-            }
-            else
-            {
-                builder.RegisterComponent(seeder).AsImplementedInterfaces();
-            }
-
-            return character;
         }
     }
 }

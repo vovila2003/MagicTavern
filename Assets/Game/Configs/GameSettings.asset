@@ -31,7 +31,7 @@ MonoBehaviour:
     MaxDefaultMiniGameTimeInSeconds: 10
     <EnableRecipeMatching>k__BackingField: 0
   <ShoppingSettings>k__BackingField:
-    <ShopContextPrefab>k__BackingField: {fileID: 8225788646862751075, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
+    <ShopContextPrefab>k__BackingField: {fileID: 1517396157421802262, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
   UIConfigs:
     Common:
       EntityCardSettings:
@@ -45,6 +45,7 @@ MonoBehaviour:
       PanelPrefab: {fileID: 7738879138012533936, guid: 03a34b1d162fa087cb808aa0a56e0fdf, type: 3}
       LeftGridPrefab: {fileID: 3386461340789652487, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
       InfoPanelPrefab: {fileID: 8513231856921733487, guid: fb36013887e059069ad268297cd00daa, type: 3}
+      EffectViewPrefab: {fileID: 6797862594772926974, guid: 6190245376d08e9d58efc8901991d5d4, type: 3}
       SlopsConfig: {fileID: 11400000, guid: 60731536d559c1ba58fb0595e8a3d86f, type: 2}
     Cooking:
       CookingAndMatchRecipePrefab: {fileID: 2803324742170462957, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}

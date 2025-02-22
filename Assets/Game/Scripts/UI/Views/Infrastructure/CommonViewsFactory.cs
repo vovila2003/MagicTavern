@@ -50,6 +50,9 @@ namespace Tavern.UI.Views
 
         public IContainerView CreateLeftGridView(Transform viewContainer) => 
             Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
+        
+        public IEffectView CreateEffectView(Transform viewContainer) =>
+            Object.Instantiate(_settings.CommonSettings.EffectView, viewContainer);
 
         //private
         private InfoPanelView CreateInfoPanelView() =>

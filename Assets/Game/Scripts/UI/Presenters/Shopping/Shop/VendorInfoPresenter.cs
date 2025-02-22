@@ -1,4 +1,4 @@
-using Modules.Items;
+using Modules.Info;
 using Tavern.Shopping;
 
 namespace Tavern.UI.Presenters

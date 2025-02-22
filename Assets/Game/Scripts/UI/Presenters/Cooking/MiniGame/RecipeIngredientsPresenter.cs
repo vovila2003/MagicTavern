@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Modules.Info;
 using Modules.Items;
 using Tavern.Cooking;
 using Tavern.ProductsAndIngredients;
