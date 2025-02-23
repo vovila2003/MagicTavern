@@ -1,3 +1,4 @@
+using System;
 using Tavern.UI.Presenters;
 using TMPro;
 using UnityEngine;
@@ -20,58 +21,10 @@ namespace Tavern.UI.Views
             remove => CloseButton.onClick.RemoveListener(value);
         } 
         
-        public event UnityAction OnPlus1
-        {
-            add => Plus1Button.onClick.AddListener(value);
-            remove => Plus1Button.onClick.RemoveListener(value);
-        }
-        
-        public event UnityAction OnPlus3
-        {
-            add => Plus3Button.onClick.AddListener(value);
-            remove => Plus3Button.onClick.RemoveListener(value);
-        }
-        
-        public event UnityAction OnPlus5
-        {
-            add => Plus5Button.onClick.AddListener(value);
-            remove => Plus5Button.onClick.RemoveListener(value);
-        }
-        
-        public event UnityAction OnPlus10
-        {
-            add => Plus10Button.onClick.AddListener(value);
-            remove => Plus10Button.onClick.RemoveListener(value);
-        }
-        
         public event UnityAction OnMax
         {
             add => MaxButton.onClick.AddListener(value);
             remove => MaxButton.onClick.RemoveListener(value);
-        }
-        
-        public event UnityAction OnMinus1
-        {
-            add => Minus1Button.onClick.AddListener(value);
-            remove => Minus1Button.onClick.RemoveListener(value);
-        }
-        
-        public event UnityAction OnMinus3
-        {
-            add => Minus3Button.onClick.AddListener(value);
-            remove => Minus3Button.onClick.RemoveListener(value);
-        }
-        
-        public event UnityAction OnMinus5
-        {
-            add => Minus5Button.onClick.AddListener(value);
-            remove => Minus5Button.onClick.RemoveListener(value);
-        }
-        
-        public event UnityAction OnMinus10
-        {
-            add => Minus10Button.onClick.AddListener(value);
-            remove => Minus10Button.onClick.RemoveListener(value);
         }
         
         public event UnityAction OnMin
@@ -85,6 +38,9 @@ namespace Tavern.UI.Views
             add => Slider.onValueChanged.AddListener(value);
             remove => Slider.onValueChanged.RemoveListener(value);
         }
+
+        public event Action<int> OnPlus;
+        public event Action<int> OnMinus;
         
         [SerializeField]
         private TMP_Text Title;
@@ -154,11 +110,37 @@ namespace Tavern.UI.Views
             }
         }
 
+        private void OnEnable()
+        {
+            Plus1Button.onClick.AddListener(OnPlus1Clicked);
+            Plus3Button.onClick.AddListener(OnPlus3Clicked);
+            Plus5Button.onClick.AddListener(OnPlus5Clicked);
+            Plus10Button.onClick.AddListener(OnPlus10Clicked);
+            
+            Minus1Button.onClick.AddListener(OnMinus1Clicked);
+            Minus3Button.onClick.AddListener(OnMinus3Clicked);
+            Minus5Button.onClick.AddListener(OnMinus5Clicked);
+            Minus10Button.onClick.AddListener(OnMinus10Clicked);
+        }
+
+        private void OnDisable()
+        {
+            Plus1Button.onClick.RemoveListener(OnPlus1Clicked);
+            Plus3Button.onClick.RemoveListener(OnPlus3Clicked);
+            Plus5Button.onClick.RemoveListener(OnPlus5Clicked);
+            Plus10Button.onClick.RemoveListener(OnPlus10Clicked);
+            
+            Minus1Button.onClick.RemoveListener(OnMinus1Clicked);
+            Minus3Button.onClick.RemoveListener(OnMinus3Clicked);
+            Minus5Button.onClick.RemoveListener(OnMinus5Clicked);
+            Minus10Button.onClick.RemoveListener(OnMinus10Clicked);
+        }
+
         public void SetTitle(string title)
         {
             Title.text = title;
         }
-        
+
         public void SetDescription(string title)
         {
             Description.text = title;
@@ -168,7 +150,7 @@ namespace Tavern.UI.Views
         {
             Icon.sprite = icon;
         }
-        
+
         public void HideAllEffects()
         {
             foreach (EffectView view in EffectViews)
@@ -187,7 +169,7 @@ namespace Tavern.UI.Views
             Amount.text = amount;
         }
 
-        public void SetSliderMAxValue(float value)
+        public void SetSliderMaxValue(float value)
         {
             Slider.maxValue = value;
         }
@@ -196,5 +178,14 @@ namespace Tavern.UI.Views
         {
             Slider.value = value;
         }
+
+        private void OnPlus1Clicked() => OnPlus?.Invoke(1);
+        private void OnPlus3Clicked() => OnPlus?.Invoke(3);
+        private void OnPlus5Clicked() => OnPlus?.Invoke(5);
+        private void OnPlus10Clicked() => OnPlus?.Invoke(10);
+        private void OnMinus1Clicked() => OnMinus?.Invoke(1);
+        private void OnMinus3Clicked() => OnMinus?.Invoke(3);
+        private void OnMinus5Clicked() => OnMinus?.Invoke(5);
+        private void OnMinus10Clicked() => OnMinus?.Invoke(10);
     }
 }

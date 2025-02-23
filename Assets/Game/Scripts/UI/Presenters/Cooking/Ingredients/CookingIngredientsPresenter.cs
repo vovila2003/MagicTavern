@@ -16,7 +16,6 @@ namespace Tavern.UI.Presenters
         private readonly Transform _parent;
         private readonly IInventory<PlantProductItem> _plantProductInventory;
         private readonly IInventory<AnimalProductItem> _animalProductsInventory;
-        private readonly CookingPresentersFactory _cookingPresentersFactory;
         private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly Transform _canvas;
         private readonly IActiveDishRecipeReader _recipe;
@@ -27,7 +26,6 @@ namespace Tavern.UI.Presenters
         public CookingIngredientsPresenter(IContainerView view,
             IInventory<PlantProductItem> plantProductInventory,
             IInventory<AnimalProductItem> animalProductsInventory,
-            CookingPresentersFactory cookingPresentersFactory, 
             CommonPresentersFactory commonPresentersFactory, 
             Transform canvas,
             IActiveDishRecipeReader recipe,
@@ -37,7 +35,6 @@ namespace Tavern.UI.Presenters
             _parent = view.ContentTransform;
             _plantProductInventory = plantProductInventory;
             _animalProductsInventory = animalProductsInventory;
-            _cookingPresentersFactory = cookingPresentersFactory;
             _commonPresentersFactory = commonPresentersFactory;
             _canvas = canvas;
             _recipe = recipe;

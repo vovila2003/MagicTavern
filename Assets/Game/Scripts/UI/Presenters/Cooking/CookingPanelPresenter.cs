@@ -15,7 +15,6 @@ namespace Tavern.UI.Presenters
 
         private readonly IPanelView _view;
         private readonly DishCrafter _crafter;
-        private readonly CookingPresentersFactory _factory;
         private readonly CommonPresentersFactory _commonFactory;
         private readonly ActiveDishRecipe _activeRecipe;
         private readonly Transform _canvas;
@@ -44,14 +43,12 @@ namespace Tavern.UI.Presenters
         {
             _view = view;
             _crafter = crafter;
-            _factory = factory;
             _commonFactory = commonFactory;
             _activeRecipe = activeRecipe;
             _canvas = canvas;
             _slopsItem = slopConfig.Create() as SlopsItem;
             _recipesPresenter = factory.CreateLeftGridPresenter(_view.Container);
-            _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(
-                _view.Container, activeRecipe);
+            _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(_view.Container);
             _ingredientsPresenter = factory.CreateCookingIngredientsPresenter(_view.Container, activeRecipe);
         }
         

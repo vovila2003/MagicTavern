@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Tavern.Character;
+using Tavern.Settings;
 using Tavern.Shopping;
 using Tavern.Storages.CurrencyStorages;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Tavern.UI.Presenters
         private readonly ICharacter _character;
         private readonly CharacterSeller _characterSeller;
         private readonly IMoneyStorage _moneyStorage;
+        private readonly UISceneSettings _uiSceneSettings;
 
         public ShoppingPresentersFactory(
             ICommonViewsFactory commonViewsFactory,
@@ -22,7 +24,8 @@ namespace Tavern.UI.Presenters
             CommonPresentersFactory commonPresentersFactory,
             ICharacter character, 
             CharacterSeller characterSeller,
-            IMoneyStorage moneyStorage)
+            IMoneyStorage moneyStorage, 
+            UISceneSettings uiSceneSettings)
         {
             _commonViewsFactory = commonViewsFactory;
             _shoppingViewsFactory = shoppingViewsFactory;
@@ -30,6 +33,7 @@ namespace Tavern.UI.Presenters
             _character = character;
             _characterSeller = characterSeller;
             _moneyStorage = moneyStorage;
+            _uiSceneSettings = uiSceneSettings;
         }
 
         public ShoppingPanelPresenter CreateShoppingPanelPresenter() => 
@@ -48,7 +52,9 @@ namespace Tavern.UI.Presenters
                 _commonViewsFactory.ItemCardViewPool);
 
         public ShopItemsPresenter CreateShopItemsPresenter(Transform viewContainer) =>
-            new(_shoppingViewsFactory.CreateShopItemsView(viewContainer), this);
+            new(_shoppingViewsFactory.CreateShopItemsView(viewContainer), 
+                this,
+                _uiSceneSettings.Canvas);
 
         public VendorInfoPresenter CreateVendorInfoPresenter(Transform viewContainer) =>
             new(_shoppingViewsFactory.CreateVendorInfoView(viewContainer));
@@ -63,5 +69,8 @@ namespace Tavern.UI.Presenters
                 _moneyStorage,
                 _character,
                 _commonViewsFactory);
+        
+        public DealInfoPresenter CreateDealInfoPresenter(Transform parent) =>
+            new(_shoppingViewsFactory.DealInfoViewProvider, parent, _commonPresentersFactory);
     }
 }

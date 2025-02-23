@@ -11,16 +11,21 @@ namespace Tavern.UI.Presenters
         private readonly IContainerView _view;
         private Shop _shop;
         private readonly ShoppingPresentersFactory _factory;
+        private readonly Transform _canvas;
         private readonly Dictionary<string, ItemConfigCardPresenter> _presenters = new();
         private ComponentGroupConfig _filter;
+        private DealInfoPresenter _dealInfoPresenter;
+        private readonly Dictionary<ItemConfig, int> _itemCount = new();
 
         public ShopItemsPresenter(
             IContainerView view, 
-            ShoppingPresentersFactory factory
+            ShoppingPresentersFactory factory,
+            Transform canvas
             ) : base(view)
         {
             _view = view;
             _factory = factory;
+            _canvas = canvas;
         }
 
         public void Show(Shop shop)
@@ -74,6 +79,7 @@ namespace Tavern.UI.Presenters
             foreach (ItemInfoByConfig itemInfo in items)
             {
                 AddPresenter(itemInfo.Item, itemInfo.Count);
+                _itemCount.Add(itemInfo.Item, itemInfo.Count);
             }
         }
 
@@ -96,13 +102,17 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientRightClick(ItemConfig config)
         {
-            Debug.Log($"{config.Name} right button clicked");
             _shop.BuyByConfig(config);
         }
 
         private void OnIngredientLeftClick(ItemConfig config)
         {
-            Debug.Log($"{config.Name} left button clicked");
+            _dealInfoPresenter ??= _factory.CreateDealInfoPresenter(_canvas);
+            
+            if (!_dealInfoPresenter.Show(config, _itemCount[config])) return;
+            
+            _dealInfoPresenter.OnConfigAccepted += OnDeal;
+            _dealInfoPresenter.OnRejected += OnCancelled;
         }
 
         private void UnsubscribeItemCard(ItemConfigCardPresenter presenter)
@@ -126,11 +136,31 @@ namespace Tavern.UI.Presenters
             }
 
             _presenters.Clear();
+            _itemCount.Clear();
         }
 
         private void OnItemsChanged()
         {
             SetFilter(_filter);
+        }
+
+        private void OnDeal(ItemConfig config, int count)
+        {
+            UnsubscribeDealInfo();
+            for (var i = 0; i < count; i++)
+            {
+                //TODO think! size as arg?
+                
+                _shop.BuyByConfig(config);
+            }
+        }
+
+        private void OnCancelled() => UnsubscribeDealInfo();
+
+        private void UnsubscribeDealInfo()
+        {
+            _dealInfoPresenter.OnConfigAccepted -= OnDeal;
+            _dealInfoPresenter.OnRejected -= OnCancelled;
         }
     }
 }

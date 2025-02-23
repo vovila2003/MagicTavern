@@ -20,7 +20,7 @@ MonoBehaviour:
   - rid: 588217188916133958
   <Metadata>k__BackingField:
     Title: "\u041A\u0443\u0440\u0438\u0446\u0430"
-    Description: 
+    Description: "\u0422\u0443\u0448\u043A\u0430 \u0431\u0440\u043E\u0439\u043B\u0435\u0440\u0430"
     Icon: {fileID: 1114843826, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2

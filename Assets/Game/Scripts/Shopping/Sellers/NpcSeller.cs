@@ -187,6 +187,7 @@ namespace Tavern.Shopping
             if (random > Config.SellCharacterItemByExtraPriceProbability) return;
 
             int count = _characterItems.Count;
+            if (count == 0) return;
             Item item = _characterItems.Keys.ToList()[Random.Range(0, count)];
 
             int price = Mathf.RoundToInt(_characterItems[item] * Config.ExtraSellPricePercents / 100f);

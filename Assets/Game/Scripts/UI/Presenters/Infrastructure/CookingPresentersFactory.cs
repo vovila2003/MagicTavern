@@ -37,7 +37,6 @@ namespace Tavern.UI.Presenters
             DishCrafter dishCrafter,
             ISpaceInput spaceInput,
             MiniGamePlayer player,
-            
             UISettings settings,
             UISceneSettings sceneSettings,
             CookingSettings cookingSettings)
@@ -78,7 +77,7 @@ namespace Tavern.UI.Presenters
                 _settings.CommonSettings.SlopsSettings);
 
         public CookingAndMatchRecipePresenter CreateCookingAndMatchRecipePresenter(
-            Transform viewContainer, ActiveDishRecipe recipe) => 
+            Transform viewContainer) => 
             new(_cookingViewsFactory.CreateCookingAndMatchRecipeView(viewContainer), this);
 
         public CookingIngredientsPresenter CreateCookingIngredientsPresenter(
@@ -86,7 +85,6 @@ namespace Tavern.UI.Presenters
             new(_cookingViewsFactory.CreateCookingIngredientsView(viewContainer),
                 _plantProductInventory,
                 _animalProductInventory,
-                this,
                 _commonPresentersFactory,
                 _sceneSettings.Canvas, 
                 recipe,
