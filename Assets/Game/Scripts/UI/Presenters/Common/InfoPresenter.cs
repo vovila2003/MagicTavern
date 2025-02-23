@@ -21,7 +21,7 @@ namespace Tavern.UI.Presenters
         private Item _item;
         private IInfoPanelView _view;
 
-        public InfoPresenter(IInfoViewProvider provider, Transform parent, CookingPresentersFactory factory)
+        public InfoPresenter(IInfoViewProvider provider, Transform parent, CommonPresentersFactory factory)
         {
             _provider = provider;
             _parent = parent;

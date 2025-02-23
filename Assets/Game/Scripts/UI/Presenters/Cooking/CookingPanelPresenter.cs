@@ -16,6 +16,7 @@ namespace Tavern.UI.Presenters
         private readonly IPanelView _view;
         private readonly DishCrafter _crafter;
         private readonly CookingPresentersFactory _factory;
+        private readonly CommonPresentersFactory _commonFactory;
         private readonly ActiveDishRecipe _activeRecipe;
         private readonly Transform _canvas;
         private readonly SlopsItem _slopsItem;
@@ -35,6 +36,7 @@ namespace Tavern.UI.Presenters
             IPanelView view, 
             DishCrafter crafter,
             CookingPresentersFactory factory,
+            CommonPresentersFactory commonFactory,
             ActiveDishRecipe activeRecipe,
             Transform canvas,
             SlopsItemConfig slopConfig
@@ -43,6 +45,7 @@ namespace Tavern.UI.Presenters
             _view = view;
             _crafter = crafter;
             _factory = factory;
+            _commonFactory = commonFactory;
             _activeRecipe = activeRecipe;
             _canvas = canvas;
             _slopsItem = slopConfig.Create() as SlopsItem;
@@ -142,7 +145,7 @@ namespace Tavern.UI.Presenters
 
         private void ShowInfo(DishRecipe recipe, Item item)
         {
-            _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
+            _infoPresenter ??= _commonFactory.CreateInfoPresenter(_canvas);
 
             if (!_infoPresenter.Show(item, Repeat)) return;
             
@@ -157,7 +160,7 @@ namespace Tavern.UI.Presenters
             List<AnimalProductItem> animalProductItems, 
             Item item)
         {
-            _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
+            _infoPresenter ??= _commonFactory.CreateInfoPresenter(_canvas);
 
             if (!_infoPresenter.Show(item, Repeat)) return;
             

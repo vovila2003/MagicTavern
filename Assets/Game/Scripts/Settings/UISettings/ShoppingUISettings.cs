@@ -24,5 +24,8 @@ namespace Tavern.Settings
 
         [field: SerializeField]
         public FilterView FilterView { get; private set; }
+        
+        [field: SerializeField]
+        public DealInfoView DealInfoView { get; private set; }
     }
 }

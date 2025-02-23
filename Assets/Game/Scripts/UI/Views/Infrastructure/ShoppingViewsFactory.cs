@@ -9,10 +9,15 @@ namespace Tavern.UI.Views
     public class ShoppingViewsFactory : IShoppingViewsFactory
     {
         private readonly UISettings _settings;
+        private readonly UISceneSettings _sceneSettings;
 
-        public ShoppingViewsFactory(UISettings settings)
+        public IDealInfoViewProvider DealInfoViewProvider { get; }
+
+        public ShoppingViewsFactory(UISettings settings, UISceneSettings sceneSettings)
         {
             _settings = settings;
+            _sceneSettings = sceneSettings;
+            DealInfoViewProvider = new DealInfoViewProvider(CreateDealInfoPanelView, _sceneSettings.Pool);
         }
         
         public ICategoriesView CreateCategoriesView(Transform viewContainer) => 
@@ -32,5 +37,9 @@ namespace Tavern.UI.Views
 
         public IFilterView CreateFilterView(Transform viewContainer) => 
             Object.Instantiate(_settings.Shopping.FilterView, viewContainer);
+        
+        //private
+        private DealInfoView CreateDealInfoPanelView() =>
+            Object.Instantiate(_settings.Shopping.DealInfoView, _sceneSettings.Pool);
     }
 }

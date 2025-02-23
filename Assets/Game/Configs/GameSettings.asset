@@ -64,3 +64,4 @@ MonoBehaviour:
       <CharacterItemView>k__BackingField: {fileID: 3231570044008007321, guid: 413c6a278aedd2b1a86cc9cf106c2aab, type: 3}
       <CharacterInfoView>k__BackingField: {fileID: 1153836047481700923, guid: e5764c9192fb421578297b909105c06e, type: 3}
       <FilterView>k__BackingField: {fileID: 7972640799965641659, guid: c04fb1b68b350a108853eb8acf9f8eef, type: 3}
+      <DealInfoView>k__BackingField: {fileID: 6305037085466651705, guid: 3fb79705598e4fc979f763da912f0f9a, type: 3}

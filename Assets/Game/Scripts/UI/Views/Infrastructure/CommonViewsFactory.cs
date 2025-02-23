@@ -8,12 +8,12 @@ namespace Tavern.UI.Views
     [UsedImplicitly]
     public class CommonViewsFactory : ICommonViewsFactory
     {
+        private readonly UISettings _settings;
+        private readonly UISceneSettings _sceneSettings;
+        
         public IEntityCardViewPool EntityCardViewPool { get; }
         public IItemCardViewPool ItemCardViewPool { get; }
         public IInfoViewProvider InfoViewProvider { get; }
-
-        private readonly UISettings _settings;
-        private readonly UISceneSettings _sceneSettings;
 
         public CommonViewsFactory(UISettings settings, UISceneSettings sceneSettings)
         {

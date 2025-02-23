@@ -22,7 +22,6 @@ namespace Tavern.UI.Presenters
         private readonly DishCrafter _dishCrafter;
         private readonly ISpaceInput _spaceInput;
         private readonly MiniGamePlayer _player;
-        private readonly IMouseClickInput _mouseClickInput;
         private readonly UISettings _settings;
         private readonly UISceneSettings _sceneSettings;
         private readonly CookingSettings _cookingSettings;
@@ -38,7 +37,7 @@ namespace Tavern.UI.Presenters
             DishCrafter dishCrafter,
             ISpaceInput spaceInput,
             MiniGamePlayer player,
-            IMouseClickInput mouseClickInput,
+            
             UISettings settings,
             UISceneSettings sceneSettings,
             CookingSettings cookingSettings)
@@ -53,7 +52,6 @@ namespace Tavern.UI.Presenters
             _dishCrafter = dishCrafter;
             _spaceInput = spaceInput;
             _player = player;
-            _mouseClickInput = mouseClickInput;
             _settings = settings;
             _sceneSettings = sceneSettings;
             _cookingSettings = cookingSettings;
@@ -62,8 +60,6 @@ namespace Tavern.UI.Presenters
         public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform) =>
             new(_commonViewsFactory.GetEntityCardView(viewContentTransform), 
                 _commonViewsFactory.EntityCardViewPool);
-
-        
 
         public CookingRecipesPresenter CreateLeftGridPresenter(Transform viewContainer) =>
             new(_commonViewsFactory.CreateLeftGridView(viewContainer), 
@@ -76,6 +72,7 @@ namespace Tavern.UI.Presenters
             new(_commonViewsFactory.CreatePanelView(),
                 _dishCrafter,
                 this,
+                _commonPresentersFactory,
                 _activeDishRecipe,
                 _sceneSettings.Canvas,
                 _settings.CommonSettings.SlopsSettings);
@@ -98,9 +95,6 @@ namespace Tavern.UI.Presenters
         public MatchNewRecipePresenter CreateMatchNewRecipePresenter(Transform viewContainer) => 
             new(_cookingViewsFactory.CreateMatchNewRecipeView(viewContainer));
 
-        public InfoPresenter CreateInfoPresenter(Transform parent) =>
-            new(_commonViewsFactory.InfoViewProvider, parent, this);
-
         public CookingMiniGamePresenter CreateCookingMiniGamePresenter(Transform parent) =>
             new(_cookingViewsFactory.CreateCookingMiniGameView(parent), 
                 _player,
@@ -109,7 +103,7 @@ namespace Tavern.UI.Presenters
         public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent) => 
             new(_cookingViewsFactory.CreateRecipeIngredientsView(parent), 
                 _settings.CookingSettings, 
-                CreateInfoPresenter,
+                _commonPresentersFactory.CreateInfoPresenter,
                 _sceneSettings.Canvas,
                 _activeDishRecipe,
                 _cookingSettings.EnableRecipeMatching);
@@ -118,7 +112,5 @@ namespace Tavern.UI.Presenters
             new(_cookingViewsFactory.CreateRecipeEffectsView(parent), 
                 _settings.CookingSettings,
                 _activeDishRecipe);
-
-        public AutoClosePresenter CreateAutoClosePresenter() => new(_mouseClickInput);
     }
 }

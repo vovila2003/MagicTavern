@@ -167,7 +167,7 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientLeftClick(Item item)
         {
-            _infoPresenter ??= _cookingPresentersFactory.CreateInfoPresenter(_canvas);
+            _infoPresenter ??= _commonPresentersFactory.CreateInfoPresenter(_canvas);
             
             if (!_infoPresenter.Show(item, Add)) return;
             
