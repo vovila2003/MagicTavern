@@ -69,7 +69,7 @@ namespace Tavern.Shopping
             Debug.Log($"Deal result: {dealResult}");
         }
 
-        public void BuyOut(Item item, int count = 1)
+        public void BuyOut(Item item)
         {
             if (!NpcSeller.HasItem(item))
             {
@@ -85,7 +85,7 @@ namespace Tavern.Shopping
                 return;
             }
             
-            bool result = Deal.BuyOutFromNpc(_characterBuyer, NpcSeller, item, price, count);
+            bool result = Deal.BuyOutFromNpc(_characterBuyer, NpcSeller, item, price);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }

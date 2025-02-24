@@ -89,11 +89,6 @@ namespace Tavern.Shopping
         public int GetItemCount(ItemConfig itemConfig) => 
             !_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? 0 : info.Count;
 
-        public int GetItemCount(Item item)
-        {
-            
-        }
-
         public bool GiveItem(ItemConfig itemConfig, int count)
         {
             if (!_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info)) return false;
@@ -122,19 +117,23 @@ namespace Tavern.Shopping
             OnItemsChanged?.Invoke();
         }
 
-        public bool TakeItem(Item item, int count)
+        public bool TakeItem(Item item, int count = 1)
         {
             (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
 
             if (!hasPrice) return false;
 
-            Item clone = item.Clone();
-            if (clone.TryGet(out ComponentStackable componentStackable))
+            for (var i = 0; i < count; ++i)
             {
-                componentStackable.Value = count;
+                Item clone = item.Clone();
+                if (clone.TryGet(out ComponentStackable componentStackable))
+                {
+                    componentStackable.Value = 1;
+                }
+                
+                _characterItems.Add(clone, price);
             }
             
-            _characterItems.Add(clone, price);
             OnCharacterItemsChanged?.Invoke();
 
             return true;
@@ -146,7 +145,7 @@ namespace Tavern.Shopping
 
         public void SpendMoney(int price) => _moneyStorage.Spend(price);
 
-        public bool GiveItem(Item item, int count)
+        public bool GiveItem(Item item)
         {
             bool ok = _characterItems.Remove(item);
             if (ok)

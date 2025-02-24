@@ -79,9 +79,7 @@ namespace Tavern.UI.Presenters
         {
             _dealInfoPresenter ??= _shoppingPresentersFactory.CreateDealInfoPresenter(_canvas);
             
-            //TODO
-            
-            var maxCount = 1;
+            const int maxCount = 1;
             int price = _itemPrices[item];
             
             if (!_dealInfoPresenter.Show(item, maxCount, price)) return;
@@ -92,7 +90,11 @@ namespace Tavern.UI.Presenters
 
         private void OnDeal(Item item, int count)
         {
-            //TODO
+            UnsubscribeDealInfo();
+            if (count >= 1)
+            {
+                _shop.BuyOut(item);
+            }
         }
 
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
