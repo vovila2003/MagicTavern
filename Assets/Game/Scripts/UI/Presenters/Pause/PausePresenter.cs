@@ -6,12 +6,12 @@ namespace Tavern.UI.Presenters
     {
         private readonly IPauseView _view;
         private readonly GameCycleController _gameCycleController;
-        private readonly UiManager _uiManager;
+        private readonly IUiManager _uiManager;
 
         public PausePresenter(
             IPauseView view, 
             GameCycleController gameCycleController, 
-            UiManager uiManager) : base(view)
+            IUiManager uiManager) : base(view)
         {
             _view = view;
             _gameCycleController = gameCycleController;

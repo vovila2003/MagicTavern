@@ -22,12 +22,12 @@ namespace Tavern.UI.Presenters
             _mouseClickInput = mouseClickInput;
         }
 
-        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView, UiManager uiManager) => 
+        public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView, IUiManager uiManager) => 
             new(mainMenuView, _gameCycleController, uiManager);
 
         public HudPresenter CreateHudPresenter(IHudView hudView) => new(hudView);
 
-        public PausePresenter CreatePausePresenter(IPauseView pauseView, UiManager uiManager) => 
+        public PausePresenter CreatePausePresenter(IPauseView pauseView, IUiManager uiManager) => 
             new(pauseView, _gameCycleController, uiManager);
         
         public ItemCardPresenter CreateItemCardPresenter(Transform viewContentTransform) =>

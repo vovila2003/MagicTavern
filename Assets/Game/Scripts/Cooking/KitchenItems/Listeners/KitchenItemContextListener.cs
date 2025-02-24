@@ -8,13 +8,13 @@ namespace Tavern.Cooking
         private readonly KitchenItemContext _kitchenItemContext;
         private readonly ActiveDishRecipe _activeDishRecipe;
         private readonly GameCycleController _gameCycleController;
-        private readonly UiManager _uiManager;
+        private readonly IUiManager _uiManager;
 
         public KitchenItemContextListener(
             KitchenItemContext kitchenItemContext, 
             ActiveDishRecipe activeDishRecipe,
             GameCycleController gameCycleController,
-            UiManager uiManager
+            IUiManager uiManager
             )
         {
             _kitchenItemContext = kitchenItemContext;

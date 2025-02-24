@@ -7,12 +7,12 @@ namespace Tavern.Shopping
     {
         private readonly ShopContext _shopContext;
         private readonly GameCycleController _gameCycleController;
-        private readonly UiManager _uiManager;
+        private readonly IUiManager _uiManager;
 
         public ShopListener(
             ShopContext shopContext, 
             GameCycleController gameCycleController,
-            UiManager uiManager
+            IUiManager uiManager
             )
         {
             _shopContext = shopContext;

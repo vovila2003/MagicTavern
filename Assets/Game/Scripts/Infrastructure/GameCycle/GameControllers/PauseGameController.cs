@@ -13,11 +13,11 @@ namespace Tavern.Infrastructure
     {
         private readonly GameCycleController _gameCycle;
         private readonly IPauseInput _input;
-        private readonly UiManager _uiManager;
+        private readonly IUiManager _uiManager;
 
         public PauseGameController(GameCycleController gameCycle, 
             IPauseInput input, 
-            UiManager uiManager)
+            IUiManager uiManager)
         {
             _gameCycle = gameCycle;
             _input = input;

@@ -24,7 +24,7 @@ namespace Tavern.Shopping
         void IInitGameListener.OnInit()
         {
             var gameCycleController = _resolver.Resolve<GameCycleController>();
-            var uiManager = _resolver.Resolve<UiManager>();
+            var uiManager = _resolver.Resolve<IUiManager>();
             var sceneSettings = _resolver.Resolve<SceneSettings>();
             ShopContext prefab = _resolver.Resolve<ShoppingSettings>().ShopContextPrefab;
             var characterBuyer = _resolver.Resolve<CharacterBuyer>();

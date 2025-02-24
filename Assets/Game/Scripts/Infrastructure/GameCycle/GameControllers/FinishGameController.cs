@@ -7,9 +7,9 @@ namespace Tavern.Infrastructure
     public sealed class FinishGameController 
     {
         private readonly GameCycleController _gameCycleController;
-        private readonly UiManager _manager;
+        private readonly IUiManager _manager;
 
-        public FinishGameController(GameCycleController gameCycleController, UiManager manager)
+        public FinishGameController(GameCycleController gameCycleController, IUiManager manager)
         {
             _gameCycleController = gameCycleController;
             _manager = manager;

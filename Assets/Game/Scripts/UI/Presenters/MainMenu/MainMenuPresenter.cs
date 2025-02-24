@@ -6,11 +6,11 @@ namespace Tavern.UI.Presenters
     {
         private readonly IMainMenuView _view;
         private readonly GameCycleController _gameCycleController;
-        private readonly UiManager _uiManager;
+        private readonly IUiManager _uiManager;
 
         public MainMenuPresenter(IMainMenuView view,
             GameCycleController gameCycleController, 
-            UiManager uiManager
+            IUiManager uiManager
             ) : base(view)
         {
             _view = view;

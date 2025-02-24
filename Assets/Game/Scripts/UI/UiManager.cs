@@ -10,7 +10,7 @@ using VContainer;
 namespace Tavern.UI
 {
     public sealed class UiManager : MonoBehaviour, 
-        IInitGameListener
+        IInitGameListener, IUiManager
     {
         private UISceneSettings _settings;
         private CommonPresentersFactory _commonFactory;

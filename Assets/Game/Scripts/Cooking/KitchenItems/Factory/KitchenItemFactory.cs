@@ -25,7 +25,7 @@ namespace Tavern.Cooking
         {
             var dishRecipe = _resolver.Resolve<ActiveDishRecipe>();
             var gameCycleController = _resolver.Resolve<GameCycleController>();
-            var uiManager = _resolver.Resolve<UiManager>();
+            var uiManager = _resolver.Resolve<IUiManager>();
             var sceneSettings = _resolver.Resolve<SceneSettings>();
             KitchenItemContext prefab = _resolver.Resolve<CookingSettings>().KitchenPrefab;
             
