@@ -7,7 +7,7 @@ namespace Tavern.Shopping
         bool CanBuy(int price);
         void SpendMoney(int price);
         void EarnMoney(int price);
-        bool TakeItem(ItemConfig itemConfig);
+        bool TakeItem(ItemConfig itemConfig, int count);
         bool TakeItem(Item itemConfig);
     }
 }

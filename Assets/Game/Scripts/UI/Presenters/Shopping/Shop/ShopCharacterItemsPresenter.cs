@@ -37,11 +37,13 @@ namespace Tavern.UI.Presenters
         protected override void OnShow()
         {
             SetupCharacterItemCards(_shop.NpcSeller.CharacterItemPrices);
+            _shop.OnNpcCharacterItemsChanged += OnItemsChanged;
         }
 
         protected override void OnHide()
         {
             ClearItems();
+            _shop.OnNpcCharacterItemsChanged -= OnItemsChanged;
         }
 
         private void SetupCharacterItemCards(IReadOnlyDictionary<Item,int> npcSellerCharacterItemPrices)
@@ -116,6 +118,12 @@ namespace Tavern.UI.Presenters
         {
             _dealInfoPresenter.OnAccepted -= OnDeal;
             _dealInfoPresenter.OnRejected -= OnCancelled;
+        }
+
+        private void OnItemsChanged()
+        {
+            ClearItems();
+            SetupCharacterItemCards(_shop.NpcSeller.CharacterItemPrices);
         }
     }
 }

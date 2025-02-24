@@ -24,11 +24,23 @@ namespace Tavern.Shopping
 
         public void EarnMoney(int price) => _moneyStorage.EarnMoney(price);
 
-        public bool TakeItem(ItemConfig itemConfig)
+        public bool TakeItem(ItemConfig itemConfig, int count)
         {
-            Item item = itemConfig.Create();
-            
-            return TakeItem(item);
+            if (itemConfig.Has<ComponentStackable>())
+            {
+                Item item = itemConfig.Create();
+                item.Get<ComponentStackable>().Value = count;
+                return TakeItem(item);
+            }
+
+            var result = true;
+            for (var i = 0; i < count; ++i)
+            {
+                Item item = itemConfig.Create();
+                result &= TakeItem(item);
+            }
+
+            return result;
         }
 
         public bool TakeItem(Item item)

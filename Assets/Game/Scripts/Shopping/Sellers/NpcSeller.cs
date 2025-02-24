@@ -16,6 +16,7 @@ namespace Tavern.Shopping
         public event Action<int> OnSellerMoneyChanged;
         public event Action<int> OnReputationChanged;
         public event Action OnItemsChanged;
+        public event Action OnCharacterItemsChanged;
         
         public SellerConfig Config { get; }
 
@@ -83,12 +84,17 @@ namespace Tavern.Shopping
 
         public bool HasItem(ItemConfig itemConfig) => _items.ContainsKey(itemConfig.Name);
 
+        public bool HasItem(Item item) => _characterItems.ContainsKey(item);
+
         public int GetItemCount(ItemConfig itemConfig) => 
             !_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? 0 : info.Count;
 
-        public bool HasItem(Item item) => _characterItems.ContainsKey(item);
+        public int GetItemCount(Item item)
+        {
+            
+        }
 
-        public bool GiveItem(ItemConfig itemConfig)
+        public bool GiveItem(ItemConfig itemConfig, int count)
         {
             if (!_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info)) return false;
 
@@ -98,7 +104,7 @@ namespace Tavern.Shopping
                 return false;
             }
 
-            info.Count--;
+            info.Count -= count;
             if (info.Count <= 0)
             {
                 _items.Remove(itemConfig.Name);
@@ -109,13 +115,14 @@ namespace Tavern.Shopping
             return true;
         }
 
-        public void TakeItemByConfig(ItemConfig itemConfig)
+        public void TakeItemByConfig(ItemConfig itemConfig, int count)
         {
-            AddItem(itemConfig);
+            AddItem(itemConfig, count);
+            
             OnItemsChanged?.Invoke();
         }
 
-        public bool TakeItem(Item item)
+        public bool TakeItem(Item item, int count)
         {
             (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
 
@@ -124,11 +131,11 @@ namespace Tavern.Shopping
             Item clone = item.Clone();
             if (clone.TryGet(out ComponentStackable componentStackable))
             {
-                componentStackable.Value = 1;
+                componentStackable.Value = count;
             }
             
             _characterItems.Add(clone, price);
-            OnItemsChanged?.Invoke();
+            OnCharacterItemsChanged?.Invoke();
 
             return true;
         }
@@ -139,12 +146,12 @@ namespace Tavern.Shopping
 
         public void SpendMoney(int price) => _moneyStorage.Spend(price);
 
-        public bool GiveItem(Item item)
+        public bool GiveItem(Item item, int count)
         {
             bool ok = _characterItems.Remove(item);
             if (ok)
             {
-                OnItemsChanged?.Invoke();
+                OnCharacterItemsChanged?.Invoke();
             }
             
             return ok;
@@ -158,11 +165,11 @@ namespace Tavern.Shopping
             }
         }
 
-        private void AddItem(ItemConfig itemConfig)
+        private void AddItem(ItemConfig itemConfig, int count = 1)
         {
             if (_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig itemInfo))
             {
-                itemInfo.Count++;
+                itemInfo.Count += count;
                 return;
             }
                 
@@ -195,6 +202,7 @@ namespace Tavern.Shopping
 
             int price = Mathf.RoundToInt(_characterItems[item] * Config.ExtraSellPricePercents / 100f);
             _characterItems.Remove(item);
+            OnCharacterItemsChanged?.Invoke();
             _moneyStorage.Add(price);
         }
     }

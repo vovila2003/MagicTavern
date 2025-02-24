@@ -34,23 +34,29 @@ namespace Tavern.Shopping
         public (bool hasPrice, int price) GetItemPrice(Item item) => 
             !item.TryGet(out ComponentSellable sellable) ? (false, 0) : (true, sellable.BasePrice);
 
-        public bool GiveItem(Item item)
+        public bool GiveItem(Item item, int count)
         {
             if (!SellableItems.TryGetValue(item, out IInventoryBase inventory))
                 return false;
 
             if (!inventory.FindItem(item.ItemName, out Item _))
                 return false;
-            
-            inventory.RemoveItem(item);
+
+            for (var i = 0; i < count; ++i)
+            {
+                inventory.RemoveItem(item);
+            }
             
             return true;
         }
 
-        public void TakeItem(Item item)
+        public void TakeItem(Item item, int count)
         {
             IInventoryBase inventoryBase = _inventoryFacade.GetInventory(item.TypeName);
-            inventoryBase.AddItem(item);
+            for (var i = 0; i < count; ++i)
+            {
+                inventoryBase.AddItem(item);
+            }
         }
 
         public void EarnMoney(int price) => _moneyStorage.EarnMoney(price);

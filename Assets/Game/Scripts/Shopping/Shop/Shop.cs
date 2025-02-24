@@ -10,6 +10,7 @@ namespace Tavern.Shopping
     {
         public event Action OnUpdated;
         public event Action OnNpcSellerItemsChanged;
+        public event Action OnNpcCharacterItemsChanged; 
         
         [ShowInInspector, ReadOnly]
         public NpcSeller NpcSeller { get; private set; }
@@ -29,12 +30,14 @@ namespace Tavern.Shopping
             
             NpcSeller = SellerConfig.Create();
             NpcSeller.OnItemsChanged += OnNpcSellerItemsCollectionChanged;
+            NpcSeller.OnCharacterItemsChanged += OnNpcSellerCharacterItemsCollectionChanged;
         }
 
         public void Dispose()
         {
             NpcSeller.Dispose();
             NpcSeller.OnItemsChanged -= OnNpcSellerItemsCollectionChanged;
+            NpcSeller.OnCharacterItemsChanged -= OnNpcSellerCharacterItemsCollectionChanged;
         }
 
         public void WeeklyUpdate()
@@ -61,17 +64,12 @@ namespace Tavern.Shopping
                 return;
             }
 
-            var result = true;
-            for (var i = 0; i < count; i++)
-            {
-                result &= Deal.BuyFromNpc(_characterBuyer, NpcSeller, itemConfig, price);
-            }
-            
+            bool result = Deal.BuyFromNpc(_characterBuyer, NpcSeller, itemConfig, price, count);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }
 
-        public void BuyOut(Item item)
+        public void BuyOut(Item item, int count = 1)
         {
             if (!NpcSeller.HasItem(item))
             {
@@ -87,7 +85,7 @@ namespace Tavern.Shopping
                 return;
             }
             
-            bool result = Deal.BuyOutFromNpc(_characterBuyer, NpcSeller, item, price);
+            bool result = Deal.BuyOutFromNpc(_characterBuyer, NpcSeller, item, price, count);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }
@@ -108,24 +106,15 @@ namespace Tavern.Shopping
                 return;
             }
             
-            var result = true;
-            for (var i = 0; i < count; i++)
-            {
-                result &= Deal.SellToNpc(NpcSeller, _characterSeller, item, price);
-            }
-            
+            bool result = Deal.SellToNpc(NpcSeller, _characterSeller, item, price, count);
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }
 
-        public void SetReputation(int reputation)
-        {
-            NpcSeller.UpdateReputation(reputation);
-        }
+        public void SetReputation(int reputation) => NpcSeller.UpdateReputation(reputation);
 
-        private void OnNpcSellerItemsCollectionChanged()
-        {
-            OnNpcSellerItemsChanged?.Invoke();
-        }
+        private void OnNpcSellerItemsCollectionChanged() => OnNpcSellerItemsChanged?.Invoke();
+
+        private void OnNpcSellerCharacterItemsCollectionChanged() => OnNpcCharacterItemsChanged?.Invoke();
     }
 }
