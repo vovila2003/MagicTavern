@@ -22,5 +22,7 @@ namespace Tavern.UI.Presenters
         void SetAmount(string amount);
         void SetSliderMaxValue(float value);
         void SetSliderValue(float value);
+        void SetPrice(string text);
+        void SetTotalPrice(string text);
     }
 }

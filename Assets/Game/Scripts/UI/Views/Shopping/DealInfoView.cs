@@ -97,6 +97,12 @@ namespace Tavern.UI.Views
         private TMP_Text Amount;
 
         [SerializeField] 
+        private TMP_Text Price;
+
+        [SerializeField] 
+        private TMP_Text TotalPrice;
+
+        [SerializeField] 
         private EffectView[] EffectViews;
 
         public IEffectView[] Effects { get; private set; }
@@ -177,6 +183,16 @@ namespace Tavern.UI.Views
         public void SetSliderValue(float value)
         {
             Slider.value = value;
+        }
+
+        public void SetPrice(string text)
+        {
+            Price.text = text;
+        }
+        
+        public void SetTotalPrice(string text)
+        {
+            TotalPrice.text = text;
         }
 
         private void OnPlus1Clicked() => OnPlus?.Invoke(1);

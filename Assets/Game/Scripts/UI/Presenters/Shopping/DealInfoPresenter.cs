@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Modules.Info;
 using Modules.Items;
 using Tavern.Cooking;
+using Tavern.Shopping;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -23,6 +24,7 @@ namespace Tavern.UI.Presenters
          private IDealInfoView _view;
          private int _maxCount;
          private int _currentCount;
+         private int _price;
         
          public DealInfoPresenter(IDealInfoViewProvider provider, Transform parent, CommonPresentersFactory factory)
          {
@@ -30,31 +32,32 @@ namespace Tavern.UI.Presenters
              _parent = parent;
              _autoClosePresenter = factory.CreateAutoClosePresenter();
          }
-        
-         public bool Show(Item item, int maxCount)
+
+         public bool Show(Item item, int maxCount, int price)
          {
              if (item == null) return false;
              
              _item = item;
              _itemConfig = null;
-             _maxCount = maxCount;
 
-             return Show(item.Metadata, item);
+             return Show(item.Metadata, item, maxCount, price);
          }
          
-         public bool Show(ItemConfig itemConfig, int maxCount)
+         public bool Show(ItemInfoByConfig itemInfo)
          {
-             if (itemConfig == null) return false;
+             if (itemInfo == null) return false;
              
-             _itemConfig = itemConfig;
+             _itemConfig = itemInfo.Item;
              _item = null;
-             _maxCount = maxCount;
 
-             return Show(itemConfig.Metadata, itemConfig);
+             return Show(_itemConfig.Metadata, _itemConfig, itemInfo.Count, itemInfo.Price);
          }
 
-         private bool Show(Metadata metadata, IHavingComponentsCapable entity)
+         private bool Show(Metadata metadata, IHavingComponentsCapable entity,  int maxCount, int price)
          {
+             _maxCount = maxCount;
+             _price = price;
+             
              if (!_provider.TryGetView(_parent, out IDealInfoView view)) return false;
              _view = view;
              _currentCount = 0;
@@ -85,6 +88,7 @@ namespace Tavern.UI.Presenters
         
              _view.SetDescription(description);
              _view.SetSliderMaxValue(_maxCount);
+             _view.SetPrice($"{_price} р/шт");
              
              SetCurrentValue();
 
@@ -167,8 +171,9 @@ namespace Tavern.UI.Presenters
 
          private void SetCurrentValue()
          {
-             _view.SetAmount($"{_currentCount}");
              _view.SetSliderValue(_currentCount);
+             _view.SetAmount($"{_currentCount}");
+             _view.SetTotalPrice($"Всего: {_price * _currentCount} р");
          }
 
          private void OnPlus(int value)
@@ -194,7 +199,7 @@ namespace Tavern.UI.Presenters
          private void OnSliderChanged(float value)
          {
              _currentCount = (int) value;
-             _view.SetAmount($"{_currentCount}");
+             SetCurrentValue();
          }
     }
 }

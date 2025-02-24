@@ -15,7 +15,7 @@ namespace Tavern.UI.Presenters
         private readonly Dictionary<string, ItemConfigCardPresenter> _presenters = new();
         private ComponentGroupConfig _filter;
         private DealInfoPresenter _dealInfoPresenter;
-        private readonly Dictionary<ItemConfig, int> _itemCount = new();
+        private readonly Dictionary<ItemConfig, ItemInfoByConfig> _itemInfos = new();
 
         public ShopItemsPresenter(
             IContainerView view, 
@@ -79,7 +79,7 @@ namespace Tavern.UI.Presenters
             foreach (ItemInfoByConfig itemInfo in items)
             {
                 AddPresenter(itemInfo.Item, itemInfo.Count);
-                _itemCount.Add(itemInfo.Item, itemInfo.Count);
+                _itemInfos.Add(itemInfo.Item, itemInfo);
             }
         }
 
@@ -108,8 +108,8 @@ namespace Tavern.UI.Presenters
         private void OnIngredientLeftClick(ItemConfig config)
         {
             _dealInfoPresenter ??= _factory.CreateDealInfoPresenter(_canvas);
-            
-            if (!_dealInfoPresenter.Show(config, _itemCount[config])) return;
+
+            if (!_dealInfoPresenter.Show(_itemInfos[config])) return;
             
             _dealInfoPresenter.OnConfigAccepted += OnDeal;
             _dealInfoPresenter.OnRejected += OnCancelled;
@@ -136,7 +136,7 @@ namespace Tavern.UI.Presenters
             }
 
             _presenters.Clear();
-            _itemCount.Clear();
+            _itemInfos.Clear();
         }
 
         private void OnItemsChanged()

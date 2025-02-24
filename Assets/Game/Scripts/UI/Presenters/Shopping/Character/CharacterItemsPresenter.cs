@@ -85,8 +85,16 @@ namespace Tavern.UI.Presenters
             _dealInfoPresenter ??= _shoppingPresentersFactory.CreateDealInfoPresenter(_canvas);
 
             int count = item.TryGet(out ComponentStackable componentStackable) ? componentStackable.Value : 1;
+
+            (bool hasPrice, int price) = _characterSeller.GetItemPrice(item);
+
+            if (!hasPrice)
+            {
+                Debug.Log("Can't get price");
+                return;
+            }
             
-            if (!_dealInfoPresenter.Show(item, count)) return;
+            if (!_dealInfoPresenter.Show(item, count, price)) return;
             
             _dealInfoPresenter.OnAccepted += OnDeal;
             _dealInfoPresenter.OnRejected += OnCancelled;
