@@ -9,24 +9,24 @@ namespace Tavern.UI.Presenters
             _view = view;
         }
 
-        private bool _isShown;
+        public bool IsShown { get; private set; }
 
         public void Show()
         {
-            if (_isShown) return;
+            if (IsShown) return;
 
             OnShow();
             _view.Show();
-            _isShown = true;
+            IsShown = true;
         }
 
         public void Hide()
         {
-            if (!_isShown) return;
+            if (!IsShown) return;
 
             OnHide();
             _view.Hide();
-            _isShown = false;
+            IsShown = false;
         }
 
         protected abstract void OnShow();

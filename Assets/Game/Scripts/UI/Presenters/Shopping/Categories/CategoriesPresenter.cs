@@ -9,6 +9,7 @@ namespace Tavern.UI.Presenters
     {
         public event Action OnShowAllGoods;
         public event Action<ComponentGroupConfig> OnShowGroup;
+        public event Action OnShowBuyOut;
         
         private const string AllGoods = "Все товары";
         private readonly ICategoriesView _view;
@@ -41,10 +42,13 @@ namespace Tavern.UI.Presenters
         {
             SetupAllGoods();
             SetupFilters();
+            _view.OnBuyOut += OnBuyOut;
         }
 
         protected override void OnHide()
         {
+            _view.OnBuyOut -= OnBuyOut;
+            
             _allGoodsPresenter.Hide();
             _allGoodsPresenter.OnClicked -= OnAllGoodsClicked;
 
@@ -100,6 +104,12 @@ namespace Tavern.UI.Presenters
             }
             
             _allGoodsPresenter.SetSelected(false);
+        }
+
+        private void OnBuyOut()
+        {
+            SetAllUnselected();
+            OnShowBuyOut?.Invoke();
         }
     }
 }

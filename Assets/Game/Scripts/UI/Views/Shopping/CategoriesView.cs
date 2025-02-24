@@ -1,37 +1,28 @@
-using System.Collections.Generic;
 using Tavern.UI.Presenters;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
     public class CategoriesView :  View, ICategoriesView
     {
+        public event UnityAction OnBuyOut
+        {
+            add => ByuOut.onClick.AddListener(value);
+            remove => ByuOut.onClick.RemoveListener(value);
+        }
+        
         [SerializeField] 
         private Transform Content;
 
         [SerializeField] 
         private ScrollRect ScrollRect;
-        
-        private readonly List<FilterView> _filters = new();
+
+        [SerializeField] 
+        private Button ByuOut;
 
         public Transform Container => Content;
-
-        public void AddFilter(FilterView filter)
-        {
-            filter.transform.SetParent(transform);
-            _filters.Add(filter);
-        }
-
-        public void ClearFilters()
-        {
-            foreach (FilterView filter in _filters)
-            {
-                Destroy(filter.gameObject);
-            }
-            
-            _filters.Clear();
-        }
 
         public void Left()
         {

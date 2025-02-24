@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Modules.Shopping;
 using Tavern.Shopping;
 
@@ -10,9 +9,10 @@ namespace Tavern.UI.Presenters
         private const string Title = "Торговля";
 
         private readonly IPanelView _view;
-        private readonly ShoppingPresentersFactory _factory;
+        private readonly ShoppingPresentersFactory _shoppingPresentersFactory;
         private CategoriesPresenter _categoriesPresenter;
         private ShopItemsPresenter _shopItemsPresenter;
+        private ShopCharacterItemsPresenter _shopCharacterItemsPresenter;
         private VendorInfoPresenter _vendorInfoPresenter; 
         private CharacterItemsPresenter _characterItemsPresenter; 
         private CharacterInfoPresenter _characterInfoPresenter;
@@ -22,11 +22,11 @@ namespace Tavern.UI.Presenters
 
         public ShoppingPanelPresenter(
             IPanelView view,
-            ShoppingPresentersFactory factory
+            ShoppingPresentersFactory shoppingPresentersFactory
             ) : base(view)
         {
             _view = view;
-            _factory = factory;
+            _shoppingPresentersFactory = shoppingPresentersFactory;
         }
         
         public void Show(Shop shop, Action onExit)
@@ -54,6 +54,7 @@ namespace Tavern.UI.Presenters
 
             _categoriesPresenter.OnShowAllGoods -= OnShowAllGoods;
             _categoriesPresenter.OnShowGroup -= OnShowGroup;
+            _categoriesPresenter.OnShowBuyOut -= OnShowBuyOut;
 
             _shop.OnUpdated -= OnShopUpdated;
             
@@ -68,10 +69,11 @@ namespace Tavern.UI.Presenters
 
         private void SetupCategories()
         {
-            _categoriesPresenter ??= _factory.CreateCategoriesPresenter(_view.Container);
+            _categoriesPresenter ??= _shoppingPresentersFactory.CreateCategoriesPresenter(_view.Container);
             
             _categoriesPresenter.OnShowAllGoods += OnShowAllGoods;
             _categoriesPresenter.OnShowGroup += OnShowGroup;
+            _categoriesPresenter.OnShowBuyOut += OnShowBuyOut;
             _categoriesPresenter.Show(_shop.NpcSeller.ItemPrices);
         }
 
@@ -81,38 +83,53 @@ namespace Tavern.UI.Presenters
             _categoriesPresenter.Show(_shop.NpcSeller.ItemPrices);
         }
 
-        private void OnShowAllGoods()
-        {
-            _shopItemsPresenter.SetFilter(null);
-        }
+        private void OnShowAllGoods() => SetShopItemPresenterFilter(null);
 
-        private void OnShowGroup(ComponentGroupConfig config)
+        private void OnShowGroup(ComponentGroupConfig config) => SetShopItemPresenterFilter(config);
+
+        private void SetShopItemPresenterFilter(ComponentGroupConfig config)
         {
+            if (!_shopItemsPresenter.IsShown)
+            {
+                _shopCharacterItemsPresenter?.Hide();
+                _shopItemsPresenter.Show(_shop);
+            }
+            
             _shopItemsPresenter.SetFilter(config);
         }
 
         private void SetupShopItems()
         {
-            _shopItemsPresenter ??= _factory.CreateShopItemsPresenter(_view.Container);
+            _shopCharacterItemsPresenter?.Hide();
+            _shopItemsPresenter ??= _shoppingPresentersFactory.CreateShopItemsPresenter(_view.Container);
             _shopItemsPresenter.Show(_shop);
         }
 
         private void SetupVendorInfo()
         {
-            _vendorInfoPresenter ??= _factory.CreateVendorInfoPresenter(_view.Container);
+            _vendorInfoPresenter ??= _shoppingPresentersFactory.CreateVendorInfoPresenter(_view.Container);
             _vendorInfoPresenter.Show(_shop.NpcSeller);
         }
 
         private void SetupCharacterItems()
         {
-            _characterItemsPresenter ??= _factory.CreateCharacterItemsPresenter(_view.Container);
+            _characterItemsPresenter ??= _shoppingPresentersFactory.CreateCharacterItemsPresenter(_view.Container);
             _characterItemsPresenter.Show(_shop);
         }
 
         private void SetupCharacterInfo()
         {
-            _characterInfoPresenter ??= _factory.CreateCharacterInfoPresenter(_view.Container);
+            _characterInfoPresenter ??= _shoppingPresentersFactory.CreateCharacterInfoPresenter(_view.Container);
             _characterInfoPresenter.Show();
+        }
+
+        private void OnShowBuyOut()
+        {
+            _shopItemsPresenter.Hide();
+            _shopCharacterItemsPresenter ??= _shoppingPresentersFactory.CreateShopCharacterItemsPresenter(
+                _view.Container);
+            
+            _shopCharacterItemsPresenter.Show(_shop);
         }
     }
 }

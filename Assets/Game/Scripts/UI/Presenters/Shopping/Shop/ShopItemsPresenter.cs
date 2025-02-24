@@ -10,7 +10,8 @@ namespace Tavern.UI.Presenters
     {
         private readonly IContainerView _view;
         private Shop _shop;
-        private readonly ShoppingPresentersFactory _factory;
+        private readonly ShoppingPresentersFactory _shoppingPresentersFactory;
+        private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly Transform _canvas;
         private readonly Dictionary<string, ItemConfigCardPresenter> _presenters = new();
         private ComponentGroupConfig _filter;
@@ -19,13 +20,14 @@ namespace Tavern.UI.Presenters
 
         public ShopItemsPresenter(
             IContainerView view, 
-            ShoppingPresentersFactory factory,
-            Transform canvas
-            ) : base(view)
+            ShoppingPresentersFactory shoppingPresentersFactory,
+            CommonPresentersFactory commonPresentersFactory,
+            Transform canvas) : base(view)
         {
             _view = view;
-            _factory = factory;
+            _shoppingPresentersFactory = shoppingPresentersFactory;
             _canvas = canvas;
+            _commonPresentersFactory = commonPresentersFactory;
         }
 
         public void Show(Shop shop)
@@ -40,7 +42,7 @@ namespace Tavern.UI.Presenters
             ClearItems();
             SetupCards(GetItemsByFilter(filter));
         }
-
+        
         protected override void OnShow()
         {
             SetupCards(_shop.NpcSeller.ItemPrices);
@@ -93,7 +95,7 @@ namespace Tavern.UI.Presenters
                 return;
             }
             
-            presenter = _factory.CreateItemConfigCardPresenter(_view.ContentTransform);
+            presenter = _shoppingPresentersFactory.CreateItemConfigCardPresenter(_view.ContentTransform);
             _presenters.Add(itemConfig.Name, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
@@ -107,7 +109,7 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientLeftClick(ItemConfig config)
         {
-            _dealInfoPresenter ??= _factory.CreateDealInfoPresenter(_canvas);
+            _dealInfoPresenter ??= _shoppingPresentersFactory.CreateDealInfoPresenter(_canvas);
 
             if (!_dealInfoPresenter.Show(_itemInfos[config])) return;
             
@@ -120,7 +122,7 @@ namespace Tavern.UI.Presenters
             presenter.OnRightClick -= OnIngredientRightClick;
             presenter.OnLeftClick -= OnIngredientLeftClick;
         }
-
+        
         private void OnShopUpdated()
         {
             ClearItems();

@@ -20,7 +20,7 @@ namespace Tavern.UI.Presenters
             _pool = pool;
         }
 
-        public void Show(Item item, int count)
+        public void Show(Item item, int count = 1)
         {
             _item = item;
             _count = count;

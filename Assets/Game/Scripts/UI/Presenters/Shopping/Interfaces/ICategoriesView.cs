@@ -1,12 +1,11 @@
-using Tavern.UI.Views;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Tavern.UI.Presenters
 {
     public interface ICategoriesView : IView
     {
-        void AddFilter(FilterView filter);
-        void ClearFilters();
+        event UnityAction OnBuyOut;
         Transform Container { get; }
         void Left();
     }

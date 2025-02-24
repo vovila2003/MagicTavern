@@ -45,7 +45,8 @@ namespace Tavern.UI.Presenters
                 this);
 
         public FilterPresenter CreateFilterPresenter(Transform viewContainer, string filterText) =>
-            new(_shoppingViewsFactory.CreateFilterView(viewContainer), filterText);
+            new(_shoppingViewsFactory.CreateFilterView(viewContainer), 
+                filterText);
 
         public ItemConfigCardPresenter CreateItemConfigCardPresenter(Transform viewContainer) =>
             new(_commonViewsFactory.GetItemCardView(viewContainer), 
@@ -54,6 +55,7 @@ namespace Tavern.UI.Presenters
         public ShopItemsPresenter CreateShopItemsPresenter(Transform viewContainer) =>
             new(_shoppingViewsFactory.CreateShopItemsView(viewContainer), 
                 this,
+                _commonPresentersFactory,
                 _uiSceneSettings.Canvas);
 
         public VendorInfoPresenter CreateVendorInfoPresenter(Transform viewContainer) =>
@@ -73,6 +75,14 @@ namespace Tavern.UI.Presenters
                 _commonViewsFactory);
         
         public DealInfoPresenter CreateDealInfoPresenter(Transform parent) =>
-            new(_shoppingViewsFactory.DealInfoViewProvider, parent, _commonPresentersFactory);
+            new(_shoppingViewsFactory.DealInfoViewProvider, 
+                parent,
+                _commonPresentersFactory);
+
+        public ShopCharacterItemsPresenter CreateShopCharacterItemsPresenter(Transform viewContainer) =>
+            new(_shoppingViewsFactory.CreateShopItemsView(viewContainer), 
+                this,
+                _commonPresentersFactory,
+                _uiSceneSettings.Canvas);
     }
 }
