@@ -62,7 +62,9 @@ namespace Tavern.UI.Presenters
         public CharacterItemsPresenter CreateCharacterItemsPresenter(Transform viewContainer) =>
             new(_shoppingViewsFactory.CreateCharacterItemsView(viewContainer), 
                 _commonPresentersFactory, 
-                _characterSeller);
+                this,
+                _characterSeller,
+                _uiSceneSettings.Canvas);
 
         public CharacterInfoPresenter CreateCharacterInfoPresenter(Transform viewContainer) =>
             new(_shoppingViewsFactory.CreateCharacterInfoView(viewContainer), 

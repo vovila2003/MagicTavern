@@ -10,19 +10,26 @@ namespace Tavern.UI.Presenters
     {
         private readonly IContainerView _view;
         private readonly CommonPresentersFactory _commonPresentersFactory;
+        private readonly ShoppingPresentersFactory _shoppingPresentersFactory;
         private readonly CharacterSeller _characterSeller;
+        private readonly Transform _canvas;
         private Shop _shop;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
+        private DealInfoPresenter _dealInfoPresenter;
 
         public CharacterItemsPresenter(
             IContainerView view,
             CommonPresentersFactory commonPresentersFactory,
-            CharacterSeller characterSeller
+            ShoppingPresentersFactory shoppingPresentersFactory,
+            CharacterSeller characterSeller,
+            Transform canvas
         ) : base(view)
         {
             _view = view;
             _commonPresentersFactory = commonPresentersFactory;
+            _shoppingPresentersFactory = shoppingPresentersFactory;
             _characterSeller = characterSeller;
+            _canvas = canvas;
         }
 
         public void Show(Shop shop)
@@ -70,13 +77,19 @@ namespace Tavern.UI.Presenters
 
         private void OnIngredientRightClick(Item item)
         {
-            //Debug.Log($"{item.ItemName} right button clicked");
             _shop.Sell(item);
         }
 
         private void OnIngredientLeftClick(Item item)
         {
-            Debug.Log($"{item.ItemName} left button clicked");
+            _dealInfoPresenter ??= _shoppingPresentersFactory.CreateDealInfoPresenter(_canvas);
+
+            int count = item.TryGet(out ComponentStackable componentStackable) ? componentStackable.Value : 1;
+            
+            if (!_dealInfoPresenter.Show(item, count)) return;
+            
+            _dealInfoPresenter.OnAccepted += OnDeal;
+            _dealInfoPresenter.OnRejected += OnCancelled;
         }
 
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
@@ -103,6 +116,23 @@ namespace Tavern.UI.Presenters
         {
             ClearItems();
             SetupCards();
+        }
+
+        private void OnDeal(Item item, int count)
+        {
+            UnsubscribeDealInfo();
+            _shop.Sell(item, count);
+        }
+
+        private void OnCancelled()
+        {
+            UnsubscribeDealInfo();
+        }
+        
+        private void UnsubscribeDealInfo()
+        {
+            _dealInfoPresenter.OnAccepted -= OnDeal;
+            _dealInfoPresenter.OnRejected -= OnCancelled;
         }
     }
 }

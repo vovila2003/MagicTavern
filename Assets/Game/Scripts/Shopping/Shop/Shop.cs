@@ -92,11 +92,11 @@ namespace Tavern.Shopping
             Debug.Log($"Deal result: {dealResult}");
         }
 
-        public void Sell(Item item)
+        public void Sell(Item item, int count = 1)
         {
-            if (!_characterSeller.HasItem(item))
+            if (_characterSeller.GetItemCount(item) < count)
             {
-                Debug.Log($"Character doesn't have item {item.ItemName}");
+                Debug.Log($"Character doesn't have need count of item {item.ItemName}");
                 return;
             }
             
@@ -108,7 +108,12 @@ namespace Tavern.Shopping
                 return;
             }
             
-            bool result = Deal.SellToNpc(NpcSeller, _characterSeller, item, price);
+            var result = true;
+            for (var i = 0; i < count; i++)
+            {
+                result &= Deal.SellToNpc(NpcSeller, _characterSeller, item, price);
+            }
+            
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }

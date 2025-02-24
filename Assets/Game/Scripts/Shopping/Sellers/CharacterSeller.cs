@@ -28,6 +28,35 @@ namespace Tavern.Shopping
             _inventoryFacade = inventoryFacade;
             _moneyStorage = moneyStorage;
         }
+        
+        public bool HasItem(Item item) => SellableItems.ContainsKey(item);
+
+        public (bool hasPrice, int price) GetItemPrice(Item item) => 
+            !item.TryGet(out ComponentSellable sellable) ? (false, 0) : (true, sellable.BasePrice);
+
+        public bool GiveItem(Item item)
+        {
+            if (!SellableItems.TryGetValue(item, out IInventoryBase inventory))
+                return false;
+
+            if (!inventory.FindItem(item.ItemName, out Item _))
+                return false;
+            
+            inventory.RemoveItem(item);
+            
+            return true;
+        }
+
+        public void TakeItem(Item item)
+        {
+            IInventoryBase inventoryBase = _inventoryFacade.GetInventory(item.TypeName);
+            inventoryBase.AddItem(item);
+        }
+
+        public void EarnMoney(int price) => _moneyStorage.EarnMoney(price);
+        
+        public int GetItemCount(Item item) => 
+            !item.TryGet(out ComponentStackable componentStackable) ? 1 : componentStackable.Value;
 
         void IInitGameListener.OnInit()
         {
@@ -64,32 +93,6 @@ namespace Tavern.Shopping
             SellableItems.Remove(item);
             OnSellableItemsChanged?.Invoke();
         }
-
-        public bool HasItem(Item item) => SellableItems.ContainsKey(item);
-
-        public (bool hasPrice, int price) GetItemPrice(Item item) => 
-            !item.TryGet(out ComponentSellable sellable) ? (false, 0) : (true, sellable.BasePrice);
-
-        public bool GiveItem(Item item)
-        {
-            if (!SellableItems.TryGetValue(item, out IInventoryBase inventory))
-                return false;
-
-            if (!inventory.FindItem(item.ItemName, out Item _))
-                return false;
-            
-            inventory.RemoveItem(item);
-            
-            return true;
-        }
-
-        public void TakeItem(Item item)
-        {
-            IInventoryBase inventoryBase = _inventoryFacade.GetInventory(item.TypeName);
-            inventoryBase.AddItem(item);
-        }
-
-        public void EarnMoney(int price) => _moneyStorage.EarnMoney(price);
 
         private void OnItemCountChanged(Item item, int count)
         {
