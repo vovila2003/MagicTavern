@@ -147,12 +147,7 @@ namespace Tavern.UI.Presenters
         private void OnDeal(ItemConfig config, int count)
         {
             UnsubscribeDealInfo();
-            for (var i = 0; i < count; i++)
-            {
-                //TODO think! size as arg?
-                
-                _shop.BuyByConfig(config);
-            }
+            _shop.BuyByConfig(config, count);
         }
 
         private void OnCancelled() => UnsubscribeDealInfo();

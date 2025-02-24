@@ -83,6 +83,9 @@ namespace Tavern.Shopping
 
         public bool HasItem(ItemConfig itemConfig) => _items.ContainsKey(itemConfig.Name);
 
+        public int GetItemCount(ItemConfig itemConfig) => 
+            !_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? 0 : info.Count;
+
         public bool HasItem(Item item) => _characterItems.ContainsKey(item);
 
         public bool GiveItem(ItemConfig itemConfig)

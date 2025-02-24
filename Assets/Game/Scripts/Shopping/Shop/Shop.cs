@@ -45,11 +45,11 @@ namespace Tavern.Shopping
             OnUpdated?.Invoke();
         }
 
-        public void BuyByConfig(ItemConfig itemConfig)
+        public void BuyByConfig(ItemConfig itemConfig, int count = 1)
         {
-            if (!NpcSeller.HasItem(itemConfig))
+            if (NpcSeller.GetItemCount(itemConfig) < count)
             {
-                Debug.Log($"Shop doesn't have item {itemConfig.Name}");
+                Debug.Log($"Shop doesn't have need count of item {itemConfig.Name}");
                 return;
             }
             
@@ -61,7 +61,12 @@ namespace Tavern.Shopping
                 return;
             }
 
-            bool result = Deal.BuyFromNpc(_characterBuyer, NpcSeller, itemConfig, price);
+            var result = true;
+            for (var i = 0; i < count; i++)
+            {
+                result &= Deal.BuyFromNpc(_characterBuyer, NpcSeller, itemConfig, price);
+            }
+            
             string dealResult = result ? "OK" : "FAIL";
             Debug.Log($"Deal result: {dealResult}");
         }
