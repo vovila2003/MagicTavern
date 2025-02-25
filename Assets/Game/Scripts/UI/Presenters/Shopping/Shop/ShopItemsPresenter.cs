@@ -80,26 +80,28 @@ namespace Tavern.UI.Presenters
         {
             foreach (ItemInfoByConfig itemInfo in items)
             {
-                AddPresenter(itemInfo.Item, itemInfo.Count);
+                AddPresenter(itemInfo);
                 _itemInfos.Add(itemInfo.Item, itemInfo);
             }
         }
 
-        private void AddPresenter(ItemConfig itemConfig, int itemCount)
+        private void AddPresenter(ItemInfoByConfig itemInfo)
         {
-            if (itemCount <= 0) return;
+            int count = itemInfo.Count;
+            string name = itemInfo.Item.Name;
+            if (count <= 0) return;
             
-            if (_presenters.TryGetValue(itemConfig.Name, out ItemConfigCardPresenter presenter))
+            if (_presenters.TryGetValue(name, out ItemConfigCardPresenter presenter))
             {
-                presenter.ChangeCount(itemCount);
+                presenter.ChangeCount(count);
                 return;
             }
             
             presenter = _shoppingPresentersFactory.CreateItemConfigCardPresenter(_view.ContentTransform);
-            _presenters.Add(itemConfig.Name, presenter);
+            _presenters.Add(name, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
-            presenter.Show(itemConfig, itemCount);
+            presenter.Show(itemInfo.Item, count, itemInfo.Price);
         }
 
         private void OnIngredientRightClick(ItemConfig config)

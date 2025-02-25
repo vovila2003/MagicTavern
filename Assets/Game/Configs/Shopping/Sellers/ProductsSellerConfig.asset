@@ -75,3 +75,5 @@ MonoBehaviour:
   - 15.75
   - 12.9
   - 10
+  <SellCharacterItemByExtraPriceProbability>k__BackingField: 20
+  <ExtraSellPricePercents>k__BackingField: 200

@@ -72,7 +72,8 @@ namespace Tavern.UI.Presenters
             _presenters.Add(item, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
-            presenter.Show(item, itemCount);
+            (bool hasPrice, int price) = _characterSeller.GetItemPrice(item);
+            presenter.Show(item, itemCount, hasPrice, price);
         }
 
         private void OnIngredientRightClick(Item item)

@@ -14,7 +14,7 @@ namespace Tavern.UI.Presenters
         private readonly Transform _canvas;
         private DealInfoPresenter _dealInfoPresenter;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
-        private IReadOnlyDictionary<Item,int> _itemPrices;
+        private IReadOnlyDictionary<Item, int> _itemPrices;
 
         public ShopCharacterItemsPresenter(
             IContainerView view, 
@@ -67,7 +67,7 @@ namespace Tavern.UI.Presenters
             _presenters.Add(item, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
-            presenter.Show(item);
+            presenter.Show(item, 1, true, _itemPrices[item]);
         }
 
         private void OnIngredientRightClick(Item item)

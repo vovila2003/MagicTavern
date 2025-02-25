@@ -13,6 +13,8 @@ namespace Tavern.UI.Presenters
         private readonly IItemCardViewPool _pool;
         private Item _item;
         private int _count;
+        private bool _showPrice;
+        private int _price;
 
         public ItemCardPresenter(IItemCardView view, IItemCardViewPool pool) : base(view)
         {
@@ -20,10 +22,12 @@ namespace Tavern.UI.Presenters
             _pool = pool;
         }
 
-        public void Show(Item item, int count = 1)
+        public void Show(Item item, int count = 1, bool showPrice = false, int price = 0)
         {
             _item = item;
             _count = count;
+            _showPrice = showPrice;
+            _price = price;
             Show();
         }
 
@@ -37,6 +41,9 @@ namespace Tavern.UI.Presenters
             Metadata metadata = _item.Metadata;
             _view.SetIcon(metadata.Icon);
             ChangeCount(_count);
+            _view.SetPriceActive(_showPrice);
+            _view.SetPrice($"{_price}");
+            
             _view.OnLeftClicked += OnLeftClicked;
             _view.OnRightClicked += OnRightClicked;
         }

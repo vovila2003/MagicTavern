@@ -18,6 +18,12 @@ namespace Tavern.UI.Views
         [SerializeField]
         private TMP_Text Count;
 
+        [SerializeField] 
+        private TMP_Text PriceText;
+
+        
+        [SerializeField] private GameObject Price; 
+
         public void SetIcon(Sprite icon)
         {
             Icon.sprite = icon;
@@ -31,6 +37,16 @@ namespace Tavern.UI.Views
         public void SetCount(string count)
         {
             Count.text = count;
+        }
+
+        public void SetPriceActive(bool active)
+        {
+            Price.SetActive(active);
+        }
+
+        public void SetPrice(string text)
+        {
+            PriceText.text = text;
         }
 
         public void OnPointerClick(PointerEventData eventData)
