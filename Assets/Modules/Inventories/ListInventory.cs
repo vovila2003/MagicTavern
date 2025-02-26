@@ -38,7 +38,7 @@ namespace Modules.Inventories
             OnItemAdded?.Invoke(tItem, this);
         }
 
-        public void AddItem(Item item, int count)
+        public void AddItems(Item item, int count)
         {
             if (count != 1) return;
             AddItem(item);

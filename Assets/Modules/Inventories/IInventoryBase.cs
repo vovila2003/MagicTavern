@@ -10,7 +10,7 @@ namespace Modules.Inventories
         event Action<Item, IInventoryBase> OnItemAdded;
         event Action<Item, IInventoryBase> OnItemRemoved;   
         void AddItem(Item item);
-        void AddItem(Item item, int count);
+        void AddItems(Item item, int count);
         void RemoveItem(Item item);
         Item RemoveItem(string name);
         bool RemoveItems(string name, int count);

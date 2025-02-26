@@ -47,7 +47,7 @@ namespace Tavern.Shopping
         {
             IInventoryBase inventory = _inventories.GetInventory(item.TypeName);
             
-            inventory.AddItem(item);
+            inventory.AddItems(item, count);
             
             return true;
         }

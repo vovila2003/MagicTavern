@@ -130,7 +130,7 @@ namespace Tavern.Shopping
                 }
             }
 
-            _charactersItems.AddItem(item, count);
+            _charactersItems.AddItems(item, count);
 
             OnCharacterItemsChanged?.Invoke();
 

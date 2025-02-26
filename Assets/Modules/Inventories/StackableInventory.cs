@@ -48,7 +48,7 @@ namespace Modules.Inventories
             }
         }
 
-        public void AddItem(Item item, int count)
+        public void AddItems(Item item, int count)
         {
             if (item is not T tItem) return;
 
