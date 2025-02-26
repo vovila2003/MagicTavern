@@ -42,10 +42,7 @@ namespace Tavern.Shopping
             if (!inventory.FindItem(item.ItemName, out Item _))
                 return false;
 
-            for (var i = 0; i < count; ++i)
-            {
-                inventory.RemoveItem(item);
-            }
+            inventory.RemoveItems(item, count);
             
             return true;
         }

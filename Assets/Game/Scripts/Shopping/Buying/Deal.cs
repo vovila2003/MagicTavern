@@ -48,7 +48,7 @@ namespace Tavern.Shopping
                 return false;
             }
 
-            if (!buyer.TakeItem(item, count))
+            if (!buyer.TakeItem(item.Clone(), count))
             {
                 characterSeller.TakeItem(item, count);
                 buyer.EarnMoney(total);
@@ -60,27 +60,28 @@ namespace Tavern.Shopping
             return true;
         }
 
-        public static bool BuyOutFromNpc(IBuyer buyer, NpcSeller npcSeller, Item item, int price)
+        public static bool BuyOutFromNpc(IBuyer buyer, NpcSeller npcSeller, Item item, int price, int count)
         {
-            if (!buyer.CanBuy(price) || 
-                !npcSeller.HasItem(item)) return false;
+            int total = price * count;
+            if (!buyer.CanBuy(total) || 
+                !npcSeller.HasItem(item, count)) return false;
 
-            buyer.SpendMoney(price);
+            buyer.SpendMoney(total);
 
-            if (!npcSeller.GiveItem(item))
+            if (!npcSeller.GiveItem(item, count))
             {
-                buyer.EarnMoney(price);
+                buyer.EarnMoney(total);
                 return false;
             }
 
-            if (!buyer.TakeItem(item))
+            if (!buyer.TakeItem(item.Clone(), count))
             {
-                npcSeller.TakeItem(item);
-                buyer.EarnMoney(price);
+                npcSeller.TakeItem(item, count);
+                buyer.EarnMoney(total);
                 return false;
             }
             
-            npcSeller.EarnMoney(price);
+            npcSeller.EarnMoney(total);
 
             return true;
         }

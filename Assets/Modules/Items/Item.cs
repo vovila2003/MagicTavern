@@ -9,8 +9,6 @@ namespace Modules.Items
     [Serializable]
     public class Item : IHavingComponentsCapable
     {
-        protected ItemConfig Config;
-        
         [ShowInInspector, ReadOnly]
         public string ItemName => Config.Name;
         
@@ -25,6 +23,7 @@ namespace Modules.Items
 
         [ShowInInspector, ReadOnly]
         public string TypeName => Config.ItemTypeName;
+        public ItemConfig Config { get; protected set; }
 
         public Item(
             ItemConfig config,

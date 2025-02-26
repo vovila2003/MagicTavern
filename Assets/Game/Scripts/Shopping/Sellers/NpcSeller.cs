@@ -25,14 +25,16 @@ namespace Tavern.Shopping
 
         private readonly ResourceStorage _moneyStorage;
 
-        [ShowInInspector, ReadOnly]
-        private readonly Dictionary<Item, int> _characterItems = new();
+        private IInventory<Item> _charactersItems = new StackableInventory<Item>();
+        private Dictionary<Item, int> _charactersItemPrices = new();
 
         [ShowInInspector, ReadOnly]
         public int CurrentReputation { get; private set; }
 
         public IReadOnlyCollection<ItemInfoByConfig> ItemPrices => _items.Values;
-        public IReadOnlyDictionary<Item, int> CharacterItemPrices => _characterItems;
+
+        [ShowInInspector, ReadOnly]
+        public IReadOnlyDictionary<Item, int> CharacterItemsPrices => _charactersItemPrices;
         
         [ShowInInspector, ReadOnly]
         public int Money => _moneyStorage?.Value ?? 0;
@@ -79,12 +81,12 @@ namespace Tavern.Shopping
         public (bool, int) GetItemPrice(ItemConfig itemConfig) => 
             _items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? (true, info.Price) : (false, 0);
 
-        public (bool hasPrice, int price) GetItemPrice(Item item) => 
-            _characterItems.TryGetValue(item, out int price) ? (true, price) : (false, 0);
+        public (bool hasPrice, int price) GetItemPrice(Item item) =>
+            PriceCalculator.GetPrice(Config, item, CurrentReputation);
 
         public bool HasItem(ItemConfig itemConfig) => _items.ContainsKey(itemConfig.Name);
 
-        public bool HasItem(Item item) => _characterItems.ContainsKey(item);
+        public bool HasItem(Item item, int count = 1) => _charactersItems.GetItemCount(item.ItemName)  >= count;
 
         public int GetItemCount(ItemConfig itemConfig) => 
             !_items.TryGetValue(itemConfig.Name, out ItemInfoByConfig info) ? 0 : info.Count;
@@ -119,21 +121,17 @@ namespace Tavern.Shopping
 
         public bool TakeItem(Item item, int count = 1)
         {
-            (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
-
-            if (!hasPrice) return false;
-
-            for (var i = 0; i < count; ++i)
+            if (!_charactersItems.IsItemExists(item))
             {
-                Item clone = item.Clone();
-                if (clone.TryGet(out ComponentStackable componentStackable))
+                (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
+                if (hasPrice)
                 {
-                    componentStackable.Value = 1;
+                    _charactersItemPrices.Add(item, price);
                 }
-                
-                _characterItems.Add(clone, price);
             }
-            
+
+            _charactersItems.AddItem(item, count);
+
             OnCharacterItemsChanged?.Invoke();
 
             return true;
@@ -145,15 +143,17 @@ namespace Tavern.Shopping
 
         public void SpendMoney(int price) => _moneyStorage.Spend(price);
 
-        public bool GiveItem(Item item)
+        public bool GiveItem(Item item, int count)
         {
-            bool ok = _characterItems.Remove(item);
-            if (ok)
+            if (!_charactersItems.RemoveItems(item, count)) return false;
+
+            if (!_charactersItems.IsItemExists(item))
             {
-                OnCharacterItemsChanged?.Invoke();
+                _charactersItemPrices.Remove(item);
             }
             
-            return ok;
+            OnCharacterItemsChanged?.Invoke();
+            return true;
         }
 
         private void AddItems(ItemConfig[] collection)
@@ -195,14 +195,24 @@ namespace Tavern.Shopping
             float random = Random.Range(0, 101);
             if (random > Config.SellCharacterItemByExtraPriceProbability) return;
 
-            int count = _characterItems.Count;
+            int count = _charactersItems.Items.Count;
             if (count == 0) return;
-            Item item = _characterItems.Keys.ToList()[Random.Range(0, count)];
+            Item item = _charactersItems.Items[Random.Range(0, count)];
 
-            int price = Mathf.RoundToInt(_characterItems[item] * Config.ExtraSellPricePercents / 100f);
-            _characterItems.Remove(item);
+            (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
+
+            if (!hasPrice) return;
+
+            int newPrice = Mathf.RoundToInt(price * Config.ExtraSellPricePercents / 100f);
+            _charactersItems.RemoveItem(item);
+            if (!_charactersItems.IsItemExists(item))
+            {
+                _charactersItemPrices.Remove(item);
+            }
+            
+            _moneyStorage.Add(newPrice);
+            
             OnCharacterItemsChanged?.Invoke();
-            _moneyStorage.Add(price);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Modules.Items;
+using UnityEngine;
 
 namespace Modules.Inventories
 {
@@ -15,7 +16,7 @@ namespace Modules.Inventories
 
         public List<T> Items => _listInventory.Items;
 
-        protected StackableInventory()
+        public StackableInventory()
         {
             _listInventory = new ListInventory<T>();
         }
@@ -44,6 +45,52 @@ namespace Modules.Inventories
             else
             {
                 AddSingle(tItem);
+            }
+        }
+
+        public void AddItem(Item item, int count)
+        {
+            if (item is not T tItem) return;
+
+            if (IsStackable(tItem))
+            {
+                if (FindAllItems(tItem.ItemName, out List<T> existsItems))
+                {
+                    HashSet<T> changedItems = new();
+                    while (count > 0)
+                    {
+                        foreach (T existsItem in existsItems)
+                        {
+                            var stackableComponent = existsItem.Get<ComponentStackable>();
+                            if (stackableComponent.IsFull) continue;
+
+                            stackableComponent.Value++;
+                            changedItems.Add(existsItem);
+                            break;
+                        }
+                        
+                        count--;
+                    }
+
+                    foreach (T changedItem in changedItems)
+                    {
+                        int amount = changedItem.Get<ComponentStackable>().Value;
+                        OnItemCountChanged?.Invoke(changedItem, amount);
+                    }
+
+                    if (count == 0) return;
+                }
+
+                item.Get<ComponentStackable>().Value = count;
+            
+                _listInventory.AddItem(item);
+
+                return;
+            }
+
+            for (var i = 0; i < count; ++i)
+            {
+                _listInventory.AddItem(item);
             }
         }
 
@@ -80,12 +127,79 @@ namespace Modules.Inventories
             return lastItem;
         }
 
-        public void RemoveItems(string name, int amount)
+        public bool RemoveItems(string name, int amount)
         {
             for (int i = 0; i < amount; ++i)
             {
-                RemoveItem(name);
+                Item item = RemoveItem(name);
+                if (item is null) return false;
             }
+
+            return true;
+        }
+
+        public bool RemoveItems(Item item, int count)
+        {
+            if (item is not T tItem) return false;
+            
+            if (!IsItemExists(tItem)) return false;
+            
+            if (IsStackable(tItem))
+            {
+                if (!FindAllItems(tItem.ItemName, out List<T> existsItems)) return false;
+                
+                HashSet<T> changedItems = new();
+                HashSet<T> deletedItems = new();
+                while (count > 0)
+                {
+                    foreach (T existsItem in existsItems)
+                    {
+                        if (count == 0) break;
+                        var stackableComponent = existsItem.Get<ComponentStackable>();
+                        if (stackableComponent.Value > 0)
+                        {
+                            int removedCount = Mathf.Min(count, stackableComponent.Value);
+                            stackableComponent.Value -= removedCount;
+                            count -= removedCount;
+                            if (stackableComponent.Value > 0)
+                            {
+                                changedItems.Add(existsItem);
+                                break;
+                            }
+                        }
+                            
+                        deletedItems.Add(existsItem);
+                    }
+                }
+
+                List<T> list = new List<T>(changedItems);
+                    
+                foreach (T changedItem in list)
+                {
+                    if (deletedItems.Contains(changedItem)) 
+                        changedItems.Remove(changedItem);
+                }
+                    
+                foreach (T changedItem in changedItems)
+                {
+                    int amount = changedItem.Get<ComponentStackable>().Value;
+                    OnItemCountChanged?.Invoke(changedItem, amount);
+                }
+
+                foreach (T deletedItem in deletedItems)
+                {
+                    RemoveSingle(deletedItem);
+                }
+
+                return true;
+
+            }
+
+            if (count != 1) return false;
+            
+            RemoveSingle(tItem);
+            
+            return true;
         }
 
         public IReadOnlyList<Item> GetItems() => _listInventory.GetItems();

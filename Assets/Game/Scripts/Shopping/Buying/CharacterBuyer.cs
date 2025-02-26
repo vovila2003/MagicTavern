@@ -43,9 +43,10 @@ namespace Tavern.Shopping
             return result;
         }
 
-        public bool TakeItem(Item item)
+        public bool TakeItem(Item item, int count = 1)
         {
             IInventoryBase inventory = _inventories.GetInventory(item.TypeName);
+            
             inventory.AddItem(item);
             
             return true;

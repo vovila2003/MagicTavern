@@ -37,7 +37,13 @@ namespace Modules.Inventories
             _counts[tItem]++;
             OnItemAdded?.Invoke(tItem, this);
         }
-        
+
+        public void AddItem(Item item, int count)
+        {
+            if (count != 1) return;
+            AddItem(item);
+        }
+
         public void RemoveItem(Item item)
         {
             if (item is not T tItem) return;
@@ -52,12 +58,23 @@ namespace Modules.Inventories
             _counts.Remove(tItem);
         }
 
-        public void RemoveItems(string name, int count)
+        public bool RemoveItems(string name, int count)
         {
             for (int i = 0; i < count; i++)
             {
-                RemoveItem(name);
+                Item item = RemoveItem(name);
+                if (item is null) return false;
             }
+
+            return true;
+        }
+
+        public bool RemoveItems(Item item, int count)
+        {
+            if (count != 1) return false;
+            RemoveItem(item);
+
+            return true;
         }
 
         public Item RemoveItem(string name)

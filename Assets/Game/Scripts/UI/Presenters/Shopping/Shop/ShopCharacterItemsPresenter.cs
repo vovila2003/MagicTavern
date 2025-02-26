@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Modules.Inventories;
 using Modules.Items;
 using Tavern.Shopping;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace Tavern.UI.Presenters
 
         protected override void OnShow()
         {
-            SetupCharacterItemCards(_shop.NpcSeller.CharacterItemPrices);
+            SetupCharacterItemCards(_shop.NpcSeller.CharacterItemsPrices);
             _shop.OnNpcCharacterItemsChanged += OnItemsChanged;
         }
 
@@ -46,7 +47,7 @@ namespace Tavern.UI.Presenters
             _shop.OnNpcCharacterItemsChanged -= OnItemsChanged;
         }
 
-        private void SetupCharacterItemCards(IReadOnlyDictionary<Item,int> npcSellerCharacterItemPrices)
+        private void SetupCharacterItemCards(IReadOnlyDictionary<Item, int> npcSellerCharacterItemPrices)
         {
             _itemPrices = npcSellerCharacterItemPrices;
             foreach (KeyValuePair<Item, int> pair in npcSellerCharacterItemPrices)
@@ -57,9 +58,16 @@ namespace Tavern.UI.Presenters
 
         private void AddPresenter(Item item)
         {
+            var count = 1;
+
+            if (item.TryGet(out ComponentStackable componentStackable))
+            {
+                count = componentStackable.Value;
+            }
+            
             if (_presenters.TryGetValue(item, out ItemCardPresenter presenter))
             {
-                presenter.ChangeCount(1);
+                presenter.ChangeCount(count);
                 return;
             }
 
@@ -67,7 +75,7 @@ namespace Tavern.UI.Presenters
             _presenters.Add(item, presenter);
             presenter.OnRightClick += OnIngredientRightClick;
             presenter.OnLeftClick += OnIngredientLeftClick;
-            presenter.Show(item, 1, true, _itemPrices[item]);
+            presenter.Show(item, count, true, _itemPrices[item]);
         }
 
         private void OnIngredientRightClick(Item item)
@@ -78,8 +86,8 @@ namespace Tavern.UI.Presenters
         private void OnIngredientLeftClick(Item item)
         {
             _dealInfoPresenter ??= _shoppingPresentersFactory.CreateDealInfoPresenter(_canvas);
-            
-            const int maxCount = 1;
+
+            int maxCount = item.TryGet(out ComponentStackable componentStackable) ? componentStackable.Value : 1;
             int price = _itemPrices[item];
             
             if (!_dealInfoPresenter.Show(item, maxCount, price)) return;
@@ -91,10 +99,9 @@ namespace Tavern.UI.Presenters
         private void OnDeal(Item item, int count)
         {
             UnsubscribeDealInfo();
-            if (count >= 1)
-            {
-                _shop.BuyOut(item);
-            }
+            if (count <= 0) return;
+            
+            _shop.BuyOut(item, count);
         }
 
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
@@ -125,7 +132,7 @@ namespace Tavern.UI.Presenters
         private void OnItemsChanged()
         {
             ClearItems();
-            SetupCharacterItemCards(_shop.NpcSeller.CharacterItemPrices);
+            SetupCharacterItemCards(_shop.NpcSeller.CharacterItemsPrices);
         }
     }
 }
