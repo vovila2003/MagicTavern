@@ -7,23 +7,29 @@ namespace Tavern.Gardening.Medicine
     [CreateAssetMenu(
         fileName = "MedicineConfig",
         menuName = "Settings/Gardening/Medicine/Medicine Config")]
-    public class MedicineConfig : StackableItemConfig<MedicineItem>
+    public class MedicineConfig : StackableItemConfig
     {
+        public override Item Create()
+        {
+            return new MedicineItem(this, GetComponentClones());
+        }
+
+        protected override string GetItemType() => nameof(MedicineItem);
+
         protected override void Awake()
         {
             base.Awake();
 
-            MedicineItem medicineItem = GetItem();
-            medicineItem.SetFlags(ItemFlags.Consumable);
+            SetFlags(ItemFlags.Consumable);
 
-            if (!medicineItem.Has<ComponentHarvestHeal>())
+            if (!Has<ComponentHarvestHeal>())
             {
-                medicineItem.Components?.Add(new ComponentHarvestHeal());
+                Components?.Add(new ComponentHarvestHeal());
             }
 
-            if (!medicineItem.Has<ComponentHarvestSicknessReducing>())
+            if (!Has<ComponentHarvestSicknessReducing>())
             {
-                medicineItem.Components?.Add(new ComponentHarvestSicknessReducing());
+                Components?.Add(new ComponentHarvestSicknessReducing());
             }
         }
     }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Modules.Gardening;
 using Modules.Inventories;
 using Sirenix.OdinInspector;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
 using VContainer;
@@ -10,14 +11,14 @@ namespace Tavern.Gardening
 {
     public class SeedMaker : MonoBehaviour
     {
-        private IInventory<ProductItem> _productsStorage;
+        private IInventory<PlantProductItem> _productsStorage;
         private SeedInventoryContext _seedsStorage;
         private SeedMakerSettings _settings;
         private readonly Dictionary<string, int> _seeds = new ();
         
         [Inject]
         private void Construct(
-            IInventory<ProductItem> productsStorage, 
+            IInventory<PlantProductItem> productsStorage, 
             SeedInventoryContext seedsStorage, 
             SeedMakerSettings settings)
         {
@@ -46,7 +47,7 @@ namespace Tavern.Gardening
 
             int seedCount = productCount * seedRatio;
             
-            _productsStorage.RemoveItems(ProductNameProvider.GetName(type.Name), productCount);
+            _productsStorage.RemoveItems(PlantProductNameProvider.GetName(type.Name), productCount);
             for (var i = 0; i < seedCount; i++)
             {
                 _seedsStorage.AddItemByName(SeedNameProvider.GetName(type.Name));
@@ -57,7 +58,7 @@ namespace Tavern.Gardening
         {
             seedRatio = 0;
 
-            int itemCount = _productsStorage.GetItemCount(ProductNameProvider.GetName(type.Name));
+            int itemCount = _productsStorage.GetItemCount(PlantProductNameProvider.GetName(type.Name));
             if (itemCount < productCount)
             {
                 Debug.Log($"Not enough products of type {type}");

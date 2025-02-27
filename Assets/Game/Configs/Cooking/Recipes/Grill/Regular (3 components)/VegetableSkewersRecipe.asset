@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
+  m_Name: VegetableSkewersRecipe
+  m_EditorClassIdentifier: 
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: 7ecc8d88285abaa17a84465344b10c8a, type: 2}
+  TimeInSeconds: 5
+  PlantProductIngredients:
+  - {fileID: 11400000, guid: 20d55c6ef9933a532bb6b599f6d294c4, type: 2}
+  - {fileID: 11400000, guid: a24c186d6e32db5b99138fe598680250, type: 2}
+  - {fileID: 11400000, guid: aab7cfe5c56f7bda688f8f154543ef3c, type: 2}
+  AnimalProductIngredients: []
+  RequiredKitchenItem: {fileID: 11400000, guid: 230e53ed270865870b70f0cc3dd58755, type: 2}
+  MiniGameConfig:
+    GreenZone: 30
+    YellowZone: 30
+    MinSpeed: 1
+    MaxSpeed: 1.2

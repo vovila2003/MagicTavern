@@ -1,55 +1,120 @@
-using Modules.Shopping;
+using System;
+using Modules.Items;
 using Sirenix.OdinInspector;
-using Tavern.Buying;
 using UnityEngine;
-using VContainer;
 
-namespace Tavern.Shop
+namespace Tavern.Shopping
 {
-    public class Shop : MonoBehaviour
+    [Serializable]
+    public class Shop 
     {
-        [SerializeField] 
-        private GoodsCatalog Catalog;
-
-        private GoodsBuyer _buyer;
-
-        [Inject]
-        private void Construct(GoodsBuyer buyer)
-        {
-            _buyer = buyer;
-        }
+        public event Action OnUpdated;
+        public event Action OnNpcSellerItemsChanged;
+        public event Action OnNpcCharacterItemsChanged; 
         
-        [Button]
-        public void ShowGoodsInfo(GoodsConfig goodsConfig)
+        [ShowInInspector, ReadOnly]
+        public NpcSeller NpcSeller { get; private set; }
+
+        [ShowInInspector, ReadOnly]
+        private CharacterSeller _characterSeller;
+
+        private CharacterBuyer _characterBuyer;
+
+        public SellerConfig SellerConfig { get; private set; }
+
+        public Shop(CharacterSeller characterSeller, CharacterBuyer characterBuyer, SellerConfig sellerConfig)
         {
-            Debug.Log($"Name {goodsConfig.Name}");
-            Debug.Log($"Title {goodsConfig.Goods.Metadata.Title}");
-            Debug.Log($"Description {goodsConfig.Goods.Metadata.Description}");
-            Debug.Log($"Price {goodsConfig.Goods.GoodsPrice}");
+            _characterSeller = characterSeller;
+            _characterBuyer = characterBuyer;
+            SellerConfig = sellerConfig;
+            
+            NpcSeller = SellerConfig.Create();
+            NpcSeller.OnItemsChanged += OnNpcSellerItemsCollectionChanged;
+            NpcSeller.OnCharacterItemsChanged += OnNpcSellerCharacterItemsCollectionChanged;
         }
 
-        [Button]
-        public void TryBuyByName(string goodsName)
+        public void Dispose()
         {
-            if (!Catalog.TryGetGoods(goodsName, out GoodsConfig goods))
+            NpcSeller.Dispose();
+            NpcSeller.OnItemsChanged -= OnNpcSellerItemsCollectionChanged;
+            NpcSeller.OnCharacterItemsChanged -= OnNpcSellerCharacterItemsCollectionChanged;
+        }
+
+        public void WeeklyUpdate()
+        {
+            if (NpcSeller is null) return;
+            
+            NpcSeller.WeeklyUpdate();
+            OnUpdated?.Invoke();
+        }
+
+        public void BuyByConfig(ItemConfig itemConfig, int count = 1)
+        {
+            if (NpcSeller.GetItemCount(itemConfig) < count)
             {
-                Debug.Log($"Goods with name {goodsName} not found");
+                Debug.Log($"Shop doesn't have need count of item {itemConfig.Name}");
                 return;
             }
             
-            Buy(goods);
+            (bool hasPrice, int price) = NpcSeller.GetItemPrice(itemConfig);
+
+            if (!hasPrice)
+            {
+                Debug.Log($"Can't buy item {itemConfig.Name}. Unknown price.");
+                return;
+            }
+
+            bool result = Deal.BuyFromNpc(_characterBuyer, NpcSeller, itemConfig, price, count);
+            string dealResult = result ? "OK" : "FAIL";
+            Debug.Log($"Deal result: {dealResult}");
         }
 
-        [Button]
-        public void Buy(GoodsConfig goodsConfig)
+        public void BuyOut(Item item, int count = 1)
         {
-            if (!_buyer.CanBuyGoods(goodsConfig.Goods))
+            if (!NpcSeller.HasItem(item))
             {
-                Debug.Log($"Can't buy goods {goodsConfig.Name}");
+                Debug.Log($"Shop doesn't have item {item.ItemName}");
                 return;
             }
             
-            _buyer.BuyGoods(goodsConfig);
+            (bool hasPrice, int price) = NpcSeller.GetItemPrice(item);
+            
+            if (!hasPrice)
+            {
+                Debug.Log($"Can't buy item {item.ItemName}. Unknown price.");
+                return;
+            }
+            
+            bool result = Deal.BuyOutFromNpc(_characterBuyer, NpcSeller, item, price, count);
+            string dealResult = result ? "OK" : "FAIL";
+            Debug.Log($"Deal result: {dealResult}");
         }
+
+        public void Sell(Item item, int count = 1)
+        {
+            if (_characterSeller.GetItemCount(item) < count)
+            {
+                Debug.Log($"Character doesn't have need count of item {item.ItemName}");
+                return;
+            }
+            
+            (bool hasPrice, int price) = _characterSeller.GetItemPrice(item);
+            
+            if (!hasPrice)
+            {
+                Debug.Log($"Can't sell item {item.ItemName}. Unknown price.");
+                return;
+            }
+            
+            bool result = Deal.SellToNpc(NpcSeller, _characterSeller, item, price, count);
+            string dealResult = result ? "OK" : "FAIL";
+            Debug.Log($"Deal result: {dealResult}");
+        }
+
+        public void SetReputation(int reputation) => NpcSeller.UpdateReputation(reputation);
+
+        private void OnNpcSellerItemsCollectionChanged() => OnNpcSellerItemsChanged?.Invoke();
+
+        private void OnNpcSellerCharacterItemsCollectionChanged() => OnNpcCharacterItemsChanged?.Invoke();
     }
 }

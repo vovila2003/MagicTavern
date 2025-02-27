@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
+  m_Name: FruitCocktailRecipe
+  m_EditorClassIdentifier: 
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: b3b4edfca11de53fb89cfa975a523716, type: 2}
+  TimeInSeconds: 5
+  PlantProductIngredients:
+  - {fileID: 11400000, guid: eeff7accdd39a1bd28b1921738f39e84, type: 2}
+  - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}
+  - {fileID: 11400000, guid: 401188fada6c9ced1b1d594dae116d02, type: 2}
+  AnimalProductIngredients: []
+  RequiredKitchenItem: {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
+  MiniGameConfig:
+    GreenZone: 30
+    YellowZone: 30
+    MinSpeed: 1
+    MaxSpeed: 1.2

@@ -12,25 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c2e82dcd51427fa290f8256f0a90db, type: 3}
   m_Name: PotatoSeed
   m_EditorClassIdentifier: 
-  Item:
-    Name: PotatoSeed
-    Flags: 1
-    Components:
-    - rid: 1692307341590921224
-    - rid: 1692307341590921225
-  Metadata:
-    Title: "\u0421\u0435\u043C\u0435\u043D\u0430 \u043A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044F"
-    Description: "\u043D\u0430 \u043F\u043E\u0441\u0430\u0434\u043A\u0443"
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654124
+  - rid: 588217054552654125
+  - rid: 588217054552654126
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
     Icon: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 1692307341590921224
+    - rid: 588217054552654124
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 1692307341590921225
+    - rid: 588217054552654125
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 588217054552654126
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:
         PlantConfig: {fileID: 11400000, guid: 78459dccb0c144f969a49981fd08dd22, type: 2}

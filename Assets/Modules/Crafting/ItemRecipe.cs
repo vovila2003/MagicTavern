@@ -4,26 +4,23 @@ using UnityEngine;
 
 namespace Modules.Crafting
 {
-    public class ItemRecipe<T> : ScriptableObject 
-        where T : Item
+    public class ItemRecipe : ScriptableObject 
     {
-        [SerializeField] 
-        private ItemConfig<T> ResultItemConfig;
+        [field: SerializeField] 
+        public ItemConfig ResultItemConfig { get; private set; }
 
         [SerializeField]
         private int TimeInSeconds = 5;
 
-        public string Name => ResultItem.GetItem().ItemName;
-
-        public ItemConfig<T> ResultItem => ResultItemConfig;
+        public string Name => ResultItemConfig?.Name;
 
         public int CraftingTimeInSeconds => TimeInSeconds;
         
         
         [ShowInInspector, ReadOnly, PreviewField(50, ObjectFieldAlignment.Right)] 
-        private Sprite Icon => ResultItemConfig?.GetItem().Metadata.Icon;
+        private Sprite Icon => ResultItemConfig?.Metadata.Icon;
         
         [ShowInInspector, ReadOnly]
-        private string RecipeName => ResultItemConfig?.GetItem().Metadata.Title;
+        private string RecipeName => ResultItemConfig?.Metadata.Title;
     }
 }

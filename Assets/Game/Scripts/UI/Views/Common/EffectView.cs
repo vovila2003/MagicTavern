@@ -18,5 +18,7 @@ namespace Tavern.UI.Views
         {
             gameObject.SetActive(active);
         }
+
+        public GameObject GetGameObject() => gameObject;
     }
 }

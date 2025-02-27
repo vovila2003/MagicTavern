@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
+  m_Name: FruitSaladRecipe
+  m_EditorClassIdentifier: 
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: 6ef3544dab8b2ba87b60dd1380256f80, type: 2}
+  TimeInSeconds: 5
+  PlantProductIngredients:
+  - {fileID: 11400000, guid: eeff7accdd39a1bd28b1921738f39e84, type: 2}
+  - {fileID: 11400000, guid: 713ed68609e71c9668962902b55e9196, type: 2}
+  - {fileID: 11400000, guid: a24c186d6e32db5b99138fe598680250, type: 2}
+  AnimalProductIngredients: []
+  RequiredKitchenItem: {fileID: 11400000, guid: a4c621c21f032acbc8ee3e90d6edb2a8, type: 2}
+  MiniGameConfig:
+    GreenZone: 30
+    YellowZone: 30
+    MinSpeed: 1
+    MaxSpeed: 1.2

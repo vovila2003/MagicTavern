@@ -1,5 +1,6 @@
 using Tavern.Cooking.MiniGame;
 using Tavern.InputServices.Interfaces;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -9,19 +10,29 @@ namespace Tavern.UI.Presenters
         private const string Stop = "Стоп";
         
         private readonly ICookingMiniGameView _view;
+
         private readonly MiniGamePlayer _player;
+
         private readonly ISpaceInput _inputService;
+        private Sprite _sprite;
 
         public CookingMiniGamePresenter(
             ICookingMiniGameView view,
             MiniGamePlayer player,
-            ISpaceInput input) : base(view)
+            ISpaceInput input
+            ) : base(view)
         {
             _view = view;
             _player = player;
             _inputService = input;
         }
-        
+
+        public void Show(Sprite sprite)
+        {
+            _sprite = sprite;
+            Show();
+        }
+
         protected override void OnShow()
         {
             SetupView();
@@ -47,6 +58,7 @@ namespace Tavern.UI.Presenters
 
         private void SetupView()
         {
+            _view.SetIcon(_sprite);
             _view.SetStartButtonActive(false);
             _view.SetButtonText(Start);
         }

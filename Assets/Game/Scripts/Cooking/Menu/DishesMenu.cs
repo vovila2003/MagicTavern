@@ -21,27 +21,35 @@ namespace Tavern.Cooking
             return _prices.TryGetValue(config, out price);
         }
 
+        private void Awake()
+        {
+            foreach (MenuItem menuItem in Prices)
+            {
+                _prices[menuItem.Dish] = menuItem.Price;
+            }
+        }
+
         private void OnValidate()
         {
             var collection = new Dictionary<DishItemConfig, bool>();
             foreach (MenuItem menuItem in Prices)
             {
-                DishItemConfig dish = menuItem.Dish;
-                if (dish is null) continue;
+                DishItemConfig dishConfig = menuItem.Dish;
+                if (dishConfig is null) continue;
 
                 float price = menuItem.Price;
+                _prices[menuItem.Dish] = price;
                 if (price <= 0)
                 {
-                    Debug.LogWarning($"Price of dish {dish.GetItem().ItemName} must be greater than zero!");
+                    Debug.LogWarning($"Price of dish {dishConfig.Name} must be greater than zero!");
                 } 
                 
-                _prices[dish] = price;
-                if (collection.TryAdd(dish, true))
+                if (collection.TryAdd(dishConfig, true))
                 {
                     continue;
                 }
 
-                throw new Exception($"Duplicate dish of name {dish.GetItem().ItemName} in menu");
+                throw new Exception($"Duplicate dish of name {dishConfig.Name} in menu");
             }
         }
     }

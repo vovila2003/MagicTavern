@@ -1,0 +1,3074 @@
+fileFormatVersion: 2
+guid: 0b2cbb5428ffefd2b8b61cb5cee6d26e
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: person_walk_2_0
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 3284
+        width: 140
+        height: 360
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35f65ca1d733989348921d44597a7b5b
+      internalID: -1515326309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_1
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 3278
+        width: 138
+        height: 366
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 789f93486a02b54f0aeaf093b9d2c813
+      internalID: -862353474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_2
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 3273
+        width: 136
+        height: 371
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cef123a7c1e51475ab48b731b739bc34
+      internalID: -266264471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_3
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 3268
+        width: 136
+        height: 376
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1992ce9ae033004f0a1279b32ed38d42
+      internalID: -1924566071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_4
+      rect:
+        serializedVersion: 2
+        x: 957
+        y: 3265
+        width: 136
+        height: 376
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94830bce29efdd918a645cb9f9f471e7
+      internalID: -175095768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_5
+      rect:
+        serializedVersion: 2
+        x: 1185
+        y: 3263
+        width: 135
+        height: 378
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 462480319f707d5eda9e29457df3d309
+      internalID: -1176340477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_6
+      rect:
+        serializedVersion: 2
+        x: 1418
+        y: 3255
+        width: 134
+        height: 378
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d45771cecb62cc9ab028df511f62662
+      internalID: -1961316493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_7
+      rect:
+        serializedVersion: 2
+        x: 1657
+        y: 3253
+        width: 134
+        height: 380
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fee58cd5382dbd2d295e89c47f117b97
+      internalID: 906222205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_8
+      rect:
+        serializedVersion: 2
+        x: 1898
+        y: 3253
+        width: 134
+        height: 379
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8070796639e84da6ea24be1ed4fc2102
+      internalID: -347416688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_9
+      rect:
+        serializedVersion: 2
+        x: 2141
+        y: 3249
+        width: 135
+        height: 383
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 003236ef94a8d0034944c4b87da929d3
+      internalID: 599516538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_10
+      rect:
+        serializedVersion: 2
+        x: 2391
+        y: 3251
+        width: 142
+        height: 381
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 645ce0adc834d068db9da8f69f2b766c
+      internalID: 885370882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_11
+      rect:
+        serializedVersion: 2
+        x: 2655
+        y: 3253
+        width: 145
+        height: 379
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68b7fea647442168ab02e6fb41db5644
+      internalID: -1686229700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_12
+      rect:
+        serializedVersion: 2
+        x: 2915
+        y: 3265
+        width: 147
+        height: 367
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55dc7455d6212614b8781cf8a360526e
+      internalID: 294307553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_13
+      rect:
+        serializedVersion: 2
+        x: 3183
+        y: 3274
+        width: 147
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec2536d8578c3ccd9b3ffbf52ea35619
+      internalID: -84561308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_14
+      rect:
+        serializedVersion: 2
+        x: 3441
+        y: 3284
+        width: 145
+        height: 353
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22ff70607ff1544cdbc15c46de88fccd
+      internalID: 591066921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_15
+      rect:
+        serializedVersion: 2
+        x: 3707
+        y: 3287
+        width: 141
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b28805e8438e590aa6523541863a15e
+      internalID: -1038078074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_16
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 2823
+        width: 138
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dd76a44ec2ff19b1806b4e67bdf1da5
+      internalID: 1906368905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_17
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 2819
+        width: 135
+        height: 365
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cb4eed2835412b65bd695e5ccf10bb8
+      internalID: -1717798752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_18
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 2813
+        width: 132
+        height: 371
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07dbf54d64a2635b09fc590217af0db2
+      internalID: -1751427737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_19
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 2809
+        width: 130
+        height: 375
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6467d4203580d26098ca848830cc7e42
+      internalID: -2089887117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_20
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 2805
+        width: 128
+        height: 375
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f91717d42f7807321bf459ee4710804f
+      internalID: 1983268696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_21
+      rect:
+        serializedVersion: 2
+        x: 1185
+        y: 2800
+        width: 124
+        height: 378
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3eb633230453bd59d8e0171d6b6b6c56
+      internalID: -1271461848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_22
+      rect:
+        serializedVersion: 2
+        x: 1424
+        y: 2796
+        width: 124
+        height: 381
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e95a30ccb68fe30878d8469dbd3e7498
+      internalID: -2042739219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_23
+      rect:
+        serializedVersion: 2
+        x: 1661
+        y: 2796
+        width: 124
+        height: 379
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83889b854eed33f20b060c2d8481f246
+      internalID: -665402172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_24
+      rect:
+        serializedVersion: 2
+        x: 1902
+        y: 2796
+        width: 126
+        height: 379
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db4a340ffa08631499fa0209d8801dc8
+      internalID: -668575114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_25
+      rect:
+        serializedVersion: 2
+        x: 2144
+        y: 2794
+        width: 129
+        height: 380
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e33a516a94fc9497bdd551003824c50
+      internalID: -312951993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_26
+      rect:
+        serializedVersion: 2
+        x: 2416
+        y: 2796
+        width: 130
+        height: 379
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6ee1b5b564eaf6c8a32fe96d830e4d4
+      internalID: -1719375287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_27
+      rect:
+        serializedVersion: 2
+        x: 2655
+        y: 2802
+        width: 134
+        height: 374
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fce46b770955e76649cc896712bf7fb4
+      internalID: 397872550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_28
+      rect:
+        serializedVersion: 2
+        x: 2919
+        y: 2813
+        width: 134
+        height: 365
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a402fe8d3214ba13958cfaae9d462e5
+      internalID: -262746038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_29
+      rect:
+        serializedVersion: 2
+        x: 3183
+        y: 2823
+        width: 135
+        height: 357
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c5afe04212707af294aae4bce54cc8d
+      internalID: -1067966708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_30
+      rect:
+        serializedVersion: 2
+        x: 3443
+        y: 2831
+        width: 139
+        height: 353
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8da7035ee8469ac9dbb808d740249d7c
+      internalID: -1793198365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_31
+      rect:
+        serializedVersion: 2
+        x: 3695
+        y: 2825
+        width: 140
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d960951ac2b830672bd31af006795620
+      internalID: 1509992167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_32
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 2366
+        width: 124
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f54116b64f8a151018b4917059209e92
+      internalID: -1991401049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_33
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 2364
+        width: 138
+        height: 367
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b18294a4eaf33d6c6b12b5b02e777ca6
+      internalID: 1236548717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_34
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 2360
+        width: 148
+        height: 372
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1538dc9698fecb639be2834eb7d2115b
+      internalID: 1676232802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_35
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 2357
+        width: 159
+        height: 374
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 387e3c0b5b692d160973cb44900baf87
+      internalID: 717485243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_36
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 2354
+        width: 169
+        height: 373
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6fbaa7d41cf83224bb499786f9de4a2
+      internalID: 1006965044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_37
+      rect:
+        serializedVersion: 2
+        x: 1160
+        y: 2351
+        width: 177
+        height: 372
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a326d98a163f0ad4a87db20005f36fc5
+      internalID: 1031060105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_38
+      rect:
+        serializedVersion: 2
+        x: 1393
+        y: 2347
+        width: 184
+        height: 375
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64a093f1b39c8455f91d38b00436266e
+      internalID: -943013354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_39
+      rect:
+        serializedVersion: 2
+        x: 1630
+        y: 2347
+        width: 187
+        height: 374
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fe2ed131e83cc22e8814d737950952c
+      internalID: 1231979616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_40
+      rect:
+        serializedVersion: 2
+        x: 1871
+        y: 2343
+        width: 187
+        height: 378
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28a1032051128714c9759f6d9e5868cd
+      internalID: -1290481990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_41
+      rect:
+        serializedVersion: 2
+        x: 2118
+        y: 2339
+        width: 181
+        height: 382
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f070ee51b2801ed89f6d42c5b31c0a2
+      internalID: 1790645121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_42
+      rect:
+        serializedVersion: 2
+        x: 2376
+        y: 2341
+        width: 172
+        height: 380
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df9863770a8896d2ab113f48aeb282ec
+      internalID: 2107005817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_43
+      rect:
+        serializedVersion: 2
+        x: 2647
+        y: 2343
+        width: 161
+        height: 378
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ba229d092f8fdc698b3bb07f89334ff
+      internalID: 983724140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_44
+      rect:
+        serializedVersion: 2
+        x: 2915
+        y: 2353
+        width: 143
+        height: 369
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66358136bee3e23f4b034ea5665fd8cb
+      internalID: -1302669481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_45
+      rect:
+        serializedVersion: 2
+        x: 3194
+        y: 2360
+        width: 126
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f20fad1aceb4ff909e5ce4ee61a9173
+      internalID: 1277330110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_46
+      rect:
+        serializedVersion: 2
+        x: 3456
+        y: 2366
+        width: 115
+        height: 359
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ded84c2519b6cf86086a46ee3787c841
+      internalID: 1675188011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_47
+      rect:
+        serializedVersion: 2
+        x: 3710
+        y: 2375
+        width: 109
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae4315262db7a79eb9495e2249f3dd55
+      internalID: 1816948987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_48
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 1913
+        width: 111
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a7a0ceb04ffe548c94e71a859b4a863
+      internalID: 1028700420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_49
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 1909
+        width: 114
+        height: 356
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4f1ccd8c455b1ef79f7f1bc2435dafa
+      internalID: -1812585489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_50
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 1905
+        width: 126
+        height: 359
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bf36724583b3e6698d96365e03e4c39
+      internalID: -472056372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_51
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 1903
+        width: 147
+        height: 360
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b65dcb0626d38bb19833289f4a36aed4
+      internalID: -783523836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_52
+      rect:
+        serializedVersion: 2
+        x: 944
+        y: 1899
+        width: 164
+        height: 362
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff0fb7bcfd792f11394f009f45f59e7e
+      internalID: -1507717705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_53
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 1896
+        width: 175
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e57b103fe8a88c678ac42988111bc252
+      internalID: 698104849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_54
+      rect:
+        serializedVersion: 2
+        x: 1393
+        y: 1894
+        width: 182
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da9496bd4b437c9e8a2da23f5615ec3b
+      internalID: 1602123224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_55
+      rect:
+        serializedVersion: 2
+        x: 1630
+        y: 1894
+        width: 187
+        height: 359
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0924b722ff0b9c2fc9787d75af1b3569
+      internalID: 1983546249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_56
+      rect:
+        serializedVersion: 2
+        x: 1872
+        y: 1892
+        width: 186
+        height: 359
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26e04ce6d050531d097913a3d8d26e13
+      internalID: 1564790226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_57
+      rect:
+        serializedVersion: 2
+        x: 2118
+        y: 1892
+        width: 181
+        height: 359
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc28f1f7e4dfb7606816640b608bcc0b
+      internalID: -1759151393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_58
+      rect:
+        serializedVersion: 2
+        x: 2376
+        y: 1894
+        width: 172
+        height: 357
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83d464333975e0ae58355c963fadc1cb
+      internalID: -575961423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_59
+      rect:
+        serializedVersion: 2
+        x: 2643
+        y: 1900
+        width: 159
+        height: 353
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cf623dbf35081522a5240663d0a59c3
+      internalID: 596645095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_60
+      rect:
+        serializedVersion: 2
+        x: 2915
+        y: 1909
+        width: 142
+        height: 346
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cca7f21f526327fca06d40becddf412
+      internalID: -1668766678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_61
+      rect:
+        serializedVersion: 2
+        x: 3188
+        y: 1909
+        width: 125
+        height: 350
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09cf17e8b964ca262a60b39b6ad15c6e
+      internalID: -1986250833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_62
+      rect:
+        serializedVersion: 2
+        x: 3456
+        y: 1905
+        width: 115
+        height: 357
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 298e157ed72f9c7e0b4f4a68f21e2484
+      internalID: 1924050416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_63
+      rect:
+        serializedVersion: 2
+        x: 3714
+        y: 1901
+        width: 125
+        height: 364
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc58f302da1cdc880b3ab692b247f767
+      internalID: 408786655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_64
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1462
+        width: 89
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c682baa69af49c4796a698328355c5b
+      internalID: -676249973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_65
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 1462
+        width: 91
+        height: 365
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8576f7b8bec74d068bccbfde60bcd327
+      internalID: 828884869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_66
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 1462
+        width: 116
+        height: 365
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb72802003038f1cbbcb352fccc3aae6
+      internalID: -111484243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_67
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 1462
+        width: 148
+        height: 365
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 073dcdd2b4f15ad20aeca724f36d90d7
+      internalID: 1117761196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_68
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 1462
+        width: 176
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbdc586b163cfd3b4b616472dc48dc41
+      internalID: 1397309297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_69
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 1462
+        width: 195
+        height: 359
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccb4dbc81f55431c59c04d6dea1174ea
+      internalID: 367069826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_70
+      rect:
+        serializedVersion: 2
+        x: 1382
+        y: 1462
+        width: 208
+        height: 357
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18cc2c8c5b39a3ba3a49afdd35426ab4
+      internalID: -1049430676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_71
+      rect:
+        serializedVersion: 2
+        x: 1618
+        y: 1462
+        width: 215
+        height: 355
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26f4ed59751c60ae8bb0453ed3f2aa99
+      internalID: -866993536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_72
+      rect:
+        serializedVersion: 2
+        x: 1856
+        y: 1461
+        width: 219
+        height: 356
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 536c86ef6dca8b222ba62f1663279e9a
+      internalID: -544592317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_73
+      rect:
+        serializedVersion: 2
+        x: 2101
+        y: 1462
+        width: 217
+        height: 356
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05058011bb09136f5b1d6640d0b6cf6e
+      internalID: 1226975711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_74
+      rect:
+        serializedVersion: 2
+        x: 2359
+        y: 1464
+        width: 206
+        height: 354
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25d2525b507cbefc4ba443dfc52f598f
+      internalID: 101622199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_75
+      rect:
+        serializedVersion: 2
+        x: 2634
+        y: 1465
+        width: 189
+        height: 354
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1af164463cf2405fdb8b83aa478b86df
+      internalID: -2064461861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_76
+      rect:
+        serializedVersion: 2
+        x: 2904
+        y: 1469
+        width: 168
+        height: 350
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6b0789aba3592d73a7fdb218164eaaa
+      internalID: 1690516311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_77
+      rect:
+        serializedVersion: 2
+        x: 3179
+        y: 1471
+        width: 143
+        height: 350
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15cf3eb3d84406c0d8ea991f068afd92
+      internalID: 718642009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_78
+      rect:
+        serializedVersion: 2
+        x: 3455
+        y: 1471
+        width: 120
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e78dafd0061b0b30d98936f393bab2be
+      internalID: 1844057358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_79
+      rect:
+        serializedVersion: 2
+        x: 3722
+        y: 1473
+        width: 109
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a07a9c032cb2476b1aee4f5958de0332
+      internalID: -1984745624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_80
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 1037
+        width: 104
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1fecbe5035f189478d943b71ab0ccfd
+      internalID: -469074364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_81
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 1039
+        width: 112
+        height: 350
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95bc1b66aca9fd023b3e8dffaae66f04
+      internalID: -687263398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_82
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 1039
+        width: 132
+        height: 348
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eee85f8a0f850247cbaefdc43fe5fafb
+      internalID: -409408999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_83
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 1041
+        width: 162
+        height: 346
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 615392bbb5d18bdca96838e7ff71e1bb
+      internalID: -990626656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_84
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 1037
+        width: 187
+        height: 346
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f040d694cba923446b773e62abd390d6
+      internalID: 1744648507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_85
+      rect:
+        serializedVersion: 2
+        x: 1146
+        y: 1035
+        width: 203
+        height: 346
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 861056c4225925c99991731a86407f58
+      internalID: 304018263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_86
+      rect:
+        serializedVersion: 2
+        x: 1380
+        y: 1033
+        width: 210
+        height: 344
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffb3df1e7695e09ee8a68e0ffb4e10dc
+      internalID: -1114274115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_87
+      rect:
+        serializedVersion: 2
+        x: 1617
+        y: 1030
+        width: 216
+        height: 345
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32c1b25c080a57e5a9d0a7de6d82c9f2
+      internalID: -503529381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_88
+      rect:
+        serializedVersion: 2
+        x: 1856
+        y: 1028
+        width: 217
+        height: 346
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 203ebc2bb7429414595e06c7798a472b
+      internalID: 1406459151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_89
+      rect:
+        serializedVersion: 2
+        x: 2102
+        y: 1026
+        width: 216
+        height: 346
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82e9a4f564308275bbe091c2fbb2e3b3
+      internalID: -2062165034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_90
+      rect:
+        serializedVersion: 2
+        x: 2359
+        y: 1024
+        width: 204
+        height: 350
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e294e803a4e4ba72290f323cad85a890
+      internalID: 438620732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_91
+      rect:
+        serializedVersion: 2
+        x: 2632
+        y: 1024
+        width: 180
+        height: 350
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf7af0b49c96ba63eaaa2dae6a375c1b
+      internalID: 1893678725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_92
+      rect:
+        serializedVersion: 2
+        x: 2909
+        y: 1024
+        width: 155
+        height: 353
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52213c78536cb4ae88683b59b5f817f0
+      internalID: 157487623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_93
+      rect:
+        serializedVersion: 2
+        x: 3190
+        y: 1024
+        width: 132
+        height: 357
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa6ecb096e0e27426a1a8fd2518f07ea
+      internalID: 1373134015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_94
+      rect:
+        serializedVersion: 2
+        x: 3462
+        y: 1024
+        width: 105
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c2de89d0cc684a6eb5055281b5fccba
+      internalID: 1151374876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_95
+      rect:
+        serializedVersion: 2
+        x: 3720
+        y: 1024
+        width: 90
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e21b7406c05c7d22a8de270b04c38bc
+      internalID: 976325710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_96
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 582
+        width: 117
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ab03b714f39688de8fa819aab58e6c7
+      internalID: 1313877868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_97
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 586
+        width: 115
+        height: 362
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bf4f03fe1b7aff10b7c6f371afddbb7
+      internalID: -555785337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_98
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 592
+        width: 127
+        height: 357
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ed2642fc3a98ae3e9512abfc9d977e6
+      internalID: 1724864699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_99
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 592
+        width: 143
+        height: 355
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69c9d9da36a8e97dbab7b7c358a923ee
+      internalID: 1811165903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_100
+      rect:
+        serializedVersion: 2
+        x: 944
+        y: 592
+        width: 164
+        height: 353
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f2da0fa9e894ec8dbe07ab6ef75b311
+      internalID: 100836627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_101
+      rect:
+        serializedVersion: 2
+        x: 1163
+        y: 590
+        width: 178
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a32df58e80c34d0498005531a712a18d
+      internalID: -981256187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_102
+      rect:
+        serializedVersion: 2
+        x: 1393
+        y: 588
+        width: 185
+        height: 352
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 146f2cecde7a71f2e8dbbf49a1f43ed9
+      internalID: 923616588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_103
+      rect:
+        serializedVersion: 2
+        x: 1632
+        y: 584
+        width: 187
+        height: 354
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 912da4442bd30f6dfa9faaf9fdee6b81
+      internalID: -1299422965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_104
+      rect:
+        serializedVersion: 2
+        x: 1873
+        y: 577
+        width: 187
+        height: 361
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acd2e7a0a9c943d52917b959865b4fa3
+      internalID: -1246842870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_105
+      rect:
+        serializedVersion: 2
+        x: 2116
+        y: 573
+        width: 185
+        height: 367
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18fdf11c47b5638318eab6671da0ba9e
+      internalID: 1907327493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_106
+      rect:
+        serializedVersion: 2
+        x: 2374
+        y: 576
+        width: 177
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b32776d3ff201c569d942771ece866c
+      internalID: -181553034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_107
+      rect:
+        serializedVersion: 2
+        x: 2636
+        y: 580
+        width: 170
+        height: 360
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2d2d69a440efd474ad02472942ecc6a
+      internalID: 727945056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_108
+      rect:
+        serializedVersion: 2
+        x: 2907
+        y: 584
+        width: 157
+        height: 356
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f7b8066db6ae5def99b64ad436d95b1
+      internalID: -567173422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_109
+      rect:
+        serializedVersion: 2
+        x: 3187
+        y: 588
+        width: 141
+        height: 354
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d51dc83a373eb023b8fbdfca4f76ea1
+      internalID: 1328864791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_110
+      rect:
+        serializedVersion: 2
+        x: 3452
+        y: 592
+        width: 123
+        height: 351
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35a85da44d3630b97ac0f0b832e2a32a
+      internalID: -1362748029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_111
+      rect:
+        serializedVersion: 2
+        x: 3712
+        y: 596
+        width: 128
+        height: 349
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52fab5449b976c4c2bb3b573cc043644
+      internalID: -1116801522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_112
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 143
+        width: 143
+        height: 353
+      alignment: 9
+      pivot: {x: 0.50971204, y: 0.008967668}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ede8ddd15c442a2c806844c9ed337a9
+      internalID: 722513582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_113
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 139
+        width: 149
+        height: 357
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b46ed08636f09888abab5f0fd344cc0
+      internalID: 2030122489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_114
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 132
+        width: 158
+        height: 364
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5d1c4f72c572607d8696b2afb3e24c8
+      internalID: 1555541019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_115
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 126
+        width: 160
+        height: 368
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a19bf3917a2450f888c046e460948d7
+      internalID: -1709426296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_116
+      rect:
+        serializedVersion: 2
+        x: 933
+        y: 123
+        width: 165
+        height: 367
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a03db230239be36d971b038860b55ad
+      internalID: 470821581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_117
+      rect:
+        serializedVersion: 2
+        x: 1168
+        y: 121
+        width: 169
+        height: 367
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69386b103126bfe3eaf2595e4c514329
+      internalID: -1524141281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_118
+      rect:
+        serializedVersion: 2
+        x: 1401
+        y: 117
+        width: 172
+        height: 368
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72e9b272b2b8522ce96238e8ff89b2cb
+      internalID: 773398473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_119
+      rect:
+        serializedVersion: 2
+        x: 1638
+        y: 112
+        width: 173
+        height: 371
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf3fa87c2f4481929922a3eb189b63e5
+      internalID: 1789993265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_120
+      rect:
+        serializedVersion: 2
+        x: 1879
+        y: 110
+        width: 174
+        height: 371
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79c83bec76e776528bcb42a4c8ef531a
+      internalID: -1053989224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_121
+      rect:
+        serializedVersion: 2
+        x: 2121
+        y: 110
+        width: 174
+        height: 371
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90900b3fe55ca3dedb766928d38295c8
+      internalID: -1438949033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_122
+      rect:
+        serializedVersion: 2
+        x: 2395
+        y: 113
+        width: 172
+        height: 368
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef082dfff6ab9f4c2808565f3564830b
+      internalID: 789948504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_123
+      rect:
+        serializedVersion: 2
+        x: 2641
+        y: 118
+        width: 163
+        height: 365
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad5f68bd70605a2d189e91b0f2c31697
+      internalID: 1972337919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_124
+      rect:
+        serializedVersion: 2
+        x: 2919
+        y: 121
+        width: 149
+        height: 364
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfe35a591778acf68ac395ba8ade9abd
+      internalID: -946128939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_125
+      rect:
+        serializedVersion: 2
+        x: 3192
+        y: 125
+        width: 131
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffa774769688d8c5ca3435e33ed230aa
+      internalID: -1331038715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_126
+      rect:
+        serializedVersion: 2
+        x: 3454
+        y: 129
+        width: 117
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eda2fc6feaa3136c7ab4fd26aee1001d
+      internalID: -1147554103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: person_walk_2_127
+      rect:
+        serializedVersion: 2
+        x: 3707
+        y: 131
+        width: 116
+        height: 363
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec7461e58e2edb11b8711a98b5fb7885
+      internalID: 921228274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 774c6e17d20c69182a923ca183e8f4b3
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      person_walk_2_0: -1515326309
+      person_walk_2_1: -862353474
+      person_walk_2_10: 885370882
+      person_walk_2_100: 100836627
+      person_walk_2_101: -981256187
+      person_walk_2_102: 923616588
+      person_walk_2_103: -1299422965
+      person_walk_2_104: -1246842870
+      person_walk_2_105: 1907327493
+      person_walk_2_106: -181553034
+      person_walk_2_107: 727945056
+      person_walk_2_108: -567173422
+      person_walk_2_109: 1328864791
+      person_walk_2_11: -1686229700
+      person_walk_2_110: -1362748029
+      person_walk_2_111: -1116801522
+      person_walk_2_112: 722513582
+      person_walk_2_113: 2030122489
+      person_walk_2_114: 1555541019
+      person_walk_2_115: -1709426296
+      person_walk_2_116: 470821581
+      person_walk_2_117: -1524141281
+      person_walk_2_118: 773398473
+      person_walk_2_119: 1789993265
+      person_walk_2_12: 294307553
+      person_walk_2_120: -1053989224
+      person_walk_2_121: -1438949033
+      person_walk_2_122: 789948504
+      person_walk_2_123: 1972337919
+      person_walk_2_124: -946128939
+      person_walk_2_125: -1331038715
+      person_walk_2_126: -1147554103
+      person_walk_2_127: 921228274
+      person_walk_2_13: -84561308
+      person_walk_2_14: 591066921
+      person_walk_2_15: -1038078074
+      person_walk_2_16: 1906368905
+      person_walk_2_17: -1717798752
+      person_walk_2_18: -1751427737
+      person_walk_2_19: -2089887117
+      person_walk_2_2: -266264471
+      person_walk_2_20: 1983268696
+      person_walk_2_21: -1271461848
+      person_walk_2_22: -2042739219
+      person_walk_2_23: -665402172
+      person_walk_2_24: -668575114
+      person_walk_2_25: -312951993
+      person_walk_2_26: -1719375287
+      person_walk_2_27: 397872550
+      person_walk_2_28: -262746038
+      person_walk_2_29: -1067966708
+      person_walk_2_3: -1924566071
+      person_walk_2_30: -1793198365
+      person_walk_2_31: 1509992167
+      person_walk_2_32: -1991401049
+      person_walk_2_33: 1236548717
+      person_walk_2_34: 1676232802
+      person_walk_2_35: 717485243
+      person_walk_2_36: 1006965044
+      person_walk_2_37: 1031060105
+      person_walk_2_38: -943013354
+      person_walk_2_39: 1231979616
+      person_walk_2_4: -175095768
+      person_walk_2_40: -1290481990
+      person_walk_2_41: 1790645121
+      person_walk_2_42: 2107005817
+      person_walk_2_43: 983724140
+      person_walk_2_44: -1302669481
+      person_walk_2_45: 1277330110
+      person_walk_2_46: 1675188011
+      person_walk_2_47: 1816948987
+      person_walk_2_48: 1028700420
+      person_walk_2_49: -1812585489
+      person_walk_2_5: -1176340477
+      person_walk_2_50: -472056372
+      person_walk_2_51: -783523836
+      person_walk_2_52: -1507717705
+      person_walk_2_53: 698104849
+      person_walk_2_54: 1602123224
+      person_walk_2_55: 1983546249
+      person_walk_2_56: 1564790226
+      person_walk_2_57: -1759151393
+      person_walk_2_58: -575961423
+      person_walk_2_59: 596645095
+      person_walk_2_6: -1961316493
+      person_walk_2_60: -1668766678
+      person_walk_2_61: -1986250833
+      person_walk_2_62: 1924050416
+      person_walk_2_63: 408786655
+      person_walk_2_64: -676249973
+      person_walk_2_65: 828884869
+      person_walk_2_66: -111484243
+      person_walk_2_67: 1117761196
+      person_walk_2_68: 1397309297
+      person_walk_2_69: 367069826
+      person_walk_2_7: 906222205
+      person_walk_2_70: -1049430676
+      person_walk_2_71: -866993536
+      person_walk_2_72: -544592317
+      person_walk_2_73: 1226975711
+      person_walk_2_74: 101622199
+      person_walk_2_75: -2064461861
+      person_walk_2_76: 1690516311
+      person_walk_2_77: 718642009
+      person_walk_2_78: 1844057358
+      person_walk_2_79: -1984745624
+      person_walk_2_8: -347416688
+      person_walk_2_80: -469074364
+      person_walk_2_81: -687263398
+      person_walk_2_82: -409408999
+      person_walk_2_83: -990626656
+      person_walk_2_84: 1744648507
+      person_walk_2_85: 304018263
+      person_walk_2_86: -1114274115
+      person_walk_2_87: -503529381
+      person_walk_2_88: 1406459151
+      person_walk_2_89: -2062165034
+      person_walk_2_9: 599516538
+      person_walk_2_90: 438620732
+      person_walk_2_91: 1893678725
+      person_walk_2_92: 157487623
+      person_walk_2_93: 1373134015
+      person_walk_2_94: 1151374876
+      person_walk_2_95: 976325710
+      person_walk_2_96: 1313877868
+      person_walk_2_97: -555785337
+      person_walk_2_98: 1724864699
+      person_walk_2_99: 1811165903
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

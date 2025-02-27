@@ -55,7 +55,7 @@ namespace Tavern.UI.Views
             Time.text = time;
         }
 
-        public void SetMaxStart(int count)
+        public void SetMaxStars(int count)
         {
             Stars.SetStarsMaxCount(count);
         }

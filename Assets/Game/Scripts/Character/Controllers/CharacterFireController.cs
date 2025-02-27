@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Tavern.Character.Agents;
 using Tavern.InputServices.Interfaces;
@@ -5,15 +6,19 @@ using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
+    [UsedImplicitly]
     public sealed class CharacterFireController : 
         IStartGameListener,
         IFinishGameListener,
+        IPauseGameListener,
+        IResumeGameListener,
         ITickable
     {
         private readonly CharacterAttackAgent _attackAgent;
         private readonly IShootInput _shootInput;
         private bool _fireRequired;
         private bool _alternativeFireRequired;
+        private bool _enable;
 
         public CharacterFireController(ICharacter character, IShootInput shootInput)
         {
@@ -23,21 +28,15 @@ namespace Tavern.Character.Controllers
         
         void ITickable.Tick()
         {
+            if (!_enable) return;
+            
             CheckAttack();
             CheckAlternativeAttack();
         }
         
-        void IStartGameListener.OnStart()
-        {
-            _shootInput.OnFire += OnFire;
-            _shootInput.OnAlternativeFire += OnAlternativeFire;
-        }
+        void IStartGameListener.OnStart() => Activate();
 
-        void IFinishGameListener.OnFinish()
-        {
-            _shootInput.OnFire -= OnFire;
-            _shootInput.OnAlternativeFire -= OnAlternativeFire;
-        }
+        void IFinishGameListener.OnFinish() => Deactivate();
 
         private void CheckAttack()
         {
@@ -59,10 +58,28 @@ namespace Tavern.Character.Controllers
         {
             _fireRequired = true;
         }
-        
+
         private void OnAlternativeFire()
         {
             _alternativeFireRequired = true;
+        }
+
+        void IPauseGameListener.OnPause() => Deactivate();
+
+        void IResumeGameListener.OnResume() => Activate();
+
+        private void Activate()
+        {
+            _shootInput.OnFire += OnFire;
+            _shootInput.OnAlternativeFire += OnAlternativeFire;
+            _enable = true;
+        }
+
+        private void Deactivate()
+        {
+            _shootInput.OnFire -= OnFire;
+            _shootInput.OnAlternativeFire -= OnAlternativeFire;
+            _enable = false;
         }
     }
 }

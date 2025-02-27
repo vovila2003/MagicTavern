@@ -1,5 +1,3 @@
-using Tavern.Cooking;
-using Tavern.Cooking.MiniGame;
 using Tavern.Gardening;
 using UnityEngine;
 
@@ -24,6 +22,9 @@ namespace Tavern.Settings
 
         [SerializeField]
         private CookingSettings CookingConfigs;
+        
+        [field: SerializeField]
+        public ShoppingSettings ShoppingSettings { get; private set; }
         
         [SerializeField]
         private UISettings UIConfigs;

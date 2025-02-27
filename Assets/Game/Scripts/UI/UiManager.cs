@@ -1,67 +1,108 @@
+using System;
 using Modules.GameCycle.Interfaces;
+using Tavern.Cooking;
 using Tavern.Settings;
+using Tavern.Shopping;
 using Tavern.UI.Presenters;
-using Tavern.UI.Views;
 using UnityEngine;
 using VContainer;
 
 namespace Tavern.UI
 {
     public sealed class UiManager : MonoBehaviour, 
-        IInitGameListener,
-        IPrepareGameListener,
-        IStartGameListener,
-        IPauseGameListener,
-        IResumeGameListener,
-        IFinishGameListener
+        IInitGameListener, IUiManager
     {
         private UISceneSettings _settings;
-        private PresentersFactory _factory;
+        private CommonPresentersFactory _commonFactory;
+        private CookingPresentersFactory _cookingFactory;
+        private ShoppingPresentersFactory _shoppingFactory;
+        
         private MainMenuPresenter _mainMenuPresenter;
         private PausePresenter _pausePresenter;
         private HudPresenter _hudPresenter;
+        private CookingPanelPresenter _cookingPresenter;
+        private ShoppingPanelPresenter _shoppingPresenter;
+        private BasePresenter _currentPresenter;
         
+        public bool IsOpen => _currentPresenter != null;
+
         [Inject]
-        private void Construct(PresentersFactory factory, UISceneSettings settings)
+        private void Construct(
+            CommonPresentersFactory commonFactory,
+            CookingPresentersFactory cookingFactory,
+            ShoppingPresentersFactory shoppingFactory,
+            UISceneSettings settings)
         {
-            _factory = factory;
+            _commonFactory = commonFactory;
+            _cookingFactory = cookingFactory;
+            _shoppingFactory = shoppingFactory;
             _settings = settings;
         }
 
-        void IInitGameListener.OnInit()
+        public void ShowCookingUi(KitchenItemConfig kitchenItemConfig, Action onExit)
         {
-            _mainMenuPresenter = _factory.CreateMainMenuPresenter(_settings.MainMenu);
-            _pausePresenter = _factory.CreatePausePresenter(_settings.Pause);
-            _hudPresenter = _factory.CreateHudPresenter(_settings.Hud);
+            _cookingPresenter ??= _cookingFactory.CreateCookingPanelPresenter();
             
+            _cookingPresenter.Show(kitchenItemConfig, () =>
+            {
+                onExit?.Invoke();
+                _currentPresenter = null;
+            });
+            _currentPresenter = _cookingPresenter;
+        }
+        
+        public void ShowShoppingUi(Shop shop, Action onExit)
+        {
+            _shoppingPresenter ??= _shoppingFactory.CreateShoppingPanelPresenter();
+            
+            _shoppingPresenter.Show(shop, () =>
+            {
+                onExit?.Invoke();
+                _currentPresenter = null;
+            });
+            _currentPresenter = _shoppingPresenter;
+        }
+
+        public void HideUi()
+        {
+            _currentPresenter?.Hide();
+            _currentPresenter = null;
+        }
+
+        public void ShowMainMenu()
+        {
+            _hudPresenter.Hide();
             _mainMenuPresenter.Show();
         }
 
-        void IPrepareGameListener.OnPrepare()
+        public void ShowHud()
         {
             _mainMenuPresenter.Hide();
-        }
-
-        void IStartGameListener.OnStart()
-        {
             _hudPresenter.Show();
         }
 
-        void IPauseGameListener.OnPause()
+        public void HideHud()
         {
             _hudPresenter.Hide();
-            _pausePresenter.Show();            
+            _mainMenuPresenter.Show();
         }
 
-        void IResumeGameListener.OnResume()
+        public void ShowPause()
+        {
+            _pausePresenter.Show();
+        }
+
+        public void HidePause()
         {
             _pausePresenter.Hide();
-            _hudPresenter.Show();
         }
-
-        void IFinishGameListener.OnFinish()
+        
+        void IInitGameListener.OnInit()
         {
-            _hudPresenter.Hide();
+            _mainMenuPresenter = _commonFactory.CreateMainMenuPresenter(_settings.MainMenu, this);
+            _pausePresenter = _commonFactory.CreatePausePresenter(_settings.Pause, this);
+            _hudPresenter = _commonFactory.CreateHudPresenter(_settings.Hud);
+            
             _mainMenuPresenter.Show();
         }
     }

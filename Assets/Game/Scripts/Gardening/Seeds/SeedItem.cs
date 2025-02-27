@@ -6,16 +6,11 @@ namespace Tavern.Gardening
     [Serializable]
     public class SeedItem : Item
     {
-        public SeedItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
-            : base(name, flags, metadata, attributes)
-        {
-        }
-        
+        public SeedItem(ItemConfig config, params IItemComponent[] attributes) : base(config, attributes) { }
+
         public override Item Clone()
         {
-            IItemComponent[] attributes = GetComponents();
-
-            return new SeedItem(Name, Flags, Metadata, attributes);
+            return new SeedItem(Config, GetComponents());
         }
     }
 }

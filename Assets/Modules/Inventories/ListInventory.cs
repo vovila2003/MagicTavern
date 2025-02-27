@@ -7,8 +7,9 @@ namespace Modules.Inventories
 {
     public class ListInventory<T> : IInventory<T> where T : Item
     {
-        public event Action<T> OnItemAdded;
-        public event Action<T> OnItemRemoved;
+        public event Action<Item, int> OnItemCountChanged;
+        public event Action<Item, IInventoryBase> OnItemAdded;
+        public event Action<Item, IInventoryBase> OnItemRemoved;
 
         private readonly Dictionary<T,int> _counts = new();
         private List<T> _items;
@@ -25,39 +26,60 @@ namespace Modules.Inventories
             _items = new List<T>(items);
         }
 
-        public void AddItem(T item)
+        public void AddItem(Item item)
         {
-            if (_items.Contains(item)) return;
+            if (item is not T tItem) return;
             
-            _items.Add(item);
-            _counts.TryAdd(item, 0);
-            _counts[item]++;
-            OnItemAdded?.Invoke(item);
-        }
-        
-        public void RemoveItem(T item)
-        {
-            if (!_items.Remove(item)) return;
+            if (_items.Contains(tItem)) return;
             
-            OnItemRemoved?.Invoke(item);
-            
-            _counts[item]--;
-            if (_counts[item] != 0) return;
-            
-            _counts.Remove(item);
+            _items.Add(tItem);
+            _counts.TryAdd(tItem, 0);
+            _counts[tItem]++;
+            OnItemAdded?.Invoke(tItem, this);
         }
 
-        public void RemoveItems(string name, int count)
+        public void AddItems(Item item, int count)
+        {
+            if (count != 1) return;
+            AddItem(item);
+        }
+
+        public void RemoveItem(Item item)
+        {
+            if (item is not T tItem) return;
+            
+            if (!_items.Remove(tItem)) return;
+            
+            OnItemRemoved?.Invoke(tItem, this);
+            
+            _counts[tItem]--;
+            if (_counts[tItem] != 0) return;
+            
+            _counts.Remove(tItem);
+        }
+
+        public bool RemoveItems(string name, int count)
         {
             for (int i = 0; i < count; i++)
             {
-                RemoveItem(name);
+                Item item = RemoveItem(name);
+                if (item is null) return false;
             }
+
+            return true;
         }
 
-        public T RemoveItem(string name)
+        public bool RemoveItems(Item item, int count)
         {
-            if (FindItem(name, out T item))
+            if (count != 1) return false;
+            RemoveItem(item);
+
+            return true;
+        }
+
+        public Item RemoveItem(string name)
+        {
+            if (FindItem(name, out Item item))
             {
                 RemoveItem(item);
             }
@@ -65,12 +87,12 @@ namespace Modules.Inventories
             return item;
         }
 
-        public IReadOnlyList<T> GetItems()
+        public IReadOnlyList<Item> GetItems()
         {
             return _items.ToList();
         }
 
-        public bool FindItem(string name, out T result)
+        public bool FindItem(string name, out Item result)
         {
             foreach (T inventoryItem in _items)
             {

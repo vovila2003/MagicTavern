@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Modules.Items;
+using UnityEngine;
 
 namespace Modules.Inventories
 {
-    public class StackableInventory<T> : IStackableInventory<T> where T : Item
+    public class StackableInventory<T> : IInventory<T> where T : Item
     {
-        public event Action<T> OnItemAdded;
-        public event Action<T> OnItemRemoved;
-        public event Action<T, int> OnItemCountChanged;
+        public event Action<Item, IInventoryBase> OnItemAdded;
+        public event Action<Item, IInventoryBase> OnItemRemoved;
+        public event Action<Item, int> OnItemCountChanged;
         
         private readonly ListInventory<T> _listInventory;
 
         public List<T> Items => _listInventory.Items;
 
-        protected StackableInventory()
+        public StackableInventory()
         {
             _listInventory = new ListInventory<T>();
         }
@@ -33,33 +34,53 @@ namespace Modules.Inventories
             }
         }
 
-        public void AddItem(T item)
+        public void AddItem(Item item)
         {
-            if (IsStackable(item))
-            {
-                AddStackable(item);
-            }
-            else
-            {
-                AddSingle(item);
-            }
-        }
-
-        public void RemoveItem(T item)
-        {
-            if (!IsItemExists(item)) return;
+            if (item is not T tItem) return;
             
-            if (IsStackable(item))
+            if (IsStackable(tItem))
             {
-                RemoveStackable(item);
+                AddStackable(tItem);
             }
             else
             {
-                RemoveSingle(item);
+                AddSingle(tItem);
             }
         }
 
-        public T RemoveItem(string name)
+        public void AddItems(Item item, int count)
+        {
+            if (item is not T tItem) return;
+
+            if (IsStackable(tItem))
+            {
+                AddStackable(count, tItem);
+                return;
+            }
+
+            for (var i = 0; i < count; ++i)
+            {
+                AddSingle(tItem);
+            }
+        }
+
+        public void RemoveItem(Item item)
+        {
+            if (item is not T tItem) return;
+            
+            if (!IsItemExists(tItem)) return;
+            
+            if (IsStackable(tItem))
+            {
+                RemoveStackable(tItem);
+            }
+            else
+            {
+                RemoveSingle(tItem);
+            }
+        }
+
+        public Item RemoveItem(string name)
         {
             if (!FindAllItems(name, out List<T> items)) return null;
             
@@ -71,20 +92,41 @@ namespace Modules.Inventories
             }
 
             _listInventory.RemoveItem(lastItem);
-            OnItemRemoved?.Invoke(lastItem);
+            OnItemRemoved?.Invoke(lastItem, this);
             
             return lastItem;
         }
 
-        public void RemoveItems(string name, int amount)
+        public bool RemoveItems(string name, int amount)
         {
             for (int i = 0; i < amount; ++i)
             {
-                RemoveItem(name);
+                Item item = RemoveItem(name);
+                if (item is null) return false;
             }
+
+            return true;
         }
 
-        public IReadOnlyList<T> GetItems() => _listInventory.GetItems();
+        public bool RemoveItems(Item item, int count)
+        {
+            if (item is not T tItem) return false;
+            
+            if (!IsItemExists(tItem)) return false;
+            
+            if (IsStackable(tItem))
+            {
+                return RemoveStackable(count, tItem);
+            }
+
+            if (count != 1) return false;
+            
+            RemoveSingle(tItem);
+            
+            return true;
+        }
+
+        public IReadOnlyList<Item> GetItems() => _listInventory.GetItems();
 
         public int GetItemCount(string name)
         {
@@ -95,9 +137,9 @@ namespace Modules.Inventories
                 : items.Count;
         }
 
-        public bool FindItem(string name, out T item)
+        public bool FindItem(string name, out Item item)
         {
-            bool result = _listInventory.FindItem(name, out T inventoryItem);
+            bool result = _listInventory.FindItem(name, out Item inventoryItem);
             item = inventoryItem;
             
             return result;
@@ -112,18 +154,111 @@ namespace Modules.Inventories
         }
 
         public bool IsItemExists(T item) => 
-            IsStackable(item) ? FindItem(item.ItemName, out T _) : _listInventory.IsItemExists(item);
+            IsStackable(item) ? FindItem(item.ItemName, out Item _) : _listInventory.IsItemExists(item);
 
-        public bool IsItemExists(string name) => FindItem(name, out T _);
+        public bool IsItemExists(string name) => FindItem(name, out Item _);
 
         private bool IsStackable(T item) => item.ItemFlags.HasFlag(ItemFlags.Stackable);
+
+        private void AddStackable(int count, T item)
+        {
+            if (FindAllItems(item.ItemName, out List<T> existsItems))
+            {
+                HashSet<T> changedItems = new();
+                foreach (T existsItem in existsItems)
+                {
+                    var stackableComponent = existsItem.Get<ComponentStackable>();
+                    if (stackableComponent.IsFull) continue;
+                    int maxAddedCount = count;
+                    if (stackableComponent.Limited)
+                    {
+                        maxAddedCount = stackableComponent.Size - stackableComponent.Value;
+                    }
+
+                    int addedCount = Math.Min(maxAddedCount, count);
+
+                    stackableComponent.Value += addedCount;
+                    count -= addedCount;                        
+                    changedItems.Add(existsItem);
+                    
+                    if (count == 0) break;
+                }
+                
+                foreach (T changedItem in changedItems)
+                {
+                    int amount = changedItem.Get<ComponentStackable>().Value;
+                    OnItemCountChanged?.Invoke(changedItem, amount);
+                }
+
+                if (count == 0) return;
+            }
+
+            item.Get<ComponentStackable>().Value = count;
+            
+            AddSingle(item);
+        }
+
+        private bool RemoveStackable(int count, T tItem)
+        {
+            if (!FindAllItems(tItem.ItemName, out List<T> existsItems)) return false;
+                
+            HashSet<T> changedItems = new();
+            HashSet<T> deletedItems = new();
+            foreach (T existsItem in existsItems)
+            {
+                if (count == 0) break;
+                
+                var stackableComponent = existsItem.Get<ComponentStackable>();
+                if (stackableComponent.Value > 0)
+                {
+                    int removedCount = Mathf.Min(count, stackableComponent.Value);
+                    stackableComponent.Value -= removedCount;
+                    count -= removedCount;
+                    if (stackableComponent.Value > 0)
+                    {
+                        changedItems.Add(existsItem);
+                        break;
+                    }
+                }
+                            
+                deletedItems.Add(existsItem);
+            }
+
+            deletedItems = ProcessChangedItems(changedItems, deletedItems);
+
+            foreach (T deletedItem in deletedItems)
+            {
+                RemoveSingle(deletedItem);
+            }
+
+            return true;
+        }
+
+        private HashSet<T> ProcessChangedItems(HashSet<T> changedItems, HashSet<T> deletedItems)
+        {
+            List<T> list = new List<T>(changedItems);
+                    
+            foreach (T changedItem in list)
+            {
+                if (deletedItems.Contains(changedItem)) 
+                    changedItems.Remove(changedItem);
+            }
+                    
+            foreach (T changedItem in changedItems)
+            {
+                int amount = changedItem.Get<ComponentStackable>().Value;
+                OnItemCountChanged?.Invoke(changedItem, amount);
+            }
+
+            return deletedItems;
+        }
 
         private void AddSingle(T item)
         {
             if (IsItemExists(item)) return;
             
             _listInventory.AddItem(item);
-            OnItemAdded?.Invoke(item);
+            OnItemAdded?.Invoke(item, this);
         }
 
         private void AddStackable(T item)
@@ -134,7 +269,7 @@ namespace Modules.Inventories
             }
             
             _listInventory.AddItem(item);
-            OnItemAdded?.Invoke(item);
+            OnItemAdded?.Invoke(item, this);
             OnItemCountChanged?.Invoke(item, item.Get<ComponentStackable>().Value);
         }
 
@@ -159,7 +294,7 @@ namespace Modules.Inventories
         private void RemoveSingle(T item)
         {
             _listInventory.RemoveItem(item);
-            OnItemRemoved?.Invoke(item);
+            OnItemRemoved?.Invoke(item, this);
         }
 
         private bool TryDecrementStackable(T item)

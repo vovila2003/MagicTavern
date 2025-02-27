@@ -1,5 +1,5 @@
 using System;
-using Modules.Items;
+using Modules.Info;
 using Tavern.Cooking;
 
 namespace Tavern.UI.Presenters
@@ -39,9 +39,9 @@ namespace Tavern.UI.Presenters
             _view.SetSelected(selected);
         }
 
-        public void Up()
+        public void Up(int position)
         {
-            _view.Transform.SetSiblingIndex(1);
+            _view.Transform.SetSiblingIndex(position);
         }
 
         protected override void OnShow()
@@ -57,11 +57,11 @@ namespace Tavern.UI.Presenters
 
         private void SetupView(DishRecipe recipe, int stars)
         {
-            ItemMetadata metadata = recipe.ResultItem.GetItem().Metadata;
+            Metadata metadata = recipe.ResultItemConfig.Metadata;
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
             _view.SetTime($"{recipe.CraftingTimeInSeconds} секунд");
-            _view.SetMaxStart(recipe.StarsCount);
+            _view.SetMaxStars(recipe.StarsCount);
             _view.SetStars(stars / 2.0f);
             _view.OnCardClicked += OnClicked;
         }

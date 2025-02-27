@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
+  m_Name: VegetableSmoothieRecipe
+  m_EditorClassIdentifier: 
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: 4f593ebc3f47d27e1bcc482e02b4a2ce, type: 2}
+  TimeInSeconds: 5
+  PlantProductIngredients:
+  - {fileID: 11400000, guid: 653b4ad2938ac6f47a613bd35bc1cf50, type: 2}
+  - {fileID: 11400000, guid: 0d85d9f2b677c8ae7bb101f5950d3631, type: 2}
+  - {fileID: 11400000, guid: 20d55c6ef9933a532bb6b599f6d294c4, type: 2}
+  AnimalProductIngredients: []
+  RequiredKitchenItem: {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
+  MiniGameConfig:
+    GreenZone: 30
+    YellowZone: 30
+    MinSpeed: 1
+    MaxSpeed: 1.2

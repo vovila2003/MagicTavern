@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.Gardening;
-using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Storages;
 using UnityEngine;
 
@@ -15,10 +15,10 @@ namespace Tavern.UI.Presenters
 
         private readonly IPanelView _view;
         private readonly DishCrafter _crafter;
-        private readonly PresentersFactory _factory;
+        private readonly CommonPresentersFactory _commonFactory;
         private readonly ActiveDishRecipe _activeRecipe;
         private readonly Transform _canvas;
-        private readonly ResourceItemConfig _slopConfig;
+        private readonly SlopsItem _slopsItem;
 
         private readonly CookingRecipesPresenter _recipesPresenter;
         private readonly CookingAndMatchRecipePresenter _cookingAndMatchRecipePresenter;
@@ -26,28 +26,37 @@ namespace Tavern.UI.Presenters
         
         private InfoPresenter _infoPresenter;
         private DishRecipe _dishRecipe;
-        private List<ProductItem> _productItems;
-        private List<LootItem> _lootItems;
+        private List<PlantProductItem> _plantProductItems;
+        private List<AnimalProductItem> _animalProductItems;
+        private KitchenItemConfig _kitchenItemConfig;
+        private Action _onExit;
 
         public CookingPanelPresenter(
             IPanelView view, 
             DishCrafter crafter,
-            PresentersFactory factory,
+            CookingPresentersFactory factory,
+            CommonPresentersFactory commonFactory,
             ActiveDishRecipe activeRecipe,
             Transform canvas,
-            ResourceItemConfig slopConfig
+            SlopsItemConfig slopConfig
             ) : base(view)
         {
             _view = view;
             _crafter = crafter;
-            _factory = factory;
+            _commonFactory = commonFactory;
             _activeRecipe = activeRecipe;
             _canvas = canvas;
-            _slopConfig = slopConfig;
+            _slopsItem = slopConfig.Create() as SlopsItem;
             _recipesPresenter = factory.CreateLeftGridPresenter(_view.Container);
-            _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(
-                _view.Container, activeRecipe);
+            _cookingAndMatchRecipePresenter = factory.CreateCookingAndMatchRecipePresenter(_view.Container);
             _ingredientsPresenter = factory.CreateCookingIngredientsPresenter(_view.Container, activeRecipe);
+        }
+        
+        public void Show(KitchenItemConfig kitchenItemConfig, Action onExit)
+        {
+            _kitchenItemConfig = kitchenItemConfig;
+            _onExit = onExit;
+            Show();
         }
 
         protected override void OnShow()
@@ -55,7 +64,7 @@ namespace Tavern.UI.Presenters
             _activeRecipe.Reset();
             SetupView();
             SetupLeftPanel();
-            SetupMiniGame();
+            SetupMiniGame(_kitchenItemConfig.Metadata.Icon);
             SetupIngredients();
 
             _crafter.OnDishCrafted += OnDishCrafted;
@@ -79,11 +88,13 @@ namespace Tavern.UI.Presenters
             
             _crafter.OnDishCrafted -= OnDishCrafted;
             _crafter.OnSlopCrafted -= OnSlopCrafted;
+            
+            _onExit?.Invoke();
         }
 
         private void SetupView()
         {
-            _view.SetTitle(Title);
+            _view.SetTitle($"{Title}: {_kitchenItemConfig.Metadata.Description}");
             _view.OnCloseClicked += Hide;
         }
 
@@ -94,9 +105,9 @@ namespace Tavern.UI.Presenters
             _recipesPresenter.Show();
         }
 
-        private void SetupMiniGame()
+        private void SetupMiniGame(Sprite sprite)
         {
-            _cookingAndMatchRecipePresenter.Show();            
+            _cookingAndMatchRecipePresenter.Show(sprite);            
         }
 
         private void SetupIngredients()
@@ -111,11 +122,11 @@ namespace Tavern.UI.Presenters
         {
             switch (item)
             {
-                case ProductItem productItem:
-                    _activeRecipe.AddProduct(productItem);
+                case PlantProductItem productItem:
+                    _activeRecipe.AddPlantProduct(productItem);
                     break;
-                case LootItem lootItem:
-                    _activeRecipe.AddLoot(lootItem);
+                case AnimalProductItem animalProductItem:
+                    _activeRecipe.AddAnimalProduct(animalProductItem);
                     break;
             }
         }
@@ -124,14 +135,14 @@ namespace Tavern.UI.Presenters
 
         private void OnDishCrafted(DishRecipe recipe, DishItem dishItem) => ShowInfo(recipe, dishItem);
 
-        private void OnSlopCrafted(List<ProductItem> productItems, List<LootItem> lootItems)
+        private void OnSlopCrafted(List<PlantProductItem> plantProductItems, List<AnimalProductItem> animalProductItems)
         {
-            ShowInfo(productItems, lootItems, _slopConfig.GetItem());
+            ShowInfo(plantProductItems, animalProductItems, _slopsItem);
         }
 
         private void ShowInfo(DishRecipe recipe, Item item)
         {
-            _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
+            _infoPresenter ??= _commonFactory.CreateInfoPresenter(_canvas);
 
             if (!_infoPresenter.Show(item, Repeat)) return;
             
@@ -141,14 +152,17 @@ namespace Tavern.UI.Presenters
             _infoPresenter.OnRejected += OnCancelled;
         }
 
-        private void ShowInfo(List<ProductItem> productItems, List<LootItem> lootItems, Item item)
+        private void ShowInfo(
+            List<PlantProductItem> plantProductItems, 
+            List<AnimalProductItem> animalProductItems, 
+            Item item)
         {
-            _infoPresenter ??= _factory.CreateInfoPresenter(_canvas);
+            _infoPresenter ??= _commonFactory.CreateInfoPresenter(_canvas);
 
             if (!_infoPresenter.Show(item, Repeat)) return;
             
-            _productItems = productItems;
-            _lootItems = lootItems;
+            _plantProductItems = plantProductItems;
+            _animalProductItems = animalProductItems;
             
             _infoPresenter.OnAccepted += RepeatIngredients;
             _infoPresenter.OnRejected += OnCancelledIngredients;
@@ -171,19 +185,18 @@ namespace Tavern.UI.Presenters
         {
             UnsubscribeInfoIngredients();
             
-            foreach (ProductItem item in _productItems)
+            foreach (PlantProductItem item in _plantProductItems)
             {
-                _activeRecipe.AddProduct(item);
+                _activeRecipe.AddPlantProduct(item);
             }
 
-            foreach (LootItem item in _lootItems)
+            foreach (AnimalProductItem item in _animalProductItems)
             {
-                _activeRecipe.AddLoot(item);
+                _activeRecipe.AddAnimalProduct(item);
             }
 
-            _productItems = null;
-            _lootItems = null;
-            
+            _plantProductItems = null;
+            _animalProductItems = null;
         }
 
         private void OnCancelledIngredients()

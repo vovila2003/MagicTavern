@@ -19,11 +19,10 @@ namespace Tavern.Gardening.Medicine
                 Debug.Log($"Target is not {nameof(Pot)}");
                 return;
             }
-
-            if (!item.Has<ComponentHarvestSicknessReducing>()) return;
-
-            var attribute = item.Get<ComponentHarvestSicknessReducing>();
-            _target.ReduceHarvestSicknessProbability(attribute.Reducing);
+            
+            if (!item.TryGet(out ComponentHarvestSicknessReducing component)) return;
+            
+            _target.ReduceHarvestSicknessProbability(component.Reducing);
         }
     }
 }

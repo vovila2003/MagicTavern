@@ -8,7 +8,7 @@ namespace Tavern.Gardening.Fertilizer
     [CreateAssetMenu(
         fileName = "FertilizerRecipe",
         menuName = "Settings/Gardening/Fertilizer/Fertilizer Recipe")]
-    public class FertilizerRecipe : ItemRecipe<FertilizerItem>
+    public class FertilizerRecipe : ItemRecipe
     {
         [Title("Ingredients"), Space(10)]
         [SerializeField] 

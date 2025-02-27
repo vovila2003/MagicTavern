@@ -1,25 +1,16 @@
 using System;
 using Modules.Items;
-using Sirenix.OdinInspector;
 
 namespace Tavern.Cooking
 {
     [Serializable]
-    public class DishItem : Item, IExtraItem
+    public class DishItem : Item
     {
-        [ShowInInspector, ReadOnly]
-        public bool IsExtra { get; set; }
-        
-        public DishItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
-            : base(name, flags, metadata, attributes)
-        {
-        }
-        
+        public DishItem(ItemConfig config, params IItemComponent[] attributes) : base(config, attributes) { }
+
         public override Item Clone()
         {
-            IItemComponent[] attributes = GetComponents();
-
-            return new DishItem(Name, Flags, Metadata, attributes);
+            return new DishItem(Config, GetComponents());
         }
     }
 }

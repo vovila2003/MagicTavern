@@ -4,9 +4,15 @@ using UnityEngine;
 namespace Tavern.Storages
 {
     [CreateAssetMenu(
-        fileName = "ResourceConfig",
-        menuName = "Settings/Resources/Resource Config")]
-    public class ResourceItemConfig : ItemConfig<Item>
+        fileName = "SlopsConfig",
+        menuName = "Settings/Resources/Slops Config")]
+    public class SlopsItemConfig : ItemConfig
     {
+        public override Item Create()
+        {
+            return new SlopsItem(this, GetComponentClones());
+        }
+
+        protected override string GetItemType() => nameof(SlopsItem);
     }
 }

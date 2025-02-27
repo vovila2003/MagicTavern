@@ -14,16 +14,25 @@ namespace Tavern.Storages
 
         [SerializeField, ShowIf("DebugMode")] 
         private int StartValueInStorageInDebugMode;
-
+        
         [SerializeField]
-        private ResourceStorage Storage;
+        private LimitType Limit = LimitType.Unlimited;
+
+        [SerializeField, ShowIf("Limit", LimitType.Limited)]
+        private int MaxValue;
+
+        protected ResourceStorage Storage;
 
         [ShowInInspector, ReadOnly] 
-        protected int Value => Storage.Value;
+        protected int Value => Storage?.Value ?? 0;
 
-        private void OnEnable()
+        protected void Awake()
         {
-            Storage.Init();
+            Storage = new ResourceStorage(0, Limit, MaxValue);
+        }
+
+        protected virtual void OnEnable()
+        {
             Storage.OnResourceStorageAdded += ValueAdded;
             Storage.OnResourceStorageChanged += ValueChanged;
             Storage.OnResourceStorageEmpty += OnEmpty;
@@ -31,7 +40,7 @@ namespace Tavern.Storages
             Storage.OnResourceStorageValueSpent += OnSpent;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             Storage.Dispose();
             Storage.OnResourceStorageAdded -= ValueAdded;
@@ -47,6 +56,35 @@ namespace Tavern.Storages
             {
                 Storage.Add(StartValueInStorageInDebugMode);
             }
+        }
+        
+        [Button]
+        protected void Add(int value)
+        {
+            bool result = Storage.Add(value);
+
+            Debug.Log($"Add to {Name} storage value {value}: result - {result}");
+        }
+
+        protected bool CanSpend(int value)
+        {
+            return Storage.CanSpend(value);
+        }
+        
+        [Button]
+        protected void Spend(int value)
+        {
+            bool result = Storage.Spend(value);
+
+            Debug.Log($"Spend from {Name} storage value {value}: result - {result}");
+        }
+
+        [Button]
+        protected void ResetStorage()
+        {
+            Storage.Reset();
+
+            Debug.Log($"Reset {Name} storage");
         }
 
         private void ValueAdded(int value)
@@ -73,29 +111,5 @@ namespace Tavern.Storages
         {
             Debug.Log($"{Name} storage is empty");
         }
-
-        [Button]
-        protected void Add(int value)
-        {
-            bool result = Storage.Add(value);
-
-            Debug.Log($"Add to {Name} storage value {value}: result - {result}");
-        }
-
-        [Button]
-        protected void Spend(int value)
-        {
-            bool result = Storage.Spend(value);
-
-            Debug.Log($"Spend from {Name} storage value {value}: result - {result}");
-        }
-
-        [Button]
-        protected void ResetStorage()
-        {
-            Storage.Reset();
-
-            Debug.Log($"Reset {Name} storage");
-        }     
     }
 }

@@ -29,6 +29,9 @@ namespace Tavern.Character
         private IMovable _movable;
         private CharacterSettings _settings;
         private Animator _animator;
+        
+        [ShowInInspector]
+        private CharacterState _state;
 
         [ShowInInspector, ReadOnly]
         private float _speed;
@@ -39,6 +42,7 @@ namespace Tavern.Character
             _settings = settings;
             _attackAgent = attackAgent;
             _movable = movable;
+            _state = new CharacterState(_settings);
         }
 
         public CharacterAttackAgent GetAttackAgent() => _attackAgent;
@@ -47,6 +51,7 @@ namespace Tavern.Character
         public Transform GetTransform() => transform;
         public float GetSpeed() => _speed;
         public Animator GetAnimator() => _animator;
+        public CharacterState GetState() => _state;
 
         void IInitGameListener.OnInit()
         {
@@ -61,6 +66,7 @@ namespace Tavern.Character
             _hpComponent = GetComponent<HitPointsComponent>();
             _weapon = GetComponent<WeaponComponent>();
             _animator = View.GetComponent<Animator>();
+            _state = new CharacterState(_settings);
         }
 
         void IPrepareGameListener.OnPrepare()

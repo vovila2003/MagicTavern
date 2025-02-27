@@ -9,16 +9,16 @@ namespace Tavern.Common
 {
     public class CookbookContext<T> : MonoBehaviour where T : Item
     {
-        public event Action<ItemRecipe<T>> OnRecipeAdded;
-        public event Action<ItemRecipe<T>> OnRecipeRemoved;
+        public event Action<ItemRecipe> OnRecipeAdded;
+        public event Action<ItemRecipe> OnRecipeRemoved;
         
         private Cookbook<T> _cookbook;
 
         [SerializeField]
-        private ItemRecipe<T>[] ItemRecipes;
+        private ItemRecipe[] ItemRecipes;
         
         [ShowInInspector, ReadOnly]
-        public IReadOnlyDictionary<string, ItemRecipe<T>> Recipes => _cookbook?.Recipes; 
+        public IReadOnlyDictionary<string, ItemRecipe> Recipes => _cookbook?.Recipes; 
         
         private void Awake()
         {
@@ -40,17 +40,17 @@ namespace Tavern.Common
             _cookbook.OnRecipeRemoved -= OnRemoved;
         }
 
-        public bool HasRecipe(ItemRecipe<T> recipe) => 
+        public bool HasRecipe(ItemRecipe recipe) => 
             _cookbook?.Recipes.ContainsKey(recipe.Name) ?? false;
         
-        public bool TryGetRecipeByConfig(ItemConfig<T> itemConfig, out ItemRecipe<T> recipe) => 
+        public bool TryGetRecipeByConfig(ItemConfig itemConfig, out ItemRecipe recipe) => 
             _cookbook.TryGetRecipeByConfig(itemConfig, out recipe);
 
-        public bool TryGetRecipeByName(string recipeName, out ItemRecipe<T> recipe) => 
+        public bool TryGetRecipeByName(string recipeName, out ItemRecipe recipe) => 
             _cookbook.TryGetRecipeByName(recipeName, out recipe);
 
         [Button]
-        public void AddRecipe(ItemRecipe<T> recipe)
+        public void AddRecipe(ItemRecipe recipe)
         {
             bool result = _cookbook.AddRecipe(recipe);
             if (!result)
@@ -60,7 +60,7 @@ namespace Tavern.Common
         }
 
         [Button]
-        public void RemoveRecipe(ItemRecipe<T> recipe)
+        public void RemoveRecipe(ItemRecipe recipe)
         {
             bool result = _cookbook.RemoveRecipeByConfig(recipe);
             if (!result)
@@ -79,19 +79,19 @@ namespace Tavern.Common
             }
         }
 
-        private void OnAdded(ItemRecipe<T> recipe)
+        private void OnAdded(ItemRecipe recipe)
         {
             OnAddRecipe(recipe);
             OnRecipeAdded?.Invoke(recipe);
         }
 
-        private void OnRemoved(ItemRecipe<T> recipe)
+        private void OnRemoved(ItemRecipe recipe)
         {
             OnRemoveRecipe(recipe);
             OnRecipeRemoved?.Invoke(recipe);
         }
 
-        protected virtual void OnAddRecipe(ItemRecipe<T> _) { }
-        protected virtual void OnRemoveRecipe(ItemRecipe<T> _) { }
+        protected virtual void OnAddRecipe(ItemRecipe _) { }
+        protected virtual void OnRemoveRecipe(ItemRecipe _) { }
     }
 }

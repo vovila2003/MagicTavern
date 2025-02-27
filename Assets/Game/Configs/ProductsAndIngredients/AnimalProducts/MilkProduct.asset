@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1da8507edf74cada287c32abc12f894, type: 3}
+  m_Name: MilkProduct
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: MilkProduct
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654098
+  - rid: 588217054552654099
+  - rid: 588217188916133960
+  <Metadata>k__BackingField:
+    Title: "\u041C\u043E\u043B\u043E\u043A\u043E"
+    Description: 
+    Icon: {fileID: -1361850092, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 588217054552654098
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0
+    - rid: 588217054552654099
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 20
+    - rid: 588217188916133960
+      type: {class: ComponentGroup, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <Config>k__BackingField: {fileID: 11400000, guid: a49c6f50e28d6248a9effa2b41c01a92, type: 2}

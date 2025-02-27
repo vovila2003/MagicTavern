@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Modules.Info;
 using Modules.Items;
 using Tavern.Cooking;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Tavern.UI.Presenters
         private Item _item;
         private IInfoPanelView _view;
 
-        public InfoPresenter(IInfoViewProvider provider, Transform parent, PresentersFactory factory)
+        public InfoPresenter(IInfoViewProvider provider, Transform parent, CommonPresentersFactory factory)
         {
             _provider = provider;
             _parent = parent;
@@ -47,7 +48,7 @@ namespace Tavern.UI.Presenters
 
         private void SetupView(string command)
         {
-            ItemMetadata metadata = _item.Metadata;
+            Metadata metadata = _item.Metadata;
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
             _view.SetActionButtonText(command);
@@ -56,7 +57,7 @@ namespace Tavern.UI.Presenters
 
             SetupEffects();
 
-            if (_item is IExtraItem { IsExtra: true })
+            if (_item.Has<ComponentDishExtra>())
             {
                 _view.SetExtra(true);
                 description = $"{FromChef} {description}";

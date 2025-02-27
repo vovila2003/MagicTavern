@@ -20,9 +20,8 @@ namespace Tavern.Gardening.Fertilizer
                 return;
             }
 
-            if (!item.Has<ComponentHarvestBooster>()) return;
+            if (!item.TryGet(out ComponentHarvestBooster component)) return;
 
-            var component = item.Get<ComponentHarvestBooster>();
             _target.Seedbed.BoostHarvestAmount(component.Boost);
         }
     }

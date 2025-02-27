@@ -13,8 +13,9 @@ namespace Tavern.UI.Presenters
         
         private readonly Transform _parent;
         private readonly IContainerView _view;
-        private readonly PresentersFactory _presentersFactory;
+        private readonly CookingPresentersFactory _cookingPresentersFactory;
         private readonly ActiveDishRecipe _activeRecipe;
+        private readonly bool _enableMatching;
         private readonly DishCookbookContext _cookbook;
         private MatchNewRecipePresenter _matchNewRecipePresenter;
         private readonly Dictionary<DishRecipe, RecipeCardPresenter> _recipeCardPresenters = new();
@@ -22,20 +23,25 @@ namespace Tavern.UI.Presenters
         public CookingRecipesPresenter(
             IContainerView view, 
             DishCookbookContext cookbook,
-            PresentersFactory presentersFactory,
-            ActiveDishRecipe activeRecipe
+            CookingPresentersFactory cookingPresentersFactory,
+            ActiveDishRecipe activeRecipe,
+            bool enableMatching
             ) : base(view)
         {
             _parent = view.ContentTransform;
             _view = view;
-            _presentersFactory = presentersFactory;
+            _cookingPresentersFactory = cookingPresentersFactory;
             _activeRecipe = activeRecipe;
+            _enableMatching = enableMatching;
             _cookbook = cookbook;
         }
 
         protected override void OnShow()
         {
+            
             SetupMatchRecipe();
+            
+            
             SetupCards();
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
@@ -52,9 +58,12 @@ namespace Tavern.UI.Presenters
             _cookbook.OnStarsChanged -= OnRecipeStarsChanged;
             
             _activeRecipe.OnChanged -= OnRecipeChanged;
-            
-            _matchNewRecipePresenter.Hide();
-            _matchNewRecipePresenter.OnPressed -= MatchNewRecipePressed;
+
+            if (_enableMatching)
+            {
+                _matchNewRecipePresenter.Hide();
+                _matchNewRecipePresenter.OnPressed -= MatchNewRecipePressed;
+            }
             
             foreach (RecipeCardPresenter cardPresenter in _recipeCardPresenters.Values)
             {
@@ -74,16 +83,22 @@ namespace Tavern.UI.Presenters
 
         private void SetupMatchRecipe()
         {
-            _matchNewRecipePresenter ??= _presentersFactory.CreateMatchNewRecipePresenter(_parent);
+            if (!_enableMatching) return;
+            
+            _matchNewRecipePresenter ??= _cookingPresentersFactory.CreateMatchNewRecipePresenter(_parent);
             _matchNewRecipePresenter.OnPressed += MatchNewRecipePressed;
             _matchNewRecipePresenter.Show();
         }
 
         private void SetupCards()
         {
-            foreach (ItemRecipe<DishItem> recipe in _cookbook.Recipes.Values)
+            KitchenItemConfig requiredKitchen = _activeRecipe.RequiredKitchen;
+
+            foreach (ItemRecipe recipe in _cookbook.Recipes.Values)
             {
                 if (recipe is not DishRecipe dishRecipe) continue;
+
+                if (dishRecipe.KitchenItem != requiredKitchen) continue;
 
                 AddPresenter(dishRecipe);
             }
@@ -91,20 +106,20 @@ namespace Tavern.UI.Presenters
 
         private void AddPresenter(DishRecipe dishRecipe)
         {
-            RecipeCardPresenter recipePresenter = _presentersFactory.CreateRecipeCardPresenter(_parent);
+            RecipeCardPresenter recipePresenter = _cookingPresentersFactory.CreateRecipeCardPresenter(_parent);
             recipePresenter.OnRecipeClicked += OnRecipeClicked;
             _recipeCardPresenters.Add(dishRecipe, recipePresenter);
             recipePresenter.Show(dishRecipe, _cookbook.GetRecipeStars(dishRecipe));
         }
 
-        private void OnRecipeAdded(ItemRecipe<DishItem> recipe)
+        private void OnRecipeAdded(ItemRecipe recipe)
         {
             if (recipe is not DishRecipe dishRecipe) return;
             
             AddPresenter(dishRecipe);
         }
 
-        private void OnRecipeRemoved(ItemRecipe<DishItem> recipe)
+        private void OnRecipeRemoved(ItemRecipe recipe)
         {
             if (recipe is not DishRecipe dishRecipe) return;
 
@@ -136,7 +151,7 @@ namespace Tavern.UI.Presenters
             if (!_recipeCardPresenters.TryGetValue(recipe, out RecipeCardPresenter presenter)) return;
             
             presenter.SetSelected(true);
-            presenter.Up();
+            presenter.Up(_enableMatching ? 1 : 0);
             _view.Up();
 
         }

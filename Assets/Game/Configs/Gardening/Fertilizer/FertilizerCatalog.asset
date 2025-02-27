@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a19a25ec5444f1d96f27beec50a47b8, type: 3}
   m_Name: FertilizerCatalog
   m_EditorClassIdentifier: 
-  Items:
+  <Items>k__BackingField:
   - {fileID: 11400000, guid: acd7d02443eaf4d26ade34fd03d86a33, type: 2}

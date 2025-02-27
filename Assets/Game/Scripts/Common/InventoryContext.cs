@@ -3,6 +3,7 @@ using Modules.Inventories;
 using Modules.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 namespace Tavern.Common
@@ -10,11 +11,11 @@ namespace Tavern.Common
     public abstract class InventoryContext<T> : MonoBehaviour
         where T : Item
     {
-        [SerializeField] 
-        private ItemConfig<T>[] Items;
+        [FormerlySerializedAs("Items")] [SerializeField] 
+        private ItemConfig[] ItemsConfigs;
         
         [SerializeField]
-        private ItemsCatalog<T> ItemsCatalog;
+        private ItemsCatalog ItemsCatalog;
         
         private IInventory<T> _inventory;
 
@@ -29,10 +30,10 @@ namespace Tavern.Common
 
         private void Awake()
         {
-            var items = new T[Items.Length];
-            for (var i = 0; i < Items.Length; i++)
+            var items = new T[ItemsConfigs.Length];
+            for (var i = 0; i < ItemsConfigs.Length; i++)
             {
-                items[i] = Items[i].GetItem().Clone() as T;
+                items[i] = ItemsConfigs[i].Create() as T;
             }
             
             _inventory.Setup(items);
@@ -53,17 +54,17 @@ namespace Tavern.Common
         [Button]
         public void AddItemByName(string itemName)
         {
-            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<T> itemConfig))
+            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig itemConfig))
             {
                 Debug.Log($"{itemName} is not fount in catalog");
                 return;
             }
             
-            _inventory.AddItem(itemConfig.GetItem().Clone() as T);
+            _inventory.AddItem(itemConfig.Create() as T);
         }
 
         [Button]
-        public void AddItemByConfig(ItemConfig<T> itemConfig)
+        public void AddItemByConfig(ItemConfig itemConfig)
         {
             if (itemConfig is null) 
             {
@@ -71,19 +72,19 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.AddItem(itemConfig.GetItem().Clone() as T);
+            _inventory.AddItem(itemConfig.Create() as T);
         }
 
         [Button]
         public void RemoveItemByName(string itemName)
         {
-            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig<T> itemConfig)) return;
+            if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig itemConfig)) return;
             
-            _inventory.RemoveItem(itemConfig.GetItem().ItemName);
+            _inventory.RemoveItem(itemConfig.Name);
         }
 
         [Button]
-        public void RemoveItemByConfig(ItemConfig<T> itemConfig)
+        public void RemoveItemByConfig(ItemConfig itemConfig)
         {
             if (itemConfig is null) 
             {
@@ -91,15 +92,15 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.RemoveItem(itemConfig.GetItem().ItemName);
+            _inventory.RemoveItem(itemConfig.Name);
         }
 
-        private void OnItemAdded(T item)
+        private void OnItemAdded(Item item, IInventoryBase inventory)
         {
             Debug.Log($"Item of name {item.ItemName} is added to inventory");
         }
 
-        private void OnItemRemoved(T item)
+        private void OnItemRemoved(Item item, IInventoryBase inventory)
         {
             Debug.Log($"Item of name {item.ItemName} is removed from inventory");
         }

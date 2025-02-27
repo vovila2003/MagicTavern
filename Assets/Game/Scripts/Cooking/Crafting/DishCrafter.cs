@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
-using Tavern.Gardening;
-using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using Tavern.Storages;
 
@@ -13,7 +12,7 @@ namespace Tavern.Cooking
     public class DishCrafter
     {
         public event Action<DishRecipe, DishItem> OnDishCrafted;
-        public event Action<List<ProductItem> , List<LootItem>> OnSlopCrafted;
+        public event Action<List<PlantProductItem> , List<AnimalProductItem>> OnSlopCrafted;
         
         private readonly IInventory<DishItem> _dishInventory;
         private readonly ISlopsStorage _slopsStorage;
@@ -32,13 +31,12 @@ namespace Tavern.Cooking
         public void CraftDish(ActiveDishRecipe activeDishRecipe, bool isExtra)
         {
             DishRecipe recipe = activeDishRecipe.Recipe;
-            if (recipe.ResultItem.GetItem().Clone() is not DishItem result) return;
-            
-            result.IsExtra = isExtra;
+            if (recipe.ResultItemConfig.Create() is not DishItem result) return;
             
             if (isExtra)
             {
                 ProcessExtra(result);
+                ProcessEffect(result);
             }
             
             activeDishRecipe.SpendIngredients();
@@ -49,18 +47,27 @@ namespace Tavern.Cooking
 
         private void ProcessExtra(DishItem result)
         {
+            if (result.Has<ComponentDishExtra>()) return;
+            
+            result.AddComponent(new ComponentDishExtra());
+        }
+
+        private void ProcessEffect(DishItem result)
+        {
             List<ComponentEffect> existed = result.GetAll<ComponentEffect>();
             if (!_effectsCatalog.TryGetRandomEffectExpect(existed, out EffectConfig newEffect)) return;
             
-            result.Components.Add(new ComponentEffect(newEffect));
+            result.AddComponent(new ComponentEffect(newEffect));
         }
 
         public void MakeSlops(ActiveDishRecipe activeDishRecipe)
         {
-            (List<ProductItem> spentProducts, List<LootItem> spentLoots) = activeDishRecipe.SpendIngredients();
+            (List<PlantProductItem> spentPlantProducts, List<AnimalProductItem> spentLoots) = 
+                activeDishRecipe.SpendIngredients();
+            
             _slopsStorage.AddOneSlop();
             
-            OnSlopCrafted?.Invoke(spentProducts, spentLoots);
+            OnSlopCrafted?.Invoke(spentPlantProducts, spentLoots);
         }
     }
 }

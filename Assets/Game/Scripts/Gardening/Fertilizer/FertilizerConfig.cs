@@ -8,27 +8,33 @@ namespace Tavern.Gardening.Fertilizer
     [CreateAssetMenu(
         fileName = "FertilizerConfig",
         menuName = "Settings/Gardening/Fertilizer/Fertilizer Config")]
-    public class FertilizerConfig : StackableItemConfig<FertilizerItem>
+    public class FertilizerConfig : StackableItemConfig
     {
+        public override Item Create()
+        {
+            return new FertilizerItem(this, GetComponentClones());
+        }
+
+        protected override string GetItemType() => nameof(FertilizerItem);
+
         protected override void Awake()
         {
             base.Awake();
-            FertilizerItem fertilizerItem = GetItem();
-            fertilizerItem.SetFlags(ItemFlags.Consumable);
+            SetFlags(ItemFlags.Consumable);
 
-            if (!fertilizerItem.Has<ComponentHarvestBooster>())
+            if (!Has<ComponentHarvestBooster>())
             {
-                fertilizerItem.Components?.Add(new ComponentHarvestBooster());    
+                Components?.Add(new ComponentHarvestBooster());    
             }
             
-            if (!fertilizerItem.Has<ComponentHarvestSicknessReducing>())
+            if (!Has<ComponentHarvestSicknessReducing>())
             {
-                fertilizerItem.Components?.Add(new ComponentHarvestSicknessReducing());    
+                Components?.Add(new ComponentHarvestSicknessReducing());    
             }
             
-            if (!fertilizerItem.Has<ComponentGrowthAcceleration>())
+            if (!Has<ComponentGrowthAcceleration>())
             {
-                fertilizerItem.Components?.Add(new ComponentGrowthAcceleration());    
+                Components?.Add(new ComponentGrowthAcceleration());    
             }
         }
     }

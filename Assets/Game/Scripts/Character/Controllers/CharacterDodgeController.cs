@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
@@ -5,6 +6,7 @@ using VContainer.Unity;
 
 namespace Tavern.Character.Controllers
 {
+    [UsedImplicitly]
     public sealed class CharacterDodgeController : 
         IStartGameListener,
         IPauseGameListener,
@@ -15,7 +17,7 @@ namespace Tavern.Character.Controllers
         private readonly IDodgeInput _dodgeInput;
         private Vector2 _direction;
         private readonly ICharacter _character;
-        private bool _enabled;
+        private bool _enable;
 
         public CharacterDodgeController(ICharacter character, IDodgeInput dodgeInput)
         {
@@ -25,7 +27,7 @@ namespace Tavern.Character.Controllers
 
         void ITickable.Tick()
         {
-            if (!_enabled) return;
+            if (!_enable) return;
             
             //...
         }
@@ -38,26 +40,24 @@ namespace Tavern.Character.Controllers
             Debug.Log($"Dodge to {_direction}");
         }
 
-        void IStartGameListener.OnStart()
+        void IStartGameListener.OnStart() => Activate();
+
+        void IFinishGameListener.OnFinish() => Deactivate();
+
+        void IPauseGameListener.OnPause() => Deactivate();
+
+        void IResumeGameListener.OnResume() => Activate();
+
+        private void Activate()
         {
             _dodgeInput.OnDodge += OnDodge;
-            _enabled = true;
+            _enable = true;
         }
 
-        void IFinishGameListener.OnFinish()
+        private void Deactivate()
         {
             _dodgeInput.OnDodge -= OnDodge;
-            _enabled = false;
-        }
-
-        void IPauseGameListener.OnPause()
-        {
-            _enabled = false;
-        }
-
-        void IResumeGameListener.OnResume()
-        {
-            _enabled = true;
+            _enable = false;
         }
     }
 }

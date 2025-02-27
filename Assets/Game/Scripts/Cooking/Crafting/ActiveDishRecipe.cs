@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
 using Modules.Items;
-using Tavern.Gardening;
-using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
+using UnityEngine;
 
 namespace Tavern.Cooking
 {
@@ -15,59 +15,74 @@ namespace Tavern.Cooking
         private const int MaxIngredientsCount = 7;
 
         public event Action OnChanged;
-        public event Action<List<ProductItem>, List<LootItem>> OnSpent;
+        public event Action<List<PlantProductItem>, List<AnimalProductItem>> OnSpent;
         public event Action<bool> OnCanCraftStateChanged;
         
-        private readonly IStackableInventory<ProductItem> _productInventory;
-        private readonly IStackableInventory<LootItem> _lootInventory;
+        private readonly IInventory<PlantProductItem> _plantProductInventory;
+        private readonly IInventory<AnimalProductItem> _animalProductInventory;
 
-        private readonly HashSet<ProductItem> _products = new();
-        private readonly HashSet<ProductItem> _fakeProducts = new();
-        private readonly HashSet<LootItem> _loots = new();
-        private readonly HashSet<LootItem> _fakeLoots = new();
+        private readonly HashSet<PlantProductItem> _plantProducts = new();
+        private readonly HashSet<PlantProductItem> _fakePlantProducts = new();
+        private readonly HashSet<AnimalProductItem> _animalProducts = new();
+        private readonly HashSet<AnimalProductItem> _fakeAnimalProducts = new();
         private readonly HashSet<string> _items = new();
-        private readonly List<ProductItem> _spentProducts = new();
-        private readonly List<LootItem> _spentLoots = new();
+        private readonly List<PlantProductItem> _spentPlantProducts = new();
+        private readonly List<AnimalProductItem> _spentAnimalProducts = new();
 
         public DishRecipe Recipe { get; private set; }
+
         public bool IsEmpty => Recipe == null;
 
-        public IReadOnlyCollection<Item> Products => _products;
+        public IReadOnlyCollection<Item> PlantProducts => _plantProducts;
 
-        public IReadOnlyCollection<Item> FakeProducts => _fakeProducts;
+        public IReadOnlyCollection<Item> FakePlantProducts => _fakePlantProducts;
 
-        public IReadOnlyCollection<Item> Loots => _loots;
+        public IReadOnlyCollection<Item> AnimalProducts => _animalProducts;
 
-        public IReadOnlyCollection<Item> FakeLoots => _fakeLoots;
+        public IReadOnlyCollection<Item> FakeAnimalProducts => _fakeAnimalProducts;
 
-        private bool CanAddIngredient => _products.Count + _loots.Count < MaxIngredientsCount;
+        public KitchenItemConfig RequiredKitchen { get; private set; }
+        private bool CanAddIngredient => _plantProducts.Count + _animalProducts.Count < MaxIngredientsCount;
 
         public ActiveDishRecipe(
-            IStackableInventory<ProductItem> productInventory,
-            IStackableInventory<LootItem> lootInventory)
+            IInventory<PlantProductItem> plantProductInventory,
+            IInventory<AnimalProductItem> animalProductInventory)
         {
-            _productInventory = productInventory;
-            _lootInventory = lootInventory;
+            _plantProductInventory = plantProductInventory;
+            _animalProductInventory = animalProductInventory;
+        }
+
+        public void SetKitchen(KitchenItemConfig kitchenItem)
+        {
+            if (kitchenItem is null)
+            {
+                Debug.LogError("Empty required kitchen items. When cooking, only slop is obtained(");
+                return;
+            }
+            
+            RequiredKitchen = kitchenItem;
         }
         
         public bool HasItem(string item) => _items.Contains(item);
 
-        public void AddProduct(ProductItem product) => AddItem(product, _productInventory, _products);
+        public void AddPlantProduct(PlantProductItem product) => 
+            AddItem(product, _plantProductInventory, _plantProducts);
 
-        public void AddLoot(LootItem loot) => AddItem(loot, _lootInventory, _loots);
+        public void AddAnimalProduct(AnimalProductItem product) => 
+            AddItem(product, _animalProductInventory, _animalProducts);
 
-        public void RemoveProduct(ProductItem product) => 
-            RemoveItem(product, _productInventory, _products, _fakeProducts);
+        public void RemovePlantProduct(PlantProductItem plantProduct) => 
+            RemoveItem(plantProduct, _plantProductInventory, _plantProducts, _fakePlantProducts);
 
-        public void RemoveLoot(LootItem loot) => 
-            RemoveItem(loot, _lootInventory, _loots, _fakeLoots);
+        public void RemoveAnimalProduct(AnimalProductItem loot) => 
+            RemoveItem(loot, _animalProductInventory, _animalProducts, _fakeAnimalProducts);
 
         public void Setup(DishRecipe recipe)
         {
             ResetRecipe();
             Recipe = recipe;
-            GetProducts(Recipe);
-            GetLoots(Recipe);
+            GetPlantProducts(Recipe);
+            GetAnimalProducts(Recipe);
             CheckCanCraft();
             
             OnChanged?.Invoke();
@@ -81,40 +96,40 @@ namespace Tavern.Cooking
             OnChanged?.Invoke();
         }
 
-        public (List<ProductItem>, List<LootItem>) SpendIngredients()
+        public (List<PlantProductItem>, List<AnimalProductItem>) SpendIngredients()
         {
-            _fakeProducts.Clear();
-            _fakeLoots.Clear();
+            _fakePlantProducts.Clear();
+            _fakeAnimalProducts.Clear();
             _items.Clear();
             Recipe = null;
             
-            _spentProducts.Clear();
-            _spentProducts.AddRange(_products);
+            _spentPlantProducts.Clear();
+            _spentPlantProducts.AddRange(_plantProducts);
             
-            _spentLoots.Clear();
-            _spentLoots.AddRange(_loots);
+            _spentAnimalProducts.Clear();
+            _spentAnimalProducts.AddRange(_animalProducts);
             
-            _products.Clear();
-            _loots.Clear();
+            _plantProducts.Clear();
+            _animalProducts.Clear();
             CheckCanCraft();
 
-            OnSpent?.Invoke(_spentProducts, _spentLoots);
+            OnSpent?.Invoke(_spentPlantProducts, _spentAnimalProducts);
             OnChanged?.Invoke();
             
-            return (_spentProducts, _spentLoots);
+            return (_spentPlantProducts, _spentAnimalProducts);
         }
 
         private void ResetRecipe()
         {
-            _fakeProducts.Clear();
-            _fakeLoots.Clear();
+            _fakePlantProducts.Clear();
+            _fakeAnimalProducts.Clear();
             _items.Clear();
             Recipe = null;
-            ReturnProducts();
-            ReturnLoots();
+            ReturnPlantProducts();
+            ReturnAnimalProducts();
         }
 
-        private void AddItem<T>(T item, IStackableInventory<T> inventory, HashSet<T> collection) where T : Item
+        private void AddItem<T>(T item, IInventory<T> inventory, HashSet<T> collection) where T : Item
         {
             if (!CanAddIngredient) return;
 
@@ -129,7 +144,7 @@ namespace Tavern.Cooking
             OnChanged?.Invoke();
         }
 
-        private void RemoveItem<T>(T item, IStackableInventory<T> inventory, 
+        private void RemoveItem<T>(T item, IInventory<T> inventory, 
             HashSet<T> collection, HashSet<T> fakeCollection) where T : Item
         {
             if (collection.Remove(item))
@@ -145,69 +160,69 @@ namespace Tavern.Cooking
             OnChanged?.Invoke();
         }
 
-        private void GetProducts(DishRecipe recipe)
+        private void GetPlantProducts(DishRecipe recipe)
         {
-            foreach (ProductItemConfig productConfig in recipe.Products)
+            foreach (PlantProductItemConfig plantProductConfig in recipe.PlantProducts)
             {
-                string productName = productConfig.GetItem().ItemName;
-                if (_productInventory.IsItemExists(productName))
+                string productName = plantProductConfig.Name;
+                if (_plantProductInventory.IsItemExists(productName))
                 {
                     _items.Add(productName);
-                    ProductItem product = _productInventory.RemoveItem(productName);
-                    _products.Add(product);
+                    var plantProduct = _plantProductInventory.RemoveItem(productName) as PlantProductItem;
+                    _plantProducts.Add(plantProduct);
                 }
                 else
                 {
-                    var fakeProduct = productConfig.GetItem().Clone() as ProductItem;
-                    _fakeProducts.Add(fakeProduct);
+                    var fakePlantProduct = plantProductConfig.Create() as PlantProductItem;
+                    _fakePlantProducts.Add(fakePlantProduct);
                 }
             }
         }
 
-        private void GetLoots(DishRecipe recipe)
+        private void GetAnimalProducts(DishRecipe recipe)
         {
-            foreach (LootItemConfig lootConfig in recipe.Loots)
+            foreach (AnimalProductItemConfig itemConfig in recipe.AnimalProducts)
             {
-                string lootName = lootConfig.GetItem().ItemName;
-                if (_lootInventory.IsItemExists(lootName))
+                string productName = itemConfig.Name;
+                if (_animalProductInventory.IsItemExists(productName))
                 {
-                    _items.Add(lootName);
-                    LootItem loot = _lootInventory.RemoveItem(lootName);
-                    _loots.Add(loot);
+                    _items.Add(productName);
+                    var loot = _animalProductInventory.RemoveItem(productName) as AnimalProductItem;
+                    _animalProducts.Add(loot);
                 }
                 else
                 {
-                    var fakeLoot = lootConfig.GetItem().Clone() as LootItem;
-                    _fakeLoots.Add(fakeLoot);
+                    var fakeAnimalProduct = itemConfig.Create() as AnimalProductItem;
+                    _fakeAnimalProducts.Add(fakeAnimalProduct);
                 }
             }
         }
 
-        private void ReturnProducts()
+        private void ReturnPlantProducts()
         {
-            foreach (ProductItem product in _products)
+            foreach (PlantProductItem product in _plantProducts)
             {
-                _productInventory.AddItem(product);
+                _plantProductInventory.AddItem(product);
             }
             
-            _products.Clear();
+            _plantProducts.Clear();
         }
 
-        private void ReturnLoots()
+        private void ReturnAnimalProducts()
         {
-            foreach (LootItem loot in _loots)
+            foreach (AnimalProductItem product in _animalProducts)
             {
-                _lootInventory.AddItem(loot);
+                _animalProductInventory.AddItem(product);
             }
             
-            _loots.Clear();
+            _animalProducts.Clear();
         }
 
         private void CheckCanCraft()
         {
-            bool canCraft = Products.Count +  Loots.Count >= MinIngredientsCount 
-               && FakeLoots.Count == 0
-                && FakeProducts.Count == 0;
+            bool canCraft = PlantProducts.Count +  AnimalProducts.Count >= MinIngredientsCount 
+               && FakeAnimalProducts.Count == 0
+                && FakePlantProducts.Count == 0;
             
             OnCanCraftStateChanged?.Invoke(canCraft);
         }

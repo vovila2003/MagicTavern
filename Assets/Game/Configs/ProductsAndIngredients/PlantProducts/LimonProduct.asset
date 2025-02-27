@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eee26268285948df99729b3260613e34, type: 3}
+  m_Name: LimonProduct
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: LemonProduct
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654084
+  - rid: 588217054552654085
+  - rid: 588217054552654086
+  - rid: 588217188916133970
+  <Metadata>k__BackingField:
+    Title: "\u041B\u0438\u043C\u043E\u043D"
+    Description: 
+    Icon: {fileID: 1665775820, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 588217054552654084
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0
+    - rid: 588217054552654085
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 2
+    - rid: 588217054552654086
+      type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
+      data:
+        PlantConfig: {fileID: 11400000, guid: a0ee1a0669d258c4c8ab7912645341e0, type: 2}
+    - rid: 588217188916133970
+      type: {class: ComponentGroup, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <Config>k__BackingField: {fileID: 11400000, guid: d1ed5e656a0d67ef8941878096f5d1b6, type: 2}

@@ -2,7 +2,6 @@ using System;
 using Sirenix.OdinInspector;
 using Tavern.UI.Views;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Tavern.Settings
 {
@@ -12,7 +11,7 @@ namespace Tavern.Settings
         [SerializeField]
         private CookingAndMatchRecipeView CookingAndMatchRecipePrefab;
 
-        [FormerlySerializedAs("MatchNewNewNewNewRecipePrefab")] [FormerlySerializedAs("MatchNewRecipePrefab")] [SerializeField]
+        [SerializeField]
         private MatchNewRecipeView MatchNewNewRecipePrefab;
 
         [SerializeField]

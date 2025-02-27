@@ -9,9 +9,9 @@ namespace Tavern.Common
         protected ItemConsumer<T> Consumer;
 
         [Button]
-        public void Consume(T item, object target)
+        public void Consume(ItemConfig config, object target)
         {
-            Consumer.ConsumeItem(item.ItemName, target);
+            Consumer.ConsumeItem(config.Name, target);
         }
     }
 }

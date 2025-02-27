@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1da8507edf74cada287c32abc12f894, type: 3}
+  m_Name: TroutProduct
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: TroutProduct
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 588217054552654088
+  - rid: 588217054552654089
+  - rid: 588217188916133959
+  <Metadata>k__BackingField:
+    Title: "\u0424\u043E\u0440\u0435\u043B\u044C"
+    Description: 
+    Icon: {fileID: -313317998, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 588217054552654088
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0
+    - rid: 588217054552654089
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 20
+    - rid: 588217188916133959
+      type: {class: ComponentGroup, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <Config>k__BackingField: {fileID: 11400000, guid: ba4c7cbf77191dff9b4fcaaca4aeda5a, type: 2}

@@ -10,5 +10,7 @@ namespace Tavern.UI.Presenters
         void SetIcon(Sprite icon);
         void SetParent(Transform parent);
         void SetCount(string count);
+        void SetPriceActive(bool active);
+        void SetPrice(string text);
     }
 }

@@ -9,6 +9,7 @@ namespace Modules.Items
         Stackable = 1,
         Consumable = 2,
         Equippable = 4,
-        Effectible = 8
+        Effectible = 8,
+        Sellable = 16,
     }
 }

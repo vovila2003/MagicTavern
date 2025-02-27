@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Modules.Info;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.Gardening;
-using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
 
@@ -19,6 +19,7 @@ namespace Tavern.UI.Presenters
         private readonly Func<Transform, InfoPresenter> _infoPresenterFactory;
         private readonly Transform _canvas;
         private readonly ActiveDishRecipe _recipe;
+        private readonly bool _enableMatching;
         private readonly Dictionary<IRecipeIngredientView, Item> _views = new();
         
         private InfoPresenter _infoPresenter;
@@ -28,13 +29,16 @@ namespace Tavern.UI.Presenters
             CookingUISettings settings,
             Func<Transform, InfoPresenter> infoPresenterFactory, 
             Transform canvas,
-            ActiveDishRecipe recipe) : base(view)
+            ActiveDishRecipe recipe,
+            bool enableMatching
+            ) : base(view)
         {
             _view = view;
             _settings = settings;
             _infoPresenterFactory = infoPresenterFactory;
             _canvas = canvas;
             _recipe = recipe;
+            _enableMatching = enableMatching;
         }
 
         protected override void OnShow()
@@ -53,10 +57,10 @@ namespace Tavern.UI.Presenters
             ResetIngredients();
             
             int offset = 0;
-            SetupIngredients(ref offset, _recipe.Products, isFake: false);
-            SetupIngredients(ref offset, _recipe.Loots, isFake: false);
-            SetupIngredients(ref offset, _recipe.FakeProducts, isFake: true);
-            SetupIngredients(ref offset, _recipe.FakeLoots, isFake: true);
+            SetupIngredients(ref offset, _recipe.PlantProducts, isFake: false);
+            SetupIngredients(ref offset, _recipe.AnimalProducts, isFake: false);
+            SetupIngredients(ref offset, _recipe.FakePlantProducts, isFake: true);
+            SetupIngredients(ref offset, _recipe.FakeAnimalProducts, isFake: true);
         }
 
         private void ResetIngredients()
@@ -82,14 +86,17 @@ namespace Tavern.UI.Presenters
                 if (i + offset >= _view.RecipeIngredients.Count) break;
                 
                 IRecipeIngredientView recipeIngredientView = _view.RecipeIngredients[i + offset];
-                ItemMetadata metadata = item.Metadata;
+                Metadata metadata = item.Metadata;
                 recipeIngredientView.SetTitle(metadata.Title);
                 recipeIngredientView.SetIcon(metadata.Icon);
                 recipeIngredientView.SetBackgroundColor(_settings.FilledColor);
                 recipeIngredientView.SetFake(isFake);
-                
-                recipeIngredientView.OnLeftClicked += OnIngredientLeftClicked;
-                recipeIngredientView.OnRightClicked += OnIngredientRightClicked;
+
+                if (_enableMatching)
+                {
+                    recipeIngredientView.OnLeftClicked += OnIngredientLeftClicked;
+                    recipeIngredientView.OnRightClicked += OnIngredientRightClicked;
+                }
                 
                 _views.Add(recipeIngredientView, item);
                 i++;
@@ -119,11 +126,11 @@ namespace Tavern.UI.Presenters
         {
             switch (item)
             {
-                case ProductItem productItem:
-                    _recipe.RemoveProduct(productItem);
+                case PlantProductItem plantProductItem:
+                    _recipe.RemovePlantProduct(plantProductItem);
                     break;
-                case LootItem lootItem:
-                    _recipe.RemoveLoot(lootItem);
+                case AnimalProductItem animalProductItem:
+                    _recipe.RemoveAnimalProduct(animalProductItem);
                     break;
             }
         }
@@ -134,6 +141,8 @@ namespace Tavern.UI.Presenters
 
         private void UnsubscribeIngredientView(IRecipeIngredientView view)
         {
+            if (!_enableMatching) return;
+            
             view.OnLeftClicked -= OnIngredientLeftClicked;
             view.OnRightClicked -= OnIngredientRightClicked;
         }

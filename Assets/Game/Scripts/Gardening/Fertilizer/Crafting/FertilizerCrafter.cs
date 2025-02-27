@@ -35,7 +35,7 @@ namespace Tavern.Gardening.Fertilizer
             _slopsStorage = slopsStorage;
         }
 
-        public override bool CanCraft(ItemRecipe<FertilizerItem> recipe)
+        public override bool CanCraft(ItemRecipe recipe)
         {
             if (recipe is FertilizerRecipe fertilizerRecipe)
             {
@@ -55,7 +55,7 @@ namespace Tavern.Gardening.Fertilizer
         {
             foreach (LootItemConfig lootItemConfig in fertilizerRecipe.Loots)
             {
-                string lootName = lootItemConfig.GetItem().ItemName;
+                string lootName = lootItemConfig.Name;
                 int itemCount = _lootInventory.GetItemCount(lootName);
                 if (itemCount > 0) continue;    
 
@@ -67,7 +67,7 @@ namespace Tavern.Gardening.Fertilizer
             return true;
         }
 
-        protected override void RemoveIngredientsFromInventories(ItemRecipe<FertilizerItem> recipe)
+        protected override void RemoveIngredientsFromInventories(ItemRecipe recipe)
         {
             if (recipe is not FertilizerRecipe fertilizerRecipe)
             {
@@ -87,7 +87,7 @@ namespace Tavern.Gardening.Fertilizer
         {
             foreach (LootItemConfig lootItemConfig in fertilizerRecipe.Loots)
             {
-                _lootInventory.RemoveItem(lootItemConfig.GetItem().ItemName);    
+                _lootInventory.RemoveItem(lootItemConfig.Name);    
             }
         }
 

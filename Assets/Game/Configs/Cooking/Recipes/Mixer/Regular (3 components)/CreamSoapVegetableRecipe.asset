@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f9d1751af749668eb0112f21b78e0a, type: 3}
+  m_Name: CreamSoapVegetableRecipe
+  m_EditorClassIdentifier: 
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: 8dbf02a6dddea5718b6d41e2400c6647, type: 2}
+  TimeInSeconds: 5
+  PlantProductIngredients:
+  - {fileID: 11400000, guid: cc7d5c3c5110df2039bb4778a63eb2b4, type: 2}
+  - {fileID: 11400000, guid: 08f411c4df31edfe989720c66e7295c6, type: 2}
+  - {fileID: 11400000, guid: b3dc2eaa42773c695a4430daaadaf943, type: 2}
+  AnimalProductIngredients: []
+  RequiredKitchenItem: {fileID: 11400000, guid: cb7bc03c7a1833f6ab6ff39f96048c03, type: 2}
+  MiniGameConfig:
+    GreenZone: 30
+    YellowZone: 30
+    MinSpeed: 1
+    MaxSpeed: 1.2

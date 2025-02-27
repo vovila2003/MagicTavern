@@ -6,16 +6,11 @@ namespace Tavern.Looting
     [Serializable]
     public class LootItem : Item
     {
-        public LootItem(string name, ItemFlags flags, ItemMetadata metadata, params IItemComponent[] attributes) 
-            : base(name, flags, metadata, attributes)
-        {
-        }
-        
+        public LootItem(ItemConfig config, params IItemComponent[] attributes) : base(config, attributes) { }
+
         public override Item Clone()
         {
-            IItemComponent[] attributes = GetComponents();
-    
-            return new LootItem(Name, Flags, Metadata, attributes);
+            return new LootItem(Config, GetComponents());
         }
     }
 }

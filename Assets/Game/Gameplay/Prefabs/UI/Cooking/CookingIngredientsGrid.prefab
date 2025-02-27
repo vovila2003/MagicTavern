@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 100
+  m_ScrollSensitivity: 200
   m_Viewport: {fileID: 7289279141817019778}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 8855668724204792875}
@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c6453c204a009650128955ecc8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScrollRect: {fileID: 8873451650691773430}
   Content: {fileID: 3214091900942161401}
 --- !u!1 &6443714633235948652
 GameObject:

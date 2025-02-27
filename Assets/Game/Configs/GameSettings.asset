@@ -20,6 +20,7 @@ MonoBehaviour:
     PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
   CookingConfigs:
     DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
+    KitchenItemPrefab: {fileID: 1015441784064912068, guid: 598cb2af4a0915bd79a5d8ef14abe6b4, type: 3}
     EffectsCatalog: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
     DefaultMiniGameSettings:
       GreenZone: 30
@@ -28,6 +29,9 @@ MonoBehaviour:
       MaxSpeed: 2
     MinDefaultMiniGameTimeInSeconds: 5
     MaxDefaultMiniGameTimeInSeconds: 10
+    <EnableRecipeMatching>k__BackingField: 0
+  <ShoppingSettings>k__BackingField:
+    <ShopContextPrefab>k__BackingField: {fileID: 1517396157421802262, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
   UIConfigs:
     Common:
       EntityCardSettings:
@@ -41,6 +45,7 @@ MonoBehaviour:
       PanelPrefab: {fileID: 7738879138012533936, guid: 03a34b1d162fa087cb808aa0a56e0fdf, type: 3}
       LeftGridPrefab: {fileID: 3386461340789652487, guid: 4d9de232856c62a5faaff5987c4cf7c1, type: 3}
       InfoPanelPrefab: {fileID: 8513231856921733487, guid: fb36013887e059069ad268297cd00daa, type: 3}
+      EffectViewPrefab: {fileID: 6797862594772926974, guid: 6190245376d08e9d58efc8901991d5d4, type: 3}
       SlopsConfig: {fileID: 11400000, guid: 60731536d559c1ba58fb0595e8a3d86f, type: 2}
     Cooking:
       CookingAndMatchRecipePrefab: {fileID: 2803324742170462957, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
@@ -52,3 +57,11 @@ MonoBehaviour:
       DefaultIngredientSprite: {fileID: 21300000, guid: ff6f2bfde08e2a4448a09bc3fefa7e42, type: 3}
       EmptyIngredientColor: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
       FilledIngredientColor: {r: 1, g: 1, b: 1, a: 1}
+    <Shopping>k__BackingField:
+      <CategoriesView>k__BackingField: {fileID: 4404168462508442483, guid: a1c472cd3f532a0608ecc1c5fc9ad2e3, type: 3}
+      <ShopItemView>k__BackingField: {fileID: 3926943699332996009, guid: 04ee77077f03591c6a3668580876cc36, type: 3}
+      <VendorInfoView>k__BackingField: {fileID: 5389177924039638384, guid: 0000a113a4c5491bd9694a71d2709ff9, type: 3}
+      <CharacterItemView>k__BackingField: {fileID: 3231570044008007321, guid: 413c6a278aedd2b1a86cc9cf106c2aab, type: 3}
+      <CharacterInfoView>k__BackingField: {fileID: 1153836047481700923, guid: e5764c9192fb421578297b909105c06e, type: 3}
+      <FilterView>k__BackingField: {fileID: 7972640799965641659, guid: c04fb1b68b350a108853eb8acf9f8eef, type: 3}
+      <DealInfoView>k__BackingField: {fileID: 6305037085466651705, guid: 3fb79705598e4fc979f763da912f0f9a, type: 3}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd97f23ad6e416392b3a916439ab6e5, type: 3}
   m_Name: MonokaliumPhosphateRecipe
   m_EditorClassIdentifier: 
-  ResultItemConfig: {fileID: 11400000, guid: acd7d02443eaf4d26ade34fd03d86a33, type: 2}
+  <ResultItemConfig>k__BackingField: {fileID: 11400000, guid: acd7d02443eaf4d26ade34fd03d86a33, type: 2}
   TimeInSeconds: 10
   SlopsAmount: 3
   LootIngredients:

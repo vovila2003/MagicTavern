@@ -438,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33870063f1cc44cd985da73c34f2e57d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Icon: {fileID: 2772636156537509382}
   TimeText: {fileID: 4099773579109770665}
   GreenZone: {fileID: 754203710218374997}
   YellowZone: {fileID: 3318064778424945658}

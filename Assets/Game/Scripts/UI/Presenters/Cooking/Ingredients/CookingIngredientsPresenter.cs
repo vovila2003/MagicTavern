@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Cooking;
-using Tavern.Gardening;
-using Tavern.Looting;
+using Tavern.ProductsAndIngredients;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -15,50 +14,53 @@ namespace Tavern.UI.Presenters
         public event Action<Item> OnTryAddItem;
         
         private readonly Transform _parent;
-        private readonly IStackableInventory<ProductItem> _productInventory;
-        private readonly IStackableInventory<LootItem> _lootInventory;
-        private readonly PresentersFactory _presentersFactory;
+        private readonly IInventory<PlantProductItem> _plantProductInventory;
+        private readonly IInventory<AnimalProductItem> _animalProductsInventory;
+        private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly Transform _canvas;
         private readonly IActiveDishRecipeReader _recipe;
+        private readonly bool _enableMatching;
         private readonly Dictionary<string, ItemCardPresenter> _presenters = new();
         private InfoPresenter _infoPresenter;
 
         public CookingIngredientsPresenter(IContainerView view,
-            IStackableInventory<ProductItem> productInventory,
-            IStackableInventory<LootItem> lootInventory,
-            PresentersFactory presentersFactory, 
+            IInventory<PlantProductItem> plantProductInventory,
+            IInventory<AnimalProductItem> animalProductsInventory,
+            CommonPresentersFactory commonPresentersFactory, 
             Transform canvas,
-            IActiveDishRecipeReader recipe
+            IActiveDishRecipeReader recipe,
+            bool enableMatching
             ) : base(view)
         {
             _parent = view.ContentTransform;
-            _productInventory = productInventory;
-            _lootInventory = lootInventory;
-            _presentersFactory = presentersFactory;
+            _plantProductInventory = plantProductInventory;
+            _animalProductsInventory = animalProductsInventory;
+            _commonPresentersFactory = commonPresentersFactory;
             _canvas = canvas;
             _recipe = recipe;
+            _enableMatching = enableMatching;
         }
 
         protected override void OnShow()
         {
             SetupCards();
             
-            _productInventory.OnItemCountChanged += OnProductCountChanged;
-            _productInventory.OnItemRemoved += OnItemRemoved;
+            _plantProductInventory.OnItemCountChanged += OnPlantProductCountChanged;
+            _plantProductInventory.OnItemRemoved += OnItemRemoved;
             
-            _lootInventory.OnItemCountChanged += OnLootCountChanged;
-            _lootInventory.OnItemRemoved += OnItemRemoved;
+            _animalProductsInventory.OnItemCountChanged += AnimalProductsCountChanged;
+            _animalProductsInventory.OnItemRemoved += OnItemRemoved;
 
             _recipe.OnSpent += OnSpendIngredients;
         }
 
         protected override void OnHide()
         {
-            _productInventory.OnItemCountChanged -= OnProductCountChanged;
-            _productInventory.OnItemRemoved -= OnItemRemoved;
+            _plantProductInventory.OnItemCountChanged -= OnPlantProductCountChanged;
+            _plantProductInventory.OnItemRemoved -= OnItemRemoved;
             
-            _lootInventory.OnItemCountChanged -= OnLootCountChanged;
-            _lootInventory.OnItemRemoved -= OnItemRemoved;
+            _animalProductsInventory.OnItemCountChanged -= AnimalProductsCountChanged;
+            _animalProductsInventory.OnItemRemoved -= OnItemRemoved;
             
             _recipe.OnSpent -= OnSpendIngredients;
 
@@ -73,23 +75,23 @@ namespace Tavern.UI.Presenters
 
         private void SetupCards()
         {
-            AddProductPresenters(_productInventory.Items);
-            AddLootPresenters(_lootInventory.Items);
+            AddPlantProductPresenters(_plantProductInventory.Items);
+            AddAnimalProductsPresenters(_animalProductsInventory.Items);
         }
 
-        private void AddLootPresenters(List<LootItem> items)
+        private void AddAnimalProductsPresenters(List<AnimalProductItem> items)
         {
-            foreach (LootItem item in items)
+            foreach (AnimalProductItem item in items)
             {
-                AddPresenter(item, _lootInventory.GetItemCount(item.ItemName));
+                AddPresenter(item, _animalProductsInventory.GetItemCount(item.ItemName));
             }
         }
 
-        private void AddProductPresenters(List<ProductItem> items)
+        private void AddPlantProductPresenters(List<PlantProductItem> items)
         {
-            foreach (ProductItem item in items)
+            foreach (PlantProductItem item in items)
             {
-                AddPresenter(item, _productInventory.GetItemCount(item.ItemName));
+                AddPresenter(item, _plantProductInventory.GetItemCount(item.ItemName));
             }
         }
 
@@ -103,22 +105,27 @@ namespace Tavern.UI.Presenters
                 return;
             }
             
-            presenter = _presentersFactory.CreateItemCardPresenter(_parent);
+            presenter = _commonPresentersFactory.CreateItemCardPresenter(_parent);
             _presenters.Add(item.ItemName, presenter);
-            presenter.OnRightClick += OnIngredientRightClick;
-            presenter.OnLeftClick += OnIngredientLeftClick;
+            if (_enableMatching)
+            {
+                presenter.OnRightClick += OnIngredientRightClick;
+                presenter.OnLeftClick += OnIngredientLeftClick;
+            }
             presenter.Show(item, itemCount);
         }
 
-        private void OnProductCountChanged(Item item, int count) => OnItemCountChanged(item, count, _productInventory);
+        private void OnPlantProductCountChanged(Item item, int count) => 
+            OnItemCountChanged(item, count, _plantProductInventory);
 
-        private void OnLootCountChanged(Item item, int count) => OnItemCountChanged(item, count, _lootInventory);
+        private void AnimalProductsCountChanged(Item item, int count) => 
+            OnItemCountChanged(item, count, _animalProductsInventory);
 
-        private void OnItemCountChanged<T>(Item item, int count, IStackableInventory<T> inventory) where T : Item
+        private void OnItemCountChanged<T>(Item item, int count, IInventory<T> inventory) where T : Item
         {
             if (_recipe.HasItem(item.ItemName))
             {
-                OnItemRemoved(item);
+                OnItemRemoved(item, inventory);
                 return;
             }
             
@@ -130,7 +137,7 @@ namespace Tavern.UI.Presenters
             _presenters[item.ItemName].ChangeCount(count);
         }
 
-        private void OnItemRemoved(Item item)
+        private void OnItemRemoved(Item item, IInventoryBase _)
         {
             if (!_presenters.Remove(item.ItemName, out ItemCardPresenter presenter)) return;
 
@@ -138,22 +145,26 @@ namespace Tavern.UI.Presenters
             presenter.Hide();
         }
 
-        private void OnSpendIngredients(List<ProductItem> products, List<LootItem> loots)
+        private void OnSpendIngredients(List<PlantProductItem> plantProducts, List<AnimalProductItem> animalProducts)
         {
-            AddProductPresenters(products);
-            AddLootPresenters(loots);
+            AddPlantProductPresenters(plantProducts);
+            AddAnimalProductsPresenters(animalProducts);
         }
 
         private void OnIngredientRightClick(Item item)
         {
             Item clone = item.Clone();
-            clone.Get<ComponentStackable>().Value = 1;
+            if (clone.TryGet(out ComponentStackable component))
+            {
+                component.Value = 1;
+            }
+            
             OnTryAddItem?.Invoke(clone);
         }
 
         private void OnIngredientLeftClick(Item item)
         {
-            _infoPresenter ??= _presentersFactory.CreateInfoPresenter(_canvas);
+            _infoPresenter ??= _commonPresentersFactory.CreateInfoPresenter(_canvas);
             
             if (!_infoPresenter.Show(item, Add)) return;
             
@@ -177,6 +188,8 @@ namespace Tavern.UI.Presenters
 
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
         {
+            if (!_enableMatching) return;
+            
             presenter.OnRightClick -= OnIngredientRightClick;
             presenter.OnLeftClick -= OnIngredientLeftClick;
         }
