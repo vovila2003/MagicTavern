@@ -19,6 +19,7 @@ namespace Modules.Inventories
         private int _value;
 
         public bool IsFull => IsLimited && _value >= MaxSize;
+        public bool Limited => IsLimited;
 
         public ComponentStackable()
         {
