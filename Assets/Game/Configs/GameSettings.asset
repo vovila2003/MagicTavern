@@ -17,7 +17,7 @@ MonoBehaviour:
   CameraConfigs: {fileID: 11400000, guid: dd4b87db99c30dbb3aee08379e667f1b, type: 2}
   GardeningConfigs:
     SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}
-    PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
+    PotPrefab: {fileID: 6548709685111567746, guid: 2993ab517fc893eb4854237943d2437f, type: 3}
   CookingConfigs:
     DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
     KitchenItemPrefab: {fileID: 1015441784064912068, guid: 598cb2af4a0915bd79a5d8ef14abe6b4, type: 3}

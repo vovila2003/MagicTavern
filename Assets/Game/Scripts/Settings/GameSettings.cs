@@ -1,4 +1,3 @@
-using Tavern.Gardening;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -29,9 +28,7 @@ namespace Tavern.Settings
         [SerializeField]
         private UISettings UIConfigs;
         
-        public SeedMakerSettings SeedMakerSettings => GardeningConfigs.SeedMakerSettings;
-        
-        public Pot PotPrefab => GardeningConfigs.Pot;
+        public GardeningSettings GardeningSettings => GardeningConfigs;
         
         public CharacterSettings CharacterSettings => CharacterConfig;
         

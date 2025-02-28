@@ -37,9 +37,9 @@ namespace Tavern.Character
         private float _speed;
 
         [Inject]
-        private void Construct(CharacterAttackAgent attackAgent, IMovable movable, CharacterSettings settings)
+        private void Construct(CharacterAttackAgent attackAgent, IMovable movable, GameSettings settings)
         {
-            _settings = settings;
+            _settings = settings.CharacterSettings;
             _attackAgent = attackAgent;
             _movable = movable;
             _state = new CharacterState(_settings);

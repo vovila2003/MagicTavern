@@ -17,9 +17,9 @@ namespace Tavern.GameCursor
         private Vector2 _shootCursorOffset;
         
         [Inject]
-        private void Construct(GameCursorSettings settings)
+        private void Construct(GameSettings settings)
         {
-            _settings = settings; 
+            _settings = settings.CursorSettings; 
         }
         
         void IPauseGameListener.OnPause() => SetNormalCursor();

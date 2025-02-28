@@ -20,11 +20,11 @@ namespace Tavern.Gardening
         private void Construct(
             IInventory<PlantProductItem> productsStorage, 
             SeedInventoryContext seedsStorage, 
-            SeedMakerSettings settings)
+            GameSettings settings)
         {
             _productsStorage = productsStorage;
             _seedsStorage = seedsStorage;
-            _settings = settings;
+            _settings = settings.GardeningSettings.SeedMakerSettings;
             Initialize();
         }
 

@@ -8,38 +8,38 @@ namespace Tavern.UI.Views
     [UsedImplicitly]
     public class ShoppingViewsFactory : IShoppingViewsFactory
     {
-        private readonly UISettings _settings;
-        private readonly UISceneSettings _sceneSettings;
+        private readonly UISettings _uiSettings;
+        private readonly UISceneSettings _uiSceneSettings;
 
         public IDealInfoViewProvider DealInfoViewProvider { get; }
 
-        public ShoppingViewsFactory(UISettings settings, UISceneSettings sceneSettings)
+        public ShoppingViewsFactory(GameSettings gameSettings, SceneSettings sceneSettings)
         {
-            _settings = settings;
-            _sceneSettings = sceneSettings;
-            DealInfoViewProvider = new DealInfoViewProvider(CreateDealInfoPanelView, _sceneSettings.Pool);
+            _uiSettings = gameSettings.UISettings;
+            _uiSceneSettings = sceneSettings.UISceneSettings;
+            DealInfoViewProvider = new DealInfoViewProvider(CreateDealInfoPanelView, _uiSceneSettings.Pool);
         }
         
         public ICategoriesView CreateCategoriesView(Transform viewContainer) => 
-            Object.Instantiate(_settings.Shopping.CategoriesView, viewContainer);
+            Object.Instantiate(_uiSettings.Shopping.CategoriesView, viewContainer);
         
         public IContainerView CreateShopItemsView(Transform viewContainer) => 
-            Object.Instantiate(_settings.Shopping.ShopItemView, viewContainer);
+            Object.Instantiate(_uiSettings.Shopping.ShopItemView, viewContainer);
         
         public IVendorInfoView CreateVendorInfoView(Transform viewContainer) =>
-            Object.Instantiate(_settings.Shopping.VendorInfoView, viewContainer);
+            Object.Instantiate(_uiSettings.Shopping.VendorInfoView, viewContainer);
         
         public IContainerView CreateCharacterItemsView(Transform viewContainer) => 
-            Object.Instantiate(_settings.Shopping.CharacterItemView, viewContainer);
+            Object.Instantiate(_uiSettings.Shopping.CharacterItemView, viewContainer);
         
         public ICharacterInfoView CreateCharacterInfoView(Transform viewContainer) =>
-            Object.Instantiate(_settings.Shopping.CharacterInfoView, viewContainer);
+            Object.Instantiate(_uiSettings.Shopping.CharacterInfoView, viewContainer);
 
         public IFilterView CreateFilterView(Transform viewContainer) => 
-            Object.Instantiate(_settings.Shopping.FilterView, viewContainer);
+            Object.Instantiate(_uiSettings.Shopping.FilterView, viewContainer);
         
         //private
         private DealInfoView CreateDealInfoPanelView() =>
-            Object.Instantiate(_settings.Shopping.DealInfoView, _sceneSettings.Pool);
+            Object.Instantiate(_uiSettings.Shopping.DealInfoView, _uiSceneSettings.Pool);
     }
 }

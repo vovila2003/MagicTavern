@@ -21,11 +21,11 @@ namespace Tavern.Cooking
         public DishCrafter(
             IInventory<DishItem> dishInventory,
             ISlopsStorage slopsStorage,
-            CookingSettings settings)
+            GameSettings settings)
         {
             _dishInventory = dishInventory;
             _slopsStorage = slopsStorage;
-            _effectsCatalog = settings.Effects;
+            _effectsCatalog = settings.CookingSettings.Effects;
         }
 
         public void CraftDish(ActiveDishRecipe activeDishRecipe, bool isExtra)

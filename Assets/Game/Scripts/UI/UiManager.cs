@@ -31,12 +31,12 @@ namespace Tavern.UI
             CommonPresentersFactory commonFactory,
             CookingPresentersFactory cookingFactory,
             ShoppingPresentersFactory shoppingFactory,
-            UISceneSettings settings)
+            SceneSettings settings)
         {
             _commonFactory = commonFactory;
             _cookingFactory = cookingFactory;
             _shoppingFactory = shoppingFactory;
-            _settings = settings;
+            _settings = settings.UISceneSettings;
         }
 
         public void ShowCookingUi(KitchenItemConfig kitchenItemConfig, Action onExit)

@@ -50,9 +50,9 @@ namespace Tavern.Cooking
         private Dictionary<Dictionary<string, int>, DishRecipe> _recipes;
         private KitchenItemConfig _kitchen;
 
-        public RecipeMatcher(CookingSettings settings)
+        public RecipeMatcher(GameSettings settings)
         {
-            _recipeCatalog = settings.DishRecipes;
+            _recipeCatalog = settings.CookingSettings.DishRecipes;
             _comparer = new DictionaryComparer();
         }
 

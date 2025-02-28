@@ -2,7 +2,6 @@ using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
-using Tavern.Settings;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -11,12 +10,10 @@ namespace Tavern.Infrastructure
 {
     public class CharacterInstaller : IInstaller
     {
-        private readonly GameSettings _gameSettings;
         private readonly Character.Character _character;
 
-        public CharacterInstaller(GameSettings gameSettings, Character.Character character)
+        public CharacterInstaller(Character.Character character)
         {
-            _gameSettings = gameSettings;
             _character = character;
         }
 
@@ -32,7 +29,6 @@ namespace Tavern.Infrastructure
             }
             
             builder.RegisterComponent(_character).AsImplementedInterfaces();
-            builder.RegisterInstance(_gameSettings.CharacterSettings);
             builder.Register<MovableByRigidbody>(Lifetime.Transient).AsImplementedInterfaces();
             builder.Register<CharacterAttackAgent>(Lifetime.Singleton);
             builder.RegisterEntryPoint<CharacterMoveController>();

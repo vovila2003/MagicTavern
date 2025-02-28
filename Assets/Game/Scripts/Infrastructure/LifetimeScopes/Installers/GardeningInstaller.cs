@@ -1,7 +1,6 @@
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
-using Tavern.Settings;
 using VContainer;
 using VContainer.Unity;
 
@@ -9,23 +8,11 @@ namespace Tavern.Infrastructure
 {
     public class GardeningInstaller : IInstaller
     {
-        private readonly GameSettings _gameSettings;
-        private readonly SceneSettings _sceneSettings;
-
-        public GardeningInstaller(GameSettings gameSettings, SceneSettings sceneSettings)
-        {
-            _gameSettings = gameSettings;
-            _sceneSettings = sceneSettings;
-        }
-
         public void Install(IContainerBuilder builder)
         {
-            builder.RegisterInstance(_gameSettings.SeedMakerSettings);
-            builder.RegisterInstance(_gameSettings.PotPrefab);
             builder.RegisterComponentInHierarchy<SeedMaker>();
 
-            builder.Register<PotsController>(Lifetime.Singleton)
-                .AsImplementedInterfaces().AsSelf().WithParameter(_sceneSettings.WorldTransform);
+            builder.Register<PotsController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<PotCreator>();
 
             RegisterMedicine(builder);

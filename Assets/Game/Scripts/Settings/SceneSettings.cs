@@ -12,9 +12,6 @@ namespace Tavern.Settings
         private Transform World;
 
         [SerializeField] 
-        private Transform Pots;
-
-        [SerializeField] 
         private Transform KitchenItemsParent;
         
         [SerializeField]
@@ -26,8 +23,13 @@ namespace Tavern.Settings
         [field: SerializeField]
         public ShopPoint[] ShopPoints { get; private set; }
         
+        [field: SerializeField]
+        public Transform PotsParent { get; private set; }
+        
+        [field: SerializeField] 
+        public UISceneSettings UISceneSettings { get; private set; }
+        
         public Transform WorldTransform => World;
-        public Transform PotsTransform => Pots;
         public Transform KitchenParent => KitchenItemsParent;
         public KitchenItemPoint[] KitchenPoints => KitchenItemPoints;
     }
