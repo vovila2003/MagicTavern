@@ -1,11 +1,6 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle.Interfaces;
-using Tavern.ProductsAndIngredients;
-using Tavern.Settings;
-using Tavern.Storages;
 using UnityEngine;
-using VContainer;
 using VContainer.Unity;
 
 namespace Tavern.Gardening
@@ -18,52 +13,19 @@ namespace Tavern.Gardening
         IFinishGameListener,
         ITickable
     {
-        private readonly Pot _prefab;
-        private readonly Transform _parent;
-        private readonly IObjectResolver _resolver;
-        private readonly PlantProductInventoryContext _plantProductsStorage;
-        private readonly ISlopsStorage _slopsStorage;
-        private readonly SeedInventoryContext _seedsStorage;
-
-        private readonly Dictionary<Pot, PotHarvestController> _pots = new();
+        private readonly PotFactory _factory;
         private bool _isEnable;
 
-        public PotsController(
-            PlantProductInventoryContext plantProductsStorage, 
-            ISlopsStorage slopsStorage,
-            SeedInventoryContext seedsStorage,
-            GameSettings settings, 
-            SceneSettings sceneSettings,
-            IObjectResolver resolver)
+        public PotsController(PotFactory factory)
         {
-            _plantProductsStorage = plantProductsStorage;
-            _slopsStorage = slopsStorage;
-            _seedsStorage = seedsStorage;
-            _prefab = settings.GardeningSettings.Pot;
-            _parent = sceneSettings.PotsParent;
-            _resolver = resolver;
-        }
-
-        public void Create(Vector3 position)
-        {
-            Pot pot = _resolver.Instantiate(_prefab, position, Quaternion.identity, _parent);
-            var controller = new PotHarvestController(pot, _plantProductsStorage, _slopsStorage, _seedsStorage);
-            _pots.Add(pot, controller);
-        }
-
-        public void Destroy(Pot pot)
-        {
-            if (!_pots.Remove(pot, out PotHarvestController controller)) return;
-            
-            controller.Dispose();
-            Object.Destroy(pot.gameObject);
+            _factory = factory;
         }
 
         void ITickable.Tick()
         {
             if (!_isEnable) return;
 
-            foreach (Pot pot in _pots.Keys)
+            foreach (Pot pot in _factory.Pots)
             {
                 pot.Tick(Time.deltaTime);
             }
@@ -72,7 +34,7 @@ namespace Tavern.Gardening
         void IStartGameListener.OnStart()
         {
             _isEnable = true;
-            foreach (Pot pot in _pots.Keys)
+            foreach (Pot pot in _factory.Pots)
             {
                 pot.OnStart();
             }
@@ -81,7 +43,7 @@ namespace Tavern.Gardening
         void IPauseGameListener.OnPause()
         {
             _isEnable = false;
-            foreach (Pot pot in _pots.Keys)
+            foreach (Pot pot in _factory.Pots)
             {
                 pot.OnPause();
             }
@@ -90,7 +52,7 @@ namespace Tavern.Gardening
         void IResumeGameListener.OnResume()
         {
             _isEnable = true;
-            foreach (Pot pot in _pots.Keys)
+            foreach (Pot pot in _factory.Pots)
             {
                 pot.OnResume();
             }
@@ -99,7 +61,7 @@ namespace Tavern.Gardening
         void IFinishGameListener.OnFinish()
         {
             _isEnable = false;
-            foreach (Pot pot in _pots.Keys)
+            foreach (Pot pot in _factory.Pots)
             {
                 pot.OnFinish();
             }

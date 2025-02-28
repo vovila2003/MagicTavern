@@ -4,26 +4,26 @@ using VContainer;
 
 namespace Tavern.Gardening
 {
-    public class PotCreator : MonoBehaviour
+    public class PotCreatorContext : MonoBehaviour
     {
-        private PotsController _controller;
+        private PotFactory _factory;
 
         [Inject]
-        private void Construct(PotsController controller)
+        private void Construct(PotFactory factory)
         {
-            _controller = controller;
+            _factory = factory;
         }
 
         [Button]
         public void Create(Vector3 position)
         {
-            _controller.Create(position);
+            _factory.Create(position);
         }
 
         [Button]
         public void Destroy(Pot pot)
         {
-            _controller.Destroy(pot);
+            _factory.Destroy(pot);
         }
     }
 }
