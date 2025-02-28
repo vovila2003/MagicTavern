@@ -1330,7 +1330,6 @@ MonoBehaviour:
   GameSettings: {fileID: 11400000, guid: 9d37a83389cd24f91acbaed76e2766d9, type: 2}
   SceneSettings:
     World: {fileID: 1347470388}
-    Pots: {fileID: 1923880909}
     KitchenItemsParent: {fileID: 827408128}
     KitchenItemPoints:
     - {fileID: 479389817}
@@ -1342,12 +1341,13 @@ MonoBehaviour:
     <ShopsParent>k__BackingField: {fileID: 1312850138}
     <ShopPoints>k__BackingField:
     - {fileID: 1918819087}
-  UISceneSettings:
-    CanvasTransform: {fileID: 1401415931}
-    PoolTransform: {fileID: 551141115}
-    MainMenuView: {fileID: 886014759}
-    PauseView: {fileID: 1896812131}
-    HudView: {fileID: 483100652}
+    <PotsParent>k__BackingField: {fileID: 1923880909}
+    <UISceneSettings>k__BackingField:
+      CanvasTransform: {fileID: 1401415931}
+      PoolTransform: {fileID: 551141115}
+      MainMenuView: {fileID: 886014759}
+      PauseView: {fileID: 1896812131}
+      HudView: {fileID: 483100652}
 --- !u!1 &615366036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,12 +2043,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 589988104}
   - {fileID: 2028241252}
   - {fileID: 615366037}
   - {fileID: 907775180}
   - {fileID: 858324743}
   - {fileID: 1151332173}
+  - {fileID: 589988104}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1084976229
