@@ -15,6 +15,9 @@ namespace Tavern.Settings
 
         [SerializeField] 
         private CameraSettings CameraConfigs;
+        
+        [field: SerializeField]
+        public TimeSettings TimeSettings {get; private set;}
 
         [SerializeField]
         private GardeningSettings GardeningConfigs;

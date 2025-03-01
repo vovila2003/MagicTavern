@@ -1,27 +1,22 @@
+using System;
 using Modules.Info;
 using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(
-        fileName = "CharacterSettings", 
-        menuName = "Settings/Character Settings/Character Settings")]
-    public sealed class CharacterSettings : ScriptableObject
+   [Serializable]
+    public sealed class CharacterSettings
     {
-        [SerializeField]
-        private Character.Character CharacterPrefab;
+        [field: SerializeField]
+        public Character.Character CharacterPrefab { get; private set; }
 
-        [SerializeField]
-        private float Speed;
+        [field: SerializeField] 
+        public float Speed { get; private set; }
         
-        [SerializeField]
-        private int MaxHealth;
+        [field: SerializeField] 
+        public int MaxHealth { get; private set; }
         
         [field: SerializeField]
         public Metadata Metadata { get; private set; }
-        
-        public Character.Character Prefab => CharacterPrefab;
-        public float InitSpeed => Speed;
-        public int Health => MaxHealth;
     }
 }

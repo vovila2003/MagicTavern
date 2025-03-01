@@ -19,7 +19,7 @@ namespace Tavern.Infrastructure
             new SettingsInstaller(GameSettings, SceneSettings).Install(builder);
 
             new CharacterInstaller(Instantiate(
-                GameSettings.CharacterSettings.Prefab, 
+                GameSettings.CharacterSettings.CharacterPrefab, 
                 SceneSettings.WorldTransform)).Install(builder);
             
             new GameCycleInstaller().Install(builder);
@@ -30,6 +30,8 @@ namespace Tavern.Infrastructure
             new LootingInstaller().Install(builder);
             new CookingInstaller().Install(builder);
             new ShoppingInstaller().Install(builder);
+            new DebugInstaller().Install(builder);
+            
         }
     }
 }

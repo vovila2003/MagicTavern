@@ -57,8 +57,8 @@ namespace Tavern.Character
         {
             _movable.Init(Rigidbody, this);
             _attackAgent.Init(_weapon);
-            _speed = _settings.InitSpeed;
-            _hpComponent.Init(_settings.Health);
+            _speed = _settings.Speed;
+            _hpComponent.Init(_settings.MaxHealth);
         }
 
         private void Awake()

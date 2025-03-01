@@ -1,19 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(
-        fileName = "CursorSettings", 
-        menuName = "Settings/Cursor Settings/Cursor Settings")]
-    public sealed class GameCursorSettings : ScriptableObject
+    [Serializable]
+    public sealed class GameCursorSettings 
     {
-        [SerializeField]
-        private Texture2D NormalCursorTexture;
+        [field: SerializeField] 
+        public Texture2D NormalCursor { get; private set; }
 
-        [SerializeField]
-        private Texture2D ShootCursorTexture;
-        
-        public Texture2D NormalCursor => NormalCursorTexture;
-        public Texture2D ShootCursor => ShootCursorTexture;
+        [field: SerializeField] 
+        public Texture2D ShootCursor { get; private set; }
     }
 }

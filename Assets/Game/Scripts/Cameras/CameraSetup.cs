@@ -34,7 +34,7 @@ namespace Tavern.Cameras
                 .GetComponentInChildren<CinemachineTransposer>();
             if (transposer == null) return;
             
-            transposer.m_FollowOffset = _cameraSettings.Offset;
+            transposer.m_FollowOffset = _cameraSettings.CameraOffset;
         }
     }
 }

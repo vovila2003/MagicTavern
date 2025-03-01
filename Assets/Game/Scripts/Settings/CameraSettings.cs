@@ -1,15 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace Tavern.Settings
 {
-    [CreateAssetMenu(
-        fileName = "CameraSettings", 
-        menuName = "Settings/Camera Settings/Camera Settings")]
-    public sealed class CameraSettings : ScriptableObject
+    [Serializable]
+    public sealed class CameraSettings 
     {
-        [SerializeField]
-        private Vector3 CameraOffset;
-        
-        public Vector3 Offset => CameraOffset;
+        [field: SerializeField] 
+        public Vector3 CameraOffset { get; private set; }
     }
 }

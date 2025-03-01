@@ -12,11 +12,13 @@ namespace Tavern.Infrastructure
     {
         private readonly IObjectResolver _container;
         private readonly GameCycle _gameCycle;
+        private readonly TimeGameCycle _timeGameCycle;
 
-        public GameCycleController(IObjectResolver container, GameCycle gameCycle)
+        public GameCycleController(IObjectResolver container, GameCycle gameCycle, TimeGameCycle timeGameCycle)
         {
             _container = container;
             _gameCycle = gameCycle;
+            _timeGameCycle = timeGameCycle;
         }
 
         public void PrepareGame() => _gameCycle.PrepareGame();
@@ -36,8 +38,10 @@ namespace Tavern.Infrastructure
         void IInitializable.Initialize()
         {
             var listeners = _container.Resolve<IEnumerable<IGameListener>>();
-            
             _gameCycle.Initialize(listeners);
+            
+            var timeListeners = _container.Resolve<IEnumerable<ITimeListener>>();
+            _timeGameCycle.Initialize(timeListeners);
         }
     }
 }
