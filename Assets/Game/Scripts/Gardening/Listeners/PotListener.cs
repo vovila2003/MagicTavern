@@ -19,25 +19,25 @@ namespace Tavern.Gardening
             _gameCycleController = gameCycleController;
             _uiManager = uiManager;
 
-            _pot.OnActivated += PotContextActivated;
+            _pot.OnActivated += PotActivated;
         }
-
+      
         public void Dispose()
         {
-            _pot.OnActivated -= PotContextActivated;
+            _pot.OnActivated -= PotActivated;
         }
         
-        private void PotContextActivated()
+        private void PotActivated()
         {
             _gameCycleController.PauseGame();
-            _pot.OnActivated -= PotContextActivated;
+            _pot.OnActivated -= PotActivated;
             _uiManager.ShowGardeningUi(_pot, OnExitGardeningUi);
         }
         
         private void OnExitGardeningUi()
         {
             _gameCycleController.ResumeGame();
-            _pot.OnActivated += PotContextActivated;
+            _pot.OnActivated += PotActivated;
         }
     }
 }

@@ -23,6 +23,5 @@ namespace Tavern.UI.Views
         
         public IContainerView CreateMedicineItemsView(Transform viewContainer) => 
             Object.Instantiate(_uiSettings.Gardening.MedicineItemView, viewContainer);
-        
     }
 }

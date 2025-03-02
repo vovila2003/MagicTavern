@@ -21,16 +21,16 @@ namespace Tavern.Common
 
         [SerializeField, ShowIf("DebugMode")] 
         private int Count;
-        
-        private IInventory<T> _inventory;
+
+        public IInventory<T> Inventory {get; private set;}
 
         [ShowInInspector, ReadOnly]
-        private List<T> ItemsList => _inventory == null ? new List<T>() : _inventory.Items;
-
+        private List<T> ItemsList => Inventory == null ? new List<T>() : Inventory.Items;
+        
         [Inject]
         private void Construct(IInventory<T> inventory)
         {
-            _inventory = inventory;
+            Inventory = inventory;
         }
 
         private void Awake()
@@ -41,7 +41,7 @@ namespace Tavern.Common
                 items[i] = Items[i].Create() as T;
             }
             
-            _inventory.Setup(items);
+            Inventory.Setup(items);
 
             if (!DebugMode) return;
             
@@ -49,23 +49,23 @@ namespace Tavern.Common
             {
                 for (var i = 0; i < Count; ++i)
                 {
-                    _inventory.AddItem(config.Create() as T);    
+                    Inventory.AddItem(config.Create() as T);    
                 }
             }
         }
 
         private void OnEnable()
         {
-            _inventory.OnItemAdded += OnItemAdded;
-            _inventory.OnItemRemoved += OnItemRemoved;
-            _inventory.OnItemCountChanged += OnItemCountChanged;
+            Inventory.OnItemAdded += OnItemAdded;
+            Inventory.OnItemRemoved += OnItemRemoved;
+            Inventory.OnItemCountChanged += OnItemCountChanged;
         }
 
         private void OnDisable()
         {
-            _inventory.OnItemAdded -= OnItemAdded;
-            _inventory.OnItemRemoved -= OnItemRemoved;
-            _inventory.OnItemCountChanged -= OnItemCountChanged;
+            Inventory.OnItemAdded -= OnItemAdded;
+            Inventory.OnItemRemoved -= OnItemRemoved;
+            Inventory.OnItemCountChanged -= OnItemCountChanged;
         }
 
         [Button]
@@ -77,7 +77,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.AddItem(itemConfig.Create() as T);
+            Inventory.AddItem(itemConfig.Create() as T);
         }
 
         [Button]
@@ -89,7 +89,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.AddItem(itemConfig.Create() as T);
+            Inventory.AddItem(itemConfig.Create() as T);
         }
 
         [Button]
@@ -97,7 +97,7 @@ namespace Tavern.Common
         {
             if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig itemConfig)) return;
             
-            _inventory.RemoveItem(itemConfig.Name);
+            Inventory.RemoveItem(itemConfig.Name);
         }
 
         [Button]
@@ -109,7 +109,7 @@ namespace Tavern.Common
                 return;
             }
             
-            _inventory.RemoveItem(itemConfig.Name);
+            Inventory.RemoveItem(itemConfig.Name);
         }
 
         private void OnItemAdded(Item item, IInventoryBase inventory)

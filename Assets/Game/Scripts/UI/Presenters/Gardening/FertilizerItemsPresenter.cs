@@ -1,28 +1,28 @@
 using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
-using Tavern.Gardening;
+using Tavern.Gardening.Fertilizer;
 using Tavern.Utils;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class SeedItemsPresenter : BasePresenter
+    public class FertilizerItemsPresenter : BasePresenter
     {
         private readonly IContainerView _view;
         private readonly CommonPresentersFactory _commonPresentersFactory;
-        private readonly IInventory<SeedItem> _seedInventory;
+        private readonly FertilizerInventoryContext _fertilizerInventoryContext;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
-        
-        public SeedItemsPresenter(
+
+        public FertilizerItemsPresenter(
             IContainerView view,
             CommonPresentersFactory commonPresentersFactory,
-            IInventory<SeedItem> seedInventory
+            FertilizerInventoryContext fertilizerInventoryContext
             ) : base(view)
         {
             _view = view;
             _commonPresentersFactory = commonPresentersFactory;
-            _seedInventory = seedInventory;
+            _fertilizerInventoryContext = fertilizerInventoryContext;
         }
         
         public void SetActive(bool active)
@@ -32,34 +32,34 @@ namespace Tavern.UI.Presenters
                 presenter.SetActive(active);
             }
         }
-        
+
         protected override void OnShow()
         {
             SetupCards();
             
-            _seedInventory.OnItemAdded += OnSeedChanged;
-            _seedInventory.OnItemRemoved += OnSeedChanged;
-            _seedInventory.OnItemCountChanged += OnSeedCountChanged;
+            _fertilizerInventoryContext.Inventory.OnItemAdded += OnFertilizerChanged;
+            _fertilizerInventoryContext.Inventory.OnItemRemoved += OnFertilizerChanged;
+            _fertilizerInventoryContext.Inventory.OnItemCountChanged += OnFertilizerCountChanged;
         }
         
         protected override void OnHide()
         {
             ClearItems();
             
-            _seedInventory.OnItemAdded -= OnSeedChanged;
-            _seedInventory.OnItemRemoved -= OnSeedChanged;
-            _seedInventory.OnItemCountChanged -= OnSeedCountChanged;
+            _fertilizerInventoryContext.Inventory.OnItemAdded -= OnFertilizerChanged;
+            _fertilizerInventoryContext.Inventory.OnItemRemoved -= OnFertilizerChanged;
+            _fertilizerInventoryContext.Inventory.OnItemCountChanged -= OnFertilizerCountChanged;
         }
         
         private void SetupCards()
         {
-            foreach (SeedItem item in _seedInventory.Items)
+            foreach (FertilizerItem item in _fertilizerInventoryContext.Inventory.Items)
             {
                 AddPresenter(item, item.GetCount());
             }
         }
         
-        private void AddPresenter(SeedItem item, int itemCount)
+        private void AddPresenter(Item item, int itemCount)
         {
             if (itemCount <= 0) return;
             
@@ -71,17 +71,17 @@ namespace Tavern.UI.Presenters
             
             presenter = _commonPresentersFactory.CreateItemCardPresenter(_view.ContentTransform);
             _presenters.Add(item, presenter);
-            presenter.OnRightClick += OnSeedRightClick;
-            presenter.OnLeftClick += OnSeedLeftClick;
+            presenter.OnRightClick += OnFertilizerRightClick;
+            presenter.OnLeftClick += OnFertilizerLeftClick;
             presenter.Show(item, itemCount);
         }
         
-        private void OnSeedLeftClick(Item item)
+        private void OnFertilizerLeftClick(Item item)
         {
             Debug.Log($"Left click to {item.ItemName}");
         }
         
-        private void OnSeedRightClick(Item item)
+        private void OnFertilizerRightClick(Item item)
         {
             Debug.Log($"Right click to {item.ItemName}");
         }
@@ -99,17 +99,17 @@ namespace Tavern.UI.Presenters
         
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
         {
-            presenter.OnRightClick -= OnSeedRightClick;
-            presenter.OnLeftClick -= OnSeedLeftClick;
+            presenter.OnRightClick -= OnFertilizerRightClick;
+            presenter.OnLeftClick -= OnFertilizerLeftClick;
         }
         
-        private void OnSeedChanged(Item item, IInventoryBase inventory)
+        private void OnFertilizerChanged(Item item, IInventoryBase inventoryBase)
         {
             ClearItems();
             SetupCards();
         }
         
-        private void OnSeedCountChanged(Item item, int count)
+        private void OnFertilizerCountChanged(Item item, int count)
         {
             if (!_presenters.TryGetValue(item, out ItemCardPresenter presenter)) return;
             

@@ -1,30 +1,28 @@
 using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
-using Tavern.Gardening;
 using Tavern.Utils;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public class SeedItemsPresenter : BasePresenter
+    public abstract class ItemsPresenter<T> : BasePresenter where T : Item
     {
         private readonly IContainerView _view;
         private readonly CommonPresentersFactory _commonPresentersFactory;
-        private readonly IInventory<SeedItem> _seedInventory;
+        private readonly IInventory<T> _inventory;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
-        
-        public SeedItemsPresenter(
+
+        protected ItemsPresenter(
             IContainerView view,
             CommonPresentersFactory commonPresentersFactory,
-            IInventory<SeedItem> seedInventory
-            ) : base(view)
+            IInventory<T> inventory) : base(view)
         {
             _view = view;
             _commonPresentersFactory = commonPresentersFactory;
-            _seedInventory = seedInventory;
+            _inventory = inventory;
         }
-        
+
         public void SetActive(bool active)
         {
             foreach (ItemCardPresenter presenter in _presenters.Values)
@@ -32,34 +30,34 @@ namespace Tavern.UI.Presenters
                 presenter.SetActive(active);
             }
         }
-        
+
         protected override void OnShow()
         {
             SetupCards();
             
-            _seedInventory.OnItemAdded += OnSeedChanged;
-            _seedInventory.OnItemRemoved += OnSeedChanged;
-            _seedInventory.OnItemCountChanged += OnSeedCountChanged;
+            _inventory.OnItemAdded += Changed;
+            _inventory.OnItemRemoved += Changed;
+            _inventory.OnItemCountChanged += CountChanged;
         }
-        
+
         protected override void OnHide()
         {
             ClearItems();
             
-            _seedInventory.OnItemAdded -= OnSeedChanged;
-            _seedInventory.OnItemRemoved -= OnSeedChanged;
-            _seedInventory.OnItemCountChanged -= OnSeedCountChanged;
+            _inventory.OnItemAdded -= Changed;
+            _inventory.OnItemRemoved -= Changed;
+            _inventory.OnItemCountChanged -= CountChanged;
         }
-        
+
         private void SetupCards()
         {
-            foreach (SeedItem item in _seedInventory.Items)
+            foreach (T item in _inventory.Items)
             {
                 AddPresenter(item, item.GetCount());
             }
         }
-        
-        private void AddPresenter(SeedItem item, int itemCount)
+
+        private void AddPresenter(T item, int itemCount)
         {
             if (itemCount <= 0) return;
             
@@ -75,17 +73,17 @@ namespace Tavern.UI.Presenters
             presenter.OnLeftClick += OnSeedLeftClick;
             presenter.Show(item, itemCount);
         }
-        
+
         private void OnSeedLeftClick(Item item)
         {
             Debug.Log($"Left click to {item.ItemName}");
         }
-        
+
         private void OnSeedRightClick(Item item)
         {
             Debug.Log($"Right click to {item.ItemName}");
         }
-        
+
         private void ClearItems()
         {
             foreach (ItemCardPresenter presenter in _presenters.Values)
@@ -93,23 +91,23 @@ namespace Tavern.UI.Presenters
                 UnsubscribeItemCard(presenter);
                 presenter.Hide();
             }
-        
+
             _presenters.Clear();
         }
-        
+
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
         {
             presenter.OnRightClick -= OnSeedRightClick;
             presenter.OnLeftClick -= OnSeedLeftClick;
         }
-        
-        private void OnSeedChanged(Item item, IInventoryBase inventory)
+
+        private void Changed(Item item, IInventoryBase inventory)
         {
             ClearItems();
             SetupCards();
         }
-        
-        private void OnSeedCountChanged(Item item, int count)
+
+        private void CountChanged(Item item, int count)
         {
             if (!_presenters.TryGetValue(item, out ItemCardPresenter presenter)) return;
             
