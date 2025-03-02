@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using Tavern.Settings;
 using Tavern.UI.Presenters;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Tavern.UI.Views
 {
@@ -23,5 +24,8 @@ namespace Tavern.UI.Views
         
         public IContainerView CreateMedicineItemsView(Transform viewContainer) => 
             Object.Instantiate(_uiSettings.Gardening.MedicineItemView, viewContainer);
+        
+        public Button CreateMakeSeedsButton(Transform viewContainer) => 
+            Object.Instantiate(_uiSettings.Gardening.MakeSeedsButton, viewContainer);
     }
 }

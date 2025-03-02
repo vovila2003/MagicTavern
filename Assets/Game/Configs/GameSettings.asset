@@ -81,3 +81,4 @@ MonoBehaviour:
       <SeedItemView>k__BackingField: {fileID: 8107791456512093494, guid: c1a5569941e98d0908962ce8fdb83f69, type: 3}
       <FertilizerItemView>k__BackingField: {fileID: 2496557097248415107, guid: 0f50f0af7b7c79b72a93f027cfd2a26c, type: 3}
       <MedicineItemView>k__BackingField: {fileID: 8483198877809740806, guid: 933db6478a1b3e87aa03782863630a3a, type: 3}
+      <MakeSeedsButton>k__BackingField: {fileID: 2261780329468466560, guid: 75e16ce0b1467df4c9456db154c55500, type: 3}

@@ -34,9 +34,14 @@ namespace Tavern.UI.Presenters
             _medicineInventoryContext = medicineInventoryContext;
         }
 
-        public GardeningPanelPresenter CreateGardeningPanelPresenter() =>
-            new(_commonViewsFactory.CreatePanelView(), 
-                this);
+        public GardeningPanelPresenter CreateGardeningPanelPresenter()
+        {
+            IPanelView panelView = _commonViewsFactory.CreatePanelView();
+            return new GardeningPanelPresenter(
+                panelView,
+                _gardeningViewsFactory.CreateMakeSeedsButton(panelView.Container),
+                    this);
+        }
 
         public SeedItemsPresenter CreateSeedItemsPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreateSeedItemsView(viewContainer),

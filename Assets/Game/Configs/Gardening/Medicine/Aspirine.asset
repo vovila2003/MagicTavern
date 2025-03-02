@@ -12,29 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6292505c47c14ec0b28d58c118eed982, type: 3}
   m_Name: Aspirine
   m_EditorClassIdentifier: 
-  Item:
-    Name: Aspirin
-    Flags: 3
-    Components:
-    - rid: 835742624321896482
-    - rid: 835742636863127578
-    - rid: 835742636863127566
-  Metadata:
+  <Name>k__BackingField: Aspirine
+  <Flags>k__BackingField: 3
+  Components:
+  - rid: 1480260469753643010
+  - rid: 1480260469753643011
+  - rid: 1480260469753643012
+  <Metadata>k__BackingField:
     Title: "\u0410\u0441\u043F\u0438\u0440\u0438\u043D"
-    Description: "\u0442\u0438\u043F\u0430 \u043B\u0435\u043A\u0430\u0440\u0441\u0442\u0432\u043E"
-    Icon: {fileID: 0}
+    Description: "\u041D\u0430\u0432\u0435\u0440\u043D\u043E \u043F\u043E\u043C\u043E\u0436\u0435\u0442"
+    Icon: {fileID: -205430985, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 835742624321896482
+    - rid: 1480260469753643010
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
-    - rid: 835742636863127566
-      type: {class: ComponentHarvestSicknessReducing, ns: Tavern.Gardening.Medicine, asm: Game}
-      data:
-        SicknessReducingInPercents: 30
-    - rid: 835742636863127578
+    - rid: 1480260469753643011
       type: {class: ComponentHarvestHeal, ns: Tavern.Gardening.Medicine, asm: Game}
       data: 
+    - rid: 1480260469753643012
+      type: {class: ComponentHarvestSicknessReducing, ns: Tavern.Gardening.Medicine, asm: Game}
+      data:
+        SicknessReducingInPercents: 0
