@@ -25,15 +25,17 @@ namespace Modules.Items
 
         private void Awake()
         {
+            _itemsDict.Clear();
             foreach (ItemConfig settings in Items)
             {
-                _itemsDict[settings.Name] = settings;
+                _itemsDict.Add(settings.Name, settings);
             }
         }
 
         private void OnValidate()
         {
             var collection = new Dictionary<string, bool>();
+            _itemsDict.Clear();
             foreach (ItemConfig settings in Items)
             {
                 string itemName = settings.Name;
@@ -42,7 +44,7 @@ namespace Modules.Items
                     Debug.LogWarning($"Item has empty name in catalog {CatalogName}");
                     continue;
                 }
-                _itemsDict[itemName] = settings;
+                _itemsDict.Add(settings.Name, settings);
                 
                 if (collection.TryAdd(itemName, true))
                 {

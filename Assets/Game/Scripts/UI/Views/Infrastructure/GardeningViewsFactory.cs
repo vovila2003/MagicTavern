@@ -27,5 +27,9 @@ namespace Tavern.UI.Views
         
         public Button CreateMakeSeedsButton(Transform viewContainer) => 
             Object.Instantiate(_uiSettings.Gardening.MakeSeedsButton, viewContainer);
+        
+        public IPotInfoView CreatePotInfoView(Transform viewContainer) =>
+            Object.Instantiate(_uiSettings.Gardening.PotInfoView, viewContainer);
+        
     }
 }

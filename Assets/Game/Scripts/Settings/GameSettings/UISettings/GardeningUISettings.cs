@@ -2,7 +2,6 @@ using System;
 using Tavern.UI.Views;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace Tavern.Settings
 {
@@ -20,5 +19,8 @@ namespace Tavern.Settings
 
         [field: SerializeField]
         public Button MakeSeedsButton { get; private set; }
+
+        [field: SerializeField]
+        public PotInfoView PotInfoView { get; private set; }
     }
 }
