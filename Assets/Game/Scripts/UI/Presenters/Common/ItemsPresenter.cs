@@ -69,17 +69,17 @@ namespace Tavern.UI.Presenters
             
             presenter = _commonPresentersFactory.CreateItemCardPresenter(_view.ContentTransform);
             _presenters.Add(item, presenter);
-            presenter.OnRightClick += OnSeedRightClick;
-            presenter.OnLeftClick += OnSeedLeftClick;
+            presenter.OnRightClick += OnRightClick;
+            presenter.OnLeftClick += OnLeftClick;
             presenter.Show(item, itemCount);
         }
 
-        private void OnSeedLeftClick(Item item)
+        private void OnLeftClick(Item item)
         {
             Debug.Log($"Left click to {item.ItemName}");
         }
 
-        private void OnSeedRightClick(Item item)
+        private void OnRightClick(Item item)
         {
             Debug.Log($"Right click to {item.ItemName}");
         }
@@ -97,8 +97,8 @@ namespace Tavern.UI.Presenters
 
         private void UnsubscribeItemCard(ItemCardPresenter presenter)
         {
-            presenter.OnRightClick -= OnSeedRightClick;
-            presenter.OnLeftClick -= OnSeedLeftClick;
+            presenter.OnRightClick -= OnRightClick;
+            presenter.OnLeftClick -= OnLeftClick;
         }
 
         private void Changed(Item item, IInventoryBase inventory)

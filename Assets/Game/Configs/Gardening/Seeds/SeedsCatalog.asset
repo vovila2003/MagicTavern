@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SeedsCatalog
   m_EditorClassIdentifier: 
   <Items>k__BackingField:
+  - {fileID: 11400000, guid: a00b68de0bf48ff0eb1e0533c6209323, type: 2}
   - {fileID: 11400000, guid: 378f43c41df180f4cbcbf6ba2cdd7c4f, type: 2}

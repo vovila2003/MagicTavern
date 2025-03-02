@@ -12,6 +12,7 @@ namespace Tavern.UI.Presenters
         private Action _onExit;
         private readonly SeedItemsPresenter _seedItemsPresenter;
         private readonly FertilizerItemsPresenter _fertilizerItemsPresenter;
+        private readonly MedicineItemsPresenter _medicineItemsPresenter;
 
         public GardeningPanelPresenter(
             IPanelView view,
@@ -21,6 +22,7 @@ namespace Tavern.UI.Presenters
             _view = view;
             _seedItemsPresenter = gardeningPresentersFactory.CreateSeedItemsPresenter(_view.Container);
             _fertilizerItemsPresenter = gardeningPresentersFactory.CreateFertilizerItemsPresenter(_view.Container);
+            _medicineItemsPresenter = gardeningPresentersFactory.CreateMedicineItemsPresenter(_view.Container);
         }
 
         public void Show(Pot pot, Action onExit)
@@ -35,6 +37,7 @@ namespace Tavern.UI.Presenters
             SetupView();
             SetupSeeds();
             SetupFertilizer();
+            SetupMedicine();
         }
 
         protected override void OnHide()
@@ -56,6 +59,11 @@ namespace Tavern.UI.Presenters
         private void SetupFertilizer()
         {
             _fertilizerItemsPresenter.Show();
+        }
+
+        private void SetupMedicine()
+        {
+            _medicineItemsPresenter.Show();
         }
     }
 }
