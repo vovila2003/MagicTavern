@@ -22,6 +22,9 @@ namespace Tavern.Infrastructure
             
             builder.Register<ShoppingViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<ShoppingPresentersFactory>(Lifetime.Singleton);
+            
+            builder.Register<GardeningViewsFactory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<GardeningPresentersFactory>(Lifetime.Singleton);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Tavern.Infrastructure
         {
             builder.RegisterComponentInHierarchy<SeedMaker>();
 
-            builder.Register<PotFactory>(Lifetime.Singleton);
+            builder.Register<PotFactory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<PotsController>(Lifetime.Singleton).AsImplementedInterfaces();
             
             builder.RegisterComponentInHierarchy<PotCreatorContext>();

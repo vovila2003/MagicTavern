@@ -11,7 +11,6 @@ namespace Tavern.UI.Presenters
         private readonly IContainerView _view;
         private Shop _shop;
         private readonly ShoppingPresentersFactory _shoppingPresentersFactory;
-        private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly Transform _canvas;
         private readonly Dictionary<string, ItemConfigCardPresenter> _presenters = new();
         private ComponentGroupConfig _filter;
@@ -21,13 +20,11 @@ namespace Tavern.UI.Presenters
         public ShopItemsPresenter(
             IContainerView view, 
             ShoppingPresentersFactory shoppingPresentersFactory,
-            CommonPresentersFactory commonPresentersFactory,
             Transform canvas) : base(view)
         {
             _view = view;
             _shoppingPresentersFactory = shoppingPresentersFactory;
             _canvas = canvas;
-            _commonPresentersFactory = commonPresentersFactory;
         }
 
         public void Show(Shop shop)

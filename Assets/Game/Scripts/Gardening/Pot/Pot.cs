@@ -1,14 +1,19 @@
 using System;
 using Modules.Gardening;
 using Sirenix.OdinInspector;
+using Tavern.Common;
 using UnityEngine;
 
 namespace Tavern.Gardening
 {
     public class Pot : MonoBehaviour
     {
+        public event Action OnActivated;
         public event Action<PlantConfig, int, bool> OnHarvestReceived;
         public event Action<int> OnSlopsReceived;
+
+        [SerializeField] 
+        private Interactor Interactor;
 
         private bool _isEnable;
 
@@ -44,6 +49,11 @@ namespace Tavern.Gardening
         {
             Seedbed.OnHarvestProgressChanged -= OnHarvestProgressChanged;
             Seedbed.OnDryingTimerProgressChanged -= OnDryingTimerChanged;
+        }
+
+        public void Setup()
+        {
+            Interactor.OnActivated += OnAction;
         }
 
         public bool Seed(PlantConfig plantConfig)
@@ -110,5 +120,7 @@ namespace Tavern.Gardening
         private void OnHarvestProgressChanged(float progress) => _progress = progress;
 
         private void OnDryingTimerChanged(float progress) => _dryingTimerProgress = progress;
+
+        private void OnAction() => OnActivated?.Invoke();
     }
 }

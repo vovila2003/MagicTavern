@@ -41,6 +41,7 @@ namespace Tavern.UI.Presenters
             ChangeCount(_count);
             _view.SetPriceActive(true);
             _view.SetPrice($"{_price}");
+            _view.SetActive(true);
             _view.OnLeftClicked += OnLeftClicked;
             _view.OnRightClicked += OnRightClicked;
         }

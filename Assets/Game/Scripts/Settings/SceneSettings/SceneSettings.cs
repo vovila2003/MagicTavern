@@ -1,5 +1,6 @@
 using System;
 using Tavern.Cooking;
+using Tavern.Gardening;
 using Tavern.Shopping;
 using UnityEngine;
 
@@ -25,6 +26,9 @@ namespace Tavern.Settings
         
         [field: SerializeField]
         public Transform PotsParent { get; private set; }
+        
+        [field: SerializeField]
+        public PotPoint[] PotPoints { get; private set; }
         
         [field: SerializeField] 
         public UISceneSettings UISceneSettings { get; private set; }

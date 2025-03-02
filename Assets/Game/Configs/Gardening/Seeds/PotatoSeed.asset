@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c2e82dcd51427fa290f8256f0a90db, type: 3}
   m_Name: PotatoSeed
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: PotatoSeed
   <Flags>k__BackingField: 17
   Components:
   - rid: 588217054552654124
   - rid: 588217054552654125
   - rid: 588217054552654126
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u0421\u0435\u043C\u0435\u043D\u0430 \u043A\u0430\u0440\u0442\u043E\u0444\u0435\u043B\u044F"
     Description: 
-    Icon: {fileID: 0}
+    Icon: {fileID: -1456302726, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:

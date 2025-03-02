@@ -77,3 +77,7 @@ MonoBehaviour:
       <CharacterInfoView>k__BackingField: {fileID: 1153836047481700923, guid: e5764c9192fb421578297b909105c06e, type: 3}
       <FilterView>k__BackingField: {fileID: 7972640799965641659, guid: c04fb1b68b350a108853eb8acf9f8eef, type: 3}
       <DealInfoView>k__BackingField: {fileID: 6305037085466651705, guid: 3fb79705598e4fc979f763da912f0f9a, type: 3}
+    <Gardening>k__BackingField:
+      <SeedItemView>k__BackingField: {fileID: 8107791456512093494, guid: c1a5569941e98d0908962ce8fdb83f69, type: 3}
+      <FertilizerItemView>k__BackingField: {fileID: 2496557097248415107, guid: 0f50f0af7b7c79b72a93f027cfd2a26c, type: 3}
+      <MedicineItemView>k__BackingField: {fileID: 8483198877809740806, guid: 933db6478a1b3e87aa03782863630a3a, type: 3}
