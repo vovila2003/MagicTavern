@@ -1,5 +1,4 @@
 using Modules.GameCycle.Interfaces;
-using Modules.Gardening;
 using Modules.Inventories;
 using Sirenix.OdinInspector;
 using Tavern.Gardening;
@@ -39,16 +38,14 @@ namespace Tavern.Components
         }
 
         [Button]
-        public void Seed(Pot pot, PlantConfig plant)
+        public void Seed(Pot pot, SeedItemConfig seedConfig)
         {
-            const int count = 1;
-            
-            if (!CanSeed(pot, plant, count)) return;
+            if (!CanSeed(pot, seedConfig)) return;
 
-            bool result = pot.Seed(plant);
+            bool result = pot.Seed(seedConfig);
             if (!result) return;
             
-            _seedsStorage.RemoveItems(SeedNameProvider.GetName(plant.Name), count);
+            _seedsStorage.RemoveItem(seedConfig.Name);
         }
 
         [Button]
@@ -104,7 +101,7 @@ namespace Tavern.Components
 
         void IInitGameListener.OnInit() => _isEnable = false;
 
-        private bool CanSeed(Pot pot, PlantConfig plant, int count)
+        private bool CanSeed(Pot pot, SeedItemConfig seedConfig)
         {
             if (!_isEnable) return false;
 
@@ -114,16 +111,16 @@ namespace Tavern.Components
                 return false;
             }
 
-            if (plant is null)
+            if (seedConfig is null)
             {
-                Debug.LogWarning("Plant is null");
+                Debug.LogWarning("Seed is null");
                 return false;
             }
 
-            int seedCountAvailable = _seedsStorage.GetItemCount(SeedNameProvider.GetName(plant.Name));
-            if (seedCountAvailable >= count) return true;
+            int seedCountAvailable = _seedsStorage.GetItemCount(seedConfig.Name);
+            if (seedCountAvailable >= 1) return true;
             
-            Debug.Log($"Not enough seeds of type {plant.Name} in storage!");
+            Debug.Log($"Not enough seeds of type {seedConfig.Name} in storage!");
             return false;
         }
 

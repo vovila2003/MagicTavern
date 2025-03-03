@@ -17,6 +17,7 @@ namespace Modules.Gardening
         PlantConfig PlantConfig { get; }
         bool IsSick { get; }
         int SickProbability { get; }
+        bool WaterRequired { get; }
 
         void StartGrow();
         void StopGrow();

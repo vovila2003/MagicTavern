@@ -19,6 +19,7 @@ namespace Tavern.Gardening
 
         private ISeedbed _seedbed;
         private PlantMetadata _metadata;
+        public Sprite CurrentSprite { get; private set; }
 
         private void Awake()
         {
@@ -52,7 +53,8 @@ namespace Tavern.Gardening
             if (state != HarvestState.Dried) return;
             
             var age = (int) _seedbed.Harvest.Age;
-            HarvestSpriteRenderer.sprite = _metadata.Drying[age];
+            CurrentSprite = _metadata.Drying[age];
+            HarvestSpriteRenderer.sprite = CurrentSprite;
             WaterIndicator.SetActive(false);
         }
 
@@ -61,10 +63,12 @@ namespace Tavern.Gardening
             Debug.Log($"Harvest age changed to {harvestAge}");
 
             _metadata ??= _seedbed.Harvest.PlantConfig.PlantMetadata;
-            
-            HarvestSpriteRenderer.sprite = _seedbed.Harvest.IsSick 
+
+            CurrentSprite = _seedbed.Harvest.IsSick 
                 ? _metadata.Sick[(int) harvestAge]                
                 : _metadata.Healthy[(int) harvestAge];
+            
+            HarvestSpriteRenderer.sprite = CurrentSprite;
         }
 
         private void OnHarvestWateringRequired(bool isRequired)
@@ -79,13 +83,15 @@ namespace Tavern.Gardening
             Debug.Log($"Sickness changed to {isSick}");
             
             var age = (int) _seedbed.Harvest.Age;
-            HarvestSpriteRenderer.sprite = isSick? _metadata.Drying[age] : _metadata.Healthy[age];
+            CurrentSprite = isSick? _metadata.Drying[age] : _metadata.Healthy[age];
+            HarvestSpriteRenderer.sprite = CurrentSprite;
         }
 
         private void OnGathered()
         {
             _metadata = null;
             HarvestSpriteRenderer.sprite = null;
+            CurrentSprite = null;
             WaterIndicator.SetActive(false);
             ReadyIndicator.SetActive(false);
         }

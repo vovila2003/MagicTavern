@@ -9,5 +9,6 @@ namespace Tavern.UI.Presenters
         IContainerView CreateFertilizerItemsView(Transform viewContainer);
         IContainerView CreateMedicineItemsView(Transform viewContainer);
         Button CreateMakeSeedsButton(Transform viewContainer);
+        IPotInfoView CreatePotInfoView(Transform viewContainer);
     }
 }

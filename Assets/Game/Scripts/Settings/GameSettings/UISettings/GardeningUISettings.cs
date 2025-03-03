@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using Tavern.UI.Views;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,5 +23,8 @@ namespace Tavern.Settings
 
         [field: SerializeField]
         public PotInfoView PotInfoView { get; private set; }
+        
+        [field: SerializeField, PreviewField]
+        public Sprite EmptyPotSprite { get; private set; }
     }
 }

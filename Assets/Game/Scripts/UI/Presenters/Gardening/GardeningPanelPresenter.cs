@@ -11,12 +11,13 @@ namespace Tavern.UI.Presenters
         
         private readonly IPanelView _view;
         private readonly Button _makeSeedsButton;
+        private readonly GardeningPresentersFactory _gardeningPresentersFactory;
         private Pot _pot;
         private Action _onExit;
-        private readonly SeedItemsPresenter _seedItemsPresenter;
-        private readonly FertilizerItemsPresenter _fertilizerItemsPresenter;
-        private readonly MedicineItemsPresenter _medicineItemsPresenter;
-        private readonly Button _createSeedsButton;
+        private SeedItemsPresenter _seedItemsPresenter;
+        private FertilizerItemsPresenter _fertilizerItemsPresenter;
+        private MedicineItemsPresenter _medicineItemsPresenter;
+        private PotInfoPresenter _potInfoPresenter;
 
         public GardeningPanelPresenter(
             IPanelView view,
@@ -26,9 +27,7 @@ namespace Tavern.UI.Presenters
         {
             _view = view;
             _makeSeedsButton = makeSeedsButton;
-            _seedItemsPresenter = gardeningPresentersFactory.CreateSeedItemsPresenter(_view.Container);
-            _fertilizerItemsPresenter = gardeningPresentersFactory.CreateFertilizerItemsPresenter(_view.Container);
-            _medicineItemsPresenter = gardeningPresentersFactory.CreateMedicineItemsPresenter(_view.Container);
+            _gardeningPresentersFactory = gardeningPresentersFactory;
         }
 
         public void Show(Pot pot, Action onExit)
@@ -44,14 +43,20 @@ namespace Tavern.UI.Presenters
             SetupSeeds();
             SetupFertilizer();
             SetupMedicine();
+            SetupPotInfo();
         }
 
         protected override void OnHide()
         {
-            _onExit?.Invoke();
-            
             _view.OnCloseClicked -= Hide;
             _makeSeedsButton.onClick.AddListener(OnMakeSeedsClicked);
+            
+            _seedItemsPresenter.Hide();
+            _fertilizerItemsPresenter.Hide();
+            _medicineItemsPresenter.Hide();
+            _potInfoPresenter.Hide();
+            
+            _onExit?.Invoke();
         }
 
         private void SetupView()
@@ -63,22 +68,32 @@ namespace Tavern.UI.Presenters
 
         private void SetupSeeds()
         {
+            _seedItemsPresenter ??= _gardeningPresentersFactory.CreateSeedItemsPresenter(_view.Container);
             _seedItemsPresenter.Show();
         }
 
         private void SetupFertilizer()
         {
+            _fertilizerItemsPresenter ??= _gardeningPresentersFactory.CreateFertilizerItemsPresenter(_view.Container);
             _fertilizerItemsPresenter.Show();
         }
 
         private void SetupMedicine()
         {
+            _medicineItemsPresenter ??= _gardeningPresentersFactory.CreateMedicineItemsPresenter(_view.Container);
             _medicineItemsPresenter.Show();
+        }
+
+        private void SetupPotInfo()
+        {
+            _potInfoPresenter ??= _gardeningPresentersFactory.CreatePotInfoPresenter(_view.Container);
+            _potInfoPresenter.Show(_pot);
         }
 
         private void OnMakeSeedsClicked()
         {
             Debug.Log("MakeSeeds clicked");
         }
+        
     }
 }

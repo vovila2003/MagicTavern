@@ -15,12 +15,15 @@ namespace Tavern.Gardening
         [SerializeField] 
         private Interactor Interactor;
 
+        [SerializeField] 
+        private HarvestView View;
+
         private bool _isEnable;
 
         public ISeedbed Seedbed { get; } = new Seedbed();
         
         [ShowInInspector, ReadOnly] 
-        private float _progress;
+        public float Progress { get; private set; }
 
         [ShowInInspector, ReadOnly] 
         private float _dryingTimerProgress;
@@ -33,6 +36,11 @@ namespace Tavern.Gardening
         
         public bool IsSeeded {get; private set;}
         public bool IsFertilized => Seedbed.IsFertilized;
+
+        public Sprite CurrentSprite => View.CurrentSprite;
+        public SeedItemConfig CurrentSeedConfig { get; private set; }
+
+        public bool WaterRequired => Seedbed.Harvest.WaterRequired;
 
         private void Awake()
         {
@@ -56,12 +64,28 @@ namespace Tavern.Gardening
             Interactor.OnActivated += OnAction;
         }
 
-        public bool Seed(PlantConfig plantConfig)
+        public bool Seed(SeedItemConfig seedConfig)
         {
-            if (!_isEnable || plantConfig is null) return false;
+            if (!_isEnable || seedConfig is null) return false;
+
+            if (!seedConfig.TryGet(out ComponentPlant componentPlant))
+            {
+                return false;
+            }
+
+            PlantConfig plantConfig = componentPlant.Config;
+            if (plantConfig is null)
+            {
+                Debug.Log($"PlantConfig in {seedConfig.Name} is null");
+                return false;
+            }
 
             IsSeeded = Seedbed.Seed(plantConfig);
             Debug.Log($"Seedbed seeded: {IsSeeded}");
+            if (IsSeeded)
+            {
+                CurrentSeedConfig = seedConfig;
+            }
 
             return IsSeeded;
         }
@@ -84,6 +108,8 @@ namespace Tavern.Gardening
             {
                 OnSlopsReceived?.Invoke(harvestResult.Value);
             }
+
+            CurrentSeedConfig = null;
         }
 
         public void Watering()
@@ -117,7 +143,7 @@ namespace Tavern.Gardening
 
         public void OnFinish() => Seedbed.Stop();
 
-        private void OnHarvestProgressChanged(float progress) => _progress = progress;
+        private void OnHarvestProgressChanged(float progress) => Progress = progress;
 
         private void OnDryingTimerChanged(float progress) => _dryingTimerProgress = progress;
 

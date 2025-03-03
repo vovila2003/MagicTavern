@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Tavern.UI.Presenters
 {
-    public interface IPotInfoView
+    public interface IPotInfoView : IView
     {
         event UnityAction OnWateringClicked;
         event UnityAction OnGatherClicked;

@@ -1,6 +1,5 @@
 using System;
 using Modules.Timers;
-using UnityEngine;
 
 namespace Modules.Gardening
 {
@@ -30,6 +29,7 @@ namespace Modules.Gardening
         public PlantConfig PlantConfig { get; }
         public bool IsSick { get; private set; }
         public int SickProbability => _harvestSickness.Probability;
+        public bool WaterRequired => _waterRequired;
 
         public Harvest(PlantConfig plantConfig)
         {

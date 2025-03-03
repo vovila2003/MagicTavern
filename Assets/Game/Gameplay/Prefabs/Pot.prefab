@@ -417,6 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Interactor: {fileID: 4856287276357328038}
+  View: {fileID: 2686902209794952240}
 --- !u!1 &5525272158691319470
 GameObject:
   m_ObjectHideFlags: 0

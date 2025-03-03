@@ -3,6 +3,7 @@ using Modules.Inventories;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
+using Tavern.Settings;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -16,6 +17,7 @@ namespace Tavern.UI.Presenters
         private readonly IInventory<SeedItem> _seedInventory;
         private readonly FertilizerInventoryContext _fertilizerInventoryContext;
         private readonly MedicineInventoryContext _medicineInventoryContext;
+        private readonly GameSettings _gameSettings;
 
         public GardeningPresentersFactory(
             ICommonViewsFactory commonViewsFactory,
@@ -23,7 +25,8 @@ namespace Tavern.UI.Presenters
             IGardeningViewsFactory gardeningViewsFactory,
             IInventory<SeedItem> seedInventory,
             FertilizerInventoryContext fertilizerInventoryContext,
-            MedicineInventoryContext medicineInventoryContext
+            MedicineInventoryContext medicineInventoryContext,
+            GameSettings gameSettings
             )
         {
             _commonViewsFactory = commonViewsFactory;
@@ -32,6 +35,7 @@ namespace Tavern.UI.Presenters
             _seedInventory = seedInventory;
             _fertilizerInventoryContext = fertilizerInventoryContext;
             _medicineInventoryContext = medicineInventoryContext;
+            _gameSettings = gameSettings;
         }
 
         public GardeningPanelPresenter CreateGardeningPanelPresenter()
@@ -57,5 +61,10 @@ namespace Tavern.UI.Presenters
             new(_gardeningViewsFactory.CreateMedicineItemsView(viewContainer),
                 _commonPresentersFactory,
                 _medicineInventoryContext);
+
+        public PotInfoPresenter CreatePotInfoPresenter(Transform viewContainer) =>
+            new(_gardeningViewsFactory.CreatePotInfoView(viewContainer),
+                _gameSettings.UISettings.Gardening);
+
     }
 }
