@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Modules.Inventories;
+using Tavern.Components;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
@@ -18,6 +19,7 @@ namespace Tavern.UI.Presenters
         private readonly FertilizerInventoryContext _fertilizerInventoryContext;
         private readonly MedicineInventoryContext _medicineInventoryContext;
         private readonly GameSettings _gameSettings;
+        private readonly SeederComponent _seeder;
 
         public GardeningPresentersFactory(
             ICommonViewsFactory commonViewsFactory,
@@ -26,7 +28,8 @@ namespace Tavern.UI.Presenters
             IInventory<SeedItem> seedInventory,
             FertilizerInventoryContext fertilizerInventoryContext,
             MedicineInventoryContext medicineInventoryContext,
-            GameSettings gameSettings
+            GameSettings gameSettings,
+            SeederComponent seeder
             )
         {
             _commonViewsFactory = commonViewsFactory;
@@ -36,6 +39,7 @@ namespace Tavern.UI.Presenters
             _fertilizerInventoryContext = fertilizerInventoryContext;
             _medicineInventoryContext = medicineInventoryContext;
             _gameSettings = gameSettings;
+            _seeder = seeder;
         }
 
         public GardeningPanelPresenter CreateGardeningPanelPresenter()
@@ -50,17 +54,20 @@ namespace Tavern.UI.Presenters
         public SeedItemsPresenter CreateSeedItemsPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreateSeedItemsView(viewContainer),
                 _commonPresentersFactory,
-                _seedInventory);
+                _seedInventory,
+                _seeder);
         
         public FertilizerItemsPresenter CreateFertilizerItemsPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreateFertilizerItemsView(viewContainer),
                 _commonPresentersFactory,
-                _fertilizerInventoryContext);
+                _fertilizerInventoryContext,
+                _seeder);
         
         public MedicineItemsPresenter CreateMedicineItemsPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreateMedicineItemsView(viewContainer),
                 _commonPresentersFactory,
-                _medicineInventoryContext);
+                _medicineInventoryContext,
+                _seeder);
 
         public PotInfoPresenter CreatePotInfoPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreatePotInfoView(viewContainer),

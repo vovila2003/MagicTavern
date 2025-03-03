@@ -73,5 +73,15 @@ namespace Tavern.UI.Views
         {
             IsWaterNeed.SetActive(isWaterNeed);
         }
+
+        public void SetWateringActive(bool active)
+        {
+            Watering.gameObject.SetActive(active);
+        }
+        
+        public void SetGatherActive(bool active)
+        {
+            Gather.gameObject.SetActive(active);
+        }
     }
 }

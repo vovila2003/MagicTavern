@@ -1,5 +1,7 @@
+using Modules.Gardening;
 using Tavern.Gardening;
 using Tavern.Settings;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -29,15 +31,20 @@ namespace Tavern.UI.Presenters
             if (_pot.IsSeeded)
             {
                 SetupSeededPot();
-                return;
+            }
+            else
+            {
+                SetupEmptyPot();
             }
 
-            SetupEmptyPot();
+            _view.OnGatherClicked += OnGatherClicked;
+            _view.OnWateringClicked += OnWaterClicked;
         }
 
         protected override void OnHide()
         {
-            
+            _view.OnGatherClicked -= OnGatherClicked;
+            _view.OnWateringClicked -= OnWaterClicked;
         }
 
         private void SetupSeededPot()
@@ -46,8 +53,22 @@ namespace Tavern.UI.Presenters
             _view.SetIcon(_pot.CurrentSprite);
             _view.SetProgress(_pot.Progress);
             _view.SetIsFertilized(_pot.IsFertilized);
-            _view.SetIsSick(_pot.IsSick);
-            _view.SetIsWaterNeed(_pot.WaterRequired);
+            bool isReady = _pot.Seedbed.Harvest.State != HarvestState.Growing;
+            if (isReady)
+            {
+                _view.SetIsSick(false);
+                _view.SetIsWaterNeed(false);
+                _view.SetWateringActive(false);
+            }
+            else
+            {
+                _view.SetIsSick(_pot.IsSick);
+                bool waterRequired = _pot.WaterRequired;
+                _view.SetIsWaterNeed(waterRequired);
+                _view.SetWateringActive(waterRequired);
+            }
+            
+            _view.SetGatherActive(isReady);
         }
 
         private void SetupEmptyPot()
@@ -58,6 +79,23 @@ namespace Tavern.UI.Presenters
             _view.SetIsFertilized(false);
             _view.SetIsSick(false);
             _view.SetIsWaterNeed(false);
+            _view.SetWateringActive(false);
+            _view.SetGatherActive(false);
+        }
+
+        private void OnGatherClicked()
+        {
+            Debug.Log("Gather");
+            _pot.Gather();
+            SetupEmptyPot();
+        }
+
+        private void OnWaterClicked()
+        {
+            Debug.Log("Watering");
+            _pot.Watering();
+            _view.SetIsWaterNeed(false);
+            _view.SetWateringActive(false);
         }
     }
 }

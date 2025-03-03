@@ -25,7 +25,7 @@ namespace Tavern.Infrastructure
             }
             else
             {
-                builder.RegisterComponent(seeder).AsImplementedInterfaces();
+                builder.RegisterComponent(seeder).AsSelf();
             }
             
             builder.RegisterComponent(_character).AsImplementedInterfaces();

@@ -1,4 +1,3 @@
-using Modules.GameCycle.Interfaces;
 using Modules.Inventories;
 using Sirenix.OdinInspector;
 using Tavern.Gardening;
@@ -11,18 +10,12 @@ using VContainer;
 namespace Tavern.Components
 {
     public class SeederComponent :
-        MonoBehaviour,
-        IInitGameListener,
-        IStartGameListener,
-        IFinishGameListener,
-        IPauseGameListener,
-        IResumeGameListener
+        MonoBehaviour
     {
         private IInventory<SeedItem> _seedsStorage;
         private IWaterStorage _waterStorage;
         private MedicineInventoryContext _medicineInventoryContext;
         private FertilizerInventoryContext _fertilizerInventoryContext;
-        private bool _isEnable;
 
         [Inject]
         private void Construct(
@@ -80,8 +73,6 @@ namespace Tavern.Components
         [Button]
         public void Gather(Pot pot)
         {
-            if (!_isEnable) return;
-            
             if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
@@ -91,20 +82,8 @@ namespace Tavern.Components
             pot.Gather();
         }
 
-        void IStartGameListener.OnStart() => _isEnable = true;
-
-        void IFinishGameListener.OnFinish() => _isEnable = false;
-
-        void IPauseGameListener.OnPause() => _isEnable = false;
-
-        void IResumeGameListener.OnResume() => _isEnable = true;
-
-        void IInitGameListener.OnInit() => _isEnable = false;
-
         private bool CanSeed(Pot pot, SeedItemConfig seedConfig)
         {
-            if (!_isEnable) return false;
-
             if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
@@ -126,8 +105,6 @@ namespace Tavern.Components
 
         private bool CanFertilize(Pot pot, FertilizerConfig fertilizer)
         {
-            if (!_isEnable) return false;
-            
             if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
@@ -144,8 +121,6 @@ namespace Tavern.Components
 
         private bool CanWatering(Pot pot, int count)
         {
-            if (!_isEnable) return false;
-
             if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
@@ -160,8 +135,6 @@ namespace Tavern.Components
 
         private bool CanHeal(Pot pot, MedicineConfig medicine)
         {
-            if (!_isEnable) return false;
-            
             if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");

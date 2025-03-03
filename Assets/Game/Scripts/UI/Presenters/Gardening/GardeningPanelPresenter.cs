@@ -52,8 +52,14 @@ namespace Tavern.UI.Presenters
             _makeSeedsButton.onClick.AddListener(OnMakeSeedsClicked);
             
             _seedItemsPresenter.Hide();
+            _seedItemsPresenter.OnSeeded -= UpdateInfo;
+            
             _fertilizerItemsPresenter.Hide();
+            _fertilizerItemsPresenter.OnFertilized -= UpdateInfo;
+            
             _medicineItemsPresenter.Hide();
+            _medicineItemsPresenter.OnHeal -= UpdateInfo;
+            
             _potInfoPresenter.Hide();
             
             _onExit?.Invoke();
@@ -69,19 +75,22 @@ namespace Tavern.UI.Presenters
         private void SetupSeeds()
         {
             _seedItemsPresenter ??= _gardeningPresentersFactory.CreateSeedItemsPresenter(_view.Container);
-            _seedItemsPresenter.Show();
+            _seedItemsPresenter.OnSeeded += UpdateInfo;
+            _seedItemsPresenter.Show(_pot);
         }
 
         private void SetupFertilizer()
         {
             _fertilizerItemsPresenter ??= _gardeningPresentersFactory.CreateFertilizerItemsPresenter(_view.Container);
-            _fertilizerItemsPresenter.Show();
+            _fertilizerItemsPresenter.OnFertilized += UpdateInfo;
+            _fertilizerItemsPresenter.Show(_pot);
         }
 
         private void SetupMedicine()
         {
             _medicineItemsPresenter ??= _gardeningPresentersFactory.CreateMedicineItemsPresenter(_view.Container);
-            _medicineItemsPresenter.Show();
+            _medicineItemsPresenter.OnHeal += UpdateInfo;
+            _medicineItemsPresenter.Show(_pot);
         }
 
         private void SetupPotInfo()
@@ -94,6 +103,11 @@ namespace Tavern.UI.Presenters
         {
             Debug.Log("MakeSeeds clicked");
         }
-        
+
+        private void UpdateInfo()
+        {
+            _potInfoPresenter.Hide();
+            _potInfoPresenter.Show(_pot);
+        }
     }
 }

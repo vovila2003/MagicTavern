@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Utils;
-using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -10,7 +9,7 @@ namespace Tavern.UI.Presenters
     {
         private readonly IContainerView _view;
         private readonly CommonPresentersFactory _commonPresentersFactory;
-        private readonly IInventory<T> _inventory;
+        protected readonly IInventory<T> Inventory;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
 
         protected ItemsPresenter(
@@ -20,7 +19,7 @@ namespace Tavern.UI.Presenters
         {
             _view = view;
             _commonPresentersFactory = commonPresentersFactory;
-            _inventory = inventory;
+            Inventory = inventory;
         }
 
         public void SetActive(bool active)
@@ -35,23 +34,23 @@ namespace Tavern.UI.Presenters
         {
             SetupCards();
             
-            _inventory.OnItemAdded += Changed;
-            _inventory.OnItemRemoved += Changed;
-            _inventory.OnItemCountChanged += CountChanged;
+            Inventory.OnItemAdded += Changed;
+            Inventory.OnItemRemoved += Changed;
+            Inventory.OnItemCountChanged += CountChanged;
         }
 
         protected override void OnHide()
         {
             ClearItems();
             
-            _inventory.OnItemAdded -= Changed;
-            _inventory.OnItemRemoved -= Changed;
-            _inventory.OnItemCountChanged -= CountChanged;
+            Inventory.OnItemAdded -= Changed;
+            Inventory.OnItemRemoved -= Changed;
+            Inventory.OnItemCountChanged -= CountChanged;
         }
 
         private void SetupCards()
         {
-            foreach (T item in _inventory.Items)
+            foreach (T item in Inventory.Items)
             {
                 AddPresenter(item, item.GetCount());
             }
@@ -74,15 +73,8 @@ namespace Tavern.UI.Presenters
             presenter.Show(item, itemCount);
         }
 
-        private void OnLeftClick(Item item)
-        {
-            Debug.Log($"Left click to {item.ItemName}");
-        }
-
-        private void OnRightClick(Item item)
-        {
-            Debug.Log($"Right click to {item.ItemName}");
-        }
+        protected abstract void OnLeftClick(Item item);
+        protected abstract void OnRightClick(Item item);
 
         private void ClearItems()
         {
