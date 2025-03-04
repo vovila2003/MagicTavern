@@ -47,6 +47,9 @@ namespace Tavern.UI.Views
         [SerializeField] 
         private Slider SickProbability;
 
+        [SerializeField] 
+        private GameObject Info;
+
         public void SetTitle(string title)
         {
             Title.text = title;
@@ -90,6 +93,11 @@ namespace Tavern.UI.Views
         public void SetSickProbability(float value)
         {
             SickProbability.value = value;
+        }
+
+        public void SetInfoActive(bool active)
+        {
+            Info.SetActive(active);
         }
     }
 }

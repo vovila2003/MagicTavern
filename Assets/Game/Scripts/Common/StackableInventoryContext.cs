@@ -69,7 +69,7 @@ namespace Tavern.Common
         }
 
         [Button]
-        public void AddItemByName(string itemName)
+        public void AddItemByName(string itemName, int value = 1)
         {
             if (!ItemsCatalog.TryGetItem(itemName, out ItemConfig itemConfig))
             {
@@ -77,7 +77,7 @@ namespace Tavern.Common
                 return;
             }
             
-            Inventory.AddItem(itemConfig.Create() as T);
+            Inventory.AddItems(itemConfig.Create() as T, value);
         }
 
         [Button]

@@ -61,6 +61,8 @@ namespace Tavern.UI.Presenters
             _medicineItemsPresenter.OnHeal -= OnHeal;
             
             _potInfoPresenter.Hide();
+            _potInfoPresenter.OnGather -= OnGather;
+            _potInfoPresenter.OnWatering -= OnWatering;
             
             _onExit?.Invoke();
         }
@@ -97,6 +99,7 @@ namespace Tavern.UI.Presenters
         {
             _potInfoPresenter ??= _gardeningPresentersFactory.CreatePotInfoPresenter(_view.Container);
             _potInfoPresenter.OnGather += OnGather;
+            _potInfoPresenter.OnWatering += OnWatering;
             _potInfoPresenter.Show(_pot);
         }
 
@@ -135,6 +138,11 @@ namespace Tavern.UI.Presenters
             _seedItemsPresenter.SetActive(true);
             _fertilizerItemsPresenter.SetActive(false);
             _medicineItemsPresenter.SetActive(false);
+        }
+
+        private void OnWatering()
+        {
+            UpdateInfo();
         }
 
         private void UpdateInfo()

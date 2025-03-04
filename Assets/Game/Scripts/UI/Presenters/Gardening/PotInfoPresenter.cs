@@ -9,6 +9,7 @@ namespace Tavern.UI.Presenters
     public class PotInfoPresenter : BasePresenter
     {
         public event Action OnGather;
+        public event Action OnWatering;
         
         private readonly IPotInfoView _view;
         private readonly GardeningUISettings _settings;
@@ -57,6 +58,7 @@ namespace Tavern.UI.Presenters
         {
             _view.SetTitle(_pot.CurrentSeedConfig.Metadata.Title);
             _view.SetIcon(_pot.CurrentSprite);
+            _view.SetInfoActive(true);
             _view.SetProgress(_pot.Progress);
             _view.SetIsFertilized(_pot.IsFertilized);
             _view.SetSickProbability(_pot.Seedbed.Harvest.SickProbability);
@@ -82,13 +84,12 @@ namespace Tavern.UI.Presenters
         {
             _view.SetTitle(string.Empty);
             _view.SetIcon(_settings.EmptyPotSprite);
-            _view.SetProgress(0);
+            _view.SetInfoActive(false);
             _view.SetIsFertilized(false);
             _view.SetIsSick(false);
             _view.SetIsWaterNeed(false);
             _view.SetWateringActive(false);
             _view.SetGatherActive(false);
-            _view.SetSickProbability(0);
         }
 
         private void OnGatherClicked()
@@ -104,8 +105,7 @@ namespace Tavern.UI.Presenters
             bool result = _seeder.Watering(_pot);
             if (!result) return;
             
-            _view.SetIsWaterNeed(false);
-            _view.SetWateringActive(false);
+            OnWatering?.Invoke();
         }
     }
 }

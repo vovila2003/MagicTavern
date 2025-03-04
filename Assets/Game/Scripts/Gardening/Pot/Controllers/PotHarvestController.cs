@@ -43,10 +43,7 @@ namespace Tavern.Gardening
 
         private void AddHarvestToProductStorage(PlantConfig config, int value)
         {
-            for (var i = 0; i < value; i++)
-            {
-                _plantProductsStorage.AddItemByName(PlantProductNameProvider.GetName(config.Name));
-            }
+            _plantProductsStorage.AddItemByName(PlantProductNameProvider.GetName(config.Name), value);
         }
 
         private void OnSlopsReceived(int value)
