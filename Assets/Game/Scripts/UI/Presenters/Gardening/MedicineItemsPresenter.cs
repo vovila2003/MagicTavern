@@ -3,24 +3,30 @@ using Modules.Items;
 using Tavern.Components;
 using Tavern.Gardening;
 using Tavern.Gardening.Medicine;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
     public class MedicineItemsPresenter : ItemsPresenter<MedicineItem>
     {
-        public event Action OnHeal;
+        private const string Heal = "Вылечить";
         
-        private readonly SeederComponent _seeder;
+        public event Action<bool> OnHeal;
+        
+        private readonly Seeder _seeder;
         private Pot _pot;
 
         public MedicineItemsPresenter(
             IContainerView view, 
             CommonPresentersFactory commonPresentersFactory, 
             MedicineInventoryContext medicineInventoryContext,
-            SeederComponent seeder
-            ) : base(view, commonPresentersFactory, medicineInventoryContext.Inventory)
+            Seeder seeder,
+            Func<Transform, InfoPresenter> infoPresenterFactory,
+            Transform canvas
+            ) : base(view, commonPresentersFactory, medicineInventoryContext.Inventory, infoPresenterFactory, canvas)
         {
             _seeder = seeder;
+            ActionName = Heal;
         }
 
         public void Show(Pot pot)
@@ -29,17 +35,16 @@ namespace Tavern.UI.Presenters
             Show();
         }
 
-        protected override void OnLeftClick(Item item)
+        protected override void OnShow()
         {
-            _seeder.Heal(_pot, item.Config as MedicineConfig);
-            OnHeal?.Invoke();
+            base.OnShow();
+            SetActive(_pot.IsSeeded);
         }
-        
+
         protected override void OnRightClick(Item item)
         {
-            _seeder.Heal(_pot, item.Config as MedicineConfig);
-            OnHeal?.Invoke();
-
+            bool result = _seeder.Heal(_pot, item.Config as MedicineConfig);
+            OnHeal?.Invoke(result);
         }
     }
 }

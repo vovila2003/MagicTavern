@@ -1,5 +1,4 @@
 using Modules.Inventories;
-using Sirenix.OdinInspector;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
@@ -9,8 +8,7 @@ using VContainer;
 
 namespace Tavern.Components
 {
-    public class SeederComponent :
-        MonoBehaviour
+    public class Seeder
     {
         private IInventory<SeedItem> _seedsStorage;
         private IWaterStorage _waterStorage;
@@ -30,56 +28,61 @@ namespace Tavern.Components
             _fertilizerInventoryContext = fertilizerConsumer;
         }
 
-        [Button]
-        public void Seed(Pot pot, SeedItemConfig seedConfig)
+        public bool Seed(Pot pot, SeedItemConfig seedConfig)
         {
-            if (!CanSeed(pot, seedConfig)) return;
+            if (!CanSeed(pot, seedConfig)) return false;
 
             bool result = pot.Seed(seedConfig);
-            if (!result) return;
+            if (!result) return false;
             
             _seedsStorage.RemoveItem(seedConfig.Name);
+            
+            return true;
         }
 
-        [Button]
-        public void Fertilize(Pot pot, FertilizerConfig fertilizer)
+        public bool Fertilize(Pot pot, FertilizerConfig fertilizer)
         {
-            if (!CanFertilize(pot, fertilizer)) return;
+            if (!CanFertilize(pot, fertilizer)) return false;
 
-            if (pot.IsFertilized) return;
+            if (pot.IsFertilized) return false;
 
             _fertilizerInventoryContext.Consume(fertilizer, pot);
+
+            return true;
         }
 
-        [Button]
-        public void Watering(Pot pot)
+        public bool Watering(Pot pot)
         {
             const int count = 1;
             
-            if (!CanWatering(pot, count)) return;
+            if (!CanWatering(pot, count)) return false;
 
             pot.Watering();
             _waterStorage.SpendWater(count);
+
+            return true;
         }
 
-        [Button]
-        public void Heal(Pot pot, MedicineConfig medicine)
+        public bool Heal(Pot pot, MedicineConfig medicine)
         {
-            if (!CanHeal(pot, medicine)) return;
+            if (!CanHeal(pot, medicine)) return false;
 
             _medicineInventoryContext.Consume(medicine, pot);
+
+            return true;
         }
 
-        [Button]
-        public void Gather(Pot pot)
+        public bool Gather(Pot pot)
         {
             if (pot is null)
             {
                 Debug.LogWarning("Seedbed is null");
-                return;
+                return false;
             }
             
             pot.Gather();
+
+            return true;
         }
 
         private bool CanSeed(Pot pot, SeedItemConfig seedConfig)

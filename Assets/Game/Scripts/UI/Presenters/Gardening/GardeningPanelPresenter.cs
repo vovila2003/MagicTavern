@@ -52,13 +52,13 @@ namespace Tavern.UI.Presenters
             _makeSeedsButton.onClick.AddListener(OnMakeSeedsClicked);
             
             _seedItemsPresenter.Hide();
-            _seedItemsPresenter.OnSeeded -= UpdateInfo;
+            _seedItemsPresenter.OnSeeded -= OnSeeded;
             
             _fertilizerItemsPresenter.Hide();
-            _fertilizerItemsPresenter.OnFertilized -= UpdateInfo;
+            _fertilizerItemsPresenter.OnFertilized -= OnFertilized;
             
             _medicineItemsPresenter.Hide();
-            _medicineItemsPresenter.OnHeal -= UpdateInfo;
+            _medicineItemsPresenter.OnHeal -= OnHeal;
             
             _potInfoPresenter.Hide();
             
@@ -75,33 +75,66 @@ namespace Tavern.UI.Presenters
         private void SetupSeeds()
         {
             _seedItemsPresenter ??= _gardeningPresentersFactory.CreateSeedItemsPresenter(_view.Container);
-            _seedItemsPresenter.OnSeeded += UpdateInfo;
+            _seedItemsPresenter.OnSeeded += OnSeeded;
             _seedItemsPresenter.Show(_pot);
         }
 
         private void SetupFertilizer()
         {
             _fertilizerItemsPresenter ??= _gardeningPresentersFactory.CreateFertilizerItemsPresenter(_view.Container);
-            _fertilizerItemsPresenter.OnFertilized += UpdateInfo;
+            _fertilizerItemsPresenter.OnFertilized += OnFertilized;
             _fertilizerItemsPresenter.Show(_pot);
         }
 
         private void SetupMedicine()
         {
             _medicineItemsPresenter ??= _gardeningPresentersFactory.CreateMedicineItemsPresenter(_view.Container);
-            _medicineItemsPresenter.OnHeal += UpdateInfo;
+            _medicineItemsPresenter.OnHeal += OnHeal;
             _medicineItemsPresenter.Show(_pot);
         }
 
         private void SetupPotInfo()
         {
             _potInfoPresenter ??= _gardeningPresentersFactory.CreatePotInfoPresenter(_view.Container);
+            _potInfoPresenter.OnGather += OnGather;
             _potInfoPresenter.Show(_pot);
         }
 
         private void OnMakeSeedsClicked()
         {
+            //TODO
             Debug.Log("MakeSeeds clicked");
+        }
+
+        private void OnSeeded(bool result)
+        {
+            UpdateInfo();
+            if (!result) return;
+            
+            _seedItemsPresenter.SetActive(false);
+            _fertilizerItemsPresenter.SetActive(true);
+            _medicineItemsPresenter.SetActive(true);
+        }
+
+        private void OnFertilized(bool result)
+        {
+            UpdateInfo();
+            if (!result) return;
+            
+            _fertilizerItemsPresenter.SetActive(false);
+        }
+
+        private void OnHeal(bool result)
+        {
+            OnFertilized(result);
+        }
+
+        private void OnGather()
+        {
+            UpdateInfo();
+            _seedItemsPresenter.SetActive(true);
+            _fertilizerItemsPresenter.SetActive(false);
+            _medicineItemsPresenter.SetActive(false);
         }
 
         private void UpdateInfo()

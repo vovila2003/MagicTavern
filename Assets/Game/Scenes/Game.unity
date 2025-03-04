@@ -2933,13 +2933,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 978ad7d0b0a54748b188d140389beb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Items:
-  - {fileID: 11400000, guid: fd6dbd1002ac8d515bf3a76f8c569bb9, type: 2}
-  - {fileID: 11400000, guid: fd6dbd1002ac8d515bf3a76f8c569bb9, type: 2}
-  - {fileID: 11400000, guid: fd6dbd1002ac8d515bf3a76f8c569bb9, type: 2}
+  Items: []
   ItemsCatalog: {fileID: 11400000, guid: 77ccd583a720ea2b28642d99839217a3, type: 2}
-  DebugMode: 0
-  Count: 0
+  DebugMode: 1
+  Count: 100
 --- !u!1 &1274782546
 GameObject:
   m_ObjectHideFlags: 0

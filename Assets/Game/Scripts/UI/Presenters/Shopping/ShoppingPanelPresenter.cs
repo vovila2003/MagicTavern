@@ -54,7 +54,7 @@ namespace Tavern.UI.Presenters
             
             _categoriesPresenter.Hide();
             _shopItemsPresenter.Hide();
-            _shopCharacterItemsPresenter.Hide();
+            _shopCharacterItemsPresenter?.Hide();
             _vendorInfoPresenter.Hide(); 
             _characterItemsPresenter.Hide(); 
             _characterInfoPresenter.Hide();

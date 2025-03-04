@@ -19,7 +19,8 @@ namespace Tavern.UI.Presenters
         private readonly FertilizerInventoryContext _fertilizerInventoryContext;
         private readonly MedicineInventoryContext _medicineInventoryContext;
         private readonly GameSettings _gameSettings;
-        private readonly SeederComponent _seeder;
+        private readonly SceneSettings _sceneSettings;
+        private readonly Seeder _seeder;
 
         public GardeningPresentersFactory(
             ICommonViewsFactory commonViewsFactory,
@@ -29,7 +30,8 @@ namespace Tavern.UI.Presenters
             FertilizerInventoryContext fertilizerInventoryContext,
             MedicineInventoryContext medicineInventoryContext,
             GameSettings gameSettings,
-            SeederComponent seeder
+            SceneSettings sceneSettings,
+            Seeder seeder
             )
         {
             _commonViewsFactory = commonViewsFactory;
@@ -39,6 +41,7 @@ namespace Tavern.UI.Presenters
             _fertilizerInventoryContext = fertilizerInventoryContext;
             _medicineInventoryContext = medicineInventoryContext;
             _gameSettings = gameSettings;
+            _sceneSettings = sceneSettings;
             _seeder = seeder;
         }
 
@@ -55,23 +58,30 @@ namespace Tavern.UI.Presenters
             new(_gardeningViewsFactory.CreateSeedItemsView(viewContainer),
                 _commonPresentersFactory,
                 _seedInventory,
-                _seeder);
+                _seeder,
+                _commonPresentersFactory.CreateInfoPresenter,
+                _sceneSettings.UISceneSettings.Canvas);
         
         public FertilizerItemsPresenter CreateFertilizerItemsPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreateFertilizerItemsView(viewContainer),
                 _commonPresentersFactory,
                 _fertilizerInventoryContext,
-                _seeder);
+                _seeder,
+                _commonPresentersFactory.CreateInfoPresenter,
+                _sceneSettings.UISceneSettings.Canvas);
         
         public MedicineItemsPresenter CreateMedicineItemsPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreateMedicineItemsView(viewContainer),
                 _commonPresentersFactory,
                 _medicineInventoryContext,
-                _seeder);
+                _seeder,
+                _commonPresentersFactory.CreateInfoPresenter,
+                _sceneSettings.UISceneSettings.Canvas);
 
         public PotInfoPresenter CreatePotInfoPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreatePotInfoView(viewContainer),
-                _gameSettings.UISettings.Gardening);
+                _gameSettings.UISettings.Gardening,
+                _seeder);
 
     }
 }

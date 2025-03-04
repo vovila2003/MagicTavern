@@ -1,26 +1,32 @@
 using System;
-using System.Net.Mime;
 using Modules.Items;
 using Tavern.Components;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
     public class FertilizerItemsPresenter : ItemsPresenter<FertilizerItem>
     {
-        public event Action OnFertilized;
-        private readonly SeederComponent _seeder;
+        private const string Fertilize = "Удобрить";
+        
+        public event Action<bool> OnFertilized;
+        private readonly Seeder _seeder;
+
         private Pot _pot;
 
         public FertilizerItemsPresenter(
             IContainerView view, 
             CommonPresentersFactory commonPresentersFactory, 
             FertilizerInventoryContext fertilizerInventoryContext,
-            SeederComponent seeder
-            ) : base(view, commonPresentersFactory, fertilizerInventoryContext.Inventory)
+            Seeder seeder,
+            Func<Transform, InfoPresenter> infoPresenterFactory,
+            Transform canvas
+            ) : base(view, commonPresentersFactory, fertilizerInventoryContext.Inventory, infoPresenterFactory, canvas)
         {
             _seeder = seeder;
+            ActionName = Fertilize;
         }
 
         public void Show(Pot pot)
@@ -29,16 +35,17 @@ namespace Tavern.UI.Presenters
             Show();
         }
 
-        protected override void OnLeftClick(Item item)
+        protected override void OnShow()
         {
-            _seeder.Fertilize(_pot, item.Config as FertilizerConfig);
-            OnFertilized?.Invoke();
+            base.OnShow();
+            bool active = _pot.IsSeeded && !_pot.IsFertilized;
+            SetActive(active);
         }
-        
+
         protected override void OnRightClick(Item item)
         {
-            _seeder.Fertilize(_pot, item.Config as FertilizerConfig);
-            OnFertilized?.Invoke();
+            bool result = _seeder.Fertilize(_pot, item.Config as FertilizerConfig);
+            OnFertilized?.Invoke(result);
         }
     }
 }

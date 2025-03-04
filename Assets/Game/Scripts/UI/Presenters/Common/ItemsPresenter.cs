@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Utils;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
@@ -9,17 +11,27 @@ namespace Tavern.UI.Presenters
     {
         private readonly IContainerView _view;
         private readonly CommonPresentersFactory _commonPresentersFactory;
-        protected readonly IInventory<T> Inventory;
+        private readonly IInventory<T> _inventory;
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
+        private readonly Func<Transform, InfoPresenter> _infoPresenterFactory;
+        private readonly Transform _canvas;
+        
+        private InfoPresenter _infoPresenter;
+
+        protected string ActionName { get; set; }
 
         protected ItemsPresenter(
             IContainerView view,
             CommonPresentersFactory commonPresentersFactory,
-            IInventory<T> inventory) : base(view)
+            IInventory<T> inventory,
+            Func<Transform, InfoPresenter> infoPresenterFactory,
+            Transform canvas) : base(view)
         {
             _view = view;
             _commonPresentersFactory = commonPresentersFactory;
-            Inventory = inventory;
+            _inventory = inventory;
+            _infoPresenterFactory = infoPresenterFactory;
+            _canvas = canvas;
         }
 
         public void SetActive(bool active)
@@ -34,23 +46,23 @@ namespace Tavern.UI.Presenters
         {
             SetupCards();
             
-            Inventory.OnItemAdded += Changed;
-            Inventory.OnItemRemoved += Changed;
-            Inventory.OnItemCountChanged += CountChanged;
+            _inventory.OnItemAdded += Changed;
+            _inventory.OnItemRemoved += Changed;
+            _inventory.OnItemCountChanged += CountChanged;
         }
 
         protected override void OnHide()
         {
             ClearItems();
             
-            Inventory.OnItemAdded -= Changed;
-            Inventory.OnItemRemoved -= Changed;
-            Inventory.OnItemCountChanged -= CountChanged;
+            _inventory.OnItemAdded -= Changed;
+            _inventory.OnItemRemoved -= Changed;
+            _inventory.OnItemCountChanged -= CountChanged;
         }
 
         private void SetupCards()
         {
-            foreach (T item in Inventory.Items)
+            foreach (T item in _inventory.Items)
             {
                 AddPresenter(item, item.GetCount());
             }
@@ -73,8 +85,31 @@ namespace Tavern.UI.Presenters
             presenter.Show(item, itemCount);
         }
 
-        protected abstract void OnLeftClick(Item item);
+        protected virtual void OnLeftClick(Item item)
+        {
+            _infoPresenter ??= _infoPresenterFactory(_canvas);
+            
+            if (!_infoPresenter.Show(item, ActionName)) return;
+            
+            _infoPresenter.OnAccepted += OnAction;
+            _infoPresenter.OnRejected += OnCancelled;
+        }
+
         protected abstract void OnRightClick(Item item);
+        
+        private void OnAction(Item item)
+        {
+            UnsubscribeInfo();
+            OnRightClick(item);
+        }
+
+        private void OnCancelled() => UnsubscribeInfo();
+
+        private void UnsubscribeInfo()
+        {
+            _infoPresenter.OnAccepted -= OnAction;
+            _infoPresenter.OnRejected -= OnCancelled;
+        }
 
         private void ClearItems()
         {

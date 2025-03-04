@@ -1,3 +1,4 @@
+using System.Text;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Gardening.Medicine;
@@ -36,6 +37,30 @@ namespace Tavern.Gardening.Fertilizer
             {
                 Components?.Add(new ComponentGrowthAcceleration());    
             }
+        }
+        
+        public override string Description => GetDescription();
+
+        private string GetDescription()
+        {
+            var builder = new StringBuilder();
+            builder.AppendLine(base.Description);
+            if (TryGet(out ComponentHarvestBooster booster))
+            {
+                builder.AppendLine($"Увеличение урожайности: {booster.Boost}%;");
+            }
+            
+            if (TryGet(out ComponentHarvestSicknessReducing reducing))
+            {
+                builder.AppendLine($"Уменьшение веростности заболевания: {reducing.Reducing}%;");
+            }
+            
+            if (TryGet(out ComponentGrowthAcceleration acceleration))
+            {
+                builder.AppendLine($"Ускорение роста: {acceleration.Acceleration}%;");
+            }
+
+            return builder.ToString();
         }
     }
 }

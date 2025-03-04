@@ -3,13 +3,15 @@ using Modules.Inventories;
 using Modules.Items;
 using Tavern.Components;
 using Tavern.Gardening;
+using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
     public class SeedItemsPresenter : ItemsPresenter<SeedItem>
     {
-        public event Action OnSeeded;
-        private readonly SeederComponent _seeder;
+        private const string Seed = "Посадить";
+        public event Action<bool> OnSeeded;
+        private readonly Seeder _seeder;
 
         private Pot _pot;
 
@@ -17,10 +19,13 @@ namespace Tavern.UI.Presenters
             IContainerView view, 
             CommonPresentersFactory commonPresentersFactory, 
             IInventory<SeedItem> inventory,
-            SeederComponent seeder
-            ) : base(view, commonPresentersFactory, inventory)
+            Seeder seeder,
+            Func<Transform, InfoPresenter> infoPresenterFactory,
+            Transform canvas
+            ) : base(view, commonPresentersFactory, inventory, infoPresenterFactory, canvas)
         {
             _seeder = seeder;
+            ActionName = Seed;
         }
 
         public void Show(Pot pot)
@@ -29,16 +34,16 @@ namespace Tavern.UI.Presenters
             Show();
         }
 
-        protected override void OnLeftClick(Item item)
+        protected override void OnShow()
         {
-            _seeder.Seed(_pot, item.Config as SeedItemConfig);
-            OnSeeded?.Invoke();
+            base.OnShow();
+            SetActive(!_pot.IsSeeded);
         }
-        
+
         protected override void OnRightClick(Item item)
         {
-            _seeder.Seed(_pot, item.Config as SeedItemConfig);
-            OnSeeded?.Invoke();
+            bool result = _seeder.Seed(_pot, item.Config as SeedItemConfig);
+            OnSeeded?.Invoke(result);
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Modules.Items
         [ShowInInspector] 
         public string ItemTypeName => GetItemType();
 
+        public virtual string Description => Metadata.Description;
+
 
         public abstract Item Create();
 

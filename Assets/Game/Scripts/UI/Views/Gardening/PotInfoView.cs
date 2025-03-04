@@ -43,6 +43,9 @@ namespace Tavern.UI.Views
 
         [SerializeField] 
         private Button Gather;
+        
+        [SerializeField] 
+        private Slider SickProbability;
 
         public void SetTitle(string title)
         {
@@ -82,6 +85,11 @@ namespace Tavern.UI.Views
         public void SetGatherActive(bool active)
         {
             Gather.gameObject.SetActive(active);
+        }
+        
+        public void SetSickProbability(float value)
+        {
+            SickProbability.value = value;
         }
     }
 }

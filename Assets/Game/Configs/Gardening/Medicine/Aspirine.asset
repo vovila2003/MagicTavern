@@ -36,4 +36,4 @@ MonoBehaviour:
     - rid: 1480260469753643012
       type: {class: ComponentHarvestSicknessReducing, ns: Tavern.Gardening.Medicine, asm: Game}
       data:
-        SicknessReducingInPercents: 0
+        SicknessReducingInPercents: 50

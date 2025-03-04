@@ -15,5 +15,6 @@ namespace Tavern.UI.Presenters
         void SetIsWaterNeed(bool isWaterNeed);
         void SetWateringActive(bool active);
         void SetGatherActive(bool active);
+        void SetSickProbability(float value);
     }
 }

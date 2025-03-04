@@ -1,23 +1,29 @@
+using System;
 using Modules.Gardening;
+using Tavern.Components;
 using Tavern.Gardening;
 using Tavern.Settings;
-using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
     public class PotInfoPresenter : BasePresenter
     {
+        public event Action OnGather;
+        
         private readonly IPotInfoView _view;
         private readonly GardeningUISettings _settings;
+        private readonly Seeder _seeder;
         private Pot _pot;
 
         public PotInfoPresenter(
             IPotInfoView view,
-            GardeningUISettings settings
+            GardeningUISettings settings,
+            Seeder seeder
         ) : base(view)
         {
             _view = view;
             _settings = settings;
+            _seeder = seeder;
         }
 
         public void Show(Pot pot)
@@ -53,6 +59,7 @@ namespace Tavern.UI.Presenters
             _view.SetIcon(_pot.CurrentSprite);
             _view.SetProgress(_pot.Progress);
             _view.SetIsFertilized(_pot.IsFertilized);
+            _view.SetSickProbability(_pot.Seedbed.Harvest.SickProbability);
             bool isReady = _pot.Seedbed.Harvest.State != HarvestState.Growing;
             if (isReady)
             {
@@ -81,19 +88,22 @@ namespace Tavern.UI.Presenters
             _view.SetIsWaterNeed(false);
             _view.SetWateringActive(false);
             _view.SetGatherActive(false);
+            _view.SetSickProbability(0);
         }
 
         private void OnGatherClicked()
         {
-            Debug.Log("Gather");
-            _pot.Gather();
-            SetupEmptyPot();
+            bool result = _seeder.Gather(_pot);
+            if (!result) return;
+            
+            OnGather?.Invoke();
         }
 
         private void OnWaterClicked()
         {
-            Debug.Log("Watering");
-            _pot.Watering();
+            bool result = _seeder.Watering(_pot);
+            if (!result) return;
+            
             _view.SetIsWaterNeed(false);
             _view.SetWateringActive(false);
         }

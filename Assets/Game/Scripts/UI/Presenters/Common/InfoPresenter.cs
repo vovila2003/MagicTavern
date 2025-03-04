@@ -53,7 +53,7 @@ namespace Tavern.UI.Presenters
             _view.SetIcon(metadata.Icon);
             _view.SetActionButtonText(command);
             _view.SetExtra(false);
-            string description = metadata.Description;
+            string description = _item.Config.Description;
 
             SetupEffects();
 
