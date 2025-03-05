@@ -1,12 +1,11 @@
 using Modules.Inventories;
-using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
 using Tavern.Storages;
 using UnityEngine;
 using VContainer;
 
-namespace Tavern.Components
+namespace Tavern.Gardening
 {
     public class Seeder
     {

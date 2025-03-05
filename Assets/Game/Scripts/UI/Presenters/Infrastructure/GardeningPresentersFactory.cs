@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using Modules.Inventories;
-using Tavern.Components;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
@@ -51,7 +50,10 @@ namespace Tavern.UI.Presenters
             return new GardeningPanelPresenter(
                 panelView,
                 _gardeningViewsFactory.CreateMakeSeedsButton(panelView.Container),
-                    this);
+                this,
+                _commonPresentersFactory.CreateInfoPresenter,
+                _sceneSettings.UISceneSettings.Canvas,
+                _gameSettings);
         }
 
         public SeedItemsPresenter CreateSeedItemsPresenter(Transform viewContainer) =>
@@ -82,6 +84,5 @@ namespace Tavern.UI.Presenters
             new(_gardeningViewsFactory.CreatePotInfoView(viewContainer),
                 _gameSettings.UISettings.Gardening,
                 _seeder);
-
     }
 }

@@ -166,7 +166,7 @@ namespace Tavern.UI.Presenters
         {
             _infoPresenter ??= _commonPresentersFactory.CreateInfoPresenter(_canvas);
             
-            if (!_infoPresenter.Show(item, Add)) return;
+            if (!_infoPresenter.Show(item, InfoPresenter.Mode.Dialog, Add)) return;
             
             _infoPresenter.OnAccepted += AddItem;
             _infoPresenter.OnRejected += OnCancelled;

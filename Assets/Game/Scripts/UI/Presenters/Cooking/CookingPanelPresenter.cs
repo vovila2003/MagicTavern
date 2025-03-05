@@ -144,7 +144,7 @@ namespace Tavern.UI.Presenters
         {
             _infoPresenter ??= _commonFactory.CreateInfoPresenter(_canvas);
 
-            if (!_infoPresenter.Show(item, Repeat)) return;
+            if (!_infoPresenter.Show(item, InfoPresenter.Mode.Dialog, Repeat)) return;
             
             _dishRecipe = recipe;
             
@@ -159,7 +159,7 @@ namespace Tavern.UI.Presenters
         {
             _infoPresenter ??= _commonFactory.CreateInfoPresenter(_canvas);
 
-            if (!_infoPresenter.Show(item, Repeat)) return;
+            if (!_infoPresenter.Show(item, InfoPresenter.Mode.Dialog, Repeat)) return;
             
             _plantProductItems = plantProductItems;
             _animalProductItems = animalProductItems;

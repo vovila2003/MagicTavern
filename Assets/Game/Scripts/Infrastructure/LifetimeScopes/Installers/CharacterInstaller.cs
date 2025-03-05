@@ -2,6 +2,7 @@ using Tavern.Character.Agents;
 using Tavern.Character.Controllers;
 using Tavern.Character.Visual;
 using Tavern.Components;
+using Tavern.Gardening;
 using VContainer;
 using VContainer.Unity;
 

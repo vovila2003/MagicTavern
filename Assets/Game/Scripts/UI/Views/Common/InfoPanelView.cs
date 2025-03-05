@@ -1,3 +1,4 @@
+using System;
 using Tavern.UI.Presenters;
 using TMPro;
 using UnityEngine;
@@ -16,10 +17,18 @@ namespace Tavern.UI.Views
         
         public event UnityAction OnClose
         {
-            add => CloseButton.onClick.AddListener(value);
-            remove => CloseButton.onClick.RemoveListener(value);
-        } 
-        
+            add
+            {
+                CloseButton.onClick.AddListener(value); 
+                OkButton.onClick.AddListener(value);
+            }
+            remove
+            {
+                CloseButton.onClick.RemoveListener(value);
+                OkButton.onClick.RemoveListener(value);
+            }
+        }
+
         [SerializeField]
         private TMP_Text Title;
         
@@ -42,7 +51,16 @@ namespace Tavern.UI.Views
         private Button CloseButton;
 
         [SerializeField] 
+        private Button OkButton;
+
+        [SerializeField] 
         private EffectView[] EffectViews;
+
+        [SerializeField] 
+        private GameObject DialogButtons;
+        
+        [SerializeField] 
+        private GameObject InfoButtons;
 
         public IEffectView[] Effects { get; private set; }
         
@@ -86,6 +104,23 @@ namespace Tavern.UI.Views
         public void SetExtra(bool isExtra)
         {
             Extra.gameObject.SetActive(isExtra);
+        }
+
+        public void SetMode(InfoPresenter.Mode mode)
+        {
+            switch (mode)
+            {
+                case InfoPresenter.Mode.Dialog:
+                    InfoButtons.SetActive(false);
+                    DialogButtons.SetActive(true);
+                    break;
+                case InfoPresenter.Mode.Info:
+                    InfoButtons.SetActive(true);
+                    DialogButtons.SetActive(false);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
         }
     }
 }

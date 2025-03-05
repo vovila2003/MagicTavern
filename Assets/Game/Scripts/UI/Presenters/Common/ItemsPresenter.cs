@@ -85,11 +85,11 @@ namespace Tavern.UI.Presenters
             presenter.Show(item, itemCount);
         }
 
-        protected virtual void OnLeftClick(Item item)
+        private void OnLeftClick(Item item)
         {
             _infoPresenter ??= _infoPresenterFactory(_canvas);
             
-            if (!_infoPresenter.Show(item, ActionName)) return;
+            if (!_infoPresenter.Show(item, InfoPresenter.Mode.Dialog, ActionName)) return;
             
             _infoPresenter.OnAccepted += OnAction;
             _infoPresenter.OnRejected += OnCancelled;

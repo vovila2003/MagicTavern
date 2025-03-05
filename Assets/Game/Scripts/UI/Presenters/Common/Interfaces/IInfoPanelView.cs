@@ -14,5 +14,6 @@ namespace Tavern.UI.Presenters
         void SetActionButtonText(string text);
         void HideAllEffects();
         void SetExtra(bool isExtra);
+        void SetMode(InfoPresenter.Mode mode);
     }
 }

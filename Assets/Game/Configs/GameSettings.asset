@@ -30,6 +30,7 @@ MonoBehaviour:
   GardeningConfigs:
     SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}
     PotPrefab: {fileID: 6548709685111567746, guid: 2993ab517fc893eb4854237943d2437f, type: 3}
+    <PlantProductCatalog>k__BackingField: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
   CookingConfigs:
     DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
     KitchenItemPrefab: {fileID: 1015441784064912068, guid: 598cb2af4a0915bd79a5d8ef14abe6b4, type: 3}

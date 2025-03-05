@@ -1,6 +1,5 @@
 using System;
 using Modules.Gardening;
-using Tavern.Components;
 using Tavern.Gardening;
 using Tavern.Settings;
 
@@ -90,6 +89,8 @@ namespace Tavern.UI.Presenters
             _view.SetIsWaterNeed(false);
             _view.SetWateringActive(false);
             _view.SetGatherActive(false);
+            _view.SetProgress(0);
+            _view.SetSickProbability(0);
         }
 
         private void OnGatherClicked()
