@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
+using Tavern.Effects;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using Tavern.Storages;

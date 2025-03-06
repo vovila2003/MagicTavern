@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Modules.Info;
 using Modules.Items;
 using Tavern.Cooking;
+using Tavern.Effects;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters

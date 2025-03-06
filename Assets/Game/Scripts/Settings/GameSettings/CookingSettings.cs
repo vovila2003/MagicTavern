@@ -1,6 +1,7 @@
 using System;
 using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
+using Tavern.Effects;
 using UnityEngine;
 
 namespace Tavern.Settings

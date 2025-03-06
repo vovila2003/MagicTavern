@@ -47,6 +47,9 @@ namespace Tavern.UI.Views
         
         public IPanelView CreatePanelView() => 
             Object.Instantiate(_uiSettings.CommonSettings.Panel, _uiSceneSettings.Canvas);
+        
+        public IPanelView CreateSmallPanelView() => 
+            Object.Instantiate(_uiSettings.CommonSettings.SmallPanel, _uiSceneSettings.Canvas);
 
         public IContainerView CreateLeftGridView(Transform viewContainer) => 
             Object.Instantiate(_uiSettings.CommonSettings.ContainerView, viewContainer);

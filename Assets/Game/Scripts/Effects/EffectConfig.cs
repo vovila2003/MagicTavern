@@ -1,7 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Tavern.Cooking
+namespace Tavern.Effects
 {
     [CreateAssetMenu(
         fileName = "DishItemEffect",

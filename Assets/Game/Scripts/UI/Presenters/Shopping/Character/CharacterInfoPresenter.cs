@@ -1,5 +1,6 @@
 using Tavern.Character;
 using Tavern.Cooking;
+using Tavern.Effects;
 using Tavern.Storages.CurrencyStorages;
 
 namespace Tavern.UI.Presenters

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tavern.Cooking
+namespace Tavern.Effects
 {
     public interface IEffectConfig
     {

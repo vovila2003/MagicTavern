@@ -21,7 +21,8 @@ namespace Modules.Gardening
         private int _seedInHarvestProbability;
 
         public IHarvest Harvest { get; private set; }
-        public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
+        // public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
+        public bool IsFertilized => _isBoosted || _isAccelerated;
 
         public bool Seed(PlantConfig plant) 
         {

@@ -29,6 +29,7 @@ namespace Tavern.UI.Presenters
         private MedicineItemsPresenter _medicineItemsPresenter;
         private PotInfoPresenter _potInfoPresenter;
         private InfoPresenter _infoPresenter;
+        private SeedMakerPresenter _seedMakerPresenter;
 
         public GardeningPanelPresenter(
             IPanelView view,
@@ -129,8 +130,8 @@ namespace Tavern.UI.Presenters
 
         private void OnMakeSeedsClicked()
         {
-            //TODO
-            Debug.Log("MakeSeeds clicked");
+            _seedMakerPresenter ??= _gardeningPresentersFactory.CreateSeedMakerPresenter();
+            _seedMakerPresenter.Show();
         }
 
         private void OnSeeded(bool result)
@@ -151,9 +152,9 @@ namespace Tavern.UI.Presenters
             _fertilizerItemsPresenter.SetActive(false);
         }
 
-        private void OnHeal(bool result)
+        private void OnHeal(bool _)
         {
-            OnFertilized(result);
+            UpdateInfo();
         }
 
         private void OnGather()

@@ -10,10 +10,17 @@ namespace Tavern.UI.Views
     public class GardeningViewsFactory : IGardeningViewsFactory
     {
         private readonly UISettings _uiSettings;
+        private readonly UISceneSettings _uiSceneSettings;
 
-        public GardeningViewsFactory(GameSettings settings)
+        public IConvertInfoViewProvider ConvertInfoViewProvider { get; }
+        
+
+        public GardeningViewsFactory(GameSettings settings, SceneSettings sceneSettings)
         {
             _uiSettings = settings.UISettings;
+            _uiSceneSettings = sceneSettings.UISceneSettings;
+            
+            ConvertInfoViewProvider = new ConvertInfoViewProvider(CreateConvertInfoPanelView, _uiSceneSettings.Pool);
         }
         
         public IContainerView CreateSeedItemsView(Transform viewContainer) => 
@@ -30,6 +37,12 @@ namespace Tavern.UI.Views
         
         public IPotInfoView CreatePotInfoView(Transform viewContainer) =>
             Object.Instantiate(_uiSettings.Gardening.PotInfoView, viewContainer);
+
+        public IContainerView CreateSeedMakerProductItemsView(Transform viewContainer) => 
+            Object.Instantiate(_uiSettings.Gardening.SeedMakerProductItemsView, viewContainer);
         
+        //private
+        private ConvertInfoView CreateConvertInfoPanelView() =>
+            Object.Instantiate(_uiSettings.Gardening.ConvertInfoView, _uiSceneSettings.Pool);
     }
 }

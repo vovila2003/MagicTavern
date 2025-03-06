@@ -71,7 +71,7 @@ namespace Tavern.UI
         public void ShowGardeningUi(Pot pot, Action onExit)
         {
             _gardeningPresenter ??= _gardeningFactory.CreateGardeningPanelPresenter();
-            
+
             _gardeningPresenter.Show(pot, () =>
             {
                 onExit?.Invoke();
@@ -113,7 +113,7 @@ namespace Tavern.UI
         {
             _pausePresenter.Hide();
         }
-        
+
         void IInitGameListener.OnInit()
         {
             _mainMenuPresenter = _commonFactory.CreateMainMenuPresenter(_settings.MainMenu, this);

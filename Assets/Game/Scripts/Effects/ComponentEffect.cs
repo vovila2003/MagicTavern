@@ -2,7 +2,7 @@ using System;
 using Modules.Items;
 using UnityEngine;
 
-namespace Tavern.Cooking
+namespace Tavern.Effects
 {
     [Serializable]
     public class ComponentEffect : IEffectComponent

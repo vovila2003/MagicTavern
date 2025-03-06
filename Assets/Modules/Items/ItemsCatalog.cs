@@ -28,7 +28,10 @@ namespace Modules.Items
             _itemsDict.Clear();
             foreach (ItemConfig settings in Items)
             {
-                _itemsDict.Add(settings.Name, settings);
+                if (settings?.Name != null)
+                {
+                    _itemsDict.Add(settings.Name, settings);
+                }
             }
         }
 

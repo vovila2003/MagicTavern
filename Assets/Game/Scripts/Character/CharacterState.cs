@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Modules.Info;
 using Sirenix.OdinInspector;
 using Tavern.Cooking;
+using Tavern.Effects;
 using Tavern.Settings;
 
 namespace Tavern.Character

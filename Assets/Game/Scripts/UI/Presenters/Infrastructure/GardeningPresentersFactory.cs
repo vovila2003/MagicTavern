@@ -3,6 +3,7 @@ using Modules.Inventories;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
+using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Tavern.UI.Presenters
         private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly IGardeningViewsFactory _gardeningViewsFactory;
         private readonly IInventory<SeedItem> _seedInventory;
+        private readonly IInventory<PlantProductItem> _productInventory;
         private readonly FertilizerInventoryContext _fertilizerInventoryContext;
         private readonly MedicineInventoryContext _medicineInventoryContext;
         private readonly GameSettings _gameSettings;
@@ -26,6 +28,7 @@ namespace Tavern.UI.Presenters
             CommonPresentersFactory commonPresentersFactory,
             IGardeningViewsFactory gardeningViewsFactory,
             IInventory<SeedItem> seedInventory,
+            IInventory<PlantProductItem> productInventory,
             FertilizerInventoryContext fertilizerInventoryContext,
             MedicineInventoryContext medicineInventoryContext,
             GameSettings gameSettings,
@@ -37,6 +40,7 @@ namespace Tavern.UI.Presenters
             _commonPresentersFactory = commonPresentersFactory;
             _gardeningViewsFactory = gardeningViewsFactory;
             _seedInventory = seedInventory;
+            _productInventory = productInventory;
             _fertilizerInventoryContext = fertilizerInventoryContext;
             _medicineInventoryContext = medicineInventoryContext;
             _gameSettings = gameSettings;
@@ -84,5 +88,16 @@ namespace Tavern.UI.Presenters
             new(_gardeningViewsFactory.CreatePotInfoView(viewContainer),
                 _gameSettings.UISettings.Gardening,
                 _seeder);
+
+        public SeedMakerPresenter CreateSeedMakerPresenter() => 
+            new(_commonViewsFactory.CreateSmallPanelView(),
+                this);
+
+        public SeedMakerProductItemsPresenter CreateSeedMakerProductItemsPresenter(Transform viewContainer) =>
+            new(_gardeningViewsFactory.CreateSeedMakerProductItemsView(viewContainer),
+                _commonPresentersFactory,
+                _productInventory,
+                _commonPresentersFactory.CreateInfoPresenter,
+                _sceneSettings.UISceneSettings.Canvas);
     }
 }

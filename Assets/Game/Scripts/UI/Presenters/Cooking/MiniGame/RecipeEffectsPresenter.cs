@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Tavern.Cooking;
+using Tavern.Effects;
 using Tavern.Settings;
 using UnityEngine;
 

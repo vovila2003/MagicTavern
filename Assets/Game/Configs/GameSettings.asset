@@ -60,6 +60,7 @@ MonoBehaviour:
       InfoPanelPrefab: {fileID: 8513231856921733487, guid: fb36013887e059069ad268297cd00daa, type: 3}
       EffectViewPrefab: {fileID: 6797862594772926974, guid: 6190245376d08e9d58efc8901991d5d4, type: 3}
       SlopsConfig: {fileID: 11400000, guid: 60731536d559c1ba58fb0595e8a3d86f, type: 2}
+      <SmallPanel>k__BackingField: {fileID: 3490573997219647647, guid: e23e612300ec34738b00bae87d4bb9c7, type: 3}
     Cooking:
       CookingAndMatchRecipePrefab: {fileID: 2803324742170462957, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
       MatchNewNewRecipePrefab: {fileID: 7902620650078474784, guid: 0b108dfbd75574e8abf0b4470361757f, type: 3}
@@ -85,3 +86,5 @@ MonoBehaviour:
       <MakeSeedsButton>k__BackingField: {fileID: 2261780329468466560, guid: 75e16ce0b1467df4c9456db154c55500, type: 3}
       <PotInfoView>k__BackingField: {fileID: 2804096227885804906, guid: a497b93ccd6867e579c92a793b18f792, type: 3}
       <EmptyPotSprite>k__BackingField: {fileID: 21300000, guid: 9c576fc208b102e4e93cde161d8175c1, type: 3}
+      <SeedMakerProductItemsView>k__BackingField: {fileID: 1384914417347062016, guid: 9fef93b8c023ccb46a4fedca81bba367, type: 3}
+      <ConvertInfoView>k__BackingField: {fileID: 8751225915826402372, guid: cfa3afd54f457a74bbb99547dc218aab, type: 3}

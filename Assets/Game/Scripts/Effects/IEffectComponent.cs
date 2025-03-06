@@ -1,6 +1,6 @@
 using Modules.Items;
 
-namespace Tavern.Cooking
+namespace Tavern.Effects
 {
     public interface IEffectComponent : IItemComponent
     {

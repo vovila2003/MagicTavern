@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using Tavern.UI.Views;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Tavern.Settings
 {
@@ -26,5 +27,11 @@ namespace Tavern.Settings
         
         [field: SerializeField, PreviewField]
         public Sprite EmptyPotSprite { get; private set; }
+
+        [field: SerializeField]
+        public ContainerView SeedMakerProductItemsView { get; private set; }
+
+        [field: SerializeField]
+        public ConvertInfoView ConvertInfoView { get; private set; }
     }
 }
