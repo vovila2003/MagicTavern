@@ -1,34 +1,27 @@
 using System;
-using System.Collections.Generic;
 using Modules.Info;
 using Modules.Items;
-using Tavern.Cooking;
-using Tavern.Effects;
-using Tavern.Shopping;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
-    public sealed class DealInfoPresenter
+    public class ConvertInfoPresenter
     {
-         private const string FromChef = "От Шефа!";
          public event Action<Item, int> OnAccepted;
-         public event Action<ItemConfig, int> OnConfigAccepted;
          public event Action OnRejected;
         
-         private readonly IDealInfoViewProvider _provider;
+         private readonly IConvertInfoViewProvider _provider;
          private readonly Transform _parent;
          private readonly AutoClosePresenter _autoClosePresenter;
         
          private Item _item;
-         private ItemConfig _itemConfig;
-         private IDealInfoView _view;
+         private IConvertInfoView _view;
          private int _maxCount;
          private int _currentCount;
-         private int _price;
+         private int _ratio;
         
-         public DealInfoPresenter(
-             IDealInfoViewProvider provider, 
+         public ConvertInfoPresenter(
+             IConvertInfoViewProvider provider, 
              Transform parent, 
              CommonPresentersFactory factory)
          {
@@ -37,35 +30,24 @@ namespace Tavern.UI.Presenters
              _autoClosePresenter = factory.CreateAutoClosePresenter();
          }
 
-         public bool Show(Item item, int maxCount, int price)
+         public bool Show(Item item, int maxCount, int ratio)
          {
              if (item == null) return false;
              
              _item = item;
-             _itemConfig = null;
 
-             return Show(item.Metadata, item, maxCount, price);
+             return Show(item.Metadata, maxCount, ratio);
          }
          
-         public bool Show(ItemInfoByConfig itemInfo)
-         {
-             if (itemInfo == null) return false;
-             
-             _itemConfig = itemInfo.Item;
-             _item = null;
-
-             return Show(_itemConfig.Metadata, _itemConfig, itemInfo.Count, itemInfo.Price);
-         }
-
-         private bool Show(Metadata metadata, IHavingComponentsCapable entity,  int maxCount, int price)
+         private bool Show(Metadata metadata,  int maxCount, int ratio)
          {
              _maxCount = maxCount;
-             _price = price;
+             _ratio = ratio;
              
-             if (!_provider.TryGetView(_parent, out IDealInfoView view)) return false;
+             if (!_provider.TryGetView(_parent, out IConvertInfoView view)) return false;
              _view = view;
              _currentCount = 0;
-             SetupView(metadata, entity);
+             SetupView(metadata);
              
              _autoClosePresenter.Enable(view);
              _autoClosePresenter.OnClickOutside += OnClose;
@@ -75,42 +57,17 @@ namespace Tavern.UI.Presenters
              return true;
          }
         
-         private void SetupView(Metadata metadata, IHavingComponentsCapable entity)
+         private void SetupView(Metadata metadata)
          {
              _view.SetTitle(metadata.Title);
              _view.SetIcon(metadata.Icon);
-             _view.SetExtra(false);
-             string description = metadata.Description;
-        
-             SetupEffects(entity);
-        
-             if (entity.Has<ComponentDishExtra>())
-             {
-                 _view.SetExtra(true);
-                 description = $"{FromChef} {description}";
-             }
-        
-             _view.SetDescription(description);
+             _view.SetDescription(metadata.Description);
              _view.SetSliderMaxValue(_maxCount);
-             _view.SetPrice($"{_price} р/шт");
+             _view.SetRatio($"{_ratio}");
              
              SetCurrentValue();
 
              SubscribeView();
-         }
-
-         private void SetupEffects(IHavingComponentsCapable entity)
-         {
-             _view.HideAllEffects();
-             
-             List<IEffectComponent> effects = entity.GetAll<IEffectComponent>();
-             int count = Mathf.Min(effects.Count, _view.Effects.Length);
-             for (var i = 0; i < count; i++)
-             {
-                 IEffectView viewEffect = _view.Effects[i];
-                 viewEffect.SetActive(true);
-                 viewEffect.SetIcon(effects[i].Config.Icon);
-             }
          }
 
          private void OnAction()
@@ -120,11 +77,6 @@ namespace Tavern.UI.Presenters
              if (_item is not null)
              {
                  OnAccepted?.Invoke(_item, _currentCount);
-             }
-             
-             if (_itemConfig is not null)
-             {
-                 OnConfigAccepted?.Invoke(_itemConfig, _currentCount);
              }
              
              Hide();
@@ -148,7 +100,6 @@ namespace Tavern.UI.Presenters
              _provider.TryRelease(_view);
              _view = null;
              _item = null;
-             _itemConfig = null;
          }
 
          private void SubscribeView()
@@ -177,7 +128,7 @@ namespace Tavern.UI.Presenters
          {
              _view.SetSliderValue(_currentCount);
              _view.SetAmount($"{_currentCount}");
-             _view.SetTotalPrice($"Всего: {_price * _currentCount} р");
+             _view.SetTotalCount($"{_ratio * _currentCount}");
          }
 
          private void OnPlus(int value)

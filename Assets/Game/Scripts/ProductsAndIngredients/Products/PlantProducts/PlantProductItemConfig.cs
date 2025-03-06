@@ -9,7 +9,9 @@ namespace Tavern.ProductsAndIngredients
         menuName = "Settings/Products/Plant Product Config")]
     public class PlantProductItemConfig : PlantItemConfig
     {
-
+        [field: SerializeField] 
+        public int ProductToSeedRatio { get; private set; } = 2;
+        
         protected override void OnValidate()
         {
             if (!TryGet(out ComponentPlant component)) return;

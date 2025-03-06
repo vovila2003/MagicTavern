@@ -22,6 +22,7 @@ namespace Tavern.UI.Presenters
         private readonly GameSettings _gameSettings;
         private readonly SceneSettings _sceneSettings;
         private readonly Seeder _seeder;
+        private readonly SeedMaker _seedMaker;
 
         public GardeningPresentersFactory(
             ICommonViewsFactory commonViewsFactory,
@@ -33,7 +34,8 @@ namespace Tavern.UI.Presenters
             MedicineInventoryContext medicineInventoryContext,
             GameSettings gameSettings,
             SceneSettings sceneSettings,
-            Seeder seeder
+            Seeder seeder,
+            SeedMaker seedMaker
             )
         {
             _commonViewsFactory = commonViewsFactory;
@@ -46,6 +48,7 @@ namespace Tavern.UI.Presenters
             _gameSettings = gameSettings;
             _sceneSettings = sceneSettings;
             _seeder = seeder;
+            _seedMaker = seedMaker;
         }
 
         public GardeningPanelPresenter CreateGardeningPanelPresenter()
@@ -96,8 +99,21 @@ namespace Tavern.UI.Presenters
         public SeedMakerProductItemsPresenter CreateSeedMakerProductItemsPresenter(Transform viewContainer) =>
             new(_gardeningViewsFactory.CreateSeedMakerProductItemsView(viewContainer),
                 _commonPresentersFactory,
+                this,
                 _productInventory,
+                _seedMaker,
+                _sceneSettings.UISceneSettings.Canvas);
+        
+        public SeedMakerSeedsPresenter CreateSeedMakerSeedsPresenter(Transform viewContainer) =>
+            new(_gardeningViewsFactory.CreateSeedMakerSeedsView(viewContainer),
+                _commonPresentersFactory,
+                _seedInventory,
                 _commonPresentersFactory.CreateInfoPresenter,
                 _sceneSettings.UISceneSettings.Canvas);
+        
+        public ConvertInfoPresenter CreateConvertInfoPresenter(Transform parent) =>
+            new(_gardeningViewsFactory.ConvertInfoViewProvider, 
+                parent,
+                _commonPresentersFactory);
     }
 }

@@ -9,6 +9,7 @@ namespace Tavern.UI.Presenters
         private readonly IPanelView _view;
         private readonly GardeningPresentersFactory _gardeningPresentersFactory;
         private SeedMakerProductItemsPresenter _productPresenter;
+        private SeedMakerSeedsPresenter _seedsPresenter;
 
         public SeedMakerPresenter(
             IPanelView view,
@@ -23,6 +24,7 @@ namespace Tavern.UI.Presenters
         {
             SetupView();
             SetupProductItems();
+            SetupSeeds();
         }
 
         protected override void OnHide()
@@ -42,6 +44,12 @@ namespace Tavern.UI.Presenters
         {
             _productPresenter ??= _gardeningPresentersFactory.CreateSeedMakerProductItemsPresenter(_view.Container);
             _productPresenter.Show();
+        }
+
+        private void SetupSeeds()
+        {
+            _seedsPresenter ??= _gardeningPresentersFactory.CreateSeedMakerSeedsPresenter(_view.Container);
+            _seedsPresenter.Show();
         }
     }
 }

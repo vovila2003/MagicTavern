@@ -17,6 +17,9 @@ namespace Modules.Items
         public bool TryGetItem(string itemName, out ItemConfig itemConfig) => 
             _itemsDict.TryGetValue(itemName, out itemConfig);
 
+        public (ItemConfig, bool) GetItem(string itemName) => 
+            !_itemsDict.TryGetValue(itemName, out ItemConfig itemConfig) ? (null, false) : (itemConfig, true);
+
         [Button]
         private void Validate()
         {

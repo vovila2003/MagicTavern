@@ -95,6 +95,9 @@ namespace Tavern.UI.Views
 
         [SerializeField] 
         private TMP_Text Ratio;
+        
+        [SerializeField] 
+        private TMP_Text Total;
 
         private void OnEnable()
         {
@@ -156,7 +159,12 @@ namespace Tavern.UI.Views
         {
             Ratio.text = text;
         }
-        
+
+        public void SetTotalCount(string text)
+        {
+            Total.text = text;
+        }
+
         private void OnPlus1Clicked() => OnPlus?.Invoke(1);
         private void OnPlus3Clicked() => OnPlus?.Invoke(3);
         private void OnPlus5Clicked() => OnPlus?.Invoke(5);

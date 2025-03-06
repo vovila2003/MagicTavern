@@ -32,6 +32,9 @@ namespace Tavern.Settings
         public ContainerView SeedMakerProductItemsView { get; private set; }
 
         [field: SerializeField]
+        public ContainerView SeedMakerSeedsView { get; private set; }
+
+        [field: SerializeField]
         public ConvertInfoView ConvertInfoView { get; private set; }
     }
 }

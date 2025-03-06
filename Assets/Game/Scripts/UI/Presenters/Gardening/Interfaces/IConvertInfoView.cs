@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace Tavern.UI.Presenters
 {
-    public interface IConvertInfoView
+    public interface IConvertInfoView : IView
     {
         event UnityAction OnAction;
         event UnityAction OnClose;
@@ -20,5 +20,6 @@ namespace Tavern.UI.Presenters
         void SetSliderMaxValue(float value);
         void SetSliderValue(float value);
         void SetRatio(string text);
+        void SetTotalCount(string text);
     }
 }

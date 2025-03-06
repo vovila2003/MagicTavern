@@ -11,5 +11,7 @@ namespace Tavern.UI.Presenters
         Button CreateMakeSeedsButton(Transform viewContainer);
         IPotInfoView CreatePotInfoView(Transform viewContainer);
         IContainerView CreateSeedMakerProductItemsView(Transform viewContainer);
+        IContainerView CreateSeedMakerSeedsView(Transform viewContainer);
+        IConvertInfoViewProvider ConvertInfoViewProvider { get; }
     }
 }

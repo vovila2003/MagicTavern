@@ -15,7 +15,8 @@ namespace Tavern.UI.Presenters
         private readonly Dictionary<Item, ItemCardPresenter> _presenters = new();
         private readonly Func<Transform, InfoPresenter> _infoPresenterFactory;
         private readonly Transform _canvas;
-        
+        private readonly InfoPresenter.Mode _dialogMode;
+
         private InfoPresenter _infoPresenter;
 
         protected string ActionName { get; set; }
@@ -25,13 +26,16 @@ namespace Tavern.UI.Presenters
             CommonPresentersFactory commonPresentersFactory,
             IInventory<T> inventory,
             Func<Transform, InfoPresenter> infoPresenterFactory,
-            Transform canvas) : base(view)
+            Transform canvas,
+            InfoPresenter.Mode dialogMode
+            ) : base(view)
         {
             _view = view;
             _commonPresentersFactory = commonPresentersFactory;
             _inventory = inventory;
             _infoPresenterFactory = infoPresenterFactory;
             _canvas = canvas;
+            _dialogMode = dialogMode;
         }
 
         public void SetActive(bool active)
@@ -89,7 +93,7 @@ namespace Tavern.UI.Presenters
         {
             _infoPresenter ??= _infoPresenterFactory(_canvas);
             
-            if (!_infoPresenter.Show(item, InfoPresenter.Mode.Dialog, ActionName)) return;
+            if (!_infoPresenter.Show(item, _dialogMode, ActionName)) return;
             
             _infoPresenter.OnAccepted += OnAction;
             _infoPresenter.OnRejected += OnCancelled;

@@ -41,6 +41,9 @@ namespace Tavern.UI.Views
         public IContainerView CreateSeedMakerProductItemsView(Transform viewContainer) => 
             Object.Instantiate(_uiSettings.Gardening.SeedMakerProductItemsView, viewContainer);
         
+        public IContainerView CreateSeedMakerSeedsView(Transform viewContainer) => 
+            Object.Instantiate(_uiSettings.Gardening.SeedMakerSeedsView, viewContainer);
+        
         //private
         private ConvertInfoView CreateConvertInfoPanelView() =>
             Object.Instantiate(_uiSettings.Gardening.ConvertInfoView, _uiSceneSettings.Pool);

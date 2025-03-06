@@ -23,7 +23,8 @@ namespace Tavern.UI.Presenters
             Seeder seeder,
             Func<Transform, InfoPresenter> infoPresenterFactory,
             Transform canvas
-            ) : base(view, commonPresentersFactory, fertilizerInventoryContext.Inventory, infoPresenterFactory, canvas)
+            ) : base(view, commonPresentersFactory, fertilizerInventoryContext.Inventory, 
+                     infoPresenterFactory, canvas, InfoPresenter.Mode.Dialog)
         {
             _seeder = seeder;
             ActionName = Fertilize;

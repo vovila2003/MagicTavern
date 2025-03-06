@@ -1,90 +1,50 @@
-using System.Collections.Generic;
-using Modules.Gardening;
+using JetBrains.Annotations;
 using Modules.Inventories;
-using Sirenix.OdinInspector;
+using Modules.Items;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using UnityEngine;
-using VContainer;
 
 namespace Tavern.Gardening
 {
-    public class SeedMaker : MonoBehaviour
+    [UsedImplicitly]
+    public class SeedMaker
     {
-        private IInventory<PlantProductItem> _productsStorage;
-        private SeedInventoryContext _seedsStorage;
-        private SeedMakerSettings _settings;
-        private readonly Dictionary<string, int> _seeds = new ();
-        
-        [Inject]
-        private void Construct(
+        private readonly IInventory<PlantProductItem> _productsStorage;
+        private readonly IInventory<SeedItem> _seedsStorage;
+        private readonly SeedCatalog _seedCatalog;
+
+        private SeedMaker(
             IInventory<PlantProductItem> productsStorage, 
-            SeedInventoryContext seedsStorage, 
+            IInventory<SeedItem> seedsStorage,
             GameSettings settings)
         {
             _productsStorage = productsStorage;
             _seedsStorage = seedsStorage;
-            _settings = settings.GardeningSettings.SeedMakerSettings;
-            Initialize();
+            _seedCatalog = settings.GardeningSettings.SeedCatalog;
         }
 
-        [Button]
-        public void ShowRatio(PlantConfig type)
+        public void MakeSeeds(PlantProductItem item, int productCount = 1)
         {
-            if (!TryGetSeedRatio(type.Name, out int seedRatio))
+            int itemCount = _productsStorage.GetItemCount(item.ItemName);
+            if (itemCount < productCount) return;
+
+            if (!item.TryGet(out ComponentPlant componentPlant)) return;
+
+            string seedName = SeedNameProvider.GetName(componentPlant.Config.Plant.PlantName);
+            (ItemConfig itemConfig, bool result) = _seedCatalog.GetItem(seedName);
+            if (!result)
             {
-                Debug.Log($"Convert ratio of type {type.Name} not found");
+                Debug.Log($"Seed with name {seedName} is not found in seed catalog");
                 return;
             }
-            
-            Debug.Log($"Convert ratio from {type.Name} to seeds is {seedRatio}");
-        }
 
-        [Button]
-        public void MakeSeeds(PlantConfig type, int productCount = 1)
-        {
-            if (!CanMakeSeeds(type, productCount, out int seedRatio)) return;
+            if (itemConfig is not SeedItemConfig seedItemConfig) return;
 
-            int seedCount = productCount * seedRatio;
-            
-            _productsStorage.RemoveItems(PlantProductNameProvider.GetName(type.Name), productCount);
-            for (var i = 0; i < seedCount; i++)
-            {
-                _seedsStorage.AddItemByName(SeedNameProvider.GetName(type.Name));
-            }
-        }
+            int seedCount = productCount * (item.Config as PlantProductItemConfig)!.ProductToSeedRatio;
 
-        private bool CanMakeSeeds(PlantConfig type, int productCount, out int seedRatio)
-        {
-            seedRatio = 0;
-
-            int itemCount = _productsStorage.GetItemCount(PlantProductNameProvider.GetName(type.Name));
-            if (itemCount < productCount)
-            {
-                Debug.Log($"Not enough products of type {type}");
-                return false;
-            }
-            
-            if (TryGetSeedRatio(type.Name, out seedRatio)) return true;
-            
-            Debug.Log($"Convert ratio of type {type.Name} not found");
-            return false;
-        }
-
-        private bool TryGetSeedRatio(string plant, out int convertRatio)
-        {
-            bool contains = _seeds.TryGetValue(plant, out int ratio);
-            convertRatio = ratio;
-            return contains;
-        }
-
-        private void Initialize()
-        {
-            foreach (SeedParams settings in _settings.Params)
-            {
-                string plant = settings.Type.PlantName;
-                _seeds[plant] = settings.Ratio;
-            }
+            _productsStorage.RemoveItems(item, productCount);
+            _seedsStorage.AddItems(seedItemConfig.Create(), seedCount);
         }
     }
 }
