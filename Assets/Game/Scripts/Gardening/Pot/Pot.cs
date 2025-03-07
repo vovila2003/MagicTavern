@@ -81,6 +81,7 @@ namespace Tavern.Gardening
             }
 
             IsSeeded = Seedbed.Seed(plantConfig);
+            Progress = 0;
             Debug.Log($"Seedbed seeded: {IsSeeded}");
             if (IsSeeded)
             {

@@ -11,20 +11,20 @@ namespace Tavern.Gardening
     {
         private IInventory<SeedItem> _seedsStorage;
         private IWaterStorage _waterStorage;
-        private MedicineInventoryContext _medicineInventoryContext;
-        private FertilizerInventoryContext _fertilizerInventoryContext;
+        private MedicineInventory _medicineInventory;
+        private FertilizerInventory _fertilizerInventory;
 
         [Inject]
         private void Construct(
             IInventory<SeedItem> seedsStorage, 
             IWaterStorage waterStorage, 
-            MedicineInventoryContext medicineConsumer,
-            FertilizerInventoryContext fertilizerConsumer)
+            MedicineInventory medicineInventory,
+            FertilizerInventory fertilizerInventory)
         {
             _seedsStorage = seedsStorage;
             _waterStorage = waterStorage;
-            _medicineInventoryContext = medicineConsumer;
-            _fertilizerInventoryContext = fertilizerConsumer;
+            _medicineInventory = medicineInventory;
+            _fertilizerInventory = fertilizerInventory;
         }
 
         public bool Seed(Pot pot, SeedItemConfig seedConfig)
@@ -45,7 +45,7 @@ namespace Tavern.Gardening
 
             if (pot.IsFertilized) return false;
 
-            _fertilizerInventoryContext.Consume(fertilizer, pot);
+            _fertilizerInventory.Consume(fertilizer, pot);
 
             return true;
         }
@@ -66,7 +66,7 @@ namespace Tavern.Gardening
         {
             if (!CanHeal(pot, medicine)) return false;
 
-            _medicineInventoryContext.Consume(medicine, pot);
+            _medicineInventory.Consume(medicine, pot);
 
             return true;
         }

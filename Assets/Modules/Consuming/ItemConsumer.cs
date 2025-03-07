@@ -11,9 +11,9 @@ namespace Modules.Consuming
 
         private readonly List<IInventoryItemConsumeHandler> _handlers = new();
 
-        private readonly IInventory<T> _inventory;
+        private IInventory<T> _inventory;
 
-        public ItemConsumer(IInventory<T> inventory)
+        public void Init(IInventory<T> inventory)
         {
             _inventory = inventory;
         }

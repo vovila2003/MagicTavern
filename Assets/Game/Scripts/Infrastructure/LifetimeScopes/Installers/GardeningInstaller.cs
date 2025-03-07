@@ -24,14 +24,14 @@ namespace Tavern.Infrastructure
         private void RegisterMedicine(IContainerBuilder builder)
         {
             builder.Register<MedicineConsumer>(Lifetime.Singleton).AsSelf();
-            builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<MedicineInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<MedicineInventoryContext>();
         }
 
         private void RegisterFertilizer(IContainerBuilder builder)
         {
             builder.Register<FertilizerConsumer>(Lifetime.Singleton).AsSelf();
-            builder.Register<FertilizerInventory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<FertilizerInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<FertilizerInventoryContext>();
             
             builder.RegisterEntryPoint<FertilizerCrafter>().AsSelf();
