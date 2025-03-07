@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle;
 using Modules.GameCycle.Interfaces;
+using Tavern.Infrastructure;
 using Tavern.Settings;
 using Tavern.UI;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace Tavern.Shopping
         private readonly ShopContext _prefab;
         private readonly CharacterBuyer _characterBuyer;
         private readonly CharacterSeller _characterSeller;
+        private readonly TimeGameCycle _timeGameCycle;
 
         public ShopFactory(IObjectResolver resolver)
         {
@@ -33,6 +35,7 @@ namespace Tavern.Shopping
             _prefab = _resolver.Resolve<GameSettings>().ShoppingSettings.ShopContextPrefab;
             _characterBuyer = _resolver.Resolve<CharacterBuyer>();
             _characterSeller = _resolver.Resolve<CharacterSeller>();
+            _timeGameCycle = _resolver.Resolve<TimeGameCycle>();
         }
 
         void IInitGameListener.OnInit()
@@ -45,6 +48,7 @@ namespace Tavern.Shopping
 
                 var shop = new Shop(_characterSeller, _characterBuyer, point.Config); 
                 shopContext.Setup(shop);
+                _timeGameCycle.AddListener(shop);
             
                 _listeners.Add(new ShopListener(shopContext, _gameCycle, _uiManager));
             }

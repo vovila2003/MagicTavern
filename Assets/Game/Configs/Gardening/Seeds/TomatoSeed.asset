@@ -21,7 +21,7 @@ MonoBehaviour:
   <Metadata>k__BackingField:
     Title: "\u0421\u0435\u043C\u0435\u043D\u0430 \u043F\u043E\u043C\u0438\u0434\u043E\u0440\u043E\u0432"
     Description: 
-    Icon: {fileID: -721710835, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
+    Icon: {fileID: -2097573776, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:

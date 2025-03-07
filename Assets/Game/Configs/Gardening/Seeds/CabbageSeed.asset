@@ -19,9 +19,9 @@ MonoBehaviour:
   - rid: 4431604871460552871
   - rid: 4431604871460552872
   <Metadata>k__BackingField:
-    Title: 
+    Title: "\u0441\u0435\u043C\u0435\u043D\u0430 \u043A\u0430\u043F\u0443\u0441\u0442\u044B"
     Description: 
-    Icon: {fileID: 0}
+    Icon: {fileID: 558595991, guid: dd2cd47761e2fe3fea5f5d623a25162b, type: 3}
   references:
     version: 2
     RefIds:

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedCatalog: {fileID: 11400000, guid: 09dd44bbf50fab5d488c29a31b7c5ec7, type: 2}
   PlantProductCatalog: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
+  PlantCatalog: {fileID: 11400000, guid: d9b647c4ea07737d4805ce5a56dadbf8, type: 2}
