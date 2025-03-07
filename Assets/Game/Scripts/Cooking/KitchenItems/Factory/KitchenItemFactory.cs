@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Modules.GameCycle;
 using Modules.GameCycle.Interfaces;
-using Tavern.Infrastructure;
 using Tavern.Settings;
 using Tavern.UI;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace Tavern.Cooking
         private readonly IObjectResolver _resolver;
         private readonly List<KitchenItemContextListener> _listeners = new();
         private readonly ActiveDishRecipe _dishRecipe;
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _uiManager;
         private readonly SceneSettings _sceneSettings;
         private readonly KitchenItemContext _prefab;
@@ -25,7 +25,7 @@ namespace Tavern.Cooking
         {
             _resolver = resolver;
             _dishRecipe = _resolver.Resolve<ActiveDishRecipe>();
-            _gameCycleController = _resolver.Resolve<GameCycleController>();
+            _gameCycle = _resolver.Resolve<GameCycle>();
             _uiManager = _resolver.Resolve<IUiManager>();
             _sceneSettings = _resolver.Resolve<SceneSettings>();
             _prefab = _resolver.Resolve<GameSettings>().CookingSettings.KitchenPrefab;
@@ -42,7 +42,7 @@ namespace Tavern.Cooking
                 context.Setup(kitchenPoint.Config);
 
                 _listeners.Add(new KitchenItemContextListener(
-                    context, _dishRecipe, _gameCycleController, _uiManager));
+                    context, _dishRecipe, _gameCycle, _uiManager));
             }
 
             foreach (KitchenItemPoint point in _sceneSettings.KitchenPoints)

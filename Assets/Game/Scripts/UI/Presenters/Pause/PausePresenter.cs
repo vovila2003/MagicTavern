@@ -1,20 +1,20 @@
-using Tavern.Infrastructure;
+using Modules.GameCycle;
 
 namespace Tavern.UI.Presenters
 {
     public sealed class PausePresenter : BasePresenter
     {
         private readonly IPauseView _view;
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _uiManager;
 
         public PausePresenter(
             IPauseView view, 
-            GameCycleController gameCycleController, 
+            GameCycle gameCycle, 
             IUiManager uiManager) : base(view)
         {
             _view = view;
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _uiManager = uiManager;
         }
 
@@ -31,7 +31,7 @@ namespace Tavern.UI.Presenters
         private void OnResume()
         {
             _uiManager.HidePause();
-            _gameCycleController.ResumeGame();            
+            _gameCycle.ResumeGame();            
         }
     }
 }

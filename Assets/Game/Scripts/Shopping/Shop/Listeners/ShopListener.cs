@@ -1,4 +1,4 @@
-using Tavern.Infrastructure;
+using Modules.GameCycle;
 using Tavern.UI;
 
 namespace Tavern.Shopping
@@ -6,17 +6,17 @@ namespace Tavern.Shopping
     public class ShopListener
     {
         private readonly ShopContext _shopContext;
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _uiManager;
 
         public ShopListener(
             ShopContext shopContext, 
-            GameCycleController gameCycleController,
+            GameCycle gameCycle,
             IUiManager uiManager
             )
         {
             _shopContext = shopContext;
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _uiManager = uiManager;
 
             _shopContext.OnActivated += ShopContextActivated;
@@ -29,14 +29,14 @@ namespace Tavern.Shopping
         
         private void ShopContextActivated()
         {
-            _gameCycleController.PauseGame();
+            _gameCycle.PauseGame();
             _shopContext.OnActivated -= ShopContextActivated;
             _uiManager.ShowShoppingUi(_shopContext.Shop, OnExitShoppingUi);
         }
         
         private void OnExitShoppingUi()
         {
-            _gameCycleController.ResumeGame();
+            _gameCycle.ResumeGame();
             _shopContext.OnActivated += ShopContextActivated;
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Modules.GameCycle;
 using Modules.GameCycle.Interfaces;
-using Tavern.Infrastructure;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using Tavern.Storages;
@@ -23,7 +23,7 @@ namespace Tavern.Gardening
         private readonly ISlopsStorage _slopsStorage;
         private readonly SeedInventoryContext _seedsStorage;
         private readonly SceneSettings _sceneSettings;
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _uiManager;
 
         private readonly Dictionary<Pot, PotHarvestController> _pots = new();
@@ -37,7 +37,7 @@ namespace Tavern.Gardening
             SeedInventoryContext seedsStorage,
             GameSettings settings, 
             SceneSettings sceneSettings,
-            GameCycleController gameCycleController,
+            GameCycle gameCycle,
             IUiManager uiManager,
             IObjectResolver resolver)
         {
@@ -45,7 +45,7 @@ namespace Tavern.Gardening
             _slopsStorage = slopsStorage;
             _seedsStorage = seedsStorage;
             _sceneSettings = sceneSettings;
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _uiManager = uiManager;
             _prefab = settings.GardeningSettings.Pot;
             _resolver = resolver;
@@ -57,7 +57,7 @@ namespace Tavern.Gardening
             pot.Setup();
             var controller = new PotHarvestController(pot, _plantProductsStorage, _slopsStorage, _seedsStorage);
             _pots.Add(pot, controller);
-            _listeners.Add(pot, new PotListener(pot, _gameCycleController, _uiManager));
+            _listeners.Add(pot, new PotListener(pot, _gameCycle, _uiManager));
         }
 
         public void Destroy(Pot pot)

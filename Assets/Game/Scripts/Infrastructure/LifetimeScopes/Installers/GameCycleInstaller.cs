@@ -9,7 +9,7 @@ namespace Tavern.Infrastructure
         {
             builder.Register<Modules.GameCycle.GameCycle>(Lifetime.Singleton).AsSelf();
             builder.Register<TimeGameCycle>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.RegisterEntryPoint<GameCycleController>().AsSelf();
+            builder.RegisterEntryPoint<GameCycleInjector>();
             builder.Register<FinishGameController>(Lifetime.Singleton);
             builder.Register<PauseGameController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
         }

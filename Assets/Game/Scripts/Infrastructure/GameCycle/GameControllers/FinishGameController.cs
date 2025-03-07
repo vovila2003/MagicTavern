@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Modules.GameCycle;
 using Tavern.UI;
 
 namespace Tavern.Infrastructure
@@ -6,18 +7,18 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public sealed class FinishGameController 
     {
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _manager;
 
-        public FinishGameController(GameCycleController gameCycleController, IUiManager manager)
+        public FinishGameController(GameCycle gameCycle, IUiManager manager)
         {
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _manager = manager;
         }
 
         public void FinishGame()
         {
-            _gameCycleController.FinishGame();
+            _gameCycle.FinishGame();
             _manager.ShowMainMenu();
         }
     }

@@ -1,4 +1,4 @@
-using Tavern.Infrastructure;
+using Modules.GameCycle;
 using Tavern.UI;
 
 namespace Tavern.Gardening
@@ -6,17 +6,17 @@ namespace Tavern.Gardening
     public class PotListener
     {
         private readonly Pot _pot;
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _uiManager;
 
         public PotListener(
             Pot pot, 
-            GameCycleController gameCycleController,
+            GameCycle gameCycle,
             IUiManager uiManager
         )
         {
             _pot = pot;
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _uiManager = uiManager;
 
             _pot.OnActivated += PotActivated;
@@ -29,14 +29,14 @@ namespace Tavern.Gardening
         
         private void PotActivated()
         {
-            _gameCycleController.PauseGame();
+            _gameCycle.PauseGame();
             _pot.OnActivated -= PotActivated;
             _uiManager.ShowGardeningUi(_pot, OnExitGardeningUi);
         }
         
         private void OnExitGardeningUi()
         {
-            _gameCycleController.ResumeGame();
+            _gameCycle.ResumeGame();
             _pot.OnActivated += PotActivated;
         }
     }

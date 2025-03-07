@@ -1,4 +1,4 @@
-using Tavern.Infrastructure;
+using Modules.GameCycle;
 using Tavern.UI;
 
 namespace Tavern.Cooking
@@ -7,19 +7,19 @@ namespace Tavern.Cooking
     {
         private readonly KitchenItemContext _kitchenItemContext;
         private readonly ActiveDishRecipe _activeDishRecipe;
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _uiManager;
 
         public KitchenItemContextListener(
             KitchenItemContext kitchenItemContext, 
             ActiveDishRecipe activeDishRecipe,
-            GameCycleController gameCycleController,
+            GameCycle gameCycle,
             IUiManager uiManager
             )
         {
             _kitchenItemContext = kitchenItemContext;
             _activeDishRecipe = activeDishRecipe;
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _uiManager = uiManager;
 
             _kitchenItemContext.OnActivated += OnKitchenActivated;
@@ -33,14 +33,14 @@ namespace Tavern.Cooking
         private void OnKitchenActivated(KitchenItemConfig config)
         {
             _activeDishRecipe.SetKitchen(config);
-            _gameCycleController.PauseGame();
+            _gameCycle.PauseGame();
             _kitchenItemContext.OnActivated -= OnKitchenActivated;
             _uiManager.ShowCookingUi(config, OnExitCookingUi);
         }
 
         private void OnExitCookingUi()
         {
-            _gameCycleController.ResumeGame();
+            _gameCycle.ResumeGame();
             _kitchenItemContext.OnActivated += OnKitchenActivated;
         }
     }

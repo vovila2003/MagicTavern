@@ -8,32 +8,35 @@ using VContainer.Unity;
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class GameCycleController: IInitializable 
+    public class GameCycleInjector: IInitializable 
     {
         private readonly IObjectResolver _container;
         private readonly GameCycle _gameCycle;
         private readonly TimeGameCycle _timeGameCycle;
 
-        public GameCycleController(IObjectResolver container, GameCycle gameCycle, TimeGameCycle timeGameCycle)
+        public GameCycleInjector(
+            IObjectResolver container, 
+            GameCycle gameCycle, 
+            TimeGameCycle timeGameCycle)
         {
             _container = container;
             _gameCycle = gameCycle;
             _timeGameCycle = timeGameCycle;
         }
 
-        public void PrepareGame() => _gameCycle.PrepareGame();
-
-        public void StartGame() => _gameCycle.StartGame();
-
-        public void FinishGame() => _gameCycle.FinishGame();
-
-        public void PauseGame() => _gameCycle.PauseGame();
-
-        public void ResumeGame() => _gameCycle.ResumeGame();
-
-        public void ExitGame() => _gameCycle.ExitGame();
-        
-        public GameState GameState => _gameCycle.State;
+        // public void PrepareGame() => _gameCycle.PrepareGame();
+        //
+        // public void StartGame() => _gameCycle.StartGame();
+        //
+        // public void FinishGame() => _gameCycle.FinishGame();
+        //
+        // public void PauseGame() => _gameCycle.PauseGame();
+        //
+        // public void ResumeGame() => _gameCycle.ResumeGame();
+        //
+        // public void ExitGame() => _gameCycle.ExitGame();
+        //
+        // public GameState GameState => _gameCycle.State;
 
         void IInitializable.Initialize()
         {

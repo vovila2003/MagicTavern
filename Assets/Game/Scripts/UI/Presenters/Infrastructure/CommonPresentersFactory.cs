@@ -1,5 +1,5 @@
 using JetBrains.Annotations;
-using Tavern.Infrastructure;
+using Modules.GameCycle;
 using Tavern.InputServices.Interfaces;
 using UnityEngine;
 
@@ -8,27 +8,27 @@ namespace Tavern.UI.Presenters
     [UsedImplicitly]
     public class CommonPresentersFactory
     {
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly ICommonViewsFactory _commonViewsFactory;
         private readonly IMouseClickInput _mouseClickInput;
 
         public CommonPresentersFactory(
-            GameCycleController gameCycleController, 
+            GameCycle gameCycle, 
             ICommonViewsFactory commonViewsFactory,
             IMouseClickInput mouseClickInput)
         {
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _commonViewsFactory = commonViewsFactory;
             _mouseClickInput = mouseClickInput;
         }
 
         public MainMenuPresenter CreateMainMenuPresenter(IMainMenuView mainMenuView, IUiManager uiManager) => 
-            new(mainMenuView, _gameCycleController, uiManager);
+            new(mainMenuView, _gameCycle, uiManager);
 
         public HudPresenter CreateHudPresenter(IHudView hudView) => new(hudView);
 
         public PausePresenter CreatePausePresenter(IPauseView pauseView, IUiManager uiManager) => 
-            new(pauseView, _gameCycleController, uiManager);
+            new(pauseView, _gameCycle, uiManager);
         
         public ItemCardPresenter CreateItemCardPresenter(Transform viewContentTransform) =>
             new(_commonViewsFactory.GetItemCardView(viewContentTransform), 
