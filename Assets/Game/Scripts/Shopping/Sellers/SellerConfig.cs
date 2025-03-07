@@ -55,7 +55,7 @@ namespace Tavern.Shopping
             OnValidate();
         }
 
-        protected override void OnValidate()
+        public override void OnValidate()
         {
             base.OnValidate();
             

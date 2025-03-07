@@ -11,8 +11,8 @@ namespace Tavern.ProductsAndIngredients
     {
         [field: SerializeField] 
         public int ProductToSeedRatio { get; private set; } = 2;
-        
-        protected override void OnValidate()
+
+        public override void OnValidate()
         {
             if (!TryGet(out ComponentPlant component)) return;
             

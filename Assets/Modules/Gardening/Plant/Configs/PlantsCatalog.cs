@@ -11,6 +11,8 @@ namespace Modules.Gardening
     {
         [SerializeField] 
         private PlantConfig[] Plants;
+
+        public PlantConfig[] PlantConfigs => Plants;
         
         private void OnValidate()
         {

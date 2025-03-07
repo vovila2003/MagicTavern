@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c2e82dcd51427fa290f8256f0a90db, type: 3}
+  m_Name: GreenerySeed
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: GreenerySeed
+  <Flags>k__BackingField: 17
+  Components:
+  - rid: 4431604871460552888
+  - rid: 4431604871460552889
+  - rid: 4431604871460552890
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
+    Icon: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4431604871460552888
+      type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
+      data:
+        IsLimited: 0
+        MaxSize: 0
+    - rid: 4431604871460552889
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 0
+    - rid: 4431604871460552890
+      type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
+      data:
+        PlantConfig: {fileID: 11400000, guid: d17d52ec0a4c5d621887b92f60d49fa3, type: 2}

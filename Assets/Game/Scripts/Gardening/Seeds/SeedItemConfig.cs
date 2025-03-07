@@ -10,7 +10,7 @@ namespace Tavern.Gardening
         menuName = "Settings/Gardening/Seeds/Seed Config")]
     public class SeedItemConfig : PlantItemConfig
     {
-        protected override void OnValidate()
+        public override void OnValidate()
         {
             base.OnValidate();
             if (!TryGet(out ComponentPlant component)) return;

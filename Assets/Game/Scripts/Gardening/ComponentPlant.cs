@@ -10,8 +10,12 @@ namespace Tavern.Gardening
     {
         [SerializeField] 
         private PlantConfig PlantConfig;
-        
-        public PlantConfig Config => PlantConfig;
+
+        public PlantConfig Config
+        {
+            get => PlantConfig;
+            set => PlantConfig = value;
+        }
 
         public ComponentPlant()
         {
