@@ -10,10 +10,9 @@ namespace Tavern.Gardening.Fertilizer
     {
         public ItemConsumer<FertilizerItem> Consumer { get; }
 
-        public FertilizerInventory(FertilizerConsumer consumer)
+        public FertilizerInventory()
         {
-            Consumer = consumer;
-            Consumer.Init(this);
+            Consumer = new FertilizerConsumer(this);
             Consumer.AddHandler(new SeedbedBoostSicknessReducingHandler());
             Consumer.AddHandler(new GrowthAccelerationHandler());
             Consumer.AddHandler(new HarvestBoosterHandler());

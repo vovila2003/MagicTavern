@@ -10,10 +10,9 @@ namespace Tavern.Gardening.Medicine
     {
         public ItemConsumer<MedicineItem> Consumer { get; }
 
-        public MedicineInventory(MedicineConsumer consumer)
+        public MedicineInventory()
         {
-            Consumer = consumer;
-            Consumer.Init(this);
+            Consumer = new  MedicineConsumer(this);
             Consumer.AddHandler(new HarvestHealHandler());
             Consumer.AddHandler(new HarvestSicknessReducingHandler());
         }

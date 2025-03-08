@@ -5,15 +5,15 @@ using Modules.Items;
 
 namespace Modules.Consuming
 {
-    public class ItemConsumer<T> where T : Item
+    public abstract class ItemConsumer<T> where T : Item
     {
         public event Action<T> OnItemConsumed;
 
         private readonly List<IInventoryItemConsumeHandler> _handlers = new();
 
-        private IInventory<T> _inventory;
+        private readonly IInventory<T> _inventory;
 
-        public void Init(IInventory<T> inventory)
+        public ItemConsumer(IInventory<T> inventory)
         {
             _inventory = inventory;
         }
