@@ -5,5 +5,6 @@ namespace Tavern.UI.Presenters
     public interface IPauseView : IView
     {
         event UnityAction OnResume;
+        event UnityAction OnExit;
     }
 }

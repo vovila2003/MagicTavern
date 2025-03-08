@@ -12,6 +12,7 @@ namespace Tavern.Gardening
         menuName = "Settings/Gardening/Seeds/Seeds Creator")]
     public class SeedsCreator : ScriptableObject
     {
+#if UNITY_EDITOR
         [SerializeField] 
         private SeedCatalog SeedCatalog;
 
@@ -82,5 +83,6 @@ namespace Tavern.Gardening
                 _plantToConfig.Add(config.Plant, config);
             }
         }
+#endif
     }
 }

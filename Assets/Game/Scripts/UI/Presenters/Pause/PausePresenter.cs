@@ -21,17 +21,24 @@ namespace Tavern.UI.Presenters
         protected override void OnShow()
         {
             _view.OnResume += OnResume;
+            _view.OnExit += OnExit;
         }
 
         protected override void OnHide()
         {
             _view.OnResume -= OnResume;
+            _view.OnExit -= OnExit;
         }
 
         private void OnResume()
         {
             _uiManager.HidePause();
             _gameCycle.ResumeGame();            
+        }
+
+        private void OnExit()
+        {
+            _gameCycle.ExitGame();
         }
     }
 }
