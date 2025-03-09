@@ -6,20 +6,20 @@ using Modules.Items;
 namespace Tavern.Gardening.Medicine
 {
     [UsedImplicitly]
-    public class MedicineInventory : StackableInventory<MedicineItem>, IConsumable<MedicineItem>
+    public class MedicineInventory : 
+        StackableInventory<MedicineItem>, 
+        IConsumable
     {
-        public ItemConsumer<MedicineItem> Consumer { get; }
+        private readonly MedicineConsumer _consumer;
 
         public MedicineInventory()
         {
-            Consumer = new  MedicineConsumer(this);
-            Consumer.AddHandler(new HarvestHealHandler());
-            Consumer.AddHandler(new HarvestSicknessReducingHandler());
+            _consumer = new  MedicineConsumer(this);
         }
 
         public void Consume(ItemConfig config, object target)
         {
-            Consumer.ConsumeItem(config.Name, target);
+            _consumer.ConsumeItem(config.Name, target);
         }
     }
 }

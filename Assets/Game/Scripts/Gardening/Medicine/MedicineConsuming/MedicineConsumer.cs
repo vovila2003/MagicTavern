@@ -9,6 +9,8 @@ namespace Tavern.Gardening.Medicine
     {
         public MedicineConsumer(IInventory<MedicineItem> inventory) : base(inventory)
         {
+            AddHandler(new HarvestHealHandler());
+            AddHandler(new HarvestSicknessReducingHandler());
         }
     }
 }

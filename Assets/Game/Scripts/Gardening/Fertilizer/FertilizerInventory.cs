@@ -6,22 +6,20 @@ using Modules.Items;
 namespace Tavern.Gardening.Fertilizer
 {
     [UsedImplicitly]
-    public class FertilizerInventory : StackableInventory<FertilizerItem>, IConsumable<FertilizerItem>
+    public class FertilizerInventory : 
+        StackableInventory<FertilizerItem>,
+        IConsumable
     {
-        public ItemConsumer<FertilizerItem> Consumer { get; }
+        private readonly FertilizerConsumer _consumer;
 
         public FertilizerInventory()
         {
-            Consumer = new FertilizerConsumer(this);
-            Consumer.AddHandler(new SeedbedBoostSicknessReducingHandler());
-            Consumer.AddHandler(new GrowthAccelerationHandler());
-            Consumer.AddHandler(new HarvestBoosterHandler());
-            Consumer.AddHandler(new SeedInHarvestHandler());
+            _consumer = new FertilizerConsumer(this);
         }
 
         public void Consume(ItemConfig config, object target)
         {
-            Consumer.ConsumeItem(config.Name, target);
+            _consumer.ConsumeItem(config.Name, target);
         }
     }
 }

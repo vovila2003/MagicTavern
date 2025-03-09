@@ -1,3 +1,4 @@
+using Modules.Consuming;
 using Modules.Inventories;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
@@ -11,8 +12,8 @@ namespace Tavern.Gardening
     {
         private IInventory<SeedItem> _seedsStorage;
         private IWaterStorage _waterStorage;
-        private MedicineInventory _medicineInventory;
-        private FertilizerInventory _fertilizerInventory;
+        private IConsumable _medicineInventory;
+        private IConsumable _fertilizerInventory;
 
         [Inject]
         private void Construct(
