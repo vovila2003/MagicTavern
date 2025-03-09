@@ -6,11 +6,12 @@ namespace Tavern.ProductsAndIngredients
     [Serializable]
     public class PlantProductItem : ProductItem
     {
-        public PlantProductItem(ItemConfig config, params IItemComponent[] attributes) : base(config, attributes) { }
+        public PlantProductItem(ItemConfig config, IItemComponent[] attributes, IExtraItemComponent[] extra) 
+            : base(config, attributes, extra) { }
 
         public override Item Clone()
         {
-            return new PlantProductItem(Config, GetComponents());
+            return new PlantProductItem(Config, GetComponents(), GetExtraComponents());
         }
     }
 }

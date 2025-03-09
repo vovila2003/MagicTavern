@@ -50,7 +50,7 @@ namespace Tavern.Cooking
         {
             if (result.Has<ComponentDishExtra>()) return;
             
-            result.AddComponent(new ComponentDishExtra());
+            result.AddExtraComponent(new ComponentDishExtra());
         }
 
         private void ProcessEffect(DishItem result)
@@ -58,7 +58,7 @@ namespace Tavern.Cooking
             List<ComponentEffect> existed = result.GetAll<ComponentEffect>();
             if (!_effectsCatalog.TryGetRandomEffectExpect(existed, out EffectConfig newEffect)) return;
             
-            result.AddComponent(new ComponentEffect(newEffect));
+            result.AddExtraComponent(new ComponentEffect(newEffect));
         }
 
         public void MakeSlops(ActiveDishRecipe activeDishRecipe)

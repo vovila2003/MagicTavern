@@ -11,28 +11,29 @@ namespace Modules.Inventories
         public event Action<Item, IInventoryBase> OnItemAdded;
         public event Action<Item, IInventoryBase> OnItemRemoved;
 
-        private readonly Dictionary<T,int> _counts = new();
-        private List<T> _items;
-        
-        public List<T> Items => _items;
-        
+        private readonly Dictionary<T, int> _counts = new();
+
+        public List<T> Items { get; private set; }
+
         public ListInventory(params T[] items)
         {
-            _items = new List<T>(items);
+            Items = new List<T>(items);
+            SetupCounts();
         }
 
         public void Setup(params T[] items)
         {
-            _items = new List<T>(items);
+            Items = new List<T>(items);
+            SetupCounts();
         }
 
         public void AddItem(Item item)
         {
             if (item is not T tItem) return;
             
-            if (_items.Contains(tItem)) return;
+            if (Items.Contains(tItem)) return;
             
-            _items.Add(tItem);
+            Items.Add(tItem);
             _counts.TryAdd(tItem, 0);
             _counts[tItem]++;
             OnItemAdded?.Invoke(tItem, this);
@@ -48,7 +49,7 @@ namespace Modules.Inventories
         {
             if (item is not T tItem) return;
             
-            if (!_items.Remove(tItem)) return;
+            if (!Items.Remove(tItem)) return;
             
             OnItemRemoved?.Invoke(tItem, this);
             
@@ -89,12 +90,12 @@ namespace Modules.Inventories
 
         public IReadOnlyList<Item> GetItems()
         {
-            return _items.ToList();
+            return Items.ToList();
         }
 
         public bool FindItem(string name, out Item result)
         {
-            foreach (T inventoryItem in _items)
+            foreach (T inventoryItem in Items)
             {
                 if (inventoryItem.ItemName != name) continue;
                 
@@ -108,14 +109,14 @@ namespace Modules.Inventories
 
         public int GetItemCount(string name)
         {
-            return _items.Count(it => it.ItemName == name);
+            return Items.Count(it => it.ItemName == name);
         }
 
         public bool FindAllItems(string name, out List<T> items)
         {
             items = new List<T>();
             bool result = false;
-            foreach (T item in _items)
+            foreach (T item in Items)
             {
                 if (item.ItemName != name) continue;
                 items.Add(item);
@@ -127,9 +128,25 @@ namespace Modules.Inventories
 
         public bool IsItemExists(T item)
         {
-            return _items.Contains(item);
+            return Items.Contains(item);
+        }
+
+        public void Clear()
+        {
+            Items.Clear();
+            _counts.Clear();
         }
 
         public bool IsItemExists(string name) => FindItem(name, out _);
+
+        private void SetupCounts()
+        {
+            _counts.Clear();
+            foreach (T item in Items)
+            {
+                _counts.TryAdd(item, 0);
+                _counts[item]++;
+            }
+        }
     }
 }

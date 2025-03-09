@@ -122,7 +122,9 @@ namespace Tavern.UI.Presenters
             if (item.Config is not PlantProductItemConfig plantItemConfig) return;
             
             _infoPresenter ??= _gardeningPresentersFactory.CreateConvertInfoPresenter(_canvas);
-            if (!_infoPresenter.Show(item, item.GetCount(), plantItemConfig.ProductToSeedRatio)) return;
+            if (!plantItemConfig.TryGet(out ComponentProductToSeedRatio ratio)) return;
+            
+            if (!_infoPresenter.Show(item, item.GetCount(), ratio.ProductToSeedRatio)) return;
             
             _infoPresenter.OnAccepted += OnAction;
             _infoPresenter.OnRejected += OnCancelled;

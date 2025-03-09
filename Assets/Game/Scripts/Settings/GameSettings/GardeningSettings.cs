@@ -17,7 +17,11 @@ namespace Tavern.Settings
         [field: SerializeField]
         public SeedCatalog SeedCatalog { get; private set; }
         
+        [field: SerializeField]
+        public AnimalProductCatalog AnimalProductCatalog { get; private set; }
         
         public Pot Pot => PotPrefab;
+        
+        
     }
 }

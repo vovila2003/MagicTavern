@@ -33,7 +33,7 @@ MonoBehaviour:
     - rid: 4431604871460552874
       type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
       data:
-        <BasePrice>k__BackingField: 0
+        <BasePrice>k__BackingField: 1
     - rid: 4431604871460552875
       type: {class: ComponentPlant, ns: Tavern.Gardening, asm: Game}
       data:

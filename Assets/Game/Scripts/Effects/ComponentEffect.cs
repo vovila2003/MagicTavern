@@ -21,7 +21,7 @@ namespace Tavern.Effects
             EffectConfig = config;
         }
 
-        public IItemComponent Clone()
+        public IExtraItemComponent Clone()
         {
             return new ComponentEffect(EffectConfig);
         }

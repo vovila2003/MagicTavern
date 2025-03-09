@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Modules.Inventories;
 using Modules.Items;
@@ -13,7 +14,7 @@ namespace Tavern.Gardening.Fertilizer
     {
         public override Item Create()
         {
-            return new FertilizerItem(this, GetComponentClones());
+            return new FertilizerItem(this, GetComponentClones(), Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(FertilizerItem);

@@ -156,6 +156,11 @@ namespace Modules.Inventories
         public bool IsItemExists(T item) => 
             IsStackable(item) ? FindItem(item.ItemName, out Item _) : _listInventory.IsItemExists(item);
 
+        public void Clear()
+        {
+            _listInventory.Clear();
+        }
+
         public bool IsItemExists(string name) => FindItem(name, out Item _);
 
         private bool IsStackable(T item) => item.ItemFlags.HasFlag(ItemFlags.Stackable);

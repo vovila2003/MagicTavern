@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Modules.Gardening;
 using Modules.Inventories;
@@ -13,7 +14,7 @@ namespace Tavern.Gardening.Medicine
     {
         public override Item Create()
         {
-            return new MedicineItem(this, GetComponentClones());
+            return new MedicineItem(this, GetComponentClones(), Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(MedicineItem);

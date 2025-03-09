@@ -2,8 +2,8 @@ using Modules.Items;
 
 namespace Tavern.Effects
 {
-    public interface IEffectComponent : IItemComponent
+    public interface IEffectComponent : IExtraItemComponent
     {
-        public IEffectConfig Config { get; }
+        IEffectConfig Config { get; }
     }
 }

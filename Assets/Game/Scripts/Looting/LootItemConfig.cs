@@ -1,3 +1,4 @@
+using System;
 using Modules.Inventories;
 using Modules.Items;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Tavern.Looting
     {
         public override Item Create()
         {
-            return new LootItem(this, GetComponentClones());
+            return new LootItem(this, GetComponentClones(), Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(LootItem);

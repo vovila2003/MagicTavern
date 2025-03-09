@@ -3,12 +3,12 @@ using Sirenix.OdinInspector;
 
 namespace Tavern.Cooking
 {
-    public class ComponentDishExtra : IItemComponent
+    public class ComponentDishExtra : IExtraItemComponent
     {
         [ShowInInspector, ReadOnly] 
-        private string _extra;
+        private bool _extra = true;
         
-        public IItemComponent Clone()
+        public IExtraItemComponent Clone()
         {
             return new ComponentDishExtra();
         }

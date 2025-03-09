@@ -666,7 +666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
-  DebugMode: 1
+  DebugMode: 0
   Count: 10
 --- !u!114 &368490056
 MonoBehaviour:
@@ -682,7 +682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 091a91e542873341da703ff93923402d, type: 2}
-  DebugMode: 1
+  DebugMode: 0
   Count: 10
 --- !u!1 &479389815
 GameObject:

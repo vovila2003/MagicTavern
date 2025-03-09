@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Modules.Gardening;
 using Modules.Items;
@@ -22,7 +23,7 @@ namespace Tavern.Gardening
 
         public override Item Create()
         {
-            return new SeedItem(this, GetComponentClones());
+            return new SeedItem(this, GetComponentClones(), Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(SeedItem);

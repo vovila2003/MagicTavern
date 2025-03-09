@@ -20,6 +20,9 @@ namespace Modules.Items
         
         [ShowInInspector, ReadOnly]
         private List<IItemComponent> _components;
+        
+        [ShowInInspector, ReadOnly]
+        private List<IExtraItemComponent> _extraComponents;
 
         [ShowInInspector, ReadOnly]
         public string TypeName => Config.ItemTypeName;
@@ -27,20 +30,30 @@ namespace Modules.Items
 
         public Item(
             ItemConfig config,
-            params IItemComponent[] attributes)
+            IItemComponent[] attributes,
+            IExtraItemComponent[] extra)
         {
             Config = config;
             _components = new List<IItemComponent>(attributes);
+            _extraComponents = new List<IExtraItemComponent>(extra);
         }
 
-        public void AddComponent(IItemComponent component)
+        public void AddExtraComponent(IExtraItemComponent component)
         {
-            _components.Add(component);
+            _extraComponents.Add(component);
         }
         
         public T Get<T>()
         {
             foreach (IItemComponent attribute in _components)
+            {
+                if (attribute is T tAttribute)
+                {
+                    return tAttribute;
+                }
+            }
+            
+            foreach (IExtraItemComponent attribute in _extraComponents)
             {
                 if (attribute is T tAttribute)
                 {
@@ -54,6 +67,14 @@ namespace Modules.Items
         public bool TryGet<T>(out T component)
         {
             foreach (IItemComponent attribute in _components)
+            {
+                if (attribute is not T tAttribute) continue;
+                
+                component = tAttribute;
+                return true;
+            }
+            
+            foreach (IExtraItemComponent attribute in _extraComponents)
             {
                 if (attribute is not T tAttribute) continue;
                 
@@ -79,13 +100,28 @@ namespace Modules.Items
             return result;
         }
 
-        public bool Has<T>() => _components.OfType<T>().Any();
+        public List<T> GetAllExtra<T>()
+        {
+            var result = new List<T>();
+            foreach (IExtraItemComponent attribute in _extraComponents)
+            {
+                if (attribute is T tAttribute)
+                {
+                    result.Add(tAttribute);
+                }
+            }
+            
+            return result;
+        }
+
+        public bool Has<T>() => _components.OfType<T>().Any() || _extraComponents.OfType<T>().Any();
 
         public virtual Item Clone()
         {
             IItemComponent[] components = GetComponents();
+            IExtraItemComponent[] extraComponents = GetExtraComponents();
 
-            return new Item(Config, components);
+            return new Item(Config, components, extraComponents);
         }
 
         protected IItemComponent[] GetComponents()
@@ -96,6 +132,19 @@ namespace Modules.Items
             for (var i = 0; i < count; i++)
             {
                 components[i] = _components[i].Clone();
+            }
+
+            return components;
+        }
+
+        protected IExtraItemComponent[] GetExtraComponents()
+        {
+            int count = _extraComponents.Count;
+            var components = new IExtraItemComponent[count];
+
+            for (var i = 0; i < count; i++)
+            {
+                components[i] = _extraComponents[i].Clone();
             }
 
             return components;

@@ -41,7 +41,9 @@ namespace Tavern.Gardening
 
             if (itemConfig is not SeedItemConfig seedItemConfig) return;
 
-            int seedCount = productCount * (item.Config as PlantProductItemConfig)!.ProductToSeedRatio;
+            if (!item.TryGet(out ComponentProductToSeedRatio ratio)) return;
+
+            int seedCount = productCount * ratio.ProductToSeedRatio;
 
             _productsStorage.RemoveItems(item, productCount);
             _seedsStorage.AddItems(seedItemConfig.Create(), seedCount);

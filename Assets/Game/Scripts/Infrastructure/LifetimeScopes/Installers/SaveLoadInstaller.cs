@@ -14,7 +14,6 @@ namespace Tavern.Infrastructure
         public SaveLoadInstaller(GameSettings gameSettings)
         {
             _filePath = Path.Combine(Application.persistentDataPath, gameSettings.SaveLoadSettings.FileSaveName);
-            Debug.Log(_filePath);
         }
 
         public void Install(IContainerBuilder builder)
@@ -23,6 +22,8 @@ namespace Tavern.Infrastructure
             builder.Register<GameSaveLoader>(Lifetime.Singleton);
             
             builder.Register<MoneySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<PlantProductSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<AnimalProductSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }
