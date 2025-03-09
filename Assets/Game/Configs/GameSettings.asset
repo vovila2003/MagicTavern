@@ -27,6 +27,8 @@ MonoBehaviour:
     <CameraOffset>k__BackingField: {x: 0, y: 6, z: -6}
   <TimeSettings>k__BackingField:
     <SecondsIn12Hours>k__BackingField: 3
+  <SaveLoadSettings>k__BackingField:
+    <FileSaveName>k__BackingField: data.sav
   GardeningConfigs:
     PotPrefab: {fileID: 6548709685111567746, guid: 2993ab517fc893eb4854237943d2437f, type: 3}
     <PlantProductCatalog>k__BackingField: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}

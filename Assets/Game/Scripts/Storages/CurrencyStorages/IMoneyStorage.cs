@@ -9,5 +9,6 @@ namespace Tavern.Storages.CurrencyStorages
         void SpendMoney(int value);
         bool CanSpendMoney(int value);
         int Money { get; }
+        void Change(int value);
     }
 }

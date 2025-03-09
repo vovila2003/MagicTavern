@@ -13,6 +13,18 @@ namespace Tavern.UI.Views
             remove => ResumeButton.onClick.RemoveListener(value);
         }
         
+        public event UnityAction OnSave
+        {
+            add => SaveButton.onClick.AddListener(value);
+            remove => SaveButton.onClick.RemoveListener(value);
+        }
+        
+        public event UnityAction OnLoad
+        {
+            add => LoadButton.onClick.AddListener(value);
+            remove => LoadButton.onClick.RemoveListener(value);
+        }
+        
         public event UnityAction OnExit
         {
             add => ExitButton.onClick.AddListener(value);
@@ -21,6 +33,12 @@ namespace Tavern.UI.Views
         
         [SerializeField] 
         private Button ResumeButton;
+        
+        [SerializeField] 
+        private Button SaveButton;
+        
+        [SerializeField] 
+        private Button LoadButton;
 
         [SerializeField] 
         private Button ExitButton;

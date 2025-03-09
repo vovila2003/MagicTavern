@@ -13,6 +13,10 @@ namespace Tavern.Storages.CurrencyStorages
         public bool CanSpendMoney(int value) => CanSpend(value);
 
         public int Money => Value;
+        public void Change(int value)
+        {
+            Storage.Set(value);
+        }
 
         protected override void OnEnable()
         {

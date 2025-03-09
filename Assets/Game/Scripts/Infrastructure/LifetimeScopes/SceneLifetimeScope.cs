@@ -30,6 +30,7 @@ namespace Tavern.Infrastructure
             new LootingInstaller().Install(builder);
             new CookingInstaller().Install(builder);
             new ShoppingInstaller().Install(builder);
+            new SaveLoadInstaller(GameSettings).Install(builder);
             new DebugInstaller().Install(builder);
             
         }

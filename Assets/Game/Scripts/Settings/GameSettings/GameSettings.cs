@@ -18,6 +18,9 @@ namespace Tavern.Settings
         
         [field: SerializeField]
         public TimeSettings TimeSettings {get; private set;}
+        
+        [field: SerializeField]
+        public SaveLoadSettings SaveLoadSettings {get; private set;}
 
         [SerializeField]
         private GardeningSettings GardeningConfigs;
