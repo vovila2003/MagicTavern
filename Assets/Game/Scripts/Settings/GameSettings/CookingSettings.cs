@@ -1,7 +1,6 @@
 using System;
 using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
-using Tavern.Effects;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -9,14 +8,14 @@ namespace Tavern.Settings
     [Serializable]
     public class CookingSettings
     {
+        [field: SerializeField]
+        public DishesCatalog DishCatalog { get; private set; }
+        
         [SerializeField]
         private DishRecipeCatalog DishRecipeCatalog;
 
         [SerializeField] 
         private KitchenItemContext KitchenItemPrefab;
-        
-        [SerializeField]
-        private EffectsCatalog EffectsCatalog;
         
         [SerializeField]
         private MiniGameConfig DefaultMiniGameSettings;
@@ -30,7 +29,6 @@ namespace Tavern.Settings
         [field: SerializeField]
         public bool EnableRecipeMatching { get; private set; }
 
-        public EffectsCatalog Effects => EffectsCatalog;
         public MiniGameConfig DefaultMiniGameConfig  => DefaultMiniGameSettings;
         public int MinDefaultTime => MinDefaultMiniGameTimeInSeconds;
         public int MaxDefaultTime => MaxDefaultMiniGameTimeInSeconds;

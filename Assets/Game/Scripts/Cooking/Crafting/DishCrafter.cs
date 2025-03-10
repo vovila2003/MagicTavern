@@ -26,7 +26,7 @@ namespace Tavern.Cooking
         {
             _dishInventory = dishInventory;
             _slopsStorage = slopsStorage;
-            _effectsCatalog = settings.CookingSettings.Effects;
+            _effectsCatalog = settings.EffectsSettings.EffectsCatalog;
         }
 
         public void CraftDish(ActiveDishRecipe activeDishRecipe, bool isExtra)

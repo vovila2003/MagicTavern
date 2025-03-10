@@ -31,6 +31,9 @@ namespace Tavern.Settings
         [field: SerializeField]
         public ShoppingSettings ShoppingSettings { get; private set; }
         
+        [field: SerializeField]
+        public EffectsSettings EffectsSettings { get; private set; }
+        
         [SerializeField]
         private UISettings UIConfigs;
         

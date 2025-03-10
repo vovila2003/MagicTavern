@@ -33,10 +33,11 @@ MonoBehaviour:
     PotPrefab: {fileID: 6548709685111567746, guid: 2993ab517fc893eb4854237943d2437f, type: 3}
     <PlantProductCatalog>k__BackingField: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
     <SeedCatalog>k__BackingField: {fileID: 11400000, guid: 09dd44bbf50fab5d488c29a31b7c5ec7, type: 2}
+    <AnimalProductCatalog>k__BackingField: {fileID: 11400000, guid: 091a91e542873341da703ff93923402d, type: 2}
   CookingConfigs:
+    <DishCatalog>k__BackingField: {fileID: 11400000, guid: f985ab789fe8478a5ad6a904139e34de, type: 2}
     DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
     KitchenItemPrefab: {fileID: 1015441784064912068, guid: 598cb2af4a0915bd79a5d8ef14abe6b4, type: 3}
-    EffectsCatalog: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
     DefaultMiniGameSettings:
       GreenZone: 30
       YellowZone: 30
@@ -47,6 +48,8 @@ MonoBehaviour:
     <EnableRecipeMatching>k__BackingField: 0
   <ShoppingSettings>k__BackingField:
     <ShopContextPrefab>k__BackingField: {fileID: 1517396157421802262, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
+  <EffectsSettings>k__BackingField:
+    <EffectsCatalog>k__BackingField: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
   UIConfigs:
     Common:
       EntityCardSettings:

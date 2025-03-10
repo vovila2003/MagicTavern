@@ -27,6 +27,7 @@ namespace Modules.Items
         [ShowInInspector, ReadOnly]
         public string TypeName => Config.ItemTypeName;
         public ItemConfig Config { get; protected set; }
+        public IReadOnlyList<IExtraItemComponent> ExtraComponents => _extraComponents;
 
         public Item(
             ItemConfig config,

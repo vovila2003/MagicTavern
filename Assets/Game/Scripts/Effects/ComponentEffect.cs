@@ -12,6 +12,8 @@ namespace Tavern.Effects
         
         public IEffectConfig Config => EffectConfig;
 
+        public string ComponentName => nameof(ComponentEffect);
+
         public ComponentEffect()
         {
         }

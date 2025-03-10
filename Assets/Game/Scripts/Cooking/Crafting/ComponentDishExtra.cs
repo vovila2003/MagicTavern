@@ -8,9 +8,12 @@ namespace Tavern.Cooking
         [ShowInInspector, ReadOnly] 
         private bool _extra = true;
         
+        public string ComponentName => nameof(ComponentDishExtra);
+
         public IExtraItemComponent Clone()
         {
             return new ComponentDishExtra();
         }
+
     }
 }
