@@ -6,16 +6,16 @@ using Tavern.Settings;
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public sealed class AnimalProductInventorySerializer : InventorySerializer<AnimalProductItem>
+    public sealed class PlantProductInventorySerializer : BaseInventorySerializer<PlantProductItem>
     {
-        public AnimalProductInventorySerializer(
-            IInventory<AnimalProductItem> inventory,
+        public PlantProductInventorySerializer(
+            IInventory<PlantProductItem> inventory,
             ItemSerializer itemSerializer,
             GameSettings settings)
             : base(inventory, 
-                settings.GardeningSettings.AnimalProductCatalog,
+                settings.GardeningSettings.PlantProductCatalog,
                 itemSerializer,
-                nameof(AnimalProductInventory))
+                nameof(PlantProductInventory))
         {
         }
     }

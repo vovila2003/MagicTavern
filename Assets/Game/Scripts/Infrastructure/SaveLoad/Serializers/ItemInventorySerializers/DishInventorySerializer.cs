@@ -6,7 +6,7 @@ using Tavern.Settings;
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public sealed class DishInventorySerializer : InventorySerializer<DishItem>
+    public sealed class DishInventorySerializer : BaseInventorySerializer<DishItem>
     {
         public DishInventorySerializer(
             IInventory<DishItem> inventory,

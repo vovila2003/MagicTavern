@@ -6,14 +6,14 @@ using Unity.Plastic.Newtonsoft.Json;
 
 namespace Tavern.Infrastructure
 {
-    public abstract class InventorySerializer<T> : IGameSerializer where T : Item
+    public abstract class BaseInventorySerializer<T> : IGameSerializer where T : Item
     {
         private readonly IInventory<T> _inventory;
         private readonly ItemsCatalog _catalog;
         private readonly ItemSerializer _serializer;
         private readonly string _name;
 
-        protected InventorySerializer(
+        protected BaseInventorySerializer(
             IInventory<T> inventory,
             ItemsCatalog catalog,
             ItemSerializer serializer,
