@@ -83,7 +83,7 @@ namespace Tavern.UI.Presenters
         {
             _view.HideAllEffects();
             
-            List<IEffectComponent> effects = _item.GetAll<IEffectComponent>();
+            List<IEffectComponent> effects = _item.GetAllExtra<IEffectComponent>();
             int count = Mathf.Min(effects.Count, _view.Effects.Length);
             for (var i = 0; i < count; i++)
             {

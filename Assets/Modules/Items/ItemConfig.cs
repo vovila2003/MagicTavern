@@ -14,6 +14,9 @@ namespace Modules.Items
         [SerializeReference] 
         protected List<IItemComponent> Components;
 
+        [SerializeReference] 
+        protected List<IExtraItemComponent> ExtraComponents;
+
         [field: SerializeField]
         public Metadata Metadata { get; private set; }
 
@@ -22,13 +25,26 @@ namespace Modules.Items
 
         public virtual string Description => Metadata.Description;
 
-
         public abstract Item Create();
 
         public List<T> GetAll<T>()
         {
             var result = new List<T>();
             foreach (IItemComponent attribute in Components)
+            {
+                if (attribute is T tAttribute)
+                {
+                    result.Add(tAttribute);
+                }
+            }
+            
+            return result;
+        }
+
+        public List<T> GetAllExtra<T>()
+        {
+            var result = new List<T>();
+            foreach (IExtraItemComponent attribute in ExtraComponents)
             {
                 if (attribute is T tAttribute)
                 {
@@ -52,7 +68,6 @@ namespace Modules.Items
             component = default;
             return false;
         }
-
 
         protected void SetFlags(ItemFlags flags) => Flags |= flags;
 

@@ -5,7 +5,7 @@ namespace Modules.Items
     public interface IHavingComponentsCapable
     {
         bool TryGet<T>(out T component);
-        List<T> GetAll<T>();
+        List<T> GetAllExtra<T>();
         bool Has<T>();
     }
 }
