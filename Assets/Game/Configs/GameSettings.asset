@@ -34,6 +34,8 @@ MonoBehaviour:
     <PlantProductCatalog>k__BackingField: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
     <SeedCatalog>k__BackingField: {fileID: 11400000, guid: 09dd44bbf50fab5d488c29a31b7c5ec7, type: 2}
     <AnimalProductCatalog>k__BackingField: {fileID: 11400000, guid: 091a91e542873341da703ff93923402d, type: 2}
+    <FertilizerCatalog>k__BackingField: {fileID: 11400000, guid: 5ed77bf1faa549c9196e7b4689a858f3, type: 2}
+    <MedicineCatalog>k__BackingField: {fileID: 11400000, guid: 77ccd583a720ea2b28642d99839217a3, type: 2}
   CookingConfigs:
     <DishCatalog>k__BackingField: {fileID: 11400000, guid: f985ab789fe8478a5ad6a904139e34de, type: 2}
     DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
@@ -50,6 +52,8 @@ MonoBehaviour:
     <ShopContextPrefab>k__BackingField: {fileID: 1517396157421802262, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
   <EffectsSettings>k__BackingField:
     <EffectsCatalog>k__BackingField: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
+  <LootSettings>k__BackingField:
+    <LootCatalog>k__BackingField: {fileID: 11400000, guid: d57b60e06fa20ab0988e7c4b81964ccf, type: 2}
   UIConfigs:
     Common:
       EntityCardSettings:

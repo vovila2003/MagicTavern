@@ -15,17 +15,18 @@ namespace Tavern.UI.Presenters
         
         private readonly Transform _parent;
         private readonly IInventory<PlantProductItem> _plantProductInventory;
-        private readonly IInventory<AnimalProductItem> _animalProductsInventory;
+        private readonly IInventory<AnimalProductItem> _animalProductInventory;
         private readonly CommonPresentersFactory _commonPresentersFactory;
         private readonly Transform _canvas;
         private readonly IActiveDishRecipeReader _recipe;
         private readonly bool _enableMatching;
-        private readonly Dictionary<string, ItemCardPresenter> _presenters = new();
+        private readonly Dictionary<string, ItemCardPresenter> _plantPresenters = new();
+        private readonly Dictionary<string, ItemCardPresenter> _animalPresenters = new();
         private InfoPresenter _infoPresenter;
 
         public CookingIngredientsPresenter(IContainerView view,
             IInventory<PlantProductItem> plantProductInventory,
-            IInventory<AnimalProductItem> animalProductsInventory,
+            IInventory<AnimalProductItem> animalProductInventory,
             CommonPresentersFactory commonPresentersFactory, 
             Transform canvas,
             IActiveDishRecipeReader recipe,
@@ -34,7 +35,7 @@ namespace Tavern.UI.Presenters
         {
             _parent = view.ContentTransform;
             _plantProductInventory = plantProductInventory;
-            _animalProductsInventory = animalProductsInventory;
+            _animalProductInventory = animalProductInventory;
             _commonPresentersFactory = commonPresentersFactory;
             _canvas = canvas;
             _recipe = recipe;
@@ -46,10 +47,12 @@ namespace Tavern.UI.Presenters
             SetupCards();
             
             _plantProductInventory.OnItemCountChanged += OnPlantProductCountChanged;
-            _plantProductInventory.OnItemRemoved += OnItemRemoved;
+            _plantProductInventory.OnItemAdded += OnPlantItemAdded;
+            _plantProductInventory.OnItemRemoved += OnPlantItemRemoved;
             
-            _animalProductsInventory.OnItemCountChanged += AnimalProductsCountChanged;
-            _animalProductsInventory.OnItemRemoved += OnItemRemoved;
+            _animalProductInventory.OnItemCountChanged += AnimalProductCountChanged;
+            _animalProductInventory.OnItemAdded += OnAnimalItemAdded;
+            _animalProductInventory.OnItemRemoved += OnAnimalItemRemoved;
 
             _recipe.OnSpent += OnSpendIngredients;
         }
@@ -57,33 +60,41 @@ namespace Tavern.UI.Presenters
         protected override void OnHide()
         {
             _plantProductInventory.OnItemCountChanged -= OnPlantProductCountChanged;
-            _plantProductInventory.OnItemRemoved -= OnItemRemoved;
+            _plantProductInventory.OnItemAdded -= OnPlantItemAdded;
+            _plantProductInventory.OnItemRemoved -= OnPlantItemRemoved;
             
-            _animalProductsInventory.OnItemCountChanged -= AnimalProductsCountChanged;
-            _animalProductsInventory.OnItemRemoved -= OnItemRemoved;
+            _animalProductInventory.OnItemCountChanged -= AnimalProductCountChanged;
+            _animalProductInventory.OnItemAdded -= OnAnimalItemAdded;
+            _animalProductInventory.OnItemRemoved -= OnAnimalItemRemoved;
             
             _recipe.OnSpent -= OnSpendIngredients;
 
-            foreach (ItemCardPresenter presenter in _presenters.Values)
-            {
-                UnsubscribeItemCard(presenter);
-                presenter.Hide();
-            }
-
-            _presenters.Clear();
+            ClearCards(_plantPresenters);
+            ClearCards(_animalPresenters);
         }
 
         private void SetupCards()
         {
             AddPlantProductPresenters(_plantProductInventory.Items);
-            AddAnimalProductsPresenters(_animalProductsInventory.Items);
+            AddAnimalProductsPresenters(_animalProductInventory.Items);
+        }
+
+        private void ClearCards(Dictionary<string, ItemCardPresenter> presenters)
+        {
+            foreach (ItemCardPresenter presenter in presenters.Values)
+            {
+                UnsubscribeItemCard(presenter);
+                presenter.Hide();
+            }
+
+            presenters.Clear();
         }
 
         private void AddAnimalProductsPresenters(List<AnimalProductItem> items)
         {
             foreach (AnimalProductItem item in items)
             {
-                AddPresenter(item, _animalProductsInventory.GetItemCount(item.ItemName));
+                AddPresenter(item, _animalProductInventory.GetItemCount(item.ItemName), _animalPresenters);
             }
         }
 
@@ -91,22 +102,22 @@ namespace Tavern.UI.Presenters
         {
             foreach (PlantProductItem item in items)
             {
-                AddPresenter(item, _plantProductInventory.GetItemCount(item.ItemName));
+                AddPresenter(item, _plantProductInventory.GetItemCount(item.ItemName), _plantPresenters);
             }
         }
 
-        private void AddPresenter(Item item, int itemCount)
+        private void AddPresenter(Item item, int itemCount, Dictionary<string, ItemCardPresenter> presenters)
         {
             if (itemCount <= 0) return;
             
-            if (_presenters.TryGetValue(item.ItemName, out ItemCardPresenter presenter))
+            if (presenters.TryGetValue(item.ItemName, out ItemCardPresenter presenter))
             {
                 presenter.ChangeCount(itemCount);
                 return;
             }
             
             presenter = _commonPresentersFactory.CreateItemCardPresenter(_parent);
-            _presenters.Add(item.ItemName, presenter);
+            presenters.Add(item.ItemName, presenter);
             if (_enableMatching)
             {
                 presenter.OnRightClick += OnIngredientRightClick;
@@ -115,31 +126,65 @@ namespace Tavern.UI.Presenters
             presenter.Show(item, itemCount);
         }
 
-        private void OnPlantProductCountChanged(Item item, int count) => 
-            OnItemCountChanged(item, count, _plantProductInventory);
-
-        private void AnimalProductsCountChanged(Item item, int count) => 
-            OnItemCountChanged(item, count, _animalProductsInventory);
-
-        private void OnItemCountChanged<T>(Item item, int count, IInventory<T> inventory) where T : Item
+        private void OnPlantProductCountChanged(Item item, int count)
         {
             if (_recipe.HasItem(item.ItemName))
             {
-                OnItemRemoved(item, inventory);
+                OnPlantItemRemoved(item, _plantProductInventory);
                 return;
             }
-            
-            if (!_presenters.ContainsKey(item.ItemName))
+
+            if (!_plantPresenters.ContainsKey(item.ItemName))
             {
-                AddPresenter(item, inventory.GetItemCount(item.ItemName));
+                AddPresenter(item, _plantProductInventory.GetItemCount(item.ItemName), _plantPresenters);
             }
-            
-            _presenters[item.ItemName].ChangeCount(count);
+
+            _plantPresenters[item.ItemName].ChangeCount(count);
         }
 
-        private void OnItemRemoved(Item item, IInventoryBase _)
+        private void AnimalProductCountChanged(Item item, int count)
         {
-            if (!_presenters.Remove(item.ItemName, out ItemCardPresenter presenter)) return;
+            if (_recipe.HasItem(item.ItemName))
+            {
+                OnAnimalItemRemoved(item, _animalProductInventory);
+                return;
+            }
+
+            if (!_animalPresenters.ContainsKey(item.ItemName))
+            {
+                AddPresenter(item, _animalProductInventory.GetItemCount(item.ItemName), _animalPresenters);
+            }
+
+            _animalPresenters[item.ItemName].ChangeCount(count);
+        }
+        
+        private void OnPlantItemAdded(Item item, IInventoryBase inventory)
+        {
+            if (!_plantPresenters.ContainsKey(item.ItemName))
+            {
+                AddPresenter(item, _plantProductInventory.GetItemCount(item.ItemName), _plantPresenters);
+            }        
+        }
+        
+        private void OnAnimalItemAdded(Item item, IInventoryBase inventory)
+        {
+            if (!_animalPresenters.ContainsKey(item.ItemName))
+            {
+                AddPresenter(item, _animalProductInventory.GetItemCount(item.ItemName), _animalPresenters);
+            }
+        }
+
+        private void OnPlantItemRemoved(Item item, IInventoryBase _)
+        {
+            if (!_plantPresenters.Remove(item.ItemName, out ItemCardPresenter presenter)) return;
+
+            UnsubscribeItemCard(presenter);
+            presenter.Hide();
+        }
+        
+        private void OnAnimalItemRemoved(Item item, IInventoryBase _)
+        {
+            if (!_animalPresenters.Remove(item.ItemName, out ItemCardPresenter presenter)) return;
 
             UnsubscribeItemCard(presenter);
             presenter.Hide();

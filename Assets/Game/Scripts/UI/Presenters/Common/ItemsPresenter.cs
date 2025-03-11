@@ -100,7 +100,7 @@ namespace Tavern.UI.Presenters
         }
 
         protected abstract void OnRightClick(Item item);
-        
+
         private void OnAction(Item item)
         {
             UnsubscribeInfo();

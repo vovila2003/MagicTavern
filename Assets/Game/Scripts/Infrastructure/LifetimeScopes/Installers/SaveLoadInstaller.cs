@@ -26,8 +26,8 @@ namespace Tavern.Infrastructure
             builder.Register<GameRepository>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_filePath);
             builder.Register<GameSaveLoader>(Lifetime.Singleton);
 
-            builder.Register<MoneySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
-            
+            RegisterResourceStoragesSerializers(builder);
+
             var extraSerializers = new Dictionary<string, IExtraSerializer>
             {
                 {nameof(ComponentEffect), new ComponentEffectSerializer(_gameSettings.EffectsSettings.EffectsCatalog)},
@@ -35,9 +35,25 @@ namespace Tavern.Infrastructure
             };
             builder.Register<ItemSerializer>(Lifetime.Singleton).WithParameter(extraSerializers);
 
+            RegisterInventorySerializers(builder);
+        }
+
+        private static void RegisterResourceStoragesSerializers(IContainerBuilder builder)
+        {
+            builder.Register<MoneySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<WaterSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<SlopsSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private static void RegisterInventorySerializers(IContainerBuilder builder)
+        {
             builder.Register<PlantProductInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AnimalProductInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<DishInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<FertilizerInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<MedicineInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<SeedInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<LootInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

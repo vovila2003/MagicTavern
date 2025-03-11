@@ -34,6 +34,9 @@ namespace Tavern.Settings
         [field: SerializeField]
         public EffectsSettings EffectsSettings { get; private set; }
         
+        [field: SerializeField]
+        public LootSettings LootSettings { get; private set; }
+        
         [SerializeField]
         private UISettings UIConfigs;
         

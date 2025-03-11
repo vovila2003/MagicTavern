@@ -158,6 +158,12 @@ namespace Modules.Inventories
 
         public void Clear()
         {
+            var items = new List<T>(_listInventory.Items);
+            foreach (T item in items)
+            {
+                RemoveSingle(item);
+            }
+            
             _listInventory.Clear();
         }
 

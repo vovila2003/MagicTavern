@@ -45,7 +45,7 @@ namespace Tavern.UI.Presenters
             _inventory.OnItemRemoved += Changed;
             _inventory.OnItemCountChanged += CountChanged;
         }
-
+        
         protected override void OnHide()
         {
             ClearItems();
@@ -109,7 +109,7 @@ namespace Tavern.UI.Presenters
             
             presenter.ChangeCount(count);
         }
-
+        
         private void OnRightClick(Item item)
         {
             if (item is not PlantProductItem plantProductItem) return;

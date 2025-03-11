@@ -119,8 +119,6 @@ namespace Tavern.UI.Presenters
             _presenters.Clear();
         }
 
-        
-
         private void OnItemsChanged()
         {
             ClearItems();

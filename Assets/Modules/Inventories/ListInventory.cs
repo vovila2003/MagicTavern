@@ -133,8 +133,15 @@ namespace Modules.Inventories
 
         public void Clear()
         {
-            Items.Clear();
+            var items = new List<T>(Items);
+            
+            foreach (T item in items)
+            {
+                RemoveItem(item);
+            }
+            
             _counts.Clear();
+            Items.Clear();
         }
 
         public bool IsItemExists(string name) => FindItem(name, out _);
