@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Modules.Info;
 using Sirenix.OdinInspector;
-using Tavern.Cooking;
 using Tavern.Effects;
 using Tavern.Settings;
 
@@ -17,10 +16,10 @@ namespace Tavern.Character
         private readonly Dictionary<string, EffectConfig> _effects = new();
         
         [ShowInInspector, ReadOnly]
-        public Metadata Metadata => _settings.Metadata;
+        public Metadata Metadata => _settings?.Metadata;
         
         [ShowInInspector, ReadOnly]
-        public Dictionary<string, EffectConfig>.ValueCollection Effects => _effects.Values;
+        public Dictionary<string, EffectConfig>.ValueCollection Effects => _effects?.Values;
         
         public CharacterState(CharacterSettings settings)
         {

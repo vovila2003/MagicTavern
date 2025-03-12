@@ -70,7 +70,8 @@ namespace Modules.Crafting
 
         public void Clear()
         {
-            foreach (ItemRecipe recipe in Recipes.Values)
+            var recipes = new List<ItemRecipe>(Recipes.Values);
+            foreach (ItemRecipe recipe in recipes)
             {
                 RemoveRecipeByConfig(recipe);
             }

@@ -7,19 +7,18 @@ namespace Tavern.Components
     {
         private Vector3 _direction;
         private Rigidbody _rigidbody;
-        private ISpeedable _speedable;
+        public ISpeedable Speedable { get; private set; }
 
         public void Init(Rigidbody rigidbody, ISpeedable speedable)
         {
             _rigidbody = rigidbody;
-            _speedable = speedable;
+            Speedable = speedable;
         }
 
         void IMovable.OnFixedUpdate(float fixedDeltaTime)
         {
-            Vector3 nextPosition = _rigidbody.position + _direction * (_speedable.GetSpeed() * fixedDeltaTime);
+            Vector3 nextPosition = _rigidbody.position + _direction * (Speedable.GetSpeed() * fixedDeltaTime);
             _rigidbody.MovePosition(nextPosition);
-            
         }
 
         public void Move(Vector3 direction)

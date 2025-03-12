@@ -12,6 +12,8 @@ namespace Tavern.Components
         private int _currentHp;
         private int _initialHp;
 
+        public int CurrentHp => _currentHp;
+
         public void Init(int hitPoints)
         {
             _initialHp = hitPoints;
@@ -29,6 +31,12 @@ namespace Tavern.Components
             {
                 OnDeath?.Invoke(gameObject);
             }
+        }
+
+        public void Set(int value)
+        {
+            _currentHp = Mathf.Clamp(value ,0, _initialHp);;
+            TakeDamage(0);
         }
     }
 }

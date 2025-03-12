@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47e3403ac1df4029a22aae810e4ef885, type: 3}
   m_Name: FertilizerRecipeCatalog
   m_EditorClassIdentifier: 
-  Recipes: []
+  Recipes:
+  - {fileID: 11400000, guid: 7731b800c14173c96bad1f7358e0a913, type: 2}

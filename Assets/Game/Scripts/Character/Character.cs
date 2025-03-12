@@ -50,6 +50,10 @@ namespace Tavern.Character
         public IMovable GetMoveComponent() => _movable;
         public Transform GetTransform() => transform;
         public float GetSpeed() => _speed;
+        public void SetSpeed(float value)
+        {
+            _speed = value;
+        }
         public Animator GetAnimator() => _animator;
         public CharacterState GetState() => _state;
 
