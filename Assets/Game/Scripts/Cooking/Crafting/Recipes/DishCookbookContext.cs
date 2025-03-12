@@ -5,7 +5,7 @@ using Tavern.Common;
 
 namespace Tavern.Cooking
 {
-    public class DishCookbookContext : CookbookContext<DishItem>
+    public class DishCookbookContext : CookbookContext
     {
         private const int StartStarsCount = 1;
         private const int ValueInStar = 2;

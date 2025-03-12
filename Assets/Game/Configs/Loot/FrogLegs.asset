@@ -12,20 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7785bf67e10443fa9fffe3084d28ddc, type: 3}
   m_Name: FrogLegs
   m_EditorClassIdentifier: 
-  Item:
-    Name: FrogLegs
-    Flags: 1
-    Components:
-    - rid: 2912130613709373440
-  Metadata:
-    Title: "\u041B\u0435\u0433\u0443\u0448\u0430\u0447\u044C\u0438 \u043B\u0430\u043F\u043A\u0438"
-    Description: "\u0442\u0438\u043F\u0430 \u0434\u0435\u043B\u0438\u043A\u0430\u0442\u0435\u0441"
-    Icon: {fileID: -1345353128, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
+  <Name>k__BackingField: FrogLegs
+  <Flags>k__BackingField: 1
+  Components:
+  - rid: 4431604982408019970
+  - rid: 4431604982408020037
+  ExtraComponents: []
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
+    Icon: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 2912130613709373440
+    - rid: 4431604982408019970
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 4431604982408020037
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

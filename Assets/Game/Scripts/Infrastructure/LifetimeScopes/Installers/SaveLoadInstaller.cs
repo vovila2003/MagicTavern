@@ -36,6 +36,7 @@ namespace Tavern.Infrastructure
             builder.Register<ItemSerializer>(Lifetime.Singleton).WithParameter(extraSerializers);
 
             RegisterInventorySerializers(builder);
+            RegisterCookbookSerializers(builder);
         }
 
         private static void RegisterResourceStoragesSerializers(IContainerBuilder builder)
@@ -54,6 +55,13 @@ namespace Tavern.Infrastructure
             builder.Register<MedicineInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<SeedInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LootInventorySerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private static void RegisterCookbookSerializers(IContainerBuilder builder)
+        {
+            builder.Register<DishCookbookSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<DishAutoCookbookSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+            
         }
     }
 }

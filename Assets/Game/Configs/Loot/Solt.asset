@@ -12,20 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7785bf67e10443fa9fffe3084d28ddc, type: 3}
   m_Name: Solt
   m_EditorClassIdentifier: 
-  Item:
-    Name: Solt
-    Flags: 1
-    Components:
-    - rid: 1692307354129530889
-  Metadata:
-    Title: "\u0441\u043E\u043B\u044C"
-    Description: "\u043C\u043E\u0440\u0441\u043A\u0430\u044F"
-    Icon: {fileID: -205430985, guid: 49e80da27ee23ab4e81269fa64930dc9, type: 3}
+  <Name>k__BackingField: Solt
+  <Flags>k__BackingField: 1
+  Components:
+  - rid: 4431604982408019968
+  - rid: 4431604982408020035
+  ExtraComponents: []
+  <Metadata>k__BackingField:
+    Title: 
+    Description: 
+    Icon: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 1692307354129530889
+    - rid: 4431604982408019968
       type: {class: ComponentStackable, ns: Modules.Inventories, asm: Inventories}
       data:
         IsLimited: 0
         MaxSize: 0
+    - rid: 4431604982408020035
+      type: {class: ComponentSellable, ns: Modules.Shopping, asm: Shopping}
+      data:
+        <BasePrice>k__BackingField: 3

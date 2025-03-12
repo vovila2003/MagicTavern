@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Water
-  DebugMode: 1
+  DebugMode: 0
   StartValueInStorageInDebugMode: 100
   Limit: 1
   MaxValue: 0
@@ -593,19 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772c614b96ddaeb5dabbc693aa277546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemRecipes:
-  - {fileID: 11400000, guid: c107a5c315ab02a98b4dd55438658388, type: 2}
-  - {fileID: 11400000, guid: 2792824d778a2af00aa9470b2287c17b, type: 2}
-  - {fileID: 11400000, guid: ef1b9b3d2c994d07ebb168d535bf7b28, type: 2}
-  - {fileID: 11400000, guid: bdda26d1648ec930f849626e1ba4062a, type: 2}
-  - {fileID: 11400000, guid: fdc34ae04a726839da1c8b299b89af68, type: 2}
-  - {fileID: 11400000, guid: 3aa50288855135eb083aa4a0c26b8cf0, type: 2}
-  - {fileID: 11400000, guid: 2cc747d4b23071d0fb2effc40337b793, type: 2}
-  - {fileID: 11400000, guid: 3f2a48c86f0caf3ae98ed8e6335ac702, type: 2}
-  - {fileID: 11400000, guid: 58794887a03553396b73b06ffa740b51, type: 2}
-  - {fileID: 11400000, guid: ac9fe27a49369fb0aab287a4e5df0c84, type: 2}
-  - {fileID: 11400000, guid: 106737d18b6e55161850f86c67a4cd57, type: 2}
-  - {fileID: 11400000, guid: b124bb219a85c2c4d9daebd5ffa0810f, type: 2}
+  ItemRecipes: []
 --- !u!114 &361997369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1993,7 +1981,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 09dd44bbf50fab5d488c29a31b7c5ec7, type: 2}
-  DebugMode: 1
+  DebugMode: 0
   Count: 100
 --- !u!1 &821277601
 GameObject:
@@ -4525,7 +4513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Slops
-  DebugMode: 1
+  DebugMode: 0
   StartValueInStorageInDebugMode: 5
   Limit: 1
   MaxValue: 0
@@ -4890,29 +4878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4048dfed1cc741ec9217699541ffe425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Items:
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
-  - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: f4c47b3078039b13384a75a8a300ba66, type: 2}
-  - {fileID: 11400000, guid: 90d1e6aa38ec0aef487ddc8fb727fa99, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
-  - {fileID: 11400000, guid: eb1469dd6072e7b79bbd599d918949e8, type: 2}
+  Items: []
   ItemsCatalog: {fileID: 11400000, guid: d57b60e06fa20ab0988e7c4b81964ccf, type: 2}
   DebugMode: 0
   Count: 0
