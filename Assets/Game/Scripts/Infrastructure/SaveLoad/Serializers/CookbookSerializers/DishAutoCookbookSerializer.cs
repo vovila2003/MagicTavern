@@ -15,7 +15,7 @@ namespace Tavern.Infrastructure
         private readonly DishAutoCookbookContext _cookbook;
         private readonly DishRecipeCatalog _catalog;
 
-        protected DishAutoCookbookSerializer(
+        public DishAutoCookbookSerializer(
             DishAutoCookbookContext cookbook,
             GameSettings settings)
         {

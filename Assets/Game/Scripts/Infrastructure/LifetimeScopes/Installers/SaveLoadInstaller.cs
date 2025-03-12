@@ -61,7 +61,7 @@ namespace Tavern.Infrastructure
         {
             builder.Register<DishCookbookSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<DishAutoCookbookSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
-            
+            builder.Register<FertilizerCookbookSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

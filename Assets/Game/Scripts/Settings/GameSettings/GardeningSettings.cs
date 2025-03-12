@@ -1,5 +1,4 @@
 using System;
-using Modules.Items;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
@@ -28,6 +27,9 @@ namespace Tavern.Settings
         
         [field: SerializeField]
         public MedicineCatalog MedicineCatalog { get; private set; }
+        
+        [field: SerializeField]
+        public FertilizerRecipeCatalog FertilizerRecipeCatalog { get; private set; }
         
         public Pot Pot => PotPrefab;
     }

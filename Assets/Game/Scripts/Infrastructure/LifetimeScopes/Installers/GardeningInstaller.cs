@@ -34,6 +34,8 @@ namespace Tavern.Infrastructure
             
             builder.RegisterEntryPoint<FertilizerCrafter>().AsSelf();
             builder.RegisterComponentInHierarchy<FertilizerCrafterContext>();
+            
+            builder.RegisterComponentInHierarchy<FertilizerCookbookContext>();
         }
     }
 }

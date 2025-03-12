@@ -35,7 +35,7 @@ namespace Tavern.Cooking
         public MiniGameConfig GameConfig => MiniGameConfig;
 
         [Button]
-        public void Validate()
+        public override void Validate()
         {
             OnValidate();
         }

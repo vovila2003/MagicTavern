@@ -2,34 +2,34 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Crafting;
 using Modules.SaveLoad;
-using Tavern.Cooking;
+using Tavern.Gardening.Fertilizer;
 using Tavern.Settings;
 using Unity.Plastic.Newtonsoft.Json;
 
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class DishCookbookSerializer : IGameSerializer
+    public class FertilizerCookbookSerializer : IGameSerializer
     {
         private readonly string _name;
-        private readonly DishCookbookContext _cookbook;
-        private readonly DishRecipeCatalog _catalog;
+        private readonly FertilizerCookbookContext _cookbook;
+        private readonly FertilizerRecipeCatalog _catalog;
 
-        public DishCookbookSerializer(
-            DishCookbookContext cookbook,
+        public FertilizerCookbookSerializer(
+            FertilizerCookbookContext cookbook,
             GameSettings settings)
         {
-            _name = nameof(DishCookbookContext);
+            _name = nameof(FertilizerCookbookContext);
             _cookbook = cookbook;
-            _catalog = settings.CookingSettings.DishRecipes;
+            _catalog = settings.GardeningSettings.FertilizerRecipeCatalog;
         }
 
         public void Serialize(IDictionary<string, string> saveState)
         {
-            var recipes = new Dictionary<string, int>(_cookbook.Recipes.Count);
+            var recipes = new List<string>(_cookbook.Recipes.Count);
             foreach (ItemRecipe recipe in _cookbook.Recipes.Values)
             {
-                recipes.Add(recipe.Name, _cookbook.GetRecipeStars(recipe as DishRecipe));
+                recipes.Add(recipe.Name);
             }
 
             saveState[_name] = JsonConvert.SerializeObject(recipes);
@@ -39,17 +39,16 @@ namespace Tavern.Infrastructure
         {
             if (!loadState.TryGetValue(_name, out string valueString)) return;
 
-            var recipes = JsonConvert.DeserializeObject<Dictionary<string, int>>(valueString);
+            var recipes = JsonConvert.DeserializeObject<List<string>>(valueString);
             if (recipes == null) return;
 
             _cookbook.Clear();
 
-            foreach ((string name, int stars) in recipes)
+            foreach (string name in recipes)
             {
-                if (!_catalog.TryGetRecipe(name, out DishRecipe recipe)) continue;
+                if (!_catalog.TryGetRecipe(name, out FertilizerRecipe recipe)) continue;
                 
                 _cookbook.AddRecipe(recipe);
-                _cookbook.SetRecipeStars(recipe, stars);
             }
         }
     }
