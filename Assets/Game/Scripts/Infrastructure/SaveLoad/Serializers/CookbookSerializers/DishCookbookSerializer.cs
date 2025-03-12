@@ -4,7 +4,7 @@ using Modules.Crafting;
 using Modules.SaveLoad;
 using Tavern.Cooking;
 using Tavern.Settings;
-using Unity.Plastic.Newtonsoft.Json;
+using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
@@ -32,14 +32,14 @@ namespace Tavern.Infrastructure
                 recipes.Add(recipe.Name, _cookbook.GetRecipeStars(recipe as DishRecipe));
             }
 
-            saveState[_name] = JsonConvert.SerializeObject(recipes);
+            saveState[_name] = Serializer.SerializeObject(recipes);
         }
 
         public void Deserialize(IDictionary<string, string> loadState)
         {
             if (!loadState.TryGetValue(_name, out string valueString)) return;
 
-            var recipes = JsonConvert.DeserializeObject<Dictionary<string, int>>(valueString);
+            var recipes = Serializer.DeserializeObject<Dictionary<string, int>>(valueString);
             if (recipes == null) return;
 
             _cookbook.Clear();

@@ -17,9 +17,6 @@ namespace Modules.Items
         public bool TryGetItem(string itemName, out ItemConfig itemConfig) => 
             ItemsDict.TryGetValue(itemName, out itemConfig);
 
-        public (ItemConfig, bool) GetItem(string itemName) => 
-            !ItemsDict.TryGetValue(itemName, out ItemConfig itemConfig) ? (null, false) : (itemConfig, true);
-
         public void AddConfig(ItemConfig config)
         {
             Items.Add(config);

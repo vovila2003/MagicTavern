@@ -9,5 +9,8 @@ namespace Tavern.Settings
     {
         [field: SerializeField]
         public ShopContext ShopContextPrefab { get; private set; }
+        
+        [field: SerializeField]
+        public SellerCatalog SellerCatalog { get; private set; }
     }
 }

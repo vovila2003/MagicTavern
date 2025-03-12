@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using JetBrains.Annotations;
 using Unity.Plastic.Newtonsoft.Json;
+using UnityEngine;
 
 namespace Modules.SaveLoad
 {
@@ -32,6 +33,9 @@ namespace Modules.SaveLoad
         {
             string json = JsonConvert.SerializeObject(gameState);
             byte[] data = Encoding.UTF8.GetBytes(json);
+            //TODO
+            // add zip and crypt
+            
             File.WriteAllBytes(_filePath, data);
         }
     }

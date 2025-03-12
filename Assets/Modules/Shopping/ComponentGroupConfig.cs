@@ -4,7 +4,7 @@ namespace Modules.Shopping
 {
     [CreateAssetMenu(
         fileName = "ProductGroupConfig",
-        menuName = "Settings/Shopping/Product Group Config")]
+        menuName = "Settings/Products/Product Group Config")]
     public class ComponentGroupConfig : ScriptableObject
     {
         [field: SerializeField]

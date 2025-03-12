@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Tavern.Character;
 using Tavern.Effects;
-using Unity.Plastic.Newtonsoft.Json;
+using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
@@ -24,12 +24,12 @@ namespace Tavern.Infrastructure
                 effects.Add(effect.EffectName);
             }
 
-            return JsonConvert.SerializeObject(effects);
+            return Serializer.SerializeObject(effects);
         }
 
         public void Deserialize(string value)
         {
-            List<string> effectNames = JsonConvert.DeserializeObject<List<string>>(value);
+            List<string> effectNames = Serializer.DeserializeObject<List<string>>(value);
             if (effectNames == null) return;
 
             CharacterState state = _character.GetState();

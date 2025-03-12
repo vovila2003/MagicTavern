@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
 using Modules.Items;
-using Unity.Plastic.Newtonsoft.Json;
+using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
@@ -28,12 +28,12 @@ namespace Tavern.Infrastructure
             SerializeCount(item, data);
             SerializeExtras(item, data);
 
-            return JsonConvert.SerializeObject(data);
+            return Serializer.SerializeObject(data);
         }
 
         public Item Deserialize<T>(string itemData, ItemsCatalog catalog) where T : Item
         {
-            var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(itemData);
+            var data = Serializer.DeserializeObject<Dictionary<string, string>>(itemData);
             if (data == null) return null;
             
             var item = DeserializeItem<T>(data, catalog);
@@ -80,7 +80,7 @@ namespace Tavern.Infrastructure
 
             if (extras.Count == 0) return;
 
-            data[Extra] = JsonConvert.SerializeObject(extras);
+            data[Extra] = Serializer.SerializeObject(extras);
         }
 
         private static T DeserializeItem<T>(Dictionary<string,string> data, ItemsCatalog catalog) where T : Item
@@ -108,7 +108,7 @@ namespace Tavern.Infrastructure
         {
             if (!data.TryGetValue(Extra, out string extraText)) return;
             
-            var extras = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(extraText);
+            var extras = Serializer.DeserializeObject<Dictionary<string, List<string>>>(extraText);
             foreach ((string extraName, List<string> values) in extras)
             {
                 if (!_extraSerializers.TryGetValue(extraName, out IExtraSerializer extraSerializer)) continue;

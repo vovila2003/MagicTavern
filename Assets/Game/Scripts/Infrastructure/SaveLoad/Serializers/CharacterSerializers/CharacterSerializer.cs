@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using Modules.SaveLoad;
 using Tavern.Character;
 using Tavern.Settings;
-using Unity.Plastic.Newtonsoft.Json;
+using Tavern.Utils;
 using UnityEngine;
 
 namespace Tavern.Infrastructure
@@ -43,14 +43,14 @@ namespace Tavern.Infrastructure
                 [Speed] = _speedSerializer.Serialize()
             };
 
-            saveState[Character] = JsonConvert.SerializeObject(info);
+            saveState[Character] = Serializer.SerializeObject(info);
         }
         
         public void Deserialize(IDictionary<string, string> loadState)
         {
             if (!loadState.TryGetValue(Character, out string json)) return;
 
-            var info = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            var info = Serializer.DeserializeObject<Dictionary<string, string>>(json);
             if (info == null) return;
 
             if (info.TryGetValue(Hp, out string hpString))

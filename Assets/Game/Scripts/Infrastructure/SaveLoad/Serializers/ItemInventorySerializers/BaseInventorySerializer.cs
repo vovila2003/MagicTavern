@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
 using Modules.SaveLoad;
-using Unity.Plastic.Newtonsoft.Json;
+using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
@@ -33,14 +33,14 @@ namespace Tavern.Infrastructure
                 items.Add(_serializer.Serialize(item));
             }
             
-            saveState[_name] = JsonConvert.SerializeObject(items);
+            saveState[_name] = Serializer.SerializeObject(items);
         }
 
         public void Deserialize(IDictionary<string, string> loadState)
         {
             if (!loadState.TryGetValue(_name, out string json)) return;
 
-            var items = JsonConvert.DeserializeObject<List<string>>(json);
+            var items = Serializer.DeserializeObject<List<string>>(json);
             if (items == null) return;
 
             _inventory.Clear();

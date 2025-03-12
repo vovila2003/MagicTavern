@@ -3,13 +3,13 @@ using JetBrains.Annotations;
 using Modules.SaveLoad;
 using Tavern.Cooking;
 using Tavern.Settings;
-using Unity.Plastic.Newtonsoft.Json;
+using Tavern.Utils;
 using UnityEngine;
 
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class KitchenItemSerializer : IGameSerializer
+    public class KitchenItemsSerializer : IGameSerializer
     {
         private const string KitchenItems = "KitchenItems";
         private const string Transform = "Transform";
@@ -19,7 +19,7 @@ namespace Tavern.Infrastructure
         private readonly TransformSerializer _transformSerializer;
         private readonly KitchenItemConfigSerializer _kitchenItemConfigSerializer;
         
-        public KitchenItemSerializer(KitchenItemFactory factory, GameSettings settings)
+        public KitchenItemsSerializer(KitchenItemFactory factory, GameSettings settings)
         {
             _factory = factory;
             _transformSerializer = new TransformSerializer();
@@ -37,23 +37,23 @@ namespace Tavern.Infrastructure
                     [Transform] = _transformSerializer.Serialize(kitchenItem.transform),
                     [Configs] = _kitchenItemConfigSerializer.Serialize(kitchenItem.KitchenItemConfig)
                 };
-                items.Add(JsonConvert.SerializeObject(info));
+                items.Add(Serializer.SerializeObject(info));
             }
     
-            saveState[KitchenItems] = JsonConvert.SerializeObject(items);
+            saveState[KitchenItems] = Serializer.SerializeObject(items);
         }
     
         public void Deserialize(IDictionary<string, string> loadState)
         {
             if (!loadState.TryGetValue(KitchenItems, out string json)) return;
     
-            var info = JsonConvert.DeserializeObject<List<string>>(json);
+            var info = Serializer.DeserializeObject<List<string>>(json);
             if (info == null) return;
     
             _factory.Clear();
             foreach (string kitchenItemInfoString in info)
             {
-                var kitchenInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(kitchenItemInfoString);
+                var kitchenInfo = Serializer.DeserializeObject<Dictionary<string, string>>(kitchenItemInfoString);
                 if (kitchenInfo == null) continue;
     
                 Vector3 position = Vector3.zero;

@@ -32,8 +32,7 @@ namespace Tavern.Gardening
             if (!item.TryGet(out ComponentPlant componentPlant)) return;
 
             string seedName = SeedNameProvider.GetName(componentPlant.Config.Plant.PlantName);
-            (ItemConfig itemConfig, bool result) = _seedCatalog.GetItem(seedName);
-            if (!result)
+            if (!_seedCatalog.TryGetItem(seedName, out ItemConfig itemConfig))
             {
                 Debug.Log($"Seed with name {seedName} is not found in seed catalog");
                 return;

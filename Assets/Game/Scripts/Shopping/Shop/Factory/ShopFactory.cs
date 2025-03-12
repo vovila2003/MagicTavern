@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle;
@@ -8,6 +9,7 @@ using Tavern.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
 namespace Tavern.Shopping
 {
@@ -17,40 +19,58 @@ namespace Tavern.Shopping
         IExitGameListener
     {
         private readonly IObjectResolver _resolver;
-        private readonly List<ShopListener> _listeners = new();
-        private readonly GameCycle _gameCycle;
-        private readonly IUiManager _uiManager;
-        private readonly SceneSettings _sceneSettings;
-        private readonly ShopContext _prefab;
-        private readonly CharacterBuyer _characterBuyer;
-        private readonly CharacterSeller _characterSeller;
-        private readonly TimeGameCycle _timeGameCycle;
+        private readonly Dictionary<ShopContext, ShopListener> _listeners = new();
+        private GameCycle _gameCycle;
+        private IUiManager _uiManager;
+        private SceneSettings _sceneSettings;
+        private ShopContext _prefab;
+        private CharacterBuyer _characterBuyer;
+        private CharacterSeller _characterSeller;
+        private TimeGameCycle _timeGameCycle;
+        
+        public IReadOnlyDictionary<ShopContext, ShopListener> Shops => _listeners;
 
         public ShopFactory(IObjectResolver resolver)
         {
             _resolver = resolver;
-            _gameCycle = _resolver.Resolve<GameCycle>();
-            _uiManager = _resolver.Resolve<IUiManager>();
-            _sceneSettings = _resolver.Resolve<SceneSettings>();
-            _prefab = _resolver.Resolve<GameSettings>().ShoppingSettings.ShopContextPrefab;
-            _characterBuyer = _resolver.Resolve<CharacterBuyer>();
-            _characterSeller = _resolver.Resolve<CharacterSeller>();
-            _timeGameCycle = _resolver.Resolve<TimeGameCycle>();
+        }
+        
+        public void Clear()
+        {
+            foreach ((ShopContext context, ShopListener listener) in _listeners)
+            {
+                listener?.Dispose();
+                try
+                {
+                    _timeGameCycle.RemoveListener(context.Shop);
+                    Object.Destroy(context?.gameObject);
+                }
+                catch (Exception _)
+                {
+                    // ignored
+                }
+            }
+            
+            _listeners.Clear();
+        }
+
+        public void Create(Vector3 position, Quaternion rotation, SellerConfig config)
+        {
+            ShopContext shopContext = _resolver.Instantiate(_prefab, position, rotation, _sceneSettings.ShopsParent);
+
+            var shop = new Shop(_characterSeller, _characterBuyer, config); 
+            shopContext.Setup(shop);
+            _timeGameCycle.AddListener(shop);
+            
+            _listeners.Add(shopContext, new ShopListener(shopContext, _gameCycle, _uiManager));
         }
 
         void IInitGameListener.OnInit()
         {
-            
+            InitFields();
             foreach (ShopPoint point in _sceneSettings.ShopPoints)
             {
-                ShopContext shopContext = _resolver.Instantiate(_prefab, point.transform.position,
-                    point.transform.rotation, _sceneSettings.ShopsParent);
-
-                var shop = new Shop(_characterSeller, _characterBuyer, point.Config); 
-                shopContext.Setup(shop);
-                _timeGameCycle.AddListener(shop);
-            
-                _listeners.Add(new ShopListener(shopContext, _gameCycle, _uiManager));
+                Create(point.transform.position, point.transform.rotation, point.Config);
             }
             
             foreach (ShopPoint point in _sceneSettings.ShopPoints)
@@ -61,12 +81,24 @@ namespace Tavern.Shopping
 
         void IExitGameListener.OnExit()
         {
-            foreach (ShopListener listener in _listeners)
+            foreach ((ShopContext shopContext, ShopListener listener) in _listeners)
             {
                 listener.Dispose();
+                _timeGameCycle.RemoveListener(shopContext.Shop);
             }
             
             _listeners.Clear();
+        }
+
+        private void InitFields()
+        {
+            _gameCycle ??= _resolver.Resolve<GameCycle>();
+            _uiManager ??= _resolver.Resolve<IUiManager>();
+            _sceneSettings ??= _resolver.Resolve<SceneSettings>();
+            _prefab ??= _resolver.Resolve<GameSettings>().ShoppingSettings.ShopContextPrefab;
+            _characterBuyer ??= _resolver.Resolve<CharacterBuyer>();
+            _characterSeller ??= _resolver.Resolve<CharacterSeller>();
+            _timeGameCycle ??= _resolver.Resolve<TimeGameCycle>();
         }
     }
 }

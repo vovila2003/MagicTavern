@@ -4,7 +4,7 @@ using Modules.Crafting;
 using Modules.SaveLoad;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Settings;
-using Unity.Plastic.Newtonsoft.Json;
+using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
@@ -32,14 +32,14 @@ namespace Tavern.Infrastructure
                 recipes.Add(recipe.Name);
             }
 
-            saveState[_name] = JsonConvert.SerializeObject(recipes);
+            saveState[_name] = Serializer.SerializeObject(recipes);
         }
 
         public void Deserialize(IDictionary<string, string> loadState)
         {
             if (!loadState.TryGetValue(_name, out string valueString)) return;
 
-            var recipes = JsonConvert.DeserializeObject<List<string>>(valueString);
+            var recipes = Serializer.DeserializeObject<List<string>>(valueString);
             if (recipes == null) return;
 
             _cookbook.Clear();
