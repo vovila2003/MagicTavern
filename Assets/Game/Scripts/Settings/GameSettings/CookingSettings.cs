@@ -29,6 +29,9 @@ namespace Tavern.Settings
         [field: SerializeField]
         public bool EnableRecipeMatching { get; private set; }
 
+        [field: SerializeField]
+        public KitchenItemsCatalog KitchenItemCatalog { get; private set; }
+        
         public MiniGameConfig DefaultMiniGameConfig  => DefaultMiniGameSettings;
         public int MinDefaultTime => MinDefaultMiniGameTimeInSeconds;
         public int MaxDefaultTime => MaxDefaultMiniGameTimeInSeconds;

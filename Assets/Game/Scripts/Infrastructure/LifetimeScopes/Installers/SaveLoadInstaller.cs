@@ -38,6 +38,7 @@ namespace Tavern.Infrastructure
             RegisterInventorySerializers(builder);
             RegisterCookbookSerializers(builder);
             RegisterCharacterSerializers(builder);
+            RegisterKitchenItemSerializers(builder);
         }
 
         private static void RegisterResourceStoragesSerializers(IContainerBuilder builder)
@@ -68,6 +69,11 @@ namespace Tavern.Infrastructure
         private void RegisterCharacterSerializers(IContainerBuilder builder)
         {
             builder.Register<CharacterSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private void RegisterKitchenItemSerializers(IContainerBuilder builder)
+        {
+            builder.Register<KitchenItemSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

@@ -49,6 +49,7 @@ MonoBehaviour:
     MinDefaultMiniGameTimeInSeconds: 5
     MaxDefaultMiniGameTimeInSeconds: 10
     <EnableRecipeMatching>k__BackingField: 0
+    <KitchenItemCatalog>k__BackingField: {fileID: 11400000, guid: ec70a777ba0b9dd27b8df1a4200475de, type: 2}
   <ShoppingSettings>k__BackingField:
     <ShopContextPrefab>k__BackingField: {fileID: 1517396157421802262, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
   <EffectsSettings>k__BackingField:

@@ -28,7 +28,7 @@ namespace Tavern.Infrastructure
             builder.RegisterEntryPoint<MiniGame>().AsSelf();
             builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
-            builder.Register<KitchenItemFactory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<KitchenItemFactory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }
     }
 }

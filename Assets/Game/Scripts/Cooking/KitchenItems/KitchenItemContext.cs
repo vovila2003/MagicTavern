@@ -14,7 +14,7 @@ namespace Tavern.Cooking
         [SerializeField]
         private SpriteRenderer SpriteRenderer;
 
-        private KitchenItemConfig _kitchenItemConfig;
+        public KitchenItemConfig KitchenItemConfig { get; private set; }
 
         private void OnDisable()
         {
@@ -23,14 +23,14 @@ namespace Tavern.Cooking
 
         public void Setup(KitchenItemConfig config)
         {
-            _kitchenItemConfig = config;
+            KitchenItemConfig = config;
             SpriteRenderer.sprite = config.Metadata.Icon;
             Interactor.OnActivated += OnAction;
         }
 
         private void OnAction()
         {
-            OnActivated?.Invoke(_kitchenItemConfig);
+            OnActivated?.Invoke(KitchenItemConfig);
         }
     }
 }
