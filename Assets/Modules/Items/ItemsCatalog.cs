@@ -14,8 +14,13 @@ namespace Modules.Items
 
         public virtual string CatalogName { get; private set; }
 
-        public bool TryGetItem(string itemName, out ItemConfig itemConfig) => 
-            ItemsDict.TryGetValue(itemName, out itemConfig);
+        public bool TryGetItem(string itemName, out ItemConfig itemConfig)
+        {
+            if (itemName is not null) return ItemsDict.TryGetValue(itemName, out itemConfig);
+            
+            itemConfig = null;
+            return false;
+        }
 
         public void AddConfig(ItemConfig config)
         {

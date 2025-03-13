@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using Unity.Plastic.Newtonsoft.Json;
 
@@ -10,9 +11,20 @@ namespace Tavern.Utils
             return JsonConvert.SerializeObject(value);
         }
 
-        public static T DeserializeObject<T>(string value)
+        public static (T, bool) DeserializeObject<T>(string value)
         {
-            return JsonConvert.DeserializeObject<T>(value);
+            T t;
+            try
+            {
+                t = JsonConvert.DeserializeObject<T>(value);
+            }
+            catch (Exception _)
+            {
+                t = default;
+                return (t, false);
+            }
+
+            return (t, true);
         }
     }
 }

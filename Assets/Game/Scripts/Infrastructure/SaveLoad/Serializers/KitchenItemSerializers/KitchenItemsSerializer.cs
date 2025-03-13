@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Modules.Items;
 using Modules.SaveLoad;
 using Tavern.Cooking;
 using Tavern.Settings;
@@ -11,33 +13,40 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public class KitchenItemsSerializer : IGameSerializer
     {
+        [Serializable]
+        public class KitchenItemData
+        {
+            public float[] Position;
+            public float[] Rotation;
+            public string ConfigName;
+        }
+        
         private const string KitchenItems = "KitchenItems";
-        private const string Transform = "Transform";
-        private const string Configs = "Configs";
         
         private readonly KitchenItemFactory _factory;
-        private readonly TransformSerializer _transformSerializer;
-        private readonly KitchenItemConfigSerializer _kitchenItemConfigSerializer;
-        
+        private readonly KitchenItemsCatalog _catalog;
+
         public KitchenItemsSerializer(KitchenItemFactory factory, GameSettings settings)
         {
             _factory = factory;
-            _transformSerializer = new TransformSerializer();
-            _kitchenItemConfigSerializer = new KitchenItemConfigSerializer(settings.CookingSettings.KitchenItemCatalog);
+            _catalog = settings.CookingSettings.KitchenItemCatalog;
         }
     
         public void Serialize(IDictionary<string, string> saveState)
         {
-            var items = new List<string>(_factory.KitchenItems.Count);
+            var items = new List<KitchenItemData>(_factory.KitchenItems.Count);
     
             foreach (KitchenItemContext kitchenItem in _factory.KitchenItems.Keys)
             {
-                var info = new Dictionary<string, string>
+                Transform transform = kitchenItem.transform;
+                var info = new KitchenItemData
                 {
-                    [Transform] = _transformSerializer.Serialize(kitchenItem.transform),
-                    [Configs] = _kitchenItemConfigSerializer.Serialize(kitchenItem.KitchenItemConfig)
+                    Position = transform.position.ToFloat3(),
+                    Rotation = transform.rotation.ToFloat4(),
+                    ConfigName = kitchenItem.KitchenItemConfig.Name
                 };
-                items.Add(Serializer.SerializeObject(info));
+
+                items.Add(info);
             }
     
             saveState[KitchenItems] = Serializer.SerializeObject(items);
@@ -47,28 +56,20 @@ namespace Tavern.Infrastructure
         {
             if (!loadState.TryGetValue(KitchenItems, out string json)) return;
     
-            var info = Serializer.DeserializeObject<List<string>>(json);
-            if (info == null) return;
+            (List<KitchenItemData> info, bool ok) = Serializer.DeserializeObject<List<KitchenItemData>>(json);
+            if (!ok) return;
     
             _factory.Clear();
-            foreach (string kitchenItemInfoString in info)
+            foreach (KitchenItemData itemData in info)
             {
-                var kitchenInfo = Serializer.DeserializeObject<Dictionary<string, string>>(kitchenItemInfoString);
-                if (kitchenInfo == null) continue;
-    
-                Vector3 position = Vector3.zero;
-                Quaternion rotation = Quaternion.identity;
-                if (kitchenInfo.TryGetValue(Transform, out string transformString))
-                {
-                    (position, rotation) = _transformSerializer.Deserialize(transformString);
-                }
-    
-                if (!kitchenInfo.TryGetValue(Configs, out string configString)) continue;
+                var position = itemData.Position.ToVector3();
+                var rotation = itemData.Rotation.ToQuaternion();
                 
-                KitchenItemConfig config = _kitchenItemConfigSerializer.Deserialize(configString);
-                if (config == null) continue;
+                if (!_catalog.TryGetItem(itemData.ConfigName, out ItemConfig config)) continue;
+
+                if (config is not KitchenItemConfig kitchenConfig) continue;
                 
-                _factory.Create(position, rotation, config);
+                _factory.Create(position, rotation, kitchenConfig);
             }
         }
     }

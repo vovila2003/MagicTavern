@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Tavern.Character;
 using Tavern.Effects;
-using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
@@ -16,29 +15,30 @@ namespace Tavern.Infrastructure
             _catalog = catalog;
         }
 
-        public string Serialize()
+        public List<CharacterSerializer.StateData> Serialize()
         {
-            var effects = new List<string>(_character.GetState().Effects.Count);
+            var stateData = new List<CharacterSerializer.StateData>(_character.GetState().Effects.Count);
             foreach (EffectConfig effect in _character.GetState().Effects)
             {
-                effects.Add(effect.EffectName);
+                var data = new CharacterSerializer.StateData
+                {
+                    EffectName = effect.EffectName
+                };
+                stateData.Add(data);
             }
 
-            return Serializer.SerializeObject(effects);
+            return stateData;
         }
 
-        public void Deserialize(string value)
+        public void Deserialize(List<CharacterSerializer.StateData> data)
         {
-            List<string> effectNames = Serializer.DeserializeObject<List<string>>(value);
-            if (effectNames == null) return;
-
-            CharacterState state = _character.GetState();
-            state.RemoveAllEffects();            
-            foreach (string effectName in effectNames)
+            CharacterState characterState = _character.GetState();
+            characterState.RemoveAllEffects();            
+            foreach (CharacterSerializer.StateData stateData in data)
             {
-                if (!_catalog.TryGetEffect(effectName, out EffectConfig effect)) continue;
+                if (!_catalog.TryGetEffect(stateData.EffectName, out EffectConfig effect)) continue;
                 
-                state.AddEffect(effect);
+                characterState.AddEffect(effect);
             }
         } 
     }

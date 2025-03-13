@@ -39,8 +39,8 @@ namespace Tavern.Infrastructure
         {
             if (!loadState.TryGetValue(_name, out string valueString)) return;
 
-            var recipes = Serializer.DeserializeObject<List<string>>(valueString);
-            if (recipes == null) return;
+            (List<string> recipes, bool ok) = Serializer.DeserializeObject<List<string>>(valueString);
+            if (!ok) return;
 
             _cookbook.Clear();
 

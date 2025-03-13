@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
@@ -9,10 +10,21 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public class ItemSerializer
     {
-        private const string Count = "count";
-        private const string Extra = "extra";
-        private const string Name = "id";
-
+        [Serializable]
+        public class ExtraData
+        {
+            public string Name;
+            public string Data;
+        }
+        
+        [Serializable]
+        public class ItemData
+        {
+            public string Name;
+            public int Count;
+            public List<ExtraData> Extras;
+        }
+        
         private readonly Dictionary<string, IExtraSerializer> _extraSerializers;
 
         public ItemSerializer(Dictionary<string, IExtraSerializer> extraSerializers)
@@ -20,103 +32,71 @@ namespace Tavern.Infrastructure
             _extraSerializers = extraSerializers;
         }
 
-        public string Serialize(Item item)
+        public ItemData Serialize(Item item)
         {
-            var data = new Dictionary<string, string>();
+            var data = new ItemData
+            {
+                Name = item.ItemName,
+                Count = item.GetCount(),
+                Extras = SerializeExtras(item)
+            };
 
-            SerializeName(item, data);
-            SerializeCount(item, data);
-            SerializeExtras(item, data);
-
-            return Serializer.SerializeObject(data);
+            return data;
         }
 
-        public Item Deserialize<T>(string itemData, ItemsCatalog catalog) where T : Item
+        public Item Deserialize<T>(ItemData itemData, ItemsCatalog catalog) where T : Item
         {
-            var data = Serializer.DeserializeObject<Dictionary<string, string>>(itemData);
-            if (data == null) return null;
-            
-            var item = DeserializeItem<T>(data, catalog);
+            var item = DeserializeItem<T>(itemData, catalog);
             if (item == null) return null;
 
-            DeserializeCount(item, data);
-            DeserializeExtras(item, data);
+            DeserializeCount(item, itemData.Count);
+            DeserializeExtras(item, itemData.Extras);
             
             return item;
         }
 
-        private static void SerializeName(Item item, Dictionary<string,string> data)
+        private List<ExtraData> SerializeExtras(Item item)
         {
-            data[Name] = item.ItemName;
-        }
-
-        private static void SerializeCount(Item item, Dictionary<string, string> data)
-        {
-            var value = 1;
-            if (item.TryGet(out ComponentStackable stackable))
-            {
-                value = stackable.Value;
-            }
-            
-            data[Count] = value.ToString();
-        }
-
-        private void SerializeExtras(Item item, Dictionary<string, string> data)
-        {
-            var extras = new Dictionary<string, List<string>>();
+            var extras = new List<ExtraData>();
             
             foreach (IExtraItemComponent extraComponent in item.ExtraComponents)
             {
-                string key = extraComponent.ComponentName;
-                if (!extras.ContainsKey(key))
+                var extraData = new ExtraData
                 {
-                    extras[key] = new List<string>();
-                }
+                    Name = extraComponent.ComponentName
+                };
 
-                if (!_extraSerializers.TryGetValue(key, out IExtraSerializer extraSerializer)) continue;
-                
-                extras[key].Add(extraSerializer.Serialize(extraComponent));
+                if (!_extraSerializers.TryGetValue(extraData.Name, out IExtraSerializer extraSerializer)) continue;
+
+                extraData.Data = extraSerializer.Serialize(extraComponent); 
+                extras.Add(extraData);
             }
 
-            if (extras.Count == 0) return;
-
-            data[Extra] = Serializer.SerializeObject(extras);
+            return extras;
         }
 
-        private static T DeserializeItem<T>(Dictionary<string,string> data, ItemsCatalog catalog) where T : Item
+        private static T DeserializeItem<T>(ItemData data, ItemsCatalog catalog) where T : Item
         {
-            if (!data.TryGetValue(Name, out string name)) return null;
-            
-            if (!catalog.TryGetItem(name, out ItemConfig itemConfig)) return null;
+            if (!catalog.TryGetItem(data.Name, out ItemConfig itemConfig)) return null;
             
             return itemConfig.Create() as T;
         }
 
-        private static void DeserializeCount(Item item, Dictionary<string, string> data)
+        private static void DeserializeCount(Item item, int count)
         {
-            if (!data.TryGetValue(Count, out string countText)) return;
-
-            if (!int.TryParse(countText, out int count)) return;
-            
             if (item.TryGet(out ComponentStackable stackable))
             {
                 stackable.Value = count;
             }
         }
 
-        private void DeserializeExtras(Item item, Dictionary<string, string> data)
+        private void DeserializeExtras(Item item, List<ExtraData> data)
         {
-            if (!data.TryGetValue(Extra, out string extraText)) return;
-            
-            var extras = Serializer.DeserializeObject<Dictionary<string, List<string>>>(extraText);
-            foreach ((string extraName, List<string> values) in extras)
+            foreach (ExtraData extraData in data)
             {
-                if (!_extraSerializers.TryGetValue(extraName, out IExtraSerializer extraSerializer)) continue;
+                if (!_extraSerializers.TryGetValue(extraData.Name, out IExtraSerializer extraSerializer)) continue;
 
-                foreach (string value in values)
-                {
-                    extraSerializer.Deserialize(item, value);
-                }
+                extraSerializer.Deserialize(item, extraData.Data);
             }
         }
     }

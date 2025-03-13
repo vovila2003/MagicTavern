@@ -27,7 +27,7 @@ namespace Tavern.Infrastructure
 
         public void Serialize(IDictionary<string, string> saveState)
         {
-            var items = new List<string>();
+            var items = new List<ItemSerializer.ItemData>();
             foreach (T item in _inventory.Items)
             {
                 items.Add(_serializer.Serialize(item));
@@ -40,11 +40,12 @@ namespace Tavern.Infrastructure
         {
             if (!loadState.TryGetValue(_name, out string json)) return;
 
-            var items = Serializer.DeserializeObject<List<string>>(json);
-            if (items == null) return;
+            (List<ItemSerializer.ItemData> items, bool ok) = 
+                Serializer.DeserializeObject<List<ItemSerializer.ItemData>>(json);
+            if (!ok) return;
 
             _inventory.Clear();
-            foreach (string itemData in items)
+            foreach (ItemSerializer.ItemData itemData in items)
             {
                 Item item = _serializer.Deserialize<T>(itemData, _catalog);
                 if (item == null) continue;

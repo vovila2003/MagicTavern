@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.SaveLoad;
@@ -11,36 +12,44 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public class CharacterSerializer : IGameSerializer
     {
-        private const string Hp = "Hp";
-        private const string State = "State";
-        private const string Transform = "Transform";
-        private const string Speed = "Speed";
+        [Serializable]
+        public class StateData
+        {
+            public string EffectName;
+        }
+        
+        [Serializable]
+        public class CharacterData
+        {
+            public int Hp;
+            public List<StateData> State;
+            public float[] Position;
+            public float[] Rotation;
+            public float Speed;
+        }
+        
         private const string Character = "Character";
         
-        private readonly HitPointSerializer _hitPointSerializer;
         private readonly CharacterStateSerializer _characterStateSerializer;
-        private readonly TransformSerializer _transformSerializer;
-        private readonly SpeedSerializer _speedSerializer;
         private readonly ICharacter _character;
 
         public CharacterSerializer(ICharacter character, GameSettings settings)
         {
             _character = character;
-            _hitPointSerializer = new HitPointSerializer(character);
             _characterStateSerializer =
                 new CharacterStateSerializer(character, settings.EffectsSettings.EffectsCatalog);
-            _transformSerializer = new TransformSerializer();
-            _speedSerializer = new SpeedSerializer(character);
         }
 
         public void Serialize(IDictionary<string, string> saveState)
         {
-            var info = new Dictionary<string, string>
+            Transform transform = _character.GetTransform();
+            var info = new CharacterData
             {
-                [Hp] = _hitPointSerializer.Serialize(),
-                [State] = _characterStateSerializer.Serialize(),
-                [Transform] = _transformSerializer.Serialize(_character.GetTransform()),
-                [Speed] = _speedSerializer.Serialize()
+                Hp = _character.GetHpComponent().CurrentHp,
+                Position = transform.position.ToFloat3(),
+                Rotation = transform.rotation.ToFloat4(),
+                Speed = _character.GetMoveComponent().Speedable.GetSpeed(),
+                State = _characterStateSerializer.Serialize()
             };
 
             saveState[Character] = Serializer.SerializeObject(info);
@@ -49,32 +58,17 @@ namespace Tavern.Infrastructure
         public void Deserialize(IDictionary<string, string> loadState)
         {
             if (!loadState.TryGetValue(Character, out string json)) return;
-
-            var info = Serializer.DeserializeObject<Dictionary<string, string>>(json);
-            if (info == null) return;
-
-            if (info.TryGetValue(Hp, out string hpString))
-            {
-                _hitPointSerializer.Deserialize(hpString);
-            }
+        
+            (CharacterData info, bool ok) = Serializer.DeserializeObject<CharacterData>(json);
+            if (!ok) return;
             
-            if (info.TryGetValue(State, out string stateString))
-            {
-                _characterStateSerializer.Deserialize(stateString);
-            }
+            _character.GetHpComponent().Set(info.Hp);
+            _characterStateSerializer.Deserialize(info.State);
             
-            if (info.TryGetValue(Transform, out string transformString))
-            {
-                Transform transform = _character.GetTransform();
-                (Vector3 position, Quaternion rotation) = _transformSerializer.Deserialize(transformString);
-                transform.position = position;
-                transform.rotation = rotation;
-            }
-            
-            if (info.TryGetValue(Speed, out string speedString))
-            {
-                _speedSerializer.Deserialize(speedString);
-            }
+            Transform transform = _character.GetTransform();
+            transform.position = info.Position.ToVector3();
+            transform.rotation = info.Rotation.ToQuaternion();       
+            _character.GetMoveComponent().Speedable.SetSpeed(info.Speed);
         }
     }
 }

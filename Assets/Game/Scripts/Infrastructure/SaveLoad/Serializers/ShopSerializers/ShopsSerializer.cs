@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.SaveLoad;
@@ -10,37 +11,54 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public class ShopsSerializer : IGameSerializer
     {
+        [Serializable]
+        public class ItemsData
+        {
+            public string Name;
+            public int Count;
+            public int Price;
+        }
+        
+        [Serializable]
+        public class ShopData
+        {
+            public float[] Position;
+            public float[] Rotation;
+            public string ConfigName;
+            public int Money;
+            public int Reputation;
+            public List<ItemsData> Items;
+            public List<ItemsData> CharacterItems;
+        }
+        
         private const string Shops = "Shops";
-        private const string Transform = "Transform";
-        private const string Config = "Config";
-        private const string NpcSeller = "NpcSeller";
         
         private readonly ShopFactory _factory;
-        private readonly TransformSerializer _transformSerializer;
-        private readonly SellerConfigSerializer _sellerConfigSerializer;
-        private readonly NpcSellerSerializer _npcSellerSerializer;
+        private readonly NpcSellerDataFiller _npcSellerDataFiller;
+        private readonly SellerCatalog _catalog;
 
         public ShopsSerializer(ShopFactory factory, GameSettings gameSettings)
         {
             _factory = factory;
-            _transformSerializer = new TransformSerializer();
-            _sellerConfigSerializer = new SellerConfigSerializer(gameSettings.ShoppingSettings.SellerCatalog);
-            _npcSellerSerializer = new NpcSellerSerializer();
+            _catalog = gameSettings.ShoppingSettings.SellerCatalog;
+            _npcSellerDataFiller = new NpcSellerDataFiller();
         }
 
         public void Serialize(IDictionary<string, string> saveState)
         {
-            var shops = new List<string>(_factory.Shops.Count);
+            var shops = new List<ShopData>(_factory.Shops.Count);
     
             foreach (ShopContext shopContext in _factory.Shops.Keys)
             {
-                var info = new Dictionary<string, string>
+                var transform = shopContext.transform;
+                var shopData = new ShopData
                 {
-                    [Transform] = _transformSerializer.Serialize(shopContext.transform),
-                    [Config] = _sellerConfigSerializer.Serialize(shopContext.SellerConfig),
-                    [NpcSeller] = _npcSellerSerializer.Serialize(shopContext.Shop.NpcSeller)
+                    Position = transform.position.ToFloat3(),
+                    Rotation = transform.rotation.ToFloat4(),
+                    ConfigName = shopContext.SellerConfig.Name
                 };
-                shops.Add(Serializer.SerializeObject(info));
+                _npcSellerDataFiller.FillData(shopContext.Shop.NpcSeller, shopData);
+                shops.Add(shopData);
             }
     
             saveState[Shops] = Serializer.SerializeObject(shops);
