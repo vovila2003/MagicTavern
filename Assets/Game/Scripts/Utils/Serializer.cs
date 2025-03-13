@@ -18,7 +18,7 @@ namespace Tavern.Utils
             {
                 t = JsonConvert.DeserializeObject<T>(value);
             }
-            catch (Exception _)
+            catch (Exception)
             {
                 t = default;
                 return (t, false);

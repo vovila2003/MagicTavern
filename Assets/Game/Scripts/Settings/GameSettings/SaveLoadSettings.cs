@@ -1,4 +1,5 @@
 using System;
+using Tavern.Common;
 using UnityEngine;
 
 namespace Tavern.Settings
@@ -8,5 +9,8 @@ namespace Tavern.Settings
     {
         [field: SerializeField]
         public string FileSaveName { get; private set; }
+        
+        [field: SerializeField]
+        public CommonItemsCatalog CommonItemsCatalog { get; private set; }
     }
 }

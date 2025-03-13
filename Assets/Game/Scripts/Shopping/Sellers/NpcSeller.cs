@@ -213,5 +213,10 @@ namespace Tavern.Shopping
             
             OnCharacterItemsChanged?.Invoke();
         }
+
+        public void SetMoney(int money)
+        {
+            _moneyStorage.Set(money);
+        }
     }
 }

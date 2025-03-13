@@ -5,6 +5,7 @@ using Modules.SaveLoad;
 using Tavern.Settings;
 using Tavern.Shopping;
 using Tavern.Utils;
+using UnityEngine;
 
 namespace Tavern.Infrastructure
 {
@@ -12,7 +13,15 @@ namespace Tavern.Infrastructure
     public class ShopsSerializer : IGameSerializer
     {
         [Serializable]
-        public class ItemsData
+        public class CharacterItemData
+        {
+            public ItemSerializer.ItemData ItemData;
+            public int Count;
+            public int Price;
+        }
+        
+        [Serializable]
+        public class ItemConfigData
         {
             public string Name;
             public int Count;
@@ -27,21 +36,22 @@ namespace Tavern.Infrastructure
             public string ConfigName;
             public int Money;
             public int Reputation;
-            public List<ItemsData> Items;
-            public List<ItemsData> CharacterItems;
+            public List<ItemConfigData> Items;
+            public List<CharacterItemData> CharacterItems;
         }
         
         private const string Shops = "Shops";
         
         private readonly ShopFactory _factory;
-        private readonly NpcSellerDataFiller _npcSellerDataFiller;
+        private readonly NpcSellerSerializer _npcSellerSerializer;
         private readonly SellerCatalog _catalog;
 
-        public ShopsSerializer(ShopFactory factory, GameSettings gameSettings)
+        public ShopsSerializer(ShopFactory factory, ItemSerializer itemSerializer, GameSettings gameSettings)
         {
             _factory = factory;
             _catalog = gameSettings.ShoppingSettings.SellerCatalog;
-            _npcSellerDataFiller = new NpcSellerDataFiller();
+            _npcSellerSerializer = new NpcSellerSerializer(itemSerializer, 
+                gameSettings.SaveLoadSettings.CommonItemsCatalog);
         }
 
         public void Serialize(IDictionary<string, string> saveState)
@@ -50,14 +60,14 @@ namespace Tavern.Infrastructure
     
             foreach (ShopContext shopContext in _factory.Shops.Keys)
             {
-                var transform = shopContext.transform;
+                Transform transform = shopContext.transform;
                 var shopData = new ShopData
                 {
                     Position = transform.position.ToFloat3(),
                     Rotation = transform.rotation.ToFloat4(),
                     ConfigName = shopContext.SellerConfig.Name
                 };
-                _npcSellerDataFiller.FillData(shopContext.Shop.NpcSeller, shopData);
+                _npcSellerSerializer.Serialize(shopContext.Shop.NpcSeller, shopData);
                 shops.Add(shopData);
             }
     
@@ -66,7 +76,22 @@ namespace Tavern.Infrastructure
 
         public void Deserialize(IDictionary<string, string> loadState)
         {
-            //TODO
+            if (!loadState.TryGetValue(Shops, out string json)) return;
+    
+            (List<ShopData> info, bool ok) = Serializer.DeserializeObject<List<ShopData>>(json);
+            if (!ok) return;
+
+            _factory.Clear();
+            foreach (ShopData shopData in info)
+            {
+                var position = shopData.Position.ToVector3();
+                var rotation = shopData.Rotation.ToQuaternion();
+                
+                if (!_catalog.TryGetSeller(shopData.ConfigName, out SellerConfig config)) continue;
+
+                ShopContext shopContext = _factory.Create(position, rotation, config);
+                _npcSellerSerializer.Deserialize(shopContext.Shop, shopData);
+            }
         }
     }
 }

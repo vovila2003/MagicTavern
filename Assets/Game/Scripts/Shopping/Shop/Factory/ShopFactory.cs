@@ -43,9 +43,9 @@ namespace Tavern.Shopping
                 try
                 {
                     _timeGameCycle.RemoveListener(context.Shop);
-                    Object.Destroy(context?.gameObject);
+                    Object.Destroy(context.gameObject);
                 }
-                catch (Exception _)
+                catch (Exception)
                 {
                     // ignored
                 }
@@ -54,7 +54,7 @@ namespace Tavern.Shopping
             _listeners.Clear();
         }
 
-        public void Create(Vector3 position, Quaternion rotation, SellerConfig config)
+        public ShopContext Create(Vector3 position, Quaternion rotation, SellerConfig config)
         {
             ShopContext shopContext = _resolver.Instantiate(_prefab, position, rotation, _sceneSettings.ShopsParent);
 
@@ -63,6 +63,8 @@ namespace Tavern.Shopping
             _timeGameCycle.AddListener(shop);
             
             _listeners.Add(shopContext, new ShopListener(shopContext, _gameCycle, _uiManager));
+
+            return shopContext;
         }
 
         void IInitGameListener.OnInit()
