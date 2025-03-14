@@ -40,7 +40,7 @@ namespace Tavern.Gardening
         public Sprite CurrentSprite => View.CurrentSprite;
         public SeedItemConfig CurrentSeedConfig { get; private set; }
 
-        public bool WaterRequired => Seedbed.Harvest.WaterRequired;
+        public bool WaterRequired => Seedbed.Harvest.IsWaterRequired;
 
         private void Awake()
         {

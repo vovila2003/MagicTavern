@@ -1,4 +1,5 @@
 using System;
+using Modules.Timers;
 
 namespace Modules.Gardening
 {
@@ -17,7 +18,14 @@ namespace Modules.Gardening
         PlantConfig PlantConfig { get; }
         bool IsSick { get; }
         int SickProbability { get; }
-        bool WaterRequired { get; }
+        bool IsWaterRequired { get; }
+        bool IsPaused { get; }
+        bool IsReadyAfterWatering { get; }
+        bool IsPenalized { get; }
+        int ResultHarvestAmount { get; }
+        Timer GrowthTimer { get; }
+        HarvestWatering HarvestWatering { get; }
+        HarvestSickness HarvestSickness { get; }
 
         void StartGrow();
         void StopGrow();

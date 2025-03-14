@@ -17,37 +17,22 @@ namespace Tavern.Gardening
         IInitGameListener,
         IExitGameListener
     {
-        private readonly Pot _prefab;
         private readonly IObjectResolver _resolver;
-        private readonly PlantProductInventoryContext _plantProductsStorage;
-        private readonly ISlopsStorage _slopsStorage;
-        private readonly SeedInventoryContext _seedsStorage;
-        private readonly SceneSettings _sceneSettings;
-        private readonly GameCycle _gameCycle;
-        private readonly IUiManager _uiManager;
+        private Pot _prefab;
+        private PlantProductInventoryContext _plantProductsStorage;
+        private ISlopsStorage _slopsStorage;
+        private SeedInventoryContext _seedsStorage;
+        private SceneSettings _sceneSettings;
+        private GameCycle _gameCycle;
+        private IUiManager _uiManager;
 
         private readonly Dictionary<Pot, PotHarvestController> _pots = new();
         private readonly Dictionary<Pot, PotListener> _listeners = new();
 
         public Dictionary<Pot, PotHarvestController>.KeyCollection Pots => _pots.Keys;
 
-        public PotFactory(
-            PlantProductInventoryContext plantProductsStorage, 
-            ISlopsStorage slopsStorage,
-            SeedInventoryContext seedsStorage,
-            GameSettings settings, 
-            SceneSettings sceneSettings,
-            GameCycle gameCycle,
-            IUiManager uiManager,
-            IObjectResolver resolver)
+        public PotFactory(IObjectResolver resolver)
         {
-            _plantProductsStorage = plantProductsStorage;
-            _slopsStorage = slopsStorage;
-            _seedsStorage = seedsStorage;
-            _sceneSettings = sceneSettings;
-            _gameCycle = gameCycle;
-            _uiManager = uiManager;
-            _prefab = settings.GardeningSettings.Pot;
             _resolver = resolver;
         }
 
@@ -66,23 +51,9 @@ namespace Tavern.Gardening
             DisposeController(pot);
         }
 
-        private void DisposeController(Pot pot)
-        {
-            if (!_pots.Remove(pot, out PotHarvestController controller)) return;
-            
-            controller.Dispose();
-            Object.Destroy(pot.gameObject);
-        }
-
-        private void DisposeListener(Pot pot)
-        {
-            if (!_listeners.Remove(pot, out PotListener listener)) return;
-
-            listener.Dispose();
-        }
-
         void IInitGameListener.OnInit()
         {
+            InitFields();
             foreach (PotPoint point in _sceneSettings.PotPoints)
             {
                 Create(point.transform.position);
@@ -109,6 +80,32 @@ namespace Tavern.Gardening
             }
             
             _listeners.Clear();
+        }
+
+        private void DisposeController(Pot pot)
+        {
+            if (!_pots.Remove(pot, out PotHarvestController controller)) return;
+            
+            controller.Dispose();
+            Object.Destroy(pot.gameObject);
+        }
+
+        private void DisposeListener(Pot pot)
+        {
+            if (!_listeners.Remove(pot, out PotListener listener)) return;
+
+            listener.Dispose();
+        }
+
+        private void InitFields()
+        {
+            _plantProductsStorage ??= _resolver.Resolve<PlantProductInventoryContext>();
+            _slopsStorage ??= _resolver.Resolve<ISlopsStorage>();
+            _seedsStorage = _resolver.Resolve<SeedInventoryContext>();
+            _sceneSettings = _resolver.Resolve<SceneSettings>();
+            _gameCycle = _resolver.Resolve<GameCycle>();
+            _uiManager = _resolver.Resolve<IUiManager>();
+            _prefab = _resolver.Resolve<GameSettings>().GardeningSettings.Pot;
         }
     }
 }

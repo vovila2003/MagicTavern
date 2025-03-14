@@ -14,6 +14,10 @@ namespace Modules.Gardening
         
         IHarvest Harvest { get; }
         bool IsFertilized { get; }
+        bool IsBoosted { get; }
+        bool IsSickReduced { get; }
+        bool IsAccelerated { get; }
+        int SeedInHarvestProbability { get; }
 
         bool Seed(PlantConfig seed);
         bool Gather(out HarvestResult harvestResult);

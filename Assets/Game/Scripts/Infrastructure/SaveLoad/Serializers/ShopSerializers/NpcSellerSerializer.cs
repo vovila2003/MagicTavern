@@ -16,7 +16,7 @@ namespace Tavern.Infrastructure
             _commonCatalog = commonCatalog;
         }
 
-        public void Serialize(NpcSeller npcSeller, ShopsSerializer.ShopData shopData)
+        public void Serialize(NpcSeller npcSeller, ShopData shopData)
         {
             shopData.Money = npcSeller.Money;
             shopData.Reputation = npcSeller.CurrentReputation;
@@ -24,13 +24,13 @@ namespace Tavern.Infrastructure
             shopData.CharacterItems = SerializeCharacterItems(npcSeller);
         }
 
-        private List<ShopsSerializer.ItemConfigData> SerializeItems(
+        private List<ItemConfigData> SerializeItems(
             NpcSeller npcSeller)
         {
-            var items = new List<ShopsSerializer.ItemConfigData>(npcSeller.ItemPrices.Count);
+            var items = new List<ItemConfigData>(npcSeller.ItemPrices.Count);
             foreach (ItemInfoByConfig itemInfo in npcSeller.ItemPrices)
             {
-                var itemData = new ShopsSerializer.ItemConfigData
+                var itemData = new ItemConfigData
                 {
                     Name = itemInfo.Item.Name,
                     Count = itemInfo.Count,
@@ -54,7 +54,7 @@ namespace Tavern.Infrastructure
             return items;
         }
 
-        public void Deserialize(Shop shop, ShopsSerializer.ShopData shopData)
+        public void Deserialize(Shop shop, ShopData shopData)
         {
             shop.NpcSeller.SetMoney(shopData.Money);
             shop.SetReputation(shopData.Reputation);
@@ -62,10 +62,10 @@ namespace Tavern.Infrastructure
             DeserializeCharacterItems(shop, shopData.CharacterItems);
         }
 
-        private void DeserializeItems(Shop shop, List<ShopsSerializer.ItemConfigData> items)
+        private void DeserializeItems(Shop shop, List<ItemConfigData> items)
         {
             shop.NpcSeller.ClearItems();
-            foreach (ShopsSerializer.ItemConfigData itemData in items)
+            foreach (ItemConfigData itemData in items)
             {
                 if (!_commonCatalog.TryGetItem(itemData.Name, out ItemConfig config)) continue;
                 shop.NpcSeller.AddItem(config, itemData.Count, itemData.Price);

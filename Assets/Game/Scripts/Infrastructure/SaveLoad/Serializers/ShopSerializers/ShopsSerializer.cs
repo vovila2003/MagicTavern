@@ -12,25 +12,6 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public class ShopsSerializer : IGameSerializer
     {
-        [Serializable]
-        public class ItemConfigData
-        {
-            public string Name;
-            public int Count;
-            public int Price;
-        }
-        
-        [Serializable]
-        public class ShopData
-        {
-            public float[] Position;
-            public float[] Rotation;
-            public string ConfigName;
-            public int Money;
-            public int Reputation;
-            public List<ItemConfigData> Items;
-            public List<ItemData> CharacterItems;
-        }
         
         private const string Shops = "Shops";
         
