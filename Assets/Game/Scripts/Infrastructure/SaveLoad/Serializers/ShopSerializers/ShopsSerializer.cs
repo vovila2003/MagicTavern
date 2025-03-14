@@ -13,14 +13,6 @@ namespace Tavern.Infrastructure
     public class ShopsSerializer : IGameSerializer
     {
         [Serializable]
-        public class CharacterItemData
-        {
-            public ItemSerializer.ItemData ItemData;
-            public int Count;
-            public int Price;
-        }
-        
-        [Serializable]
         public class ItemConfigData
         {
             public string Name;
@@ -37,7 +29,7 @@ namespace Tavern.Infrastructure
             public int Money;
             public int Reputation;
             public List<ItemConfigData> Items;
-            public List<CharacterItemData> CharacterItems;
+            public List<ItemData> CharacterItems;
         }
         
         private const string Shops = "Shops";
@@ -50,14 +42,14 @@ namespace Tavern.Infrastructure
         {
             _factory = factory;
             _catalog = gameSettings.ShoppingSettings.SellerCatalog;
-            _npcSellerSerializer = new NpcSellerSerializer(itemSerializer, 
+            _npcSellerSerializer = new NpcSellerSerializer(
+                itemSerializer, 
                 gameSettings.SaveLoadSettings.CommonItemsCatalog);
         }
 
         public void Serialize(IDictionary<string, string> saveState)
         {
             var shops = new List<ShopData>(_factory.Shops.Count);
-    
             foreach (ShopContext shopContext in _factory.Shops.Keys)
             {
                 Transform transform = shopContext.transform;
@@ -86,7 +78,6 @@ namespace Tavern.Infrastructure
             {
                 var position = shopData.Position.ToVector3();
                 var rotation = shopData.Rotation.ToQuaternion();
-                
                 if (!_catalog.TryGetSeller(shopData.ConfigName, out SellerConfig config)) continue;
 
                 ShopContext shopContext = _factory.Create(position, rotation, config);

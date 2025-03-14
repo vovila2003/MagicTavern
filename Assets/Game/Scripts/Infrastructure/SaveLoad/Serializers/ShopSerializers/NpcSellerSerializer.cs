@@ -8,7 +8,7 @@ namespace Tavern.Infrastructure
     public class NpcSellerSerializer
     {
         private readonly ItemSerializer _itemSerializer;
-        private readonly CommonItemsCatalog _commonCatalog;
+        private readonly IItemsCatalog _commonCatalog;
 
         public NpcSellerSerializer(ItemSerializer itemSerializer, CommonItemsCatalog commonCatalog)
         {
@@ -43,18 +43,12 @@ namespace Tavern.Infrastructure
             return items;
         }
 
-        private List<ShopsSerializer.CharacterItemData> SerializeCharacterItems(NpcSeller npcSeller)
+        private List<ItemData> SerializeCharacterItems(NpcSeller npcSeller)
         {
-            var items = new List<ShopsSerializer.CharacterItemData>(npcSeller.CharacterItemsPrices.Count);
-            foreach ((Item item, int price) in npcSeller.CharacterItemsPrices)
+            var items = new List<ItemData>(npcSeller.CharacterItems.Count);
+            foreach (Item item in npcSeller.CharacterItems)
             {
-                var itemData = new ShopsSerializer.CharacterItemData
-                {
-                    ItemData = _itemSerializer.Serialize(item),
-                    Price = price
-                };
-
-                items.Add(itemData);
+                items.Add(_itemSerializer.Serialize(item));
             }
 
             return items;
@@ -70,23 +64,24 @@ namespace Tavern.Infrastructure
 
         private void DeserializeItems(Shop shop, List<ShopsSerializer.ItemConfigData> items)
         {
-            //clear
+            shop.NpcSeller.ClearItems();
             foreach (ShopsSerializer.ItemConfigData itemData in items)
             {
                 if (!_commonCatalog.TryGetItem(itemData.Name, out ItemConfig config)) continue;
-                //TODO
+                shop.NpcSeller.AddItem(config, itemData.Count, itemData.Price);
             }
         }
 
-        private void DeserializeCharacterItems(Shop shop, List<ShopsSerializer.CharacterItemData> items)
+        private void DeserializeCharacterItems(Shop shop, List<ItemData> items)
         {
-            //clearS
-            foreach (ShopsSerializer.CharacterItemData itemData in items)
+            NpcSeller seller = shop.NpcSeller;
+            seller.ClearCharacterItems();
+            foreach (ItemData itemData in items)
             {
-                //if (!_commonCatalog.TryGetItem(itemData.Name, out ItemConfig config)) continue;
+                Item item = _itemSerializer.Deserialize<Item>(itemData, _commonCatalog);
+                if (item == null) continue;
                 
-                //TODO
-                
+                seller.TakeItem(item);
             }
         }
     }

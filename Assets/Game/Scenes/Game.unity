@@ -3423,7 +3423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 77ccd583a720ea2b28642d99839217a3, type: 2}
-  DebugMode: 1
+  DebugMode: 0
   Count: 100
 --- !u!1 &1271961288
 GameObject:
@@ -4293,7 +4293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 5ed77bf1faa549c9196e7b4689a858f3, type: 2}
-  DebugMode: 1
+  DebugMode: 0
   Count: 100
 --- !u!1 &1641482946
 GameObject:
@@ -4911,7 +4911,7 @@ MonoBehaviour:
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: d57b60e06fa20ab0988e7c4b81964ccf, type: 2}
   DebugMode: 0
-  Count: 0
+  Count: 1
 --- !u!1 &2028241251
 GameObject:
   m_ObjectHideFlags: 0

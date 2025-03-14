@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
@@ -10,21 +9,6 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public class ItemSerializer
     {
-        [Serializable]
-        public class ExtraData
-        {
-            public string Name;
-            public string Data;
-        }
-        
-        [Serializable]
-        public class ItemData
-        {
-            public string Name;
-            public int Count;
-            public List<ExtraData> Extras;
-        }
-        
         private readonly Dictionary<string, IExtraSerializer> _extraSerializers;
 
         public ItemSerializer(Dictionary<string, IExtraSerializer> extraSerializers)
@@ -44,7 +28,7 @@ namespace Tavern.Infrastructure
             return data;
         }
 
-        public Item Deserialize<T>(ItemData itemData, ItemsCatalog catalog) where T : Item
+        public Item Deserialize<T>(ItemData itemData, IItemsCatalog catalog) where T : Item
         {
             var item = DeserializeItem<T>(itemData, catalog);
             if (item == null) return null;
@@ -58,14 +42,12 @@ namespace Tavern.Infrastructure
         private List<ExtraData> SerializeExtras(Item item)
         {
             var extras = new List<ExtraData>();
-            
             foreach (IExtraItemComponent extraComponent in item.ExtraComponents)
             {
                 var extraData = new ExtraData
                 {
                     Name = extraComponent.ComponentName
                 };
-
                 if (!_extraSerializers.TryGetValue(extraData.Name, out IExtraSerializer extraSerializer)) continue;
 
                 extraData.Data = extraSerializer.Serialize(extraComponent); 
@@ -75,7 +57,7 @@ namespace Tavern.Infrastructure
             return extras;
         }
 
-        private static T DeserializeItem<T>(ItemData data, ItemsCatalog catalog) where T : Item
+        private static T DeserializeItem<T>(ItemData data, IItemsCatalog catalog) where T : Item
         {
             if (!catalog.TryGetItem(data.Name, out ItemConfig itemConfig)) return null;
             

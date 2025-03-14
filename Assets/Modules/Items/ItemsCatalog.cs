@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Modules.Items
 {
-    public class ItemsCatalog : ScriptableObject
+    public class ItemsCatalog : ScriptableObject, IItemsCatalog
     {
         [field: SerializeField] 
         public List<ItemConfig> Items { get; protected set; } = new();
