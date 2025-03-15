@@ -1,4 +1,5 @@
 using System;
+using Modules.Gardening;
 using Tavern.Gardening;
 using Tavern.Gardening.Fertilizer;
 using Tavern.Gardening.Medicine;
@@ -15,6 +16,9 @@ namespace Tavern.Settings
         
         [field: SerializeField]
         public PlantProductCatalog PlantProductCatalog { get; private set; }
+        
+        [field: SerializeField]
+        public PlantsCatalog PlantsCatalog { get; private set; }
 
         [field: SerializeField]
         public SeedCatalog SeedCatalog { get; private set; }

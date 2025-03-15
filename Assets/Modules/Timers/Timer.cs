@@ -181,6 +181,11 @@ namespace Modules.Timers
             OnProgressChanged?.Invoke(progress);
         }
 
+        public void SetState(State state)
+        {
+            _currentState = state;
+        }
+
         private void SetDuration(float duration)
         {
             if (duration < 0) return;

@@ -26,6 +26,6 @@ namespace Modules.Gardening
 
         public void DecreaseSicknessProbability(int value) => SetNewProbabilityValue(Probability - value);
 
-        private void SetNewProbabilityValue(int value) => Probability = Mathf.Clamp(value, 0, 100);
+        public void SetNewProbabilityValue(int value) => Probability = Mathf.Clamp(value, 0, 100);
     }
 }

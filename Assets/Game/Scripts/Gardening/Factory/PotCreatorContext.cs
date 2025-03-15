@@ -17,7 +17,7 @@ namespace Tavern.Gardening
         [Button]
         public void Create(Vector3 position)
         {
-            _factory.Create(position);
+            _factory.Create(position, Quaternion.identity);
         }
 
         [Button]

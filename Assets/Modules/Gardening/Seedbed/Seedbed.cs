@@ -16,13 +16,13 @@ namespace Modules.Gardening
 
         private bool _isEnable;
 
-        public IHarvest Harvest { get; private set; }
+        public IHarvest Harvest { get; set; }
         // public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
         public bool IsFertilized => IsBoosted || IsAccelerated;
-        public bool IsBoosted { get; private set; }
-        public bool IsSickReduced { get; private set; }
-        public bool IsAccelerated { get; private set; }
-        public int SeedInHarvestProbability { get; private set; }
+        public bool IsBoosted { get; set; }
+        public bool IsSickReduced { get; set; }
+        public bool IsAccelerated { get; set; }
+        public int SeedInHarvestProbability { get; set; }
 
         public bool Seed(PlantConfig plant) 
         {

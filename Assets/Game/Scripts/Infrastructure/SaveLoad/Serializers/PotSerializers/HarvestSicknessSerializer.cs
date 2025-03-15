@@ -9,5 +9,10 @@ namespace Tavern.Infrastructure
             {
                 Probability = harvestSickness.Probability
             };
+
+        public void Deserialize(HarvestSickness harvestSickness, HarvestSicknessData data)
+        {
+            harvestSickness.SetNewProbabilityValue(data.Probability);
+        }
     }
 }

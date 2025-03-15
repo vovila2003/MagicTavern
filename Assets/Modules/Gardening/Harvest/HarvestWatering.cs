@@ -13,7 +13,7 @@ namespace Modules.Gardening
         
         private readonly Harvest _harvest;
 
-        public float BaseDryingTimerDuration { get; private set; }
+        public float BaseDryingTimerDuration { get; set; }
 
         public Timer WateringTimer { get; } = new();
 

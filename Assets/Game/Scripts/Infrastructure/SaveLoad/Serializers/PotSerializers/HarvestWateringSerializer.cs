@@ -13,5 +13,12 @@ namespace Tavern.Infrastructure
                 WateringTimerData = _timerSerializer.Serialize(harvestWatering.WateringTimer),
                 DryingTimerData = _timerSerializer.Serialize(harvestWatering.DryingTimer)
             };
+
+        public void Deserialize(HarvestWatering harvestWatering, HarvestWateringData data)
+        {
+            harvestWatering.BaseDryingTimerDuration = data.BaseDryingTimerDuration;
+            _timerSerializer.Deserialize(harvestWatering.WateringTimer, data.WateringTimerData);
+            _timerSerializer.Deserialize(harvestWatering.DryingTimer, data.DryingTimerData);
+        }
     }
 }

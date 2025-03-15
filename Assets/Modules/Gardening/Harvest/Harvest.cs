@@ -13,17 +13,17 @@ namespace Modules.Gardening
         public event Action<float> OnDryingTimerProgressChanged;
         public event Action OnSick;
 
-        public int Value { get; private set; }
-        public HarvestState State { get; private set; }
-        public HarvestAge Age { get; private set; }
+        public int Value { get; set; }
+        public HarvestState State { get; set; }
+        public HarvestAge Age { get; set; }
         public PlantConfig PlantConfig { get; }
-        public bool IsSick { get; private set; }
+        public bool IsSick { get; set; }
         public int SickProbability => HarvestSickness.Probability;
-        public bool IsWaterRequired { get; private set; }
-        public bool IsPaused { get; private set; }
-        public bool IsReadyAfterWatering { get; private set; }
-        public bool IsPenalized { get; private set; }
-        public int ResultHarvestAmount { get; private set; }
+        public bool IsWaterRequired { get; set; }
+        public bool IsPaused { get; set; }
+        public bool IsReadyAfterWatering { get; set; }
+        public bool IsPenalized { get; set; }
+        public int ResultHarvestAmount { get; set; }
         public Timer GrowthTimer { get; } = new();
         public HarvestWatering HarvestWatering { get; private set; }
         public HarvestSickness HarvestSickness { get; private set; }
@@ -109,6 +109,28 @@ namespace Modules.Gardening
             GrowthTimer.Tick(deltaTime);
         }
 
+        public void SetIsWaterRequired(bool isWaterRequired)
+        {
+            IsWaterRequired = isWaterRequired;
+            if (IsWaterRequired)
+            {
+                OnWaterRequired?.Invoke();
+            }
+        }
+
+        public void SetState(HarvestState state)
+        {
+            State = state;
+            OnStateChanged?.Invoke(State);
+        }
+
+        public void SetAge(HarvestAge age)
+        {
+            Age = age;
+            
+            OnAgeChanged?.Invoke(Age);
+        }
+
         private void SetupGrowthTimer(Plant plant)
         {
             GrowthTimer.Loop = false;
@@ -117,7 +139,7 @@ namespace Modules.Gardening
             GrowthTimer.OnProgressChanged += OnGrowthProgressChanged;
         }
 
-        private void SetupWatering(Plant plant)
+        public void SetupWatering(Plant plant)
         {
             HarvestWatering = new HarvestWatering(this, plant);
             HarvestWatering.OnWateringRequired += OnWateringRequired;
@@ -125,7 +147,7 @@ namespace Modules.Gardening
             HarvestWatering.OnDryingTimerProgressChanged += OnDryingProgressChanged;
         }
 
-        private void SetupSickness(Plant plant)
+        public void SetupSickness(Plant plant)
         {
             HarvestSickness = new HarvestSickness(plant);
             OnAgeChanged += CheckSickness;

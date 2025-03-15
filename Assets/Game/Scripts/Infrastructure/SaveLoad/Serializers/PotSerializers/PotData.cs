@@ -1,6 +1,5 @@
 using System;
 using Modules.Gardening;
-using Modules.Timers;
 
 namespace Tavern.Infrastructure
 {
@@ -10,6 +9,7 @@ namespace Tavern.Infrastructure
         public bool IsSeeded;
         public float[] Position;
         public float[] Rotation;
+        public string SeedConfigName;
         public SeedbedData SeedbedData;
     }
     
@@ -32,11 +32,9 @@ namespace Tavern.Infrastructure
         public bool IsSick;
         public bool IsWaterRequired;
         public int ResultHarvestAmount;
-        public int SickProbability;
         public int Value;
         public HarvestState HarvestState;
         public HarvestAge HarvestAge;
-        public string PlantConfigName;
         public TimerData GrowthTimerData;
         public HarvestWateringData HarvestWateringData;
         public HarvestSicknessData HarvestSicknessData;

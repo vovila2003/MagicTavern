@@ -18,9 +18,7 @@ namespace Tavern.Gardening
         [SerializeField] 
         private HarvestView View;
 
-        private bool _isEnable;
-
-        public ISeedbed Seedbed { get; } = new Seedbed();
+        public ISeedbed Seedbed { get; private set; } = new Seedbed();
         
         [ShowInInspector, ReadOnly] 
         public float Progress { get; private set; }
@@ -34,18 +32,13 @@ namespace Tavern.Gardening
         [ShowInInspector, ReadOnly]
         private int SickProbability => Seedbed.Harvest?.SickProbability ?? -1;
         
-        public bool IsSeeded {get; private set;}
+        public bool IsSeeded {get; set;}
         public bool IsFertilized => Seedbed.IsFertilized;
 
         public Sprite CurrentSprite => View.CurrentSprite;
-        public SeedItemConfig CurrentSeedConfig { get; private set; }
+        public SeedItemConfig CurrentSeedConfig { get; set; }
 
         public bool WaterRequired => Seedbed.Harvest.IsWaterRequired;
-
-        private void Awake()
-        {
-            _isEnable = true;
-        }
 
         private void OnEnable()
         {
@@ -66,7 +59,7 @@ namespace Tavern.Gardening
 
         public bool Seed(SeedItemConfig seedConfig)
         {
-            if (!_isEnable || seedConfig is null) return false;
+            if (seedConfig is null) return false;
 
             if (!seedConfig.TryGet(out ComponentPlant componentPlant))
             {
@@ -93,8 +86,6 @@ namespace Tavern.Gardening
 
         public void Gather()
         {
-            if (!_isEnable) return;
-            
             bool gathered = Seedbed.Gather(out HarvestResult harvestResult);
             Debug.Log($"Seedbed gathered: {gathered}.");
             IsSeeded = !gathered;
@@ -115,25 +106,19 @@ namespace Tavern.Gardening
 
         public void Watering()
         {
-            if (!_isEnable) return;
-            
             Seedbed.Watering();
         }
 
         public void Heal()
         {
-            if (!_isEnable) return;
-            
             Seedbed.Heal();
         }
 
         public void ReduceHarvestSicknessProbability(int reducing)
         {
-            if (!_isEnable) return;
-            
             Seedbed.ReduceHarvestSicknessProbability(reducing);
         }
-
+        
         public void Tick(float deltaTime) => Seedbed.Tick(deltaTime);
 
         public void OnStart() => Seedbed.Resume();

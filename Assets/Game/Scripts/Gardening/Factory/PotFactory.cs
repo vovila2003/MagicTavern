@@ -36,13 +36,15 @@ namespace Tavern.Gardening
             _resolver = resolver;
         }
 
-        public void Create(Vector3 position)
+        public Pot Create(Vector3 position,Quaternion rotation)
         {
-            Pot pot = _resolver.Instantiate(_prefab, position, Quaternion.identity, _sceneSettings.PotsParent);
+            Pot pot = _resolver.Instantiate(_prefab, position, rotation, _sceneSettings.PotsParent);
             pot.Setup();
             var controller = new PotHarvestController(pot, _plantProductsStorage, _slopsStorage, _seedsStorage);
             _pots.Add(pot, controller);
             _listeners.Add(pot, new PotListener(pot, _gameCycle, _uiManager));
+
+            return pot;
         }
 
         public void Destroy(Pot pot)
@@ -51,12 +53,21 @@ namespace Tavern.Gardening
             DisposeController(pot);
         }
 
+        public void Clear()
+        {
+            var pots = new List<Pot>(Pots);
+            foreach (Pot pot in pots)
+            {
+                Destroy(pot);
+            }
+        }
+
         void IInitGameListener.OnInit()
         {
             InitFields();
             foreach (PotPoint point in _sceneSettings.PotPoints)
             {
-                Create(point.transform.position);
+                Create(point.transform.position, point.transform.rotation);
             }
             
             foreach (PotPoint point in _sceneSettings.PotPoints)
@@ -82,19 +93,19 @@ namespace Tavern.Gardening
             _listeners.Clear();
         }
 
+        private void DisposeListener(Pot pot)
+        {
+            if (!_listeners.Remove(pot, out PotListener listener)) return;
+
+            listener.Dispose();
+        }
+
         private void DisposeController(Pot pot)
         {
             if (!_pots.Remove(pot, out PotHarvestController controller)) return;
             
             controller.Dispose();
             Object.Destroy(pot.gameObject);
-        }
-
-        private void DisposeListener(Pot pot)
-        {
-            if (!_listeners.Remove(pot, out PotListener listener)) return;
-
-            listener.Dispose();
         }
 
         private void InitFields()
