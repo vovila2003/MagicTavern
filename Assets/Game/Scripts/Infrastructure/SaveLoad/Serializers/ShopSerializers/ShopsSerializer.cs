@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.SaveLoad;
@@ -12,7 +11,6 @@ namespace Tavern.Infrastructure
     [UsedImplicitly]
     public class ShopsSerializer : IGameSerializer
     {
-        
         private const string Shops = "Shops";
         
         private readonly ShopFactory _factory;

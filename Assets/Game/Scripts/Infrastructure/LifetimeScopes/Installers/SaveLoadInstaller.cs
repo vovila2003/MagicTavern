@@ -41,6 +41,7 @@ namespace Tavern.Infrastructure
             RegisterKitchenItemSerializers(builder);
             RegisterShopSerializers(builder);
             RegisterPotSerializers(builder);
+            RegisterTimeGameCycleSerializers(builder);
         }
 
         private static void RegisterResourceStoragesSerializers(IContainerBuilder builder)
@@ -86,6 +87,11 @@ namespace Tavern.Infrastructure
         private void RegisterPotSerializers(IContainerBuilder builder)
         {
             builder.Register<PotsSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private void RegisterTimeGameCycleSerializers(IContainerBuilder builder)
+        {
+            builder.Register<TimeGameCycleSerializer>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

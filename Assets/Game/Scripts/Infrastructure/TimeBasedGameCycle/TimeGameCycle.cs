@@ -21,7 +21,7 @@ namespace Tavern.Infrastructure
         
         private readonly List<ITimeListener> _listeners = new();
 
-        private readonly Timer _timer;
+        public Timer Timer { get; }
         public int CurrentDayOfWeek { get; private set; }
         public DayState CurrentDayState { get; private set; }
         public int CurrentWeek { get; private set; }
@@ -34,7 +34,7 @@ namespace Tavern.Infrastructure
         public TimeGameCycle(GameSettings settings)
         {
             CurrentDayOfWeek = 0;
-            _timer = new Timer(settings.TimeSettings.SecondsIn12Hours, true);
+            Timer = new Timer(settings.TimeSettings.SecondsIn12Hours, true);
         }
 
         public void RemoveListener(ITimeListener listener)
@@ -46,14 +46,36 @@ namespace Tavern.Infrastructure
         {
             AddListeners(listeners);
         }
+        
+        public void SetCurrentWeek(int currentWeek)
+        {
+            CurrentWeek = currentWeek;
+            OnNewWeekStarted();
+        }
 
-        void IPauseGameListener.OnPause() => _timer.Pause();
+        public void SetCurrentDayOfWeek(int currentDayOfWeek)
+        {
+            CurrentDayOfWeek = currentDayOfWeek;
+            OnDayStarted();
+        }
 
-        void IResumeGameListener.OnResume() => _timer.Resume();
+        public void SetCurrentDayState(DayState dayState)
+        {
+            CurrentDayState = dayState;
+            if (CurrentDayState == DayState.Night)
+            {
+                OnNightStarted();
+            }
+        }
+
+
+        void IPauseGameListener.OnPause() => Timer.Pause();
+
+        void IResumeGameListener.OnResume() => Timer.Resume();
 
         void IPrepareGameListener.OnPrepare()
         {
-            _timer.Stop();
+            Timer.Stop();
             CurrentDayOfWeek = 0;
             CurrentWeek = 0;
             CurrentDayState = DayState.Day;
@@ -61,18 +83,18 @@ namespace Tavern.Infrastructure
 
         void IStartGameListener.OnStart()
         {
-            _timer.Start();
-            _timer.OnEnded += OnTimerEnded;
+            Timer.Start();
+            Timer.OnEnded += OnTimerEnded;
             OnDayStarted();
         }
 
         void IFinishGameListener.OnFinish()
         {
-            _timer.Stop();
-            _timer.OnEnded -= OnTimerEnded;
+            Timer.Stop();
+            Timer.OnEnded -= OnTimerEnded;
         }
 
-        void ITickable.Tick() => _timer.Tick(Time.deltaTime);
+        void ITickable.Tick() => Timer.Tick(Time.deltaTime);
 
         private void AddListeners(IEnumerable<ITimeListener> listeners)
         {
