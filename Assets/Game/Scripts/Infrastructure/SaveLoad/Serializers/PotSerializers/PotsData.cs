@@ -1,8 +1,20 @@
 using System;
+using System.Collections.Generic;
 using Modules.Gardening;
 
 namespace Tavern.Infrastructure
 {
+    [Serializable]
+    public class PotsData
+    {
+        public List<PotData> Pots;
+
+        public PotsData(int count)
+        {
+            Pots = new List<PotData>(count);
+        }
+    }
+    
     [Serializable]
     public class PotData
     {

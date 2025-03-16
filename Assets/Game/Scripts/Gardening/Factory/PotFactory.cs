@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle;
@@ -9,6 +10,7 @@ using Tavern.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
 namespace Tavern.Gardening
 {
@@ -105,7 +107,14 @@ namespace Tavern.Gardening
             if (!_pots.Remove(pot, out PotHarvestController controller)) return;
             
             controller.Dispose();
-            Object.Destroy(pot.gameObject);
+            try
+            {
+                Object.Destroy(pot.gameObject);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private void InitFields()

@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.GameCycle;
 using Modules.GameCycle.Interfaces;
 using Modules.Items;
-using Modules.SaveLoad;
 using Tavern.Gardening;
 using Tavern.Settings;
 using Tavern.Utils;
@@ -12,10 +10,8 @@ using UnityEngine;
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class PotsSerializer : IGameSerializer
+    public class PotsSerializer : GameSerializer<PotsData>
     {
-        private const string Pots = "Pots";
-        
         private readonly PotFactory _factory;
         private readonly GameCycle _gameCycle;
         private readonly PotsController _controller;
@@ -34,9 +30,9 @@ namespace Tavern.Infrastructure
             _seedCatalog = settings.GardeningSettings.SeedCatalog;
         }
 
-        public void Serialize(IDictionary<string, string> saveState)
+        protected override PotsData Serialize()
         {
-            var pots = new List<PotData>(_factory.Pots.Count);
+            var data = new PotsData(_factory.Pots.Count);
             foreach (Pot pot in _factory.Pots)
             {
                 Transform transform = pot.transform;
@@ -48,21 +44,16 @@ namespace Tavern.Infrastructure
                     SeedConfigName = pot.CurrentSeedConfig is null ? string.Empty : pot.CurrentSeedConfig.Name,
                     SeedbedData = _seedbedSerializer.Serialize(pot.Seedbed)
                 };
-                pots.Add(potData);
+                data.Pots.Add(potData);
             }
-    
-            saveState[Pots] = Serializer.SerializeObject(pots);
-        }
-        
-        public void Deserialize(IDictionary<string, string> loadState)
-        {
-            if (!loadState.TryGetValue(Pots, out string json)) return;
-    
-            (List<PotData> info, bool ok) = Serializer.DeserializeObject<List<PotData>>(json);
-            if (!ok) return;
 
+            return data;
+        }
+
+        protected override void Deserialize(PotsData data)
+        {
             _factory.Clear();
-            foreach (PotData potData in info)
+            foreach (PotData potData in data.Pots)
             {
                 var position = potData.Position.ToVector3();
                 var rotation = potData.Rotation.ToQuaternion();

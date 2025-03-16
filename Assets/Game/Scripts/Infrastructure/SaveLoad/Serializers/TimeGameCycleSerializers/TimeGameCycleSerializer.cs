@@ -1,15 +1,10 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
-using Modules.SaveLoad;
-using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class TimeGameCycleSerializer : IGameSerializer
+    public class TimeGameCycleSerializer : GameSerializer<TimeGameCycleData>
     {
-        private const string TimeGameCycle = "TimeGameCycle";
-        
         private readonly TimeGameCycle _timeGameCycle;
         private readonly TimerSerializer _timerSerializer = new();
 
@@ -18,32 +13,24 @@ namespace Tavern.Infrastructure
             _timeGameCycle = timeGameCycle;
         }
 
-        public void Serialize(IDictionary<string, string> saveState)
+        protected override TimeGameCycleData Serialize()
         {
-            var data = new TimeGameCycleData
+            return new TimeGameCycleData
             {
                 CurrentWeek = _timeGameCycle.CurrentWeek,
                 CurrentDayOfWeek = _timeGameCycle.CurrentDayOfWeek,
                 CurrentDayState = _timeGameCycle.CurrentDayState,
                 TimerData = _timerSerializer.Serialize(_timeGameCycle.Timer)
             };
-
-            saveState[TimeGameCycle] = Serializer.SerializeObject(data);
         }
 
-        public void Deserialize(IDictionary<string, string> loadState)
+        protected override void Deserialize(TimeGameCycleData data)
         {
-            if (!loadState.TryGetValue(TimeGameCycle, out string json)) return;
-    
-            (TimeGameCycleData info, bool ok) = Serializer.DeserializeObject<TimeGameCycleData>(json);
-            if (!ok) return;
-            
-            //order is important
-            _timeGameCycle.SetCurrentWeek(info.CurrentWeek);
-            _timeGameCycle.SetCurrentDayOfWeek(info.CurrentDayOfWeek);
-            _timeGameCycle.SetCurrentDayState(info.CurrentDayState);
+            _timeGameCycle.SetCurrentWeek(data.CurrentWeek);
+            _timeGameCycle.SetCurrentDayOfWeek(data.CurrentDayOfWeek);
+            _timeGameCycle.SetCurrentDayState(data.CurrentDayState);
 
-            _timerSerializer.Deserialize(_timeGameCycle.Timer, info.TimerData);
+            _timerSerializer.Deserialize(_timeGameCycle.Timer, data.TimerData);
         }
     }
 }

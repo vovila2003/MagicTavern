@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
-using Modules.SaveLoad;
 using Tavern.Settings;
 using Tavern.Shopping;
 using Tavern.Utils;
@@ -9,10 +7,8 @@ using UnityEngine;
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class ShopsSerializer : IGameSerializer
+    public class ShopsSerializer : GameSerializer<ShopsData>
     {
-        private const string Shops = "Shops";
-        
         private readonly ShopFactory _factory;
         private readonly NpcSellerSerializer _npcSellerSerializer;
         private readonly SellerCatalog _catalog;
@@ -26,9 +22,9 @@ namespace Tavern.Infrastructure
                 gameSettings.SaveLoadSettings.CommonItemsCatalog);
         }
 
-        public void Serialize(IDictionary<string, string> saveState)
+        protected override ShopsData Serialize()
         {
-            var shops = new List<ShopData>(_factory.Shops.Count);
+            var data = new ShopsData(_factory.Shops.Count);
             foreach (ShopContext shopContext in _factory.Shops.Keys)
             {
                 Transform transform = shopContext.transform;
@@ -39,21 +35,16 @@ namespace Tavern.Infrastructure
                     ConfigName = shopContext.SellerConfig.Name
                 };
                 _npcSellerSerializer.Serialize(shopContext.Shop.NpcSeller, shopData);
-                shops.Add(shopData);
+                data.Shops.Add(shopData);
             }
-    
-            saveState[Shops] = Serializer.SerializeObject(shops);
+
+            return data;
         }
 
-        public void Deserialize(IDictionary<string, string> loadState)
+        protected override void Deserialize(ShopsData data)
         {
-            if (!loadState.TryGetValue(Shops, out string json)) return;
-    
-            (List<ShopData> info, bool ok) = Serializer.DeserializeObject<List<ShopData>>(json);
-            if (!ok) return;
-
             _factory.Clear();
-            foreach (ShopData shopData in info)
+            foreach (ShopData shopData in data.Shops)
             {
                 var position = shopData.Position.ToVector3();
                 var rotation = shopData.Rotation.ToQuaternion();

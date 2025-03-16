@@ -4,6 +4,17 @@ using System.Collections.Generic;
 namespace Tavern.Infrastructure
 {
     [Serializable]
+    public class ShopsData
+    {
+        public List<ShopData> Shops;
+
+        public ShopsData(int count)
+        {
+            Shops = new List<ShopData>(count);
+        }
+    }
+    
+    [Serializable]
     public class ShopData
     {
         public float[] Position;

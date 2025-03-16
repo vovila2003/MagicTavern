@@ -15,12 +15,12 @@ namespace Tavern.Infrastructure
             _catalog = catalog;
         }
 
-        public List<CharacterSerializer.StateData> Serialize()
+        public List<CharacterStateData> Serialize()
         {
-            var stateData = new List<CharacterSerializer.StateData>(_character.GetState().Effects.Count);
+            var stateData = new List<CharacterStateData>(_character.GetState().Effects.Count);
             foreach (EffectConfig effect in _character.GetState().Effects)
             {
-                var data = new CharacterSerializer.StateData
+                var data = new CharacterStateData
                 {
                     EffectName = effect.EffectName
                 };
@@ -30,11 +30,11 @@ namespace Tavern.Infrastructure
             return stateData;
         }
 
-        public void Deserialize(List<CharacterSerializer.StateData> data)
+        public void Deserialize(List<CharacterStateData> data)
         {
             CharacterState characterState = _character.GetState();
             characterState.RemoveAllEffects();            
-            foreach (CharacterSerializer.StateData stateData in data)
+            foreach (CharacterStateData stateData in data)
             {
                 if (!_catalog.TryGetEffect(stateData.EffectName, out EffectConfig effect)) continue;
                 

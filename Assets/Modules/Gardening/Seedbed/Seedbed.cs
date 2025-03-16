@@ -5,8 +5,8 @@ namespace Modules.Gardening
     public class Seedbed : ISeedbed
     {
         private const int SlopsValue = 1;
-        public event Action<bool> OnHarvestWateringRequired;
 
+        public event Action<bool> OnHarvestWateringRequired;
         public event Action<bool> OnHealingRequired;
         public event Action<HarvestState> OnHarvestStateChanged;
         public event Action<HarvestAge> OnHarvestAgeChanged;
@@ -16,7 +16,7 @@ namespace Modules.Gardening
 
         private bool _isEnable;
 
-        public IHarvest Harvest { get; set; }
+        public IHarvest Harvest { get; private set; }
         // public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
         public bool IsFertilized => IsBoosted || IsAccelerated;
         public bool IsBoosted { get; set; }
@@ -131,7 +131,7 @@ namespace Modules.Gardening
             Harvest = null;
         }
 
-        private void OnAgeChanged(HarvestAge age) => OnHarvestAgeChanged?.Invoke(age);
+        private void OnAgeChanged(HarvestAge age, bool _) => OnHarvestAgeChanged?.Invoke(age);
 
         private void OnStateChanged(HarvestState state) => OnHarvestStateChanged?.Invoke(state);
 

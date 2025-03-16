@@ -1,17 +1,13 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Crafting;
-using Modules.SaveLoad;
 using Tavern.Cooking;
 using Tavern.Settings;
-using Tavern.Utils;
 
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class DishCookbookSerializer : IGameSerializer
+    public class DishCookbookSerializer : GameSerializer<DishCookbookData>
     {
-        private readonly string _name;
         private readonly DishCookbookContext _cookbook;
         private readonly DishRecipeCatalog _catalog;
 
@@ -19,37 +15,35 @@ namespace Tavern.Infrastructure
             DishCookbookContext cookbook,
             GameSettings settings)
         {
-            _name = nameof(DishCookbookContext);
             _cookbook = cookbook;
             _catalog = settings.CookingSettings.DishRecipes;
         }
 
-        public void Serialize(IDictionary<string, string> saveState)
+        protected override DishCookbookData Serialize()
         {
-            var recipes = new Dictionary<string, int>(_cookbook.Recipes.Count);
+            var data = new DishCookbookData(_cookbook.Recipes.Count);
             foreach (ItemRecipe recipe in _cookbook.Recipes.Values)
             {
-                recipes.Add(recipe.Name, _cookbook.GetRecipeStars(recipe as DishRecipe));
+                data.Recipes.Add(new RecipeData
+                {
+                    Name = recipe.Name,
+                    Stars = _cookbook.GetRecipeStars(recipe as DishRecipe)
+                });
             }
 
-            saveState[_name] = Serializer.SerializeObject(recipes);
+            return data;
         }
 
-        public void Deserialize(IDictionary<string, string> loadState)
+        protected override void Deserialize(DishCookbookData data)
         {
-            if (!loadState.TryGetValue(_name, out string valueString)) return;
-
-            (Dictionary<string, int> recipes, bool ok) = Serializer.DeserializeObject<Dictionary<string, int>>(valueString);
-            if (!ok) return;
-
             _cookbook.Clear();
 
-            foreach ((string name, int stars) in recipes)
+            foreach (RecipeData recipeData in data.Recipes)
             {
-                if (!_catalog.TryGetRecipe(name, out DishRecipe recipe)) continue;
+                if (!_catalog.TryGetRecipe(recipeData.Name, out DishRecipe recipe)) continue;
                 
                 _cookbook.AddRecipe(recipe);
-                _cookbook.SetRecipeStars(recipe, stars);
+                _cookbook.SetRecipeStars(recipe, recipeData.Stars);
             }
         }
     }

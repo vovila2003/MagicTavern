@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Items;
-using Modules.SaveLoad;
 using Tavern.Cooking;
 using Tavern.Settings;
 using Tavern.Utils;
@@ -11,18 +8,8 @@ using UnityEngine;
 namespace Tavern.Infrastructure
 {
     [UsedImplicitly]
-    public class KitchenItemsSerializer : IGameSerializer
+    public class KitchenItemsSerializer : GameSerializer<KitchenItemsData>
     {
-        [Serializable]
-        public class KitchenItemData
-        {
-            public float[] Position;
-            public float[] Rotation;
-            public string ConfigName;
-        }
-        
-        private const string KitchenItems = "KitchenItems";
-        
         private readonly KitchenItemFactory _factory;
         private readonly KitchenItemsCatalog _catalog;
 
@@ -32,9 +19,9 @@ namespace Tavern.Infrastructure
             _catalog = settings.CookingSettings.KitchenItemCatalog;
         }
     
-        public void Serialize(IDictionary<string, string> saveState)
+        protected override KitchenItemsData Serialize()
         {
-            var items = new List<KitchenItemData>(_factory.KitchenItems.Count);
+            var data = new KitchenItemsData(_factory.KitchenItems.Count);
     
             foreach (KitchenItemContext kitchenItem in _factory.KitchenItems.Keys)
             {
@@ -46,21 +33,16 @@ namespace Tavern.Infrastructure
                     ConfigName = kitchenItem.KitchenItemConfig.Name
                 };
 
-                items.Add(info);
+                data.Items.Add(info);
             }
-    
-            saveState[KitchenItems] = Serializer.SerializeObject(items);
+
+            return data;
         }
-    
-        public void Deserialize(IDictionary<string, string> loadState)
+
+        protected override void Deserialize(KitchenItemsData data)
         {
-            if (!loadState.TryGetValue(KitchenItems, out string json)) return;
-    
-            (List<KitchenItemData> info, bool ok) = Serializer.DeserializeObject<List<KitchenItemData>>(json);
-            if (!ok) return;
-    
             _factory.Clear();
-            foreach (KitchenItemData itemData in info)
+            foreach (KitchenItemData itemData in data.Items)
             {
                 var position = itemData.Position.ToVector3();
                 var rotation = itemData.Rotation.ToQuaternion();

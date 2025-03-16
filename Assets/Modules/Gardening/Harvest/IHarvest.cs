@@ -6,11 +6,10 @@ namespace Modules.Gardening
     public interface IHarvest
     {
         event Action<HarvestState> OnStateChanged;
-        event Action<HarvestAge> OnAgeChanged;
+        event Action<HarvestAge, bool> OnAgeChanged;
         event Action OnWaterRequired;
         event Action<float> OnProgressChanged;
         event Action<float> OnDryingTimerProgressChanged;
-        event Action OnSick;
 
         int Value { get; set; }
         HarvestState State { get; }

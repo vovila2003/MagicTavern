@@ -32,7 +32,6 @@ namespace Tavern.Infrastructure
         public void Deserialize(ISeedbed seedbed, IHarvest harvest, HarvestData data)
         {
             //Order is important
-            
             harvest.IsPaused = data.IsPaused;
             harvest.IsReadyAfterWatering = data.IsReadyAfterWatering;
             harvest.IsPenalized = data.IsPenalized;

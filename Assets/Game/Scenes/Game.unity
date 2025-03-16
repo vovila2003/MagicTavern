@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Water
-  DebugMode: 0
+  DebugMode: 1
   StartValueInStorageInDebugMode: 100
   Limit: 1
   MaxValue: 0
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
-  DebugMode: 0
+  DebugMode: 1
   Count: 10
 --- !u!114 &368490056
 MonoBehaviour:
@@ -700,7 +700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 091a91e542873341da703ff93923402d, type: 2}
-  DebugMode: 0
+  DebugMode: 1
   Count: 10
 --- !u!1 &479389815
 GameObject:
@@ -2011,8 +2011,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 09dd44bbf50fab5d488c29a31b7c5ec7, type: 2}
-  DebugMode: 0
-  Count: 100
+  DebugMode: 1
+  Count: 5
 --- !u!1 &821277601
 GameObject:
   m_ObjectHideFlags: 0
@@ -3423,7 +3423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 77ccd583a720ea2b28642d99839217a3, type: 2}
-  DebugMode: 0
+  DebugMode: 1
   Count: 100
 --- !u!1 &1271961288
 GameObject:
@@ -4293,7 +4293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: 5ed77bf1faa549c9196e7b4689a858f3, type: 2}
-  DebugMode: 0
+  DebugMode: 1
   Count: 100
 --- !u!1 &1641482946
 GameObject:
@@ -4494,7 +4494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Money
-  DebugMode: 0
+  DebugMode: 1
   StartValueInStorageInDebugMode: 1000
   Limit: 1
   MaxValue: 0
@@ -4543,7 +4543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Slops
-  DebugMode: 0
+  DebugMode: 1
   StartValueInStorageInDebugMode: 5
   Limit: 1
   MaxValue: 0
@@ -4910,8 +4910,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items: []
   ItemsCatalog: {fileID: 11400000, guid: d57b60e06fa20ab0988e7c4b81964ccf, type: 2}
-  DebugMode: 0
-  Count: 1
+  DebugMode: 1
+  Count: 3
 --- !u!1 &2028241251
 GameObject:
   m_ObjectHideFlags: 0
