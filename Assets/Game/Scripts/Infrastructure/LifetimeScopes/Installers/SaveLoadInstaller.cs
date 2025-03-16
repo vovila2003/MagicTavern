@@ -13,28 +13,17 @@ namespace Tavern.Infrastructure
     public class SaveLoadInstaller : IInstaller
     {
         private readonly GameSettings _gameSettings;
-        private readonly string _filePath;
         
         public SaveLoadInstaller(GameSettings gameSettings)
         {
             _gameSettings = gameSettings;
-            _filePath = Path.Combine(Application.persistentDataPath, gameSettings.SaveLoadSettings.FileSaveName);
         }
 
         public void Install(IContainerBuilder builder)
         {
-            builder.Register<GameRepository>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_filePath);
-            builder.Register<GameSaveLoader>(Lifetime.Singleton);
-
+            RegisterSaveLoadSystemCore(builder);
             RegisterResourceStoragesSerializers(builder);
-
-            var extraSerializers = new Dictionary<string, IExtraSerializer>
-            {
-                {nameof(ComponentEffect), new ComponentEffectSerializer(_gameSettings.EffectsSettings.EffectsCatalog)},
-                {nameof(ComponentDishExtra), new ComponentDishExtraSerializer()}
-            };
-            builder.Register<ItemSerializer>(Lifetime.Singleton).WithParameter(extraSerializers);
-
+            RegisterItemSerializer(builder);
             RegisterInventorySerializers(builder);
             RegisterCookbookSerializers(builder);
             RegisterCharacterSerializers(builder);
@@ -42,6 +31,39 @@ namespace Tavern.Infrastructure
             RegisterShopSerializers(builder);
             RegisterPotSerializers(builder);
             RegisterTimeGameCycleSerializers(builder);
+        }
+
+        private void RegisterSaveLoadSystemCore(IContainerBuilder builder)
+        {
+            builder.Register<AesEncryptor>(Lifetime.Singleton)
+                .AsImplementedInterfaces()
+                .WithParameter(new AesEncryptor.AesData
+                {
+                    Key = _gameSettings.SaveLoadSettings.Key,
+                    Iv = _gameSettings.SaveLoadSettings.InitializationVector
+                });
+            
+            builder.Register<GameRepository>(Lifetime.Singleton)
+                .AsImplementedInterfaces()
+                .WithParameter(new GameRepository.Params
+                {
+                    FileName = Path.Combine(Application.persistentDataPath, 
+                                            _gameSettings.SaveLoadSettings.FileSaveName),
+                    UseCompression = _gameSettings.SaveLoadSettings.UseCompression,
+                    UseEncryption = _gameSettings.SaveLoadSettings.UseEncryption
+                });
+            
+            builder.Register<GameSaveLoader>(Lifetime.Singleton);
+        }
+
+        private void RegisterItemSerializer(IContainerBuilder builder)
+        {
+            builder.Register<ItemSerializer>(Lifetime.Singleton)
+                .WithParameter(new Dictionary<string, IExtraSerializer>
+                {
+                    {nameof(ComponentEffect), new ComponentEffectSerializer(_gameSettings.EffectsSettings.EffectsCatalog)},
+                    {nameof(ComponentDishExtra), new ComponentDishExtraSerializer()}
+                });
         }
 
         private static void RegisterResourceStoragesSerializers(IContainerBuilder builder)
