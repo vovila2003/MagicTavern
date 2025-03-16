@@ -30,6 +30,10 @@ MonoBehaviour:
   <SaveLoadSettings>k__BackingField:
     <FileSaveName>k__BackingField: data.sav
     <CommonItemsCatalog>k__BackingField: {fileID: 11400000, guid: 333117cbb8e33ea77b33c35e6644dc5f, type: 2}
+    <UseCompression>k__BackingField: 0
+    <UseEncryption>k__BackingField: 0
+    <Key>k__BackingField: VeryHardToCrackSecretKey
+    <InitializationVector>k__BackingField: initialization v
   GardeningConfigs:
     PotPrefab: {fileID: 6548709685111567746, guid: 2993ab517fc893eb4854237943d2437f, type: 3}
     <PlantProductCatalog>k__BackingField: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}

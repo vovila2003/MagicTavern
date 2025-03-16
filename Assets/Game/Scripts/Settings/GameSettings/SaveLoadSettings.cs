@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using Sirenix.OdinInspector;
 using Tavern.Common;
 using UnityEngine;
@@ -20,10 +21,22 @@ namespace Tavern.Settings
         [field: SerializeField]
         public bool UseEncryption { get; private set; }
 
-        [field: SerializeField, ShowIf("UseEncryption")]
+        [field: SerializeField, ShowIf("UseEncryption"), 
+                ValidateInput("ValidateKey", "The key length must be 24 characters (192 bits)")]
         public string Key { get; private set; }
 
-        [field: SerializeField, ShowIf("UseEncryption")]
+        [field: SerializeField, ShowIf("UseEncryption"),
+                ValidateInput("ValidateIv", "The initialization vector must be non-empty")]
         public string InitializationVector { get; private set; }
+
+        private bool ValidateKey(string key)
+        {
+            return key.Length == 24;
+        }
+        
+        private bool ValidateIv(string iv)
+        {
+            return iv.Length != 0;
+        }
     }
 }

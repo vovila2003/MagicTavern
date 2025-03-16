@@ -86,7 +86,6 @@ namespace Tavern.Infrastructure
         private void SetupState()
         {
             GameState gameCycleState = _gameCycle.State;
-            Debug.Log($"State = {gameCycleState}");
             switch (gameCycleState)
             {
                 case GameState.Pause:

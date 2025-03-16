@@ -24,13 +24,15 @@ namespace Modules.SaveLoad
             {
                 serializer.Serialize(gameState);
             }
-            
-            _gameRepository.SetState(gameState);
+
+            bool _ = _gameRepository.SetState(gameState);
         }
 
         public void Load()
         {
-            Dictionary<string,string> gameState = _gameRepository.GetState();
+            (Dictionary<string,string> gameState, bool ok) = _gameRepository.GetState();
+            if (!ok) return;
+            
             foreach (IGameSerializer serializer in _serializers)
             {
                 serializer.Deserialize(gameState);

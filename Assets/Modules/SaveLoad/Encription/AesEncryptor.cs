@@ -15,7 +15,7 @@ namespace Modules.SaveLoad
         }
         
         private Stream _stream;
-        private AesCryptoServiceProvider _cryptoServiceProvider;
+        private Aes _aes;
         private readonly string _key;
         private readonly string _initVector;
 
@@ -27,20 +27,18 @@ namespace Modules.SaveLoad
 
         public Stream Encrypt(Stream openStream)
         {
-            _cryptoServiceProvider = SetupCryptoServiceProvider();
-            
+            _aes = SetupAes();
             _stream = new CryptoStream(openStream, 
-                _cryptoServiceProvider.CreateEncryptor(), CryptoStreamMode.Write);
-            
+                _aes.CreateEncryptor(_aes.Key, _aes.IV), CryptoStreamMode.Write);
+
             return _stream;
         }
 
         public Stream Decrypt(Stream closedStream)
         {
-            _cryptoServiceProvider = SetupCryptoServiceProvider();
-
+            _aes = SetupAes();
             _stream = new CryptoStream(closedStream, 
-                _cryptoServiceProvider.CreateDecryptor(), CryptoStreamMode.Read);
+                _aes.CreateDecryptor(_aes.Key, _aes.IV), CryptoStreamMode.Read);
             
             return _stream;
         }
@@ -48,16 +46,16 @@ namespace Modules.SaveLoad
         public void Dispose()
         {
             _stream?.Dispose();
-            _cryptoServiceProvider?.Dispose();
+            _aes?.Dispose();
         }
 
-        private AesCryptoServiceProvider SetupCryptoServiceProvider()
+        private Aes SetupAes()
         {
-            var cryptoServiceProvider = new AesCryptoServiceProvider();
-            cryptoServiceProvider.Key = Encoding.ASCII.GetBytes(_key);
-            cryptoServiceProvider.IV = Encoding.ASCII.GetBytes(_initVector);
+            var aes = Aes.Create();
+            aes.Key = Encoding.ASCII.GetBytes(_key);
+            aes.IV = Encoding.ASCII.GetBytes(_initVector);
 
-            return cryptoServiceProvider;
+            return aes;
         }
     }
 }

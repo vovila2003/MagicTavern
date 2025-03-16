@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -30,32 +31,61 @@ namespace Modules.SaveLoad
             _useEncryption = parameters.UseEncryption;
         }
 
-        public Dictionary<string, string> GetState()
+        public bool SetState(Dictionary<string, string> gameState)
         {
-            if (!File.Exists(_filePath)) 
-                return new Dictionary<string, string>();
+            try
+            {
+                using FileStream fileStream = File.Create(_filePath);
+                Stream innerStream = fileStream;
+                if (_useEncryption) 
+                    innerStream = _encryptor.Encrypt(innerStream);
+
+                if (_useCompression) 
+                    innerStream = new GZipStream(innerStream, CompressionMode.Compress);
+
+                using var binaryWriter = new BinaryWriter(innerStream);
+                string json = JsonConvert.SerializeObject(gameState);
+                binaryWriter.Write(json);
+
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Write file ERROR: {e}");
+                return false;
+            }
             
-            using FileStream fileStream = File.Open(_filePath, FileMode.Open);
-            using Stream cryptoStream = _encryptor.Decrypt(fileStream);
-            using Stream zipStream = new GZipStream(cryptoStream, CompressionMode.Decompress);
-            using var binaryReader = new BinaryReader(zipStream);
-            string data = binaryReader.ReadString();
-            var result = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
-            Debug.Log($"Read file {_filePath}");
+            Debug.Log($"Write file OK: {_filePath}");
             
-            return result ?? new Dictionary<string, string>();;
+            return true;
         }
 
-        public void SetState(Dictionary<string, string> gameState)
+        public (Dictionary<string, string>, bool) GetState()
         {
-            using FileStream fileStream = File.Create(_filePath);
-            using Stream cryptoStream = _encryptor.Encrypt(fileStream);
-            using Stream zipStream = new GZipStream(cryptoStream, CompressionMode.Compress);
-            using var binaryWriter = new BinaryWriter(zipStream);
-            string json = JsonConvert.SerializeObject(gameState);
-            binaryWriter.Write(json);
+            if (!File.Exists(_filePath)) 
+                return (new Dictionary<string, string>(), false);
+            
+            try
+            {
+                using FileStream fileStream = File.Open(_filePath, FileMode.Open);
+                Stream innerStream = fileStream;
+                if (_useEncryption) 
+                    innerStream = _encryptor.Decrypt(innerStream);
 
-            Debug.Log($"Write file: {_filePath}");
+                if (_useCompression) 
+                    innerStream = new GZipStream(innerStream, CompressionMode.Decompress);
+                
+                using var binaryReader = new BinaryReader(innerStream);
+                string data = binaryReader.ReadString();
+                var result = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
+                Debug.Log($"Read file OK: {_filePath}");
+
+                return result is not null ? (result, true) : (new Dictionary<string, string>(), false);
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Read file ERROR: {e}");
+                return (new Dictionary<string, string>(), false);
+            }
         }
     }
 }
