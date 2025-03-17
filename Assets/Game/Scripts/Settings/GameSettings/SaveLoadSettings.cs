@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using Sirenix.OdinInspector;
 using Tavern.Common;
 using UnityEngine;
@@ -10,7 +9,10 @@ namespace Tavern.Settings
     public class SaveLoadSettings
     {
         [field: SerializeField]
-        public string FileSaveName { get; private set; }
+        public string SaveFileName { get; private set; }
+        
+        [field: SerializeField]
+        public string AutoSaveFileName { get; private set; }
         
         [field: SerializeField]
         public CommonItemsCatalog CommonItemsCatalog { get; private set; }

@@ -25,6 +25,8 @@ namespace Tavern.Infrastructure
         public int CurrentDayOfWeek { get; private set; }
         public DayState CurrentDayState { get; private set; }
         public int CurrentWeek { get; private set; }
+
+        public bool StartState => CurrentWeek == 0 && CurrentDayOfWeek == 0;
         
         public void AddListener(ITimeListener listener)
         {
@@ -56,7 +58,13 @@ namespace Tavern.Infrastructure
         public void SetCurrentDayOfWeek(int currentDayOfWeek)
         {
             CurrentDayOfWeek = currentDayOfWeek;
-            OnDayStarted();
+            foreach (ITimeListener listener in _listeners)
+            {
+                if (listener is IDayBeginListener initGameListener)
+                {
+                    initGameListener.SetDay(CurrentDayOfWeek);
+                }
+            }
         }
 
         public void SetCurrentDayState(DayState dayState)
@@ -67,7 +75,6 @@ namespace Tavern.Infrastructure
                 OnNightStarted();
             }
         }
-
 
         void IPauseGameListener.OnPause() => Timer.Pause();
 

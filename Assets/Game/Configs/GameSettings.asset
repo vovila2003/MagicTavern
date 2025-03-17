@@ -26,9 +26,10 @@ MonoBehaviour:
   CameraConfigs:
     <CameraOffset>k__BackingField: {x: 0, y: 6, z: -6}
   <TimeSettings>k__BackingField:
-    <SecondsIn12Hours>k__BackingField: 3
+    <SecondsIn12Hours>k__BackingField: 10
   <SaveLoadSettings>k__BackingField:
-    <FileSaveName>k__BackingField: data.sav
+    <SaveFileName>k__BackingField: data.sav
+    <AutoSaveFileName>k__BackingField: autosave.sav
     <CommonItemsCatalog>k__BackingField: {fileID: 11400000, guid: 333117cbb8e33ea77b33c35e6644dc5f, type: 2}
     <UseCompression>k__BackingField: 0
     <UseEncryption>k__BackingField: 0

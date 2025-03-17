@@ -47,13 +47,21 @@ namespace Tavern.Infrastructure
                 .AsImplementedInterfaces()
                 .WithParameter(new GameRepository.Params
                 {
-                    FileName = Path.Combine(Application.persistentDataPath, 
-                                            _gameSettings.SaveLoadSettings.FileSaveName),
+                    
                     UseCompression = _gameSettings.SaveLoadSettings.UseCompression,
                     UseEncryption = _gameSettings.SaveLoadSettings.UseEncryption
                 });
             
-            builder.Register<GameSaveLoader>(Lifetime.Singleton);
+            builder.Register<GameSaveLoader>(Lifetime.Singleton)
+                .WithParameter( new GameSaveLoader.Params
+                {
+                    SaveFileName = Path.Combine(Application.persistentDataPath, 
+                        _gameSettings.SaveLoadSettings.SaveFileName),
+                    AutoSaveFileName = Path.Combine(Application.persistentDataPath, 
+                        _gameSettings.SaveLoadSettings.AutoSaveFileName)
+                });
+
+            builder.Register<GameAutoSaver>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterItemSerializer(IContainerBuilder builder)

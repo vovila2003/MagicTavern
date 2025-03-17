@@ -13,29 +13,26 @@ namespace Modules.SaveLoad
     {
         public struct Params
         {
-            public string FileName;
             public bool UseCompression;
             public bool UseEncryption;
         }
         
         private readonly IEncryptor _encryptor;
-        private readonly string _filePath;
         private readonly bool _useCompression;
         private readonly bool _useEncryption;
 
         public GameRepository(IEncryptor encryptor, Params parameters)
         {
             _encryptor = encryptor;
-            _filePath = parameters.FileName;
             _useCompression = parameters.UseCompression;
             _useEncryption = parameters.UseEncryption;
         }
 
-        public bool SetState(Dictionary<string, string> gameState)
+        public bool SetState(Dictionary<string, string> gameState, string fileName)
         {
             try
             {
-                using FileStream fileStream = File.Create(_filePath);
+                using FileStream fileStream = File.Create(fileName);
                 Stream innerStream = fileStream;
                 if (_useEncryption) 
                     innerStream = _encryptor.Encrypt(innerStream);
@@ -54,19 +51,19 @@ namespace Modules.SaveLoad
                 return false;
             }
             
-            Debug.Log($"Write file OK: {_filePath}");
+            Debug.Log($"Write file OK: {fileName}");
             
             return true;
         }
 
-        public (Dictionary<string, string>, bool) GetState()
+        public (Dictionary<string, string>, bool) GetState(string fileName)
         {
-            if (!File.Exists(_filePath)) 
+            if (!File.Exists(fileName)) 
                 return (new Dictionary<string, string>(), false);
             
             try
             {
-                using FileStream fileStream = File.Open(_filePath, FileMode.Open);
+                using FileStream fileStream = File.Open(fileName, FileMode.Open);
                 Stream innerStream = fileStream;
                 if (_useEncryption) 
                     innerStream = _encryptor.Decrypt(innerStream);
@@ -77,7 +74,7 @@ namespace Modules.SaveLoad
                 using var binaryReader = new BinaryReader(innerStream);
                 string data = binaryReader.ReadString();
                 var result = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
-                Debug.Log($"Read file OK: {_filePath}");
+                Debug.Log($"Read file OK: {fileName}");
 
                 return result is not null ? (result, true) : (new Dictionary<string, string>(), false);
             }

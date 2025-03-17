@@ -17,22 +17,28 @@ namespace Tavern.TestAndDebug
         private int _dayOfWeek;
         private int _week;
 
-        void IDayBeginListener.OnDayBegin(int dayOfWeek)
-        {
-            _dayOfWeek = dayOfWeek;
-            UpdateText();
-        }
+        void IDayBeginListener.OnDayBegin(int dayOfWeek) => SetDay(dayOfWeek);
 
-        void INewWeekListener.OnNewWeek(int weekNumber)
+        void IDayBeginListener.SetDay(int dayOfWeek) => SetDay(dayOfWeek);
+
+        void INewWeekListener.OnNewWeek(int weekNumber) => SetWeek(weekNumber);
+
+        void INewWeekListener.SetWeek(int weekNumber) => SetWeek(weekNumber);
+
+        private void SetWeek(int weekNumber)
         {
             _week = weekNumber;
             UpdateText();
         }
 
-        private void UpdateText()
+        private void SetDay(int dayOfWeek)
         {
-            Text.text = $"{_days[_dayOfWeek]}\n" +
-                        $"неделя {_week + 1}";
+            _dayOfWeek = dayOfWeek;
+            UpdateText();
         }
+
+        private void UpdateText() =>
+            Text.text = $"{_days[_dayOfWeek]}\n" +
+                $"неделя {_week + 1}";
     }
 }

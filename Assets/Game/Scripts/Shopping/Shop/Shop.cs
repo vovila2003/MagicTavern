@@ -116,6 +116,8 @@ namespace Tavern.Shopping
         
         void INewWeekListener.OnNewWeek(int _) => WeeklyUpdate();
 
+        void INewWeekListener.SetWeek(int _) { }
+
         private void OnNpcSellerItemsCollectionChanged() => OnNpcSellerItemsChanged?.Invoke();
 
         private void OnNpcSellerCharacterItemsCollectionChanged() => OnNpcCharacterItemsChanged?.Invoke();

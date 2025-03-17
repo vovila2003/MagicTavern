@@ -11,12 +11,20 @@ namespace Tavern.TestAndDebug
         [SerializeField]
         private Light Light;
 
-        void INightBeginListener.OnNightBegin()
+        void INightBeginListener.OnNightBegin() => SetDark();
+
+        void INightBeginListener.SetNight() => SetDark();
+
+        void IDayBeginListener.OnDayBegin(int _) => SetBright();
+
+        void IDayBeginListener.SetDay(int dayOfWeek) => SetBright();
+
+        private void SetDark()
         {
             Light.intensity = 0.4f;
         }
 
-        void IDayBeginListener.OnDayBegin(int dayOfWeek)
+        private void SetBright()
         {
             Light.intensity = 1;
         }
