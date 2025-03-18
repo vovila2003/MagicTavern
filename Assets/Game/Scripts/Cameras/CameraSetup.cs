@@ -12,10 +12,10 @@ namespace Tavern.Cameras
         private CameraSettings _cameraSettings;
 
         [Inject]
-        private void Construct(ICharacter character, CameraSettings settings)
+        private void Construct(ICharacter character, GameSettings settings)
         {
             _characterTransform = character.GetTransform();
-            _cameraSettings = settings;
+            _cameraSettings = settings.CameraSettings;
         }
 
         private void Start()
@@ -34,7 +34,7 @@ namespace Tavern.Cameras
                 .GetComponentInChildren<CinemachineTransposer>();
             if (transposer == null) return;
             
-            transposer.m_FollowOffset = _cameraSettings.Offset;
+            transposer.m_FollowOffset = _cameraSettings.CameraOffset;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Modules.Inventories
     {
         event Action<Item, int> OnItemCountChanged;
         event Action<Item, IInventoryBase> OnItemAdded;
-        event Action<Item, IInventoryBase> OnItemRemoved;   
+        event Action<Item, IInventoryBase> OnItemRemoved;
         void AddItem(Item item);
         void AddItems(Item item, int count);
         void RemoveItem(Item item);

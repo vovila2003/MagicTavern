@@ -7,5 +7,6 @@ namespace Tavern.Components.Interfaces
         void Init(Rigidbody rigidbody, ISpeedable speedable);
         void Move(Vector3 direction);
         void OnFixedUpdate(float fixedDeltaTime);
+        ISpeedable Speedable { get; }
     }
 }

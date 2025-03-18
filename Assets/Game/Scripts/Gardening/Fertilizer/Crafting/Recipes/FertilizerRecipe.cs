@@ -32,5 +32,10 @@ namespace Tavern.Gardening.Fertilizer
                 Debug.LogWarning($"Amount of slops has to be greater than zero.");
             }
         }
+
+        public override void Validate()
+        {
+            CheckSlopsAmount();
+        }
     }
 }

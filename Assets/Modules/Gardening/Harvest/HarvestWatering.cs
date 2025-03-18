@@ -7,14 +7,17 @@ namespace Modules.Gardening
     {
         private const float PenaltyDryingTimerDuration = 0.5f;
         
-        private readonly Harvest _harvest;
         public event Action OnLost;
         public event Action OnWateringRequired;
         public event Action<float> OnDryingTimerProgressChanged;
         
-        private readonly Timer _wateringTimer = new();
-        private readonly Timer _dryingTimer = new();
-        private float _baseDryingTimerDuration;
+        private readonly Harvest _harvest;
+
+        public float BaseDryingTimerDuration { get; set; }
+
+        public Timer WateringTimer { get; } = new();
+
+        public Timer DryingTimer { get; } = new();
 
         public HarvestWatering(Harvest harvest, Plant plant)
         {
@@ -23,58 +26,58 @@ namespace Modules.Gardening
             SetupDryingTimer(plant);
         }
 
-        public void Start() => _wateringTimer.Start();
+        public void Start() => WateringTimer.Start();
 
         public void Stop()
         {
-            _wateringTimer.Stop();
-            _dryingTimer.Stop();
+            WateringTimer.Stop();
+            DryingTimer.Stop();
         }
 
-        public void Water() => _dryingTimer.Stop();
+        public void Water() => DryingTimer.Stop();
 
         public void SetNewDuration(int accelerationInPercent)
         {
-            float currentWateringDuration = _wateringTimer.Duration;
+            float currentWateringDuration = WateringTimer.Duration;
             float newWateringDuration = currentWateringDuration * (1 - accelerationInPercent / 100f );
-            _wateringTimer.Duration = newWateringDuration;
-            _baseDryingTimerDuration = newWateringDuration;
+            WateringTimer.Duration = newWateringDuration;
+            BaseDryingTimerDuration = newWateringDuration;
         }
 
         public void Tick(float deltaTime)
         {
-            _wateringTimer.Tick(deltaTime);
-            _dryingTimer.Tick(deltaTime);    
+            WateringTimer.Tick(deltaTime);
+            DryingTimer.Tick(deltaTime);    
         }
 
         public void Dispose()
         {
-            _wateringTimer.OnEnded -= OnWateringNeeded;
-            _dryingTimer.OnEnded -= OnDry;
-            _dryingTimer.OnProgressChanged -= OnProgressChanged;
+            WateringTimer.OnEnded -= OnWateringNeeded;
+            DryingTimer.OnEnded -= OnDry;
+            DryingTimer.OnProgressChanged -= OnProgressChanged;
         }
 
         private void SetupWateringTimer(Plant plant)
         {
-            _wateringTimer.Loop = true;
-            _wateringTimer.Duration = plant.GrowthDuration / plant.WateringAmount;
-            _wateringTimer.OnEnded += OnWateringNeeded;
+            WateringTimer.Loop = true;
+            WateringTimer.Duration = plant.GrowthDuration / plant.WateringAmount;
+            WateringTimer.OnEnded += OnWateringNeeded;
         }
 
         private void SetupDryingTimer(Plant plant)
         {
-            _dryingTimer.Loop = false;
-            _baseDryingTimerDuration = plant.GrowthDuration / plant.WateringAmount; 
-            _dryingTimer.Duration = _baseDryingTimerDuration;
-            _dryingTimer.OnEnded += OnDry;
-            _dryingTimer.OnProgressChanged += OnProgressChanged;
+            DryingTimer.Loop = false;
+            BaseDryingTimerDuration = plant.GrowthDuration / plant.WateringAmount; 
+            DryingTimer.Duration = BaseDryingTimerDuration;
+            DryingTimer.OnEnded += OnDry;
+            DryingTimer.OnProgressChanged += OnProgressChanged;
         }
 
         private void OnWateringNeeded()
         {
             OnWateringRequired?.Invoke();
-            _dryingTimer.Duration = _baseDryingTimerDuration * (_harvest.IsSick ? PenaltyDryingTimerDuration : 1f);
-            _dryingTimer.Start();
+            DryingTimer.Duration = BaseDryingTimerDuration * (_harvest.IsSick ? PenaltyDryingTimerDuration : 1f);
+            DryingTimer.Start();
         }
 
         private void OnDry() => OnLost?.Invoke();

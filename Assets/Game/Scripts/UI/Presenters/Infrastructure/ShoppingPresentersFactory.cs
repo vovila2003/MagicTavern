@@ -25,7 +25,7 @@ namespace Tavern.UI.Presenters
             ICharacter character, 
             CharacterSeller characterSeller,
             IMoneyStorage moneyStorage, 
-            UISceneSettings uiSceneSettings)
+            SceneSettings sceneSettings)
         {
             _commonViewsFactory = commonViewsFactory;
             _shoppingViewsFactory = shoppingViewsFactory;
@@ -33,7 +33,7 @@ namespace Tavern.UI.Presenters
             _character = character;
             _characterSeller = characterSeller;
             _moneyStorage = moneyStorage;
-            _uiSceneSettings = uiSceneSettings;
+            _uiSceneSettings = sceneSettings.UISceneSettings;
         }
 
         public ShoppingPanelPresenter CreateShoppingPanelPresenter() => 
@@ -55,7 +55,6 @@ namespace Tavern.UI.Presenters
         public ShopItemsPresenter CreateShopItemsPresenter(Transform viewContainer) =>
             new(_shoppingViewsFactory.CreateShopItemsView(viewContainer), 
                 this,
-                _commonPresentersFactory,
                 _uiSceneSettings.Canvas);
 
         public VendorInfoPresenter CreateVendorInfoPresenter(Transform viewContainer) =>

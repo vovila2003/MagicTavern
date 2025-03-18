@@ -5,18 +5,29 @@ using UnityEngine;
 
 namespace Modules.Items
 {
-    public class ItemsCatalog : ScriptableObject  
+    public class ItemsCatalog : ScriptableObject, IItemsCatalog
     {
         [field: SerializeField] 
-        public ItemConfig[] Items { get; protected set; }
-        
-        private readonly Dictionary<string, ItemConfig> _itemsDict = new();
+        public List<ItemConfig> Items { get; protected set; } = new();
+
+        protected readonly Dictionary<string, ItemConfig> ItemsDict = new();
 
         public virtual string CatalogName { get; private set; }
 
-        public bool TryGetItem(string itemName, out ItemConfig itemConfig) => 
-            _itemsDict.TryGetValue(itemName, out itemConfig);
+        public bool TryGetItem(string itemName, out ItemConfig itemConfig)
+        {
+            if (itemName is not null) return ItemsDict.TryGetValue(itemName, out itemConfig);
+            
+            itemConfig = null;
+            return false;
+        }
 
+        public void AddConfig(ItemConfig config)
+        {
+            Items.Add(config);
+            ItemsDict.Add(config.Name, config);
+        }
+        
         [Button]
         private void Validate()
         {
@@ -25,15 +36,20 @@ namespace Modules.Items
 
         private void Awake()
         {
+            ItemsDict.Clear();
             foreach (ItemConfig settings in Items)
             {
-                _itemsDict[settings.Name] = settings;
+                if (settings?.Name != null)
+                {
+                    ItemsDict.Add(settings.Name, settings);
+                }
             }
         }
 
         private void OnValidate()
         {
             var collection = new Dictionary<string, bool>();
+            ItemsDict.Clear();
             foreach (ItemConfig settings in Items)
             {
                 string itemName = settings.Name;
@@ -42,7 +58,7 @@ namespace Modules.Items
                     Debug.LogWarning($"Item has empty name in catalog {CatalogName}");
                     continue;
                 }
-                _itemsDict[itemName] = settings;
+                ItemsDict.Add(settings.Name, settings);
                 
                 if (collection.TryAdd(itemName, true))
                 {

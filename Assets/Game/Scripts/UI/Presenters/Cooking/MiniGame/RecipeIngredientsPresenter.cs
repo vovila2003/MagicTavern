@@ -110,7 +110,7 @@ namespace Tavern.UI.Presenters
             Item item = _views[view];
             _infoPresenter ??= _infoPresenterFactory(_canvas);
             
-            if (!_infoPresenter.Show(item, Return)) return;
+            if (!_infoPresenter.Show(item, InfoPresenter.Mode.Dialog, Return)) return;
             
             _infoPresenter.OnAccepted += Returned;
             _infoPresenter.OnRejected += OnCancelled;

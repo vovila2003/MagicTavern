@@ -36,6 +36,11 @@ namespace Tavern.UI.Presenters
             _view.SetCount($"{count}");
         }
 
+        public void SetActive(bool active)
+        {
+            _view.SetActive(active);
+        }
+
         protected override void OnShow()
         {
             Metadata metadata = _item.Metadata;
@@ -43,6 +48,7 @@ namespace Tavern.UI.Presenters
             ChangeCount(_count);
             _view.SetPriceActive(_showPrice);
             _view.SetPrice($"{_price}");
+            _view.SetActive(true);
             
             _view.OnLeftClicked += OnLeftClicked;
             _view.OnRightClicked += OnRightClicked;

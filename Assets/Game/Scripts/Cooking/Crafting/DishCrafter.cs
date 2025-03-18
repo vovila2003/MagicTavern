@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Modules.Inventories;
+using Tavern.Effects;
 using Tavern.ProductsAndIngredients;
 using Tavern.Settings;
 using Tavern.Storages;
@@ -21,11 +22,11 @@ namespace Tavern.Cooking
         public DishCrafter(
             IInventory<DishItem> dishInventory,
             ISlopsStorage slopsStorage,
-            CookingSettings settings)
+            GameSettings settings)
         {
             _dishInventory = dishInventory;
             _slopsStorage = slopsStorage;
-            _effectsCatalog = settings.Effects;
+            _effectsCatalog = settings.EffectsSettings.EffectsCatalog;
         }
 
         public void CraftDish(ActiveDishRecipe activeDishRecipe, bool isExtra)
@@ -49,7 +50,7 @@ namespace Tavern.Cooking
         {
             if (result.Has<ComponentDishExtra>()) return;
             
-            result.AddComponent(new ComponentDishExtra());
+            result.AddExtraComponent(new ComponentDishExtra());
         }
 
         private void ProcessEffect(DishItem result)
@@ -57,7 +58,7 @@ namespace Tavern.Cooking
             List<ComponentEffect> existed = result.GetAll<ComponentEffect>();
             if (!_effectsCatalog.TryGetRandomEffectExpect(existed, out EffectConfig newEffect)) return;
             
-            result.AddComponent(new ComponentEffect(newEffect));
+            result.AddExtraComponent(new ComponentEffect(newEffect));
         }
 
         public void MakeSlops(ActiveDishRecipe activeDishRecipe)

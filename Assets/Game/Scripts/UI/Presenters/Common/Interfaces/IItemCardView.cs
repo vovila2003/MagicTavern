@@ -12,5 +12,6 @@ namespace Tavern.UI.Presenters
         void SetCount(string count);
         void SetPriceActive(bool active);
         void SetPrice(string text);
+        void SetActive(bool active);
     }
 }

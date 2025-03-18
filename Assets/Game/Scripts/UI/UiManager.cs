@@ -1,6 +1,7 @@
 using System;
 using Modules.GameCycle.Interfaces;
 using Tavern.Cooking;
+using Tavern.Gardening;
 using Tavern.Settings;
 using Tavern.Shopping;
 using Tavern.UI.Presenters;
@@ -16,12 +17,14 @@ namespace Tavern.UI
         private CommonPresentersFactory _commonFactory;
         private CookingPresentersFactory _cookingFactory;
         private ShoppingPresentersFactory _shoppingFactory;
+        private GardeningPresentersFactory _gardeningFactory;
         
         private MainMenuPresenter _mainMenuPresenter;
         private PausePresenter _pausePresenter;
         private HudPresenter _hudPresenter;
         private CookingPanelPresenter _cookingPresenter;
         private ShoppingPanelPresenter _shoppingPresenter;
+        private GardeningPanelPresenter _gardeningPresenter;
         private BasePresenter _currentPresenter;
         
         public bool IsOpen => _currentPresenter != null;
@@ -31,12 +34,14 @@ namespace Tavern.UI
             CommonPresentersFactory commonFactory,
             CookingPresentersFactory cookingFactory,
             ShoppingPresentersFactory shoppingFactory,
-            UISceneSettings settings)
+            GardeningPresentersFactory gardeningFactory,
+            SceneSettings settings)
         {
             _commonFactory = commonFactory;
             _cookingFactory = cookingFactory;
             _shoppingFactory = shoppingFactory;
-            _settings = settings;
+            _gardeningFactory = gardeningFactory;
+            _settings = settings.UISceneSettings;
         }
 
         public void ShowCookingUi(KitchenItemConfig kitchenItemConfig, Action onExit)
@@ -61,6 +66,18 @@ namespace Tavern.UI
                 _currentPresenter = null;
             });
             _currentPresenter = _shoppingPresenter;
+        }
+        
+        public void ShowGardeningUi(Pot pot, Action onExit)
+        {
+            _gardeningPresenter ??= _gardeningFactory.CreateGardeningPanelPresenter();
+
+            _gardeningPresenter.Show(pot, () =>
+            {
+                onExit?.Invoke();
+                _currentPresenter = null;
+            });
+            _currentPresenter = _gardeningPresenter;
         }
 
         public void HideUi()
@@ -96,7 +113,7 @@ namespace Tavern.UI
         {
             _pausePresenter.Hide();
         }
-        
+
         void IInitGameListener.OnInit()
         {
             _mainMenuPresenter = _commonFactory.CreateMainMenuPresenter(_settings.MainMenu, this);

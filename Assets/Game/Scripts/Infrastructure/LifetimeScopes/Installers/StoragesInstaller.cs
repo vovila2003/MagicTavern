@@ -20,10 +20,10 @@ namespace Tavern.Infrastructure
             builder.Register<SeedInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterComponentInHierarchy<SeedInventoryContext>();
             
-            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<WaterStorage>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterComponentInHierarchy<SlopsStorage>().AsImplementedInterfaces().AsSelf();
             
-            builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<MoneyStorage>().AsImplementedInterfaces().AsSelf();
             
             builder.Register<InventoryFacade>(Lifetime.Singleton);
             builder.RegisterComponentInHierarchy<InventoryFacadeContext>();

@@ -4,12 +4,12 @@ namespace Tavern.Storages
 {
     public class SlopsItem : Item
     {
-        public SlopsItem(ItemConfig config, params IItemComponent[] attributes) 
-            : base(config, attributes) { }
+        public SlopsItem(ItemConfig config, IItemComponent[] attributes, IExtraItemComponent[] extra) 
+            : base(config, attributes, extra) { }
 
         public override Item Clone()
         {
-            return new SlopsItem(Config, GetComponents());
+            return new SlopsItem(Config, GetComponents(), GetExtraComponents());
         }
     }
 }

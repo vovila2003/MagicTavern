@@ -10,8 +10,8 @@ namespace Modules.Items
     {
         [field: SerializeField, ReadOnly] 
         public string Name { get; protected set; }
-        
-        protected virtual void OnValidate()
+
+        public virtual void OnValidate()
         {
 #if UNITY_EDITOR
             string path = AssetDatabase.GetAssetPath(this);

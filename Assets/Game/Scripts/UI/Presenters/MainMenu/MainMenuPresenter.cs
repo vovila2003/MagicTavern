@@ -1,20 +1,20 @@
-using Tavern.Infrastructure;
+using Modules.GameCycle;
 
 namespace Tavern.UI.Presenters
 {
     public class MainMenuPresenter : BasePresenter
     {
         private readonly IMainMenuView _view;
-        private readonly GameCycleController _gameCycleController;
+        private readonly GameCycle _gameCycle;
         private readonly IUiManager _uiManager;
 
         public MainMenuPresenter(IMainMenuView view,
-            GameCycleController gameCycleController, 
+            GameCycle gameCycle, 
             IUiManager uiManager
             ) : base(view)
         {
             _view = view;
-            _gameCycleController = gameCycleController;
+            _gameCycle = gameCycle;
             _uiManager = uiManager;
         }
 
@@ -32,15 +32,15 @@ namespace Tavern.UI.Presenters
 
         private void OnStartGame()
         {
-            _gameCycleController.PrepareGame();
-            _gameCycleController.StartGame();
+            _gameCycle.PrepareGame();
+            _gameCycle.StartGame();
             
             _uiManager.ShowHud();
         }
 
         private void OnQuitGame()
         {
-            _gameCycleController.ExitGame();
+            _gameCycle.ExitGame();
         }
     }
 }

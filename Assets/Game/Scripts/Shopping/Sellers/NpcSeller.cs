@@ -34,6 +34,8 @@ namespace Tavern.Shopping
 
         [ShowInInspector, ReadOnly]
         public IReadOnlyDictionary<Item, int> CharacterItemsPrices => _charactersItemPrices;
+
+        public IReadOnlyCollection<Item> CharacterItems => _charactersItems.Items;
         
         [ShowInInspector, ReadOnly]
         public int Money => _moneyStorage?.Value ?? 0;
@@ -44,6 +46,17 @@ namespace Tavern.Shopping
             _moneyStorage = new ResourceStorage(Config.StartMoney); // Unlimit
             _moneyStorage.OnResourceStorageChanged += OnMoneyChanged;
             AddItems(Config.StartItems);
+        }
+
+        public void AddItem(ItemConfig item, int count, int price)
+        {
+            if (_items.TryGetValue(item.Name, out ItemInfoByConfig itemInfo))
+            {
+                itemInfo.Count += count;
+                return;
+            }
+                
+            _items.Add(item.Name, new ItemInfoByConfig(item, price, count));            
         }
 
         private void OnMoneyChanged(int value)
@@ -73,7 +86,6 @@ namespace Tavern.Shopping
             
             CurrentReputation = newReputation;
             RecalculatePrices();
-            
             OnReputationChanged?.Invoke(CurrentReputation);
         }
 
@@ -114,7 +126,6 @@ namespace Tavern.Shopping
         public void TakeItemByConfig(ItemConfig itemConfig, int count)
         {
             AddItem(itemConfig, count);
-            
             OnItemsChanged?.Invoke();
         }
 
@@ -130,7 +141,6 @@ namespace Tavern.Shopping
             }
 
             _charactersItems.AddItems(item, count);
-
             OnCharacterItemsChanged?.Invoke();
 
             return true;
@@ -152,7 +162,26 @@ namespace Tavern.Shopping
             }
             
             OnCharacterItemsChanged?.Invoke();
+            
             return true;
+        }
+        
+        public void SetMoney(int money)
+        {
+            _moneyStorage.Set(money);
+        }
+
+        public void ClearItems()
+        {
+            _items.Clear();
+            OnItemsChanged?.Invoke();
+        }
+        
+        public void ClearCharacterItems()
+        {
+            _charactersItems.Clear();
+            _charactersItemPrices.Clear();
+            OnCharacterItemsChanged?.Invoke();
         }
 
         private void AddItems(ItemConfig[] collection)
@@ -172,7 +201,6 @@ namespace Tavern.Shopping
             }
                 
             (bool hasPrice, int price) = PriceCalculator.GetPrice(Config, itemConfig, CurrentReputation);
-
             if (!hasPrice) return;
                 
             _items.Add(itemConfig.Name, new ItemInfoByConfig(itemConfig, price));
@@ -196,10 +224,9 @@ namespace Tavern.Shopping
 
             int count = _charactersItems.Items.Count;
             if (count == 0) return;
+            
             Item item = _charactersItems.Items[Random.Range(0, count)];
-
             (bool hasPrice, int price) = PriceCalculator.GetPriceWithSurcharge(Config, item, CurrentReputation);
-
             if (!hasPrice) return;
 
             int newPrice = Mathf.RoundToInt(price * Config.ExtraSellPricePercents / 100f);
@@ -210,7 +237,6 @@ namespace Tavern.Shopping
             }
             
             _moneyStorage.Add(newPrice);
-            
             OnCharacterItemsChanged?.Invoke();
         }
     }

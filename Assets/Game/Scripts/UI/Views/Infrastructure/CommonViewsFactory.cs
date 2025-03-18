@@ -8,21 +8,21 @@ namespace Tavern.UI.Views
     [UsedImplicitly]
     public class CommonViewsFactory : ICommonViewsFactory
     {
-        private readonly UISettings _settings;
-        private readonly UISceneSettings _sceneSettings;
+        private readonly UISettings _uiSettings;
+        private readonly UISceneSettings _uiSceneSettings;
         
         public IEntityCardViewPool EntityCardViewPool { get; }
         public IItemCardViewPool ItemCardViewPool { get; }
         public IInfoViewProvider InfoViewProvider { get; }
 
-        public CommonViewsFactory(UISettings settings, UISceneSettings sceneSettings)
+        public CommonViewsFactory(GameSettings gameSettings, SceneSettings sceneSettings)
         {
-            _settings = settings;
-            _sceneSettings = sceneSettings;
+            _uiSettings = gameSettings.UISettings;
+            _uiSceneSettings = sceneSettings.UISceneSettings;
             
-            EntityCardViewPool = new EntityCardViewPool(settings, _sceneSettings.Pool);
-            ItemCardViewPool = new ItemCardViewPool(settings, _sceneSettings.Pool);
-            InfoViewProvider = new InfoViewProvider(CreateInfoPanelView, _sceneSettings.Pool);
+            EntityCardViewPool = new EntityCardViewPool(_uiSettings, _uiSceneSettings.Pool);
+            ItemCardViewPool = new ItemCardViewPool(_uiSettings, _uiSceneSettings.Pool);
+            InfoViewProvider = new InfoViewProvider(CreateInfoPanelView, _uiSceneSettings.Pool);
         }
 
         public IEntityCardView GetEntityCardView(Transform viewContentTransform)
@@ -46,16 +46,19 @@ namespace Tavern.UI.Views
         }
         
         public IPanelView CreatePanelView() => 
-            Object.Instantiate(_settings.CommonSettings.Panel, _sceneSettings.Canvas);
+            Object.Instantiate(_uiSettings.CommonSettings.Panel, _uiSceneSettings.Canvas);
+        
+        public IPanelView CreateSmallPanelView() => 
+            Object.Instantiate(_uiSettings.CommonSettings.SmallPanel, _uiSceneSettings.Canvas);
 
         public IContainerView CreateLeftGridView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CommonSettings.ContainerView, viewContainer);
+            Object.Instantiate(_uiSettings.CommonSettings.ContainerView, viewContainer);
         
         public IEffectView CreateEffectView(Transform viewContainer) =>
-            Object.Instantiate(_settings.CommonSettings.EffectView, viewContainer);
+            Object.Instantiate(_uiSettings.CommonSettings.EffectView, viewContainer);
 
         //private
         private InfoPanelView CreateInfoPanelView() =>
-            Object.Instantiate(_settings.CommonSettings.InfoPanel, _sceneSettings.Pool);
+            Object.Instantiate(_uiSettings.CommonSettings.InfoPanel, _uiSceneSettings.Pool);
     }
 }

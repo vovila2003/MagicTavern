@@ -21,14 +21,15 @@ namespace Tavern.Storages
         [SerializeField, ShowIf("Limit", LimitType.Limited)]
         private int MaxValue;
 
-        protected ResourceStorage Storage;
+        public ResourceStorage Storage { get; } = new();
 
         [ShowInInspector, ReadOnly] 
         protected int Value => Storage?.Value ?? 0;
 
         protected void Awake()
         {
-            Storage = new ResourceStorage(0, Limit, MaxValue);
+            Storage.SetLimitType(Limit);
+            Storage.SetLimitValue(MaxValue);
         }
 
         protected virtual void OnEnable()

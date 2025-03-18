@@ -1,5 +1,6 @@
 using System;
 using Tavern.Cooking;
+using Tavern.Gardening;
 using Tavern.Shopping;
 
 namespace Tavern.UI
@@ -9,6 +10,7 @@ namespace Tavern.UI
         bool IsOpen { get; }
         void ShowCookingUi(KitchenItemConfig kitchenItemConfig, Action onExit);
         void ShowShoppingUi(Shop shop, Action onExit);
+        void ShowGardeningUi(Pot pot, Action onExit);
         void HideUi();
         void ShowMainMenu();
         void ShowHud();

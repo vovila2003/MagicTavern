@@ -11,11 +11,11 @@ namespace Tavern.Infrastructure
         IInitGameListener,
         IExitGameListener
     {
-        private readonly GameCycleController _gameCycle;
+        private readonly GameCycle _gameCycle;
         private readonly IPauseInput _input;
         private readonly IUiManager _uiManager;
 
-        public PauseGameController(GameCycleController gameCycle, 
+        public PauseGameController(GameCycle gameCycle, 
             IPauseInput input, 
             IUiManager uiManager)
         {
@@ -36,7 +36,7 @@ namespace Tavern.Infrastructure
 
         private void OnPauseResume()
         {
-            GameState state = _gameCycle.GameState;
+            GameState state = _gameCycle.State;
 
             if (state != GameState.Pause && state != GameState.IsRunning) return;
 

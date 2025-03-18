@@ -37,9 +37,9 @@ namespace Tavern.Character
         private float _speed;
 
         [Inject]
-        private void Construct(CharacterAttackAgent attackAgent, IMovable movable, CharacterSettings settings)
+        private void Construct(CharacterAttackAgent attackAgent, IMovable movable, GameSettings settings)
         {
-            _settings = settings;
+            _settings = settings.CharacterSettings;
             _attackAgent = attackAgent;
             _movable = movable;
             _state = new CharacterState(_settings);
@@ -50,6 +50,10 @@ namespace Tavern.Character
         public IMovable GetMoveComponent() => _movable;
         public Transform GetTransform() => transform;
         public float GetSpeed() => _speed;
+        public void SetSpeed(float value)
+        {
+            _speed = value;
+        }
         public Animator GetAnimator() => _animator;
         public CharacterState GetState() => _state;
 
@@ -57,8 +61,8 @@ namespace Tavern.Character
         {
             _movable.Init(Rigidbody, this);
             _attackAgent.Init(_weapon);
-            _speed = _settings.InitSpeed;
-            _hpComponent.Init(_settings.Health);
+            _speed = _settings.Speed;
+            _hpComponent.Init(_settings.MaxHealth);
         }
 
         private void Awake()

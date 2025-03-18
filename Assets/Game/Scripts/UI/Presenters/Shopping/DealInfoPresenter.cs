@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Modules.Info;
 using Modules.Items;
 using Tavern.Cooking;
+using Tavern.Effects;
 using Tavern.Shopping;
 using UnityEngine;
 
@@ -26,7 +27,10 @@ namespace Tavern.UI.Presenters
          private int _currentCount;
          private int _price;
         
-         public DealInfoPresenter(IDealInfoViewProvider provider, Transform parent, CommonPresentersFactory factory)
+         public DealInfoPresenter(
+             IDealInfoViewProvider provider, 
+             Transform parent, 
+             CommonPresentersFactory factory)
          {
              _provider = provider;
              _parent = parent;
@@ -99,7 +103,7 @@ namespace Tavern.UI.Presenters
          {
              _view.HideAllEffects();
              
-             List<IEffectComponent> effects = entity.GetAll<IEffectComponent>();
+             List<IEffectComponent> effects = entity.GetAllExtra<IEffectComponent>();
              int count = Mathf.Min(effects.Count, _view.Effects.Length);
              for (var i = 0; i < count; i++)
              {

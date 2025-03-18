@@ -22,8 +22,8 @@ namespace Tavern.UI.Presenters
         private readonly DishCrafter _dishCrafter;
         private readonly ISpaceInput _spaceInput;
         private readonly MiniGamePlayer _player;
-        private readonly UISettings _settings;
-        private readonly UISceneSettings _sceneSettings;
+        private readonly UISettings _uiSettings;
+        private readonly UISceneSettings _uiSceneSettings;
         private readonly CookingSettings _cookingSettings;
 
         public CookingPresentersFactory(
@@ -37,9 +37,8 @@ namespace Tavern.UI.Presenters
             DishCrafter dishCrafter,
             ISpaceInput spaceInput,
             MiniGamePlayer player,
-            UISettings settings,
-            UISceneSettings sceneSettings,
-            CookingSettings cookingSettings)
+            GameSettings gameSettings,
+            SceneSettings sceneSettings)
         {
             _commonViewsFactory = commonViewsFactory;
             _cookingViewsFactory = cookingViewsFactory;
@@ -51,9 +50,9 @@ namespace Tavern.UI.Presenters
             _dishCrafter = dishCrafter;
             _spaceInput = spaceInput;
             _player = player;
-            _settings = settings;
-            _sceneSettings = sceneSettings;
-            _cookingSettings = cookingSettings;
+            _uiSettings = gameSettings.UISettings;
+            _cookingSettings = gameSettings.CookingSettings;
+            _uiSceneSettings = sceneSettings.UISceneSettings;
         }
 
         public RecipeCardPresenter CreateRecipeCardPresenter(Transform viewContentTransform) =>
@@ -73,8 +72,8 @@ namespace Tavern.UI.Presenters
                 this,
                 _commonPresentersFactory,
                 _activeDishRecipe,
-                _sceneSettings.Canvas,
-                _settings.CommonSettings.SlopsSettings);
+                _uiSceneSettings.Canvas,
+                _uiSettings.CommonSettings.SlopsSettings);
 
         public CookingAndMatchRecipePresenter CreateCookingAndMatchRecipePresenter(
             Transform viewContainer) => 
@@ -86,7 +85,7 @@ namespace Tavern.UI.Presenters
                 _plantProductInventory,
                 _animalProductInventory,
                 _commonPresentersFactory,
-                _sceneSettings.Canvas, 
+                _uiSceneSettings.Canvas, 
                 recipe,
                 _cookingSettings.EnableRecipeMatching);
 
@@ -100,15 +99,15 @@ namespace Tavern.UI.Presenters
 
         public RecipeIngredientsPresenter CreateRecipeIngredientsPresenter(Transform parent) => 
             new(_cookingViewsFactory.CreateRecipeIngredientsView(parent), 
-                _settings.CookingSettings, 
+                _uiSettings.CookingSettings, 
                 _commonPresentersFactory.CreateInfoPresenter,
-                _sceneSettings.Canvas,
+                _uiSceneSettings.Canvas,
                 _activeDishRecipe,
                 _cookingSettings.EnableRecipeMatching);
 
         public RecipeEffectsPresenter CreateRecipeEffectsPresenter(Transform parent) => 
             new(_cookingViewsFactory.CreateRecipeEffectsView(parent), 
-                _settings.CookingSettings,
+                _uiSettings.CookingSettings,
                 _activeDishRecipe);
     }
 }

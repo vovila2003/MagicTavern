@@ -1,3 +1,6 @@
+using System;
+using System.Text;
+using Modules.Gardening;
 using Modules.Inventories;
 using Modules.Items;
 using UnityEngine;
@@ -11,7 +14,7 @@ namespace Tavern.Gardening.Medicine
     {
         public override Item Create()
         {
-            return new MedicineItem(this, GetComponentClones());
+            return new MedicineItem(this, GetComponentClones(), Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(MedicineItem);
@@ -31,6 +34,20 @@ namespace Tavern.Gardening.Medicine
             {
                 Components?.Add(new ComponentHarvestSicknessReducing());
             }
+        }
+        
+        public override string Description => GetDescription();
+
+        private string GetDescription()
+        {
+            var builder = new StringBuilder();
+            builder.AppendLine(base.Description);
+            if (TryGet(out ComponentHarvestSicknessReducing component))
+            {
+                builder.AppendLine($"Снижение вероятности заболевания: {component.Reducing};");
+            }
+
+            return builder.ToString();
         }
     }
 }

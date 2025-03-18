@@ -29,8 +29,7 @@ namespace Tavern.Shopping
             if (itemConfig.Has<ComponentStackable>())
             {
                 Item item = itemConfig.Create();
-                item.Get<ComponentStackable>().Value = count;
-                return TakeItem(item);
+                return TakeItem(item, count);
             }
 
             var result = true;

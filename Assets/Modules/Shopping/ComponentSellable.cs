@@ -11,8 +11,8 @@ namespace Modules.Shopping
         public ComponentSellable()
         {
         }
-        
-        public ComponentSellable(int basePrice)
+
+        private ComponentSellable(int basePrice)
         {
             BasePrice = basePrice;
         }

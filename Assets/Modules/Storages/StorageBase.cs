@@ -31,6 +31,18 @@ namespace Modules.Storages
             LimitValue = value;
         }
 
+        public bool Set(T value)
+        {
+            if (IsLessZero(value)) return false;
+            
+            if (LimitType == LimitType.Limited && IsGreater(value, LimitValue)) return false;
+            
+            Value = value;
+            OnValueChange?.Invoke(Value);
+            
+            return true;
+        }
+
         public void Reset()
         {
             Value = default;
@@ -65,6 +77,7 @@ namespace Modules.Storages
             
             OnValueChange?.Invoke(Value);
             OnValueAdded?.Invoke(value);
+            
             return true;
         }
 
@@ -94,6 +107,7 @@ namespace Modules.Storages
         protected abstract T AddValues(T value1, T value2);
         protected abstract T SubtractValues(T value1, T value2);
         protected abstract bool IsGreaterOrEqual(T value1, T value2);
+        protected abstract bool IsGreater(T value1, T value2);
         protected abstract bool IsLessZero(T value);
         protected abstract bool IsLessThreshold(T value);
     }

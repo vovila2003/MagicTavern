@@ -4,7 +4,7 @@ namespace Tavern.ProductsAndIngredients
 {
     public abstract class ProductItem : Item
     {
-        protected ProductItem(ItemConfig config, params IItemComponent[] attributes) 
-            : base(config, attributes) { }
+        protected ProductItem(ItemConfig config, IItemComponent[] attributes, IExtraItemComponent[] extra) 
+            : base(config, attributes, extra) { }
     }
 }

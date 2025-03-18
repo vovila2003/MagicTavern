@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Modules.Inventories;
 using Modules.Items;
 using Tavern.Shopping;
+using Tavern.Utils;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
@@ -54,7 +55,7 @@ namespace Tavern.UI.Presenters
         {
             foreach (Item item in _characterSeller.SellableItems.Keys)
             {
-                AddPresenter(item, GetCount(item));
+                AddPresenter(item, item.GetCount());
             }
         }
 
@@ -117,9 +118,6 @@ namespace Tavern.UI.Presenters
 
             _presenters.Clear();
         }
-
-        private int GetCount(Item item) => 
-            !item.TryGet(out ComponentStackable componentStackable) ? 1 : componentStackable.Value;
 
         private void OnItemsChanged()
         {

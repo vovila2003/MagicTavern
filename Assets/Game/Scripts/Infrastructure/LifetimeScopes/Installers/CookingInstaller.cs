@@ -1,7 +1,6 @@
 using Tavern.Cooking;
 using Tavern.Cooking.MiniGame;
 using Tavern.InputServices;
-using Tavern.Settings;
 using VContainer;
 using VContainer.Unity;
 
@@ -9,13 +8,6 @@ namespace Tavern.Infrastructure
 {
     public class CookingInstaller : IInstaller
     {
-        private readonly GameSettings _gameSettings;
-
-        public CookingInstaller(GameSettings gameSettings)
-        {
-            _gameSettings = gameSettings;
-        }
-
         public void Install(IContainerBuilder builder)
         {
             builder.Register<KitchenInventory>(Lifetime.Singleton).AsImplementedInterfaces();
@@ -30,15 +22,13 @@ namespace Tavern.Infrastructure
             builder.RegisterComponentInHierarchy<DishCookbookContext>();
             builder.RegisterComponentInHierarchy<DishAutoCookbookContext>();
             
-            builder.RegisterInstance(_gameSettings.CookingSettings);
-
             builder.Register<RecipeMatcher>(Lifetime.Singleton);
 
             builder.RegisterEntryPoint<MiniGameInputService>();
             builder.RegisterEntryPoint<MiniGame>().AsSelf();
             builder.Register<MiniGamePlayer>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
-            builder.Register<KitchenItemFactory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<KitchenItemFactory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }
     }
 }

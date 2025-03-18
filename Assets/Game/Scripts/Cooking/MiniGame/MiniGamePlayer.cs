@@ -35,7 +35,7 @@ namespace Tavern.Cooking.MiniGame
             ActiveDishRecipe activeDishRecipe,
             DishCrafter dishCrafter,
             RecipeMatcher matcher,
-            CookingSettings settings)
+            GameSettings settings)
         {
             _cookbook = cookbook;
             _autoCookbook = autoCookbook;
@@ -43,9 +43,9 @@ namespace Tavern.Cooking.MiniGame
             _activeDishRecipe = activeDishRecipe;
             _dishCrafter = dishCrafter;
             _matcher = matcher;
-            _defaultConfig = settings.DefaultMiniGameConfig;
-            _minDefaultTime = settings.MinDefaultTime;
-            _maxDefaultTime = settings.MaxDefaultTime;
+            _defaultConfig = settings.CookingSettings.DefaultMiniGameConfig;
+            _minDefaultTime = settings.CookingSettings.MinDefaultTime;
+            _maxDefaultTime = settings.CookingSettings.MaxDefaultTime;
         }
 
         public GameParams GetGameParams()

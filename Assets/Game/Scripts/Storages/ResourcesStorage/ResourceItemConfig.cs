@@ -1,3 +1,4 @@
+using System;
 using Modules.Items;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Tavern.Storages
     {
         public override Item Create()
         {
-            return new SlopsItem(this, GetComponentClones());
+            return new SlopsItem(this, GetComponentClones(), Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(SlopsItem);

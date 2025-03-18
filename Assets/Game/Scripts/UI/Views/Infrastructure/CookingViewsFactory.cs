@@ -8,29 +8,29 @@ namespace Tavern.UI.Views
     [UsedImplicitly]
     public class CookingViewsFactory : ICookingViewsFactory
     {
-        private readonly UISettings _settings;
+        private readonly UISettings _uiSettings;
 
-        public CookingViewsFactory(UISettings settings)
+        public CookingViewsFactory(GameSettings settings)
         {
-            _settings = settings;
+            _uiSettings = settings.UISettings;
         }
 
         public IMatchNewRecipeView CreateMatchNewRecipeView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.MatchNewNewRecipeView, viewContainer);
+            Object.Instantiate(_uiSettings.CookingSettings.MatchNewNewRecipeView, viewContainer);
 
         public IContainerView CreateCookingIngredientsView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.CookingIngredientsView, viewContainer);
+            Object.Instantiate(_uiSettings.CookingSettings.CookingIngredientsView, viewContainer);
 
         public ICookingAndMatchRecipeView CreateCookingAndMatchRecipeView(Transform viewContainer) =>
-            Object.Instantiate(_settings.CookingSettings.CookingAndMatchRecipeView, viewContainer);
+            Object.Instantiate(_uiSettings.CookingSettings.CookingAndMatchRecipeView, viewContainer);
 
         public ICookingMiniGameView CreateCookingMiniGameView(Transform viewContainer) => 
-            Object.Instantiate(_settings.CookingSettings.CookingMiniGameView, viewContainer);
+            Object.Instantiate(_uiSettings.CookingSettings.CookingMiniGameView, viewContainer);
 
         public IRecipeIngredientsView CreateRecipeIngredientsView(Transform viewContainer) =>
-            Object.Instantiate(_settings.CookingSettings.RecipeIngredientsView, viewContainer);
+            Object.Instantiate(_uiSettings.CookingSettings.RecipeIngredientsView, viewContainer);
         
         public IRecipeEffectsView CreateRecipeEffectsView(Transform viewContainer) =>
-            Object.Instantiate(_settings.CookingSettings.RecipeEffectsView, viewContainer);
+            Object.Instantiate(_uiSettings.CookingSettings.RecipeEffectsView, viewContainer);
     }
 }

@@ -8,7 +8,7 @@ namespace Tavern.UI.Views
 {
     public class PanelView : View, IPanelView
     {
-        public Transform Container => transform;
+        public Transform Container => ContainerTransform;
         
         public event UnityAction OnCloseClicked
         {
@@ -21,6 +21,9 @@ namespace Tavern.UI.Views
         
         [SerializeField]
         private TMP_Text Title;
+
+        [SerializeField]
+        private Transform ContainerTransform;
 
         public void SetTitle(string title)
         {

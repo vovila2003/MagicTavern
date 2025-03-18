@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace Tavern.Common
 {
-    public class CookbookContext<T> : MonoBehaviour where T : Item
+    public class CookbookContext : MonoBehaviour
     {
         public event Action<ItemRecipe> OnRecipeAdded;
         public event Action<ItemRecipe> OnRecipeRemoved;
         
-        private Cookbook<T> _cookbook;
+        private Cookbook _cookbook;
 
         [SerializeField]
         private ItemRecipe[] ItemRecipes;
@@ -22,7 +22,7 @@ namespace Tavern.Common
         
         private void Awake()
         {
-            _cookbook = new Cookbook<T>(ItemRecipes);
+            _cookbook = new Cookbook(ItemRecipes);
             OnAwake();
         }
 
@@ -77,6 +77,12 @@ namespace Tavern.Common
             {
                 Debug.Log("Remove recipe from cookbook: FAIL");
             }
+        }
+
+        [Button]
+        public void Clear()
+        {
+            _cookbook.Clear();
         }
 
         private void OnAdded(ItemRecipe recipe)

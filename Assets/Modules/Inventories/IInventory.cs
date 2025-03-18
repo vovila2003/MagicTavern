@@ -9,5 +9,6 @@ namespace Modules.Inventories
         void Setup(params T[] items);
         bool FindAllItems(string name, out List<T> items);
         bool IsItemExists(T item);
+        void Clear();
     }
 }

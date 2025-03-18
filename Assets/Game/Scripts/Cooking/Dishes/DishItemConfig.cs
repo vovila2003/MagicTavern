@@ -1,3 +1,4 @@
+using System;
 using Modules.Items;
 using Modules.Shopping;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Tavern.Cooking
     {
         public override Item Create()
         {
-            return new DishItem(this, GetComponentClones());
+            return new DishItem(this, GetComponentClones(), Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(DishItem);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Tavern.Cooking;
+using Tavern.Effects;
 using Tavern.Settings;
 using UnityEngine;
 
@@ -51,7 +52,7 @@ namespace Tavern.UI.Presenters
 
         private void SetEffects()
         {
-            List<IEffectComponent> effects = _activeRecipe.Recipe.ResultItemConfig.GetAll<IEffectComponent>();
+            List<IEffectComponent> effects = _activeRecipe.Recipe.ResultItemConfig.GetAllExtra<IEffectComponent>();
             
             int count = Mathf.Min(effects.Count, _view.RecipeEffects.Count);
             for (var i = 0; i < count; i++)

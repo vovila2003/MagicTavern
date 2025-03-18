@@ -1,3 +1,4 @@
+using System;
 using Modules.Items;
 using Modules.Shopping;
 using UnityEngine;
@@ -11,7 +12,8 @@ namespace Tavern.ProductsAndIngredients
     {
         public override Item Create()
         {
-            return new AnimalProductItem(this, GetComponentClones());
+            return new AnimalProductItem(this, GetComponentClones(), 
+                Array.Empty<IExtraItemComponent>());
         }
 
         protected override string GetItemType() => nameof(AnimalProductItem);

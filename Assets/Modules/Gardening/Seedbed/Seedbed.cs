@@ -5,8 +5,8 @@ namespace Modules.Gardening
     public class Seedbed : ISeedbed
     {
         private const int SlopsValue = 1;
-        public event Action<bool> OnHarvestWateringRequired;
 
+        public event Action<bool> OnHarvestWateringRequired;
         public event Action<bool> OnHealingRequired;
         public event Action<HarvestState> OnHarvestStateChanged;
         public event Action<HarvestAge> OnHarvestAgeChanged;
@@ -15,13 +15,14 @@ namespace Modules.Gardening
         public event Action<float> OnDryingTimerProgressChanged;
 
         private bool _isEnable;
-        private bool _isBoosted;
-        private bool _isSickReduced;
-        private bool _isAccelerated;
-        private int _seedInHarvestProbability;
 
         public IHarvest Harvest { get; private set; }
-        public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
+        // public bool IsFertilized => _isBoosted || _isSickReduced || _isAccelerated;
+        public bool IsFertilized => IsBoosted || IsAccelerated;
+        public bool IsBoosted { get; set; }
+        public bool IsSickReduced { get; set; }
+        public bool IsAccelerated { get; set; }
+        public int SeedInHarvestProbability { get; set; }
 
         public bool Seed(PlantConfig plant) 
         {
@@ -36,10 +37,10 @@ namespace Modules.Gardening
             Harvest.StartGrow();
 
             _isEnable = true;
-            _isBoosted = false;
-            _isSickReduced = false;
-            _isAccelerated = false;
-            _seedInHarvestProbability = 0;
+            IsBoosted = false;
+            IsSickReduced = false;
+            IsAccelerated = false;
+            SeedInHarvestProbability = 0;
 
             return true;
         }
@@ -72,9 +73,9 @@ namespace Modules.Gardening
 
         public bool ReduceHarvestSicknessProbability(int reducing)
         {
-            if (_isSickReduced) return false;
+            if (IsSickReduced) return false;
             
-            _isSickReduced = true;
+            IsSickReduced = true;
             Harvest?.ReduceHarvestSicknessProbability(reducing);
 
             return true;
@@ -82,9 +83,9 @@ namespace Modules.Gardening
 
         public bool BoostHarvestAmount(int boostInPercent)
         {
-            if (_isBoosted) return false;
+            if (IsBoosted) return false;
             
-            _isBoosted = true;
+            IsBoosted = true;
             Harvest?.BoostHarvestAmount(boostInPercent);
 
             return true;
@@ -92,15 +93,15 @@ namespace Modules.Gardening
 
         public bool AccelerateGrowth(int accelerationInPercent)
         {
-            if (_isAccelerated) return false;
+            if (IsAccelerated) return false;
             
-            _isAccelerated = true;
+            IsAccelerated = true;
             Harvest?.AccelerateGrowth(accelerationInPercent);
 
             return true;
         }
 
-        public void SetSeedInHarvestProbability(int probability) => _seedInHarvestProbability = probability;
+        public void SetSeedInHarvestProbability(int probability) => SeedInHarvestProbability = probability;
 
         public void Tick(float deltaTime)
         {
@@ -130,7 +131,7 @@ namespace Modules.Gardening
             Harvest = null;
         }
 
-        private void OnAgeChanged(HarvestAge age) => OnHarvestAgeChanged?.Invoke(age);
+        private void OnAgeChanged(HarvestAge age, bool _) => OnHarvestAgeChanged?.Invoke(age);
 
         private void OnStateChanged(HarvestState state) => OnHarvestStateChanged?.Invoke(state);
 
@@ -162,7 +163,7 @@ namespace Modules.Gardening
         private bool CalculateSeedInHarvest()
         {
             int value = UnityEngine.Random.Range(0, 101);
-            return value <= _seedInHarvestProbability;
+            return value <= SeedInHarvestProbability;
         }
     }
 }

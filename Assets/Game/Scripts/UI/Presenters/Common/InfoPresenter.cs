@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using Modules.Info;
 using Modules.Items;
 using Tavern.Cooking;
+using Tavern.Effects;
 using UnityEngine;
 
 namespace Tavern.UI.Presenters
 {
+    
     public sealed class InfoPresenter
     {
+        public enum Mode
+        {
+            Dialog,
+            Info
+        }
         
         private const string FromChef = "От Шефа!";
         public event Action<Item> OnAccepted;
@@ -28,7 +35,7 @@ namespace Tavern.UI.Presenters
             _autoClosePresenter = factory.CreateAutoClosePresenter();
         }
 
-        public bool Show(Item item, string command)
+        public bool Show(Item item, Mode mode, string command, string additionDescription = null)
         {
             if (item == null) return false;
             
@@ -36,7 +43,7 @@ namespace Tavern.UI.Presenters
             
             _item = item;
             _view = view;
-            SetupView(command);
+            SetupView(mode, command, additionDescription);
             
             _autoClosePresenter.Enable(view);
             _autoClosePresenter.OnClickOutside += OnClose;
@@ -46,14 +53,17 @@ namespace Tavern.UI.Presenters
             return true;
         }
 
-        private void SetupView(string command)
+        private void SetupView(Mode mode, string command, string additionDescription = null)
         {
             Metadata metadata = _item.Metadata;
             _view.SetTitle(metadata.Title);
             _view.SetIcon(metadata.Icon);
+            _view.SetMode(mode);
             _view.SetActionButtonText(command);
             _view.SetExtra(false);
-            string description = metadata.Description;
+            string description = additionDescription is not null ? 
+                $"{additionDescription}\n{_item.Config.Description}" 
+                : _item.Config.Description;
 
             SetupEffects();
 
@@ -73,7 +83,7 @@ namespace Tavern.UI.Presenters
         {
             _view.HideAllEffects();
             
-            List<IEffectComponent> effects = _item.GetAll<IEffectComponent>();
+            List<IEffectComponent> effects = _item.GetAllExtra<IEffectComponent>();
             int count = Mathf.Min(effects.Count, _view.Effects.Length);
             for (var i = 0; i < count; i++)
             {

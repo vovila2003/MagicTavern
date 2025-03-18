@@ -12,16 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5425e8cfdbb74ad8b98f49cf5723f499, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  CharacterConfig: {fileID: 11400000, guid: 4dbffbf8f8d6c7d3fa3b5b9874e49ce0, type: 2}
-  CursorConfig: {fileID: 11400000, guid: 7a5277082bf5e2768a99cf565e06dd21, type: 2}
-  CameraConfigs: {fileID: 11400000, guid: dd4b87db99c30dbb3aee08379e667f1b, type: 2}
+  CharacterConfig:
+    <CharacterPrefab>k__BackingField: {fileID: 2074152097557560704, guid: 7f7ce6e72108af9d58d4859748147497, type: 3}
+    <Speed>k__BackingField: 1.5
+    <MaxHealth>k__BackingField: 5
+    <Metadata>k__BackingField:
+      Title: Player
+      Description: 
+      Icon: {fileID: 21300000, guid: a129d11db2032294090c37ecaad44996, type: 3}
+  CursorConfig:
+    <NormalCursor>k__BackingField: {fileID: 2800000, guid: e17b8c2a5ce6b1da5b52d9c352517ce7, type: 3}
+    <ShootCursor>k__BackingField: {fileID: 2800000, guid: d766762338678bfbc91f32797fd9884e, type: 3}
+  CameraConfigs:
+    <CameraOffset>k__BackingField: {x: 0, y: 6, z: -6}
+  <TimeSettings>k__BackingField:
+    <SecondsIn12Hours>k__BackingField: 10
+  <SaveLoadSettings>k__BackingField:
+    <SaveFileName>k__BackingField: data.sav
+    <AutoSaveFileName>k__BackingField: autosave.sav
+    <CommonItemsCatalog>k__BackingField: {fileID: 11400000, guid: 333117cbb8e33ea77b33c35e6644dc5f, type: 2}
+    <UseCompression>k__BackingField: 0
+    <UseEncryption>k__BackingField: 0
+    <Key>k__BackingField: VeryHardToCrackSecretKey
+    <InitializationVector>k__BackingField: initialization v
   GardeningConfigs:
-    SeedMakerConfig: {fileID: 11400000, guid: 5b47fdfd6f7eb33078c103b9093c649c, type: 2}
-    PotPrefab: {fileID: 6997635550738304690, guid: b741a08a7d0dc1200bfdf6ba67b8bbba, type: 3}
+    PotPrefab: {fileID: 6548709685111567746, guid: 2993ab517fc893eb4854237943d2437f, type: 3}
+    <PlantProductCatalog>k__BackingField: {fileID: 11400000, guid: 88f25ba34694283f4b5512dec9403d64, type: 2}
+    <PlantsCatalog>k__BackingField: {fileID: 11400000, guid: d9b647c4ea07737d4805ce5a56dadbf8, type: 2}
+    <SeedCatalog>k__BackingField: {fileID: 11400000, guid: 09dd44bbf50fab5d488c29a31b7c5ec7, type: 2}
+    <AnimalProductCatalog>k__BackingField: {fileID: 11400000, guid: 091a91e542873341da703ff93923402d, type: 2}
+    <FertilizerCatalog>k__BackingField: {fileID: 11400000, guid: 5ed77bf1faa549c9196e7b4689a858f3, type: 2}
+    <MedicineCatalog>k__BackingField: {fileID: 11400000, guid: 77ccd583a720ea2b28642d99839217a3, type: 2}
+    <FertilizerRecipeCatalog>k__BackingField: {fileID: 11400000, guid: 2b23ebf3fcb3a09a59cacd0a61545af1, type: 2}
   CookingConfigs:
+    <DishCatalog>k__BackingField: {fileID: 11400000, guid: f985ab789fe8478a5ad6a904139e34de, type: 2}
     DishRecipeCatalog: {fileID: 11400000, guid: 08b8d8d8c69f6542ca4618b0f90048bd, type: 2}
     KitchenItemPrefab: {fileID: 1015441784064912068, guid: 598cb2af4a0915bd79a5d8ef14abe6b4, type: 3}
-    EffectsCatalog: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
     DefaultMiniGameSettings:
       GreenZone: 30
       YellowZone: 30
@@ -30,8 +56,14 @@ MonoBehaviour:
     MinDefaultMiniGameTimeInSeconds: 5
     MaxDefaultMiniGameTimeInSeconds: 10
     <EnableRecipeMatching>k__BackingField: 0
+    <KitchenItemCatalog>k__BackingField: {fileID: 11400000, guid: ec70a777ba0b9dd27b8df1a4200475de, type: 2}
   <ShoppingSettings>k__BackingField:
     <ShopContextPrefab>k__BackingField: {fileID: 1517396157421802262, guid: 473c9eef52d0a1e79a1e39d92fda2292, type: 3}
+    <SellerCatalog>k__BackingField: {fileID: 11400000, guid: 60f522726d9ae3cc096ee5e5f463622f, type: 2}
+  <EffectsSettings>k__BackingField:
+    <EffectsCatalog>k__BackingField: {fileID: 11400000, guid: 878d44cea1ef8561082b5a3053943e6d, type: 2}
+  <LootSettings>k__BackingField:
+    <LootCatalog>k__BackingField: {fileID: 11400000, guid: d57b60e06fa20ab0988e7c4b81964ccf, type: 2}
   UIConfigs:
     Common:
       EntityCardSettings:
@@ -47,6 +79,7 @@ MonoBehaviour:
       InfoPanelPrefab: {fileID: 8513231856921733487, guid: fb36013887e059069ad268297cd00daa, type: 3}
       EffectViewPrefab: {fileID: 6797862594772926974, guid: 6190245376d08e9d58efc8901991d5d4, type: 3}
       SlopsConfig: {fileID: 11400000, guid: 60731536d559c1ba58fb0595e8a3d86f, type: 2}
+      <SmallPanel>k__BackingField: {fileID: 3490573997219647647, guid: e23e612300ec34738b00bae87d4bb9c7, type: 3}
     Cooking:
       CookingAndMatchRecipePrefab: {fileID: 2803324742170462957, guid: 2f2d04c3b1ff711f291d68f118e0f321, type: 3}
       MatchNewNewRecipePrefab: {fileID: 7902620650078474784, guid: 0b108dfbd75574e8abf0b4470361757f, type: 3}
@@ -65,3 +98,13 @@ MonoBehaviour:
       <CharacterInfoView>k__BackingField: {fileID: 1153836047481700923, guid: e5764c9192fb421578297b909105c06e, type: 3}
       <FilterView>k__BackingField: {fileID: 7972640799965641659, guid: c04fb1b68b350a108853eb8acf9f8eef, type: 3}
       <DealInfoView>k__BackingField: {fileID: 6305037085466651705, guid: 3fb79705598e4fc979f763da912f0f9a, type: 3}
+    <Gardening>k__BackingField:
+      <SeedItemView>k__BackingField: {fileID: 8107791456512093494, guid: c1a5569941e98d0908962ce8fdb83f69, type: 3}
+      <FertilizerItemView>k__BackingField: {fileID: 2496557097248415107, guid: 0f50f0af7b7c79b72a93f027cfd2a26c, type: 3}
+      <MedicineItemView>k__BackingField: {fileID: 8483198877809740806, guid: 933db6478a1b3e87aa03782863630a3a, type: 3}
+      <MakeSeedsButton>k__BackingField: {fileID: 2261780329468466560, guid: 75e16ce0b1467df4c9456db154c55500, type: 3}
+      <PotInfoView>k__BackingField: {fileID: 2804096227885804906, guid: a497b93ccd6867e579c92a793b18f792, type: 3}
+      <EmptyPotSprite>k__BackingField: {fileID: 21300000, guid: 9c576fc208b102e4e93cde161d8175c1, type: 3}
+      <SeedMakerProductItemsView>k__BackingField: {fileID: 1384914417347062016, guid: 9fef93b8c023ccb46a4fedca81bba367, type: 3}
+      <SeedMakerSeedsView>k__BackingField: {fileID: 3229265153703192269, guid: 466e212b40191800c87191e7371421c2, type: 3}
+      <ConvertInfoView>k__BackingField: {fileID: 8751225915826402372, guid: cfa3afd54f457a74bbb99547dc218aab, type: 3}

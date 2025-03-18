@@ -1,12 +1,13 @@
 using System;
 using Modules.Items;
 using Sirenix.OdinInspector;
+using Tavern.Infrastructure;
 using UnityEngine;
 
 namespace Tavern.Shopping
 {
     [Serializable]
-    public class Shop 
+    public class Shop : INewWeekListener
     {
         public event Action OnUpdated;
         public event Action OnNpcSellerItemsChanged;
@@ -112,6 +113,10 @@ namespace Tavern.Shopping
         }
 
         public void SetReputation(int reputation) => NpcSeller.UpdateReputation(reputation);
+        
+        void INewWeekListener.OnNewWeek(int _) => WeeklyUpdate();
+
+        void INewWeekListener.SetWeek(int _) { }
 
         private void OnNpcSellerItemsCollectionChanged() => OnNpcSellerItemsChanged?.Invoke();
 

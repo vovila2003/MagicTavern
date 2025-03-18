@@ -5,7 +5,7 @@ using Modules.Items;
 
 namespace Modules.Consuming
 {
-    public class ItemConsumer<T> where T : Item
+    public abstract class ItemConsumer<T> where T : Item
     {
         public event Action<T> OnItemConsumed;
 

@@ -1,6 +1,4 @@
 using System;
-using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace Modules.Storages
 {

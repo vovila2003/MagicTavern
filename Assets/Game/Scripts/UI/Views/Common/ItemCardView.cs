@@ -7,7 +7,10 @@ using Image = UnityEngine.UI.Image;
 
 namespace Tavern.UI.Views
 {
-    public class ItemCardView : View, IItemCardView, IPointerClickHandler
+    public class ItemCardView : 
+        View, 
+        IItemCardView, 
+        IPointerClickHandler
     {
         public event Action OnLeftClicked;
         public event Action OnRightClicked;
@@ -21,9 +24,11 @@ namespace Tavern.UI.Views
         [SerializeField] 
         private TMP_Text PriceText;
 
-        
-        [SerializeField] private GameObject Price; 
+        [SerializeField]
+        private GameObject Price;
 
+        private bool _isActive;
+        
         public void SetIcon(Sprite icon)
         {
             Icon.sprite = icon;
@@ -49,8 +54,16 @@ namespace Tavern.UI.Views
             PriceText.text = text;
         }
 
+        public void SetActive(bool active)
+        {
+            _isActive = active;
+            Icon.color = active ? Color.white : Color.gray;
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!_isActive) return;
+            
             switch (eventData.button)
             {
                 case PointerEventData.InputButton.Left:

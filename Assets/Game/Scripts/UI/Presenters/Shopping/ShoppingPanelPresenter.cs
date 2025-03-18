@@ -51,6 +51,13 @@ namespace Tavern.UI.Presenters
         protected override void OnHide()
         {
             _view.OnCloseClicked -= Hide;
+            
+            _categoriesPresenter.Hide();
+            _shopItemsPresenter.Hide();
+            _shopCharacterItemsPresenter?.Hide();
+            _vendorInfoPresenter.Hide(); 
+            _characterItemsPresenter.Hide(); 
+            _characterInfoPresenter.Hide();
 
             _categoriesPresenter.OnShowAllGoods -= OnShowAllGoods;
             _categoriesPresenter.OnShowGroup -= OnShowGroup;

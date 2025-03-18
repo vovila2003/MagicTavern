@@ -4,7 +4,7 @@ using Modules.Items;
 
 namespace Modules.Crafting
 {
-    public class Cookbook<T> where T : Item
+    public class Cookbook
     {
         public event Action<ItemRecipe> OnRecipeAdded;
         public event Action<ItemRecipe> OnRecipeRemoved;
@@ -66,6 +66,18 @@ namespace Modules.Crafting
             }
             
             return result;
+        }
+
+        public void Clear()
+        {
+            var recipes = new List<ItemRecipe>(Recipes.Values);
+            foreach (ItemRecipe recipe in recipes)
+            {
+                RemoveRecipeByConfig(recipe);
+            }
+            
+            _recipes.Clear();
+            _recipesByConfig.Clear();
         }
     }
 }
