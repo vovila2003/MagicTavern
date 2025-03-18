@@ -9,6 +9,7 @@ namespace Tavern.Infrastructure
         public void Install(IContainerBuilder builder)
         {
             builder.RegisterComponentInHierarchy<CameraSetup>();
+            builder.RegisterComponentInHierarchy<MinimapCameraSetup>().AsImplementedInterfaces();
             
             builder.Register<GameCursor.GameCursor>(Lifetime.Singleton).AsImplementedInterfaces();
         }
