@@ -1,3 +1,4 @@
+using System;
 using Modules.GameCycle.Interfaces;
 using Sirenix.OdinInspector;
 using Tavern.Character.Agents;
@@ -15,8 +16,11 @@ namespace Tavern.Character
         ICharacter,
         ISpeedable,
         IInitGameListener,
-        IPrepareGameListener
+        IPrepareGameListener,
+        IExitGameListener
     {
+        public event Action<Vector3> OnPositionChanged;
+        
         [SerializeField] 
         private Transform View;
         
@@ -44,26 +48,31 @@ namespace Tavern.Character
             _movable = movable;
             _state = new CharacterState(_settings);
         }
-
+        
         public CharacterAttackAgent GetAttackAgent() => _attackAgent;
         public HitPointsComponent GetHpComponent() => _hpComponent;
         public IMovable GetMoveComponent() => _movable;
         public Transform GetTransform() => transform;
         public float GetSpeed() => _speed;
+
         public void SetSpeed(float value)
         {
             _speed = value;
         }
+
+        public void SetPosition(Vector3 position)
+        {
+            transform.position = position;
+            OnPositionChanged?.Invoke(position);
+        }
+
+        public void SetRotation(Quaternion quaternion)
+        {
+            transform.rotation = quaternion;
+        }
+
         public Animator GetAnimator() => _animator;
         public CharacterState GetState() => _state;
-
-        void IInitGameListener.OnInit()
-        {
-            _movable.Init(Rigidbody, this);
-            _attackAgent.Init(_weapon);
-            _speed = _settings.Speed;
-            _hpComponent.Init(_settings.MaxHealth);
-        }
 
         private void Awake()
         {
@@ -73,9 +82,25 @@ namespace Tavern.Character
             _state = new CharacterState(_settings);
         }
 
+        void IInitGameListener.OnInit()
+        {
+            _movable.Init(Rigidbody, this);
+            _movable.OnPositionChanged += OnCharacterPositionChanged;
+            _attackAgent.Init(_weapon);
+            _speed = _settings.Speed;
+            _hpComponent.Init(_settings.MaxHealth);
+        }
+
         void IPrepareGameListener.OnPrepare()
         {
             _hpComponent.Reset();
         }
+
+        void IExitGameListener.OnExit()
+        {
+            _movable.OnPositionChanged -= OnCharacterPositionChanged;
+        }
+
+        private void OnCharacterPositionChanged(Vector3 position) => OnPositionChanged?.Invoke(position);
     }
 }

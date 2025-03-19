@@ -12,7 +12,7 @@ namespace Tavern.Cameras
         IFinishGameListener
     {
         private Transform _characterTransform;
-        private CameraSettings _cameraSettings;
+        private Vector3 _offset;
         private Transform _cameraTransform;
         private bool _isActive;
 
@@ -20,7 +20,7 @@ namespace Tavern.Cameras
         private void Construct(ICharacter character, GameSettings settings)
         {
             _characterTransform = character.GetTransform();
-            _cameraSettings = settings.CameraSettings;
+            _offset = settings.MinimapSettings.MinimapCameraOffset;
         }
 
         private void Awake()
@@ -32,17 +32,11 @@ namespace Tavern.Cameras
         {
             if (!_isActive) return;
             
-            _cameraTransform.position = _characterTransform.position + _cameraSettings.MinimapCameraOffset;
+            _cameraTransform.position = _characterTransform.position + _offset;
         }
 
-        public void OnStart()
-        {
-            _isActive = true;
-        }
+        public void OnStart() => _isActive = true;
 
-        public void OnFinish()
-        {
-            _isActive = false;
-        }
+        public void OnFinish() => _isActive = false;
     }
 }

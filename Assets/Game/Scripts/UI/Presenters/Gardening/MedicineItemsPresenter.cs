@@ -1,6 +1,5 @@
 using System;
 using Modules.Items;
-using Tavern.Components;
 using Tavern.Gardening;
 using Tavern.Gardening.Medicine;
 using UnityEngine;

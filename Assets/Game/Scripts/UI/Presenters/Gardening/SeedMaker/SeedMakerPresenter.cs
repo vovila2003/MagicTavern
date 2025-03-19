@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Tavern.UI.Presenters
 {
     public class SeedMakerPresenter : BasePresenter

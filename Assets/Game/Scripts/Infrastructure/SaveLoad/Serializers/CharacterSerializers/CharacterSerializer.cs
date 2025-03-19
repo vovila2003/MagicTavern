@@ -37,9 +37,8 @@ namespace Tavern.Infrastructure
             _character.GetHpComponent().Set(data.Hp);
             _characterStateSerializer.Deserialize(data.State);
             
-            Transform transform = _character.GetTransform();
-            transform.position = data.Position.ToVector3();
-            transform.rotation = data.Rotation.ToQuaternion();       
+            _character.SetPosition(data.Position.ToVector3());
+            _character.SetRotation(data.Rotation.ToQuaternion());
             _character.GetMoveComponent().Speedable.SetSpeed(data.Speed);
         }
     }

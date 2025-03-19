@@ -25,6 +25,7 @@ namespace Tavern.Infrastructure
             new GameCycleInstaller().Install(builder);
             new UiInstaller().Install(builder);
             new CameraInstaller().Install(builder);
+            new MinimapInstaller().Install(builder);
             new StoragesInstaller().Install(builder);
             new GardeningInstaller().Install(builder);
             new LootingInstaller().Install(builder);

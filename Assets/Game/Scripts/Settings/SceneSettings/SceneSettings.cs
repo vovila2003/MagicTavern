@@ -30,6 +30,9 @@ namespace Tavern.Settings
         [field: SerializeField]
         public PotPoint[] PotPoints { get; private set; }
         
+        [field: SerializeField]
+        public Rect Ground { get; private set; }
+        
         [field: SerializeField] 
         public UISceneSettings UISceneSettings { get; private set; }
         

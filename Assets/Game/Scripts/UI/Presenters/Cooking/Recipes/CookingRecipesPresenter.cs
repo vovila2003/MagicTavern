@@ -38,10 +38,7 @@ namespace Tavern.UI.Presenters
 
         protected override void OnShow()
         {
-            
             SetupMatchRecipe();
-            
-            
             SetupCards();
             
             _cookbook.OnRecipeAdded += OnRecipeAdded;
