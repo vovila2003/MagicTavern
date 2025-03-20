@@ -1,5 +1,3 @@
-using System;
-using Sirenix.OdinInspector;
 using Tavern.UI.Presenters;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,16 +16,14 @@ namespace Tavern.UI.Views
             Map.sprite = sprite;
         }
 
-        [Button]
-        public void SetScale(float factor)
+        public void SetScale(Vector3 factor)
         {
             CheckRectTransform();
             if (_mapRectTransform is null) return;
             
-            _mapRectTransform.localScale = new Vector3(factor, factor, factor);
+            _mapRectTransform.localScale = factor;
         }
 
-        [Button]
         public void SetPosition(Vector3 position)
         {
             CheckRectTransform();

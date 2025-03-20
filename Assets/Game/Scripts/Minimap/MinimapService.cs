@@ -12,36 +12,36 @@ namespace Tavern.Minimap
     {
         private readonly ICharacter _character;
         public event Action<Vector3> OnPositionChanged;
-        
-        public float Scale => 0.3f;
-        public Sprite Minimap { get; private set; }
+
+        private readonly Vector2 _factor;
+
+        public Vector3 Scale { get; }
+        public Sprite Minimap { get; }
 
         public MinimapService(
             ICharacter character, 
-            GameSettings gameSettings, 
             SceneSettings sceneSettings)
         {
             _character = character;
-            Minimap = gameSettings.MinimapSettings.MiniMap;
-            Rect ground = sceneSettings.Ground;
-            // TODO
+            Minimap = sceneSettings.MinimapSettings.MinimapImage;
+            GroundSettings groundSettings = sceneSettings.GroundSettings;
+            
+            float scale = sceneSettings.MinimapSettings.MinimapView.rect.width * groundSettings.Width / 
+                (sceneSettings.MinimapSettings.MinimapWidthInMeters * Minimap.rect.width);
+            Scale = new Vector3(scale, scale, 0);
+            
+            _factor = new Vector2
+            {
+                x = - Minimap.rect.width * Scale.x / groundSettings.Width,
+                y = - Minimap.rect.height * Scale.y / groundSettings.Heigth,
+            };
         }
-
-        // for debug
-        public void ChangePosition(Vector3 position)
-        {
-            OnCharacterPositionChanged(position);
-        }
-
+        
         void IStartGameListener.OnStart() => _character.OnPositionChanged += OnCharacterPositionChanged;
 
         void IFinishGameListener.OnFinish() => _character.OnPositionChanged -= OnCharacterPositionChanged;
 
-        private void OnCharacterPositionChanged(Vector3 position)
-        {
-            //TODO factor
-            float factor = -10f;
-            OnPositionChanged?.Invoke(new Vector3(factor * position.x, factor * position.z, 0));
-        }
+        private void OnCharacterPositionChanged(Vector3 position) => 
+            OnPositionChanged?.Invoke(new Vector3(_factor.x * position.x, _factor.y * position.z, 0));
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using Tavern.Cooking;
 using Tavern.Gardening;
 using Tavern.Shopping;
@@ -31,7 +32,10 @@ namespace Tavern.Settings
         public PotPoint[] PotPoints { get; private set; }
         
         [field: SerializeField]
-        public Rect Ground { get; private set; }
+        public GroundSettings GroundSettings { get; private set; }
+        
+        [field: SerializeField] 
+        public MinimapSettings MinimapSettings { get; private set; }
         
         [field: SerializeField] 
         public UISceneSettings UISceneSettings { get; private set; }
